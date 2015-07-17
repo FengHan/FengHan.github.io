@@ -162,3 +162,5 @@ rake preview
 软件安装： [oukongli的专栏](http://blog.csdn.net/kong5090041/article/details/38408211)
 
 SEO参考： [笨跑的一刀](http://yidao620c.github.io/blog/20150318/octopress-blog.html)
+
+ [软件下载](http://pan.baidu.com/s/1bndNlTl)   密码: e3p3 
