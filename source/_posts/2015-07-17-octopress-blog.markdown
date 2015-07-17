@@ -127,6 +127,26 @@ echo 'tech.hanfeng.name' >> source/CNAME
 source  存放程序、博客源码
 public  存放生成的静态网站
 
+#国内访问加速
+
+**修改字体**：
+
+source/_includes/custom/head.html, 
+
+将其中的https://fonts.googleapis.com 改为 http://fonts.useso.com 即可。
+
+**jquery库**:
+
+/source/_includes/head.html,把google的jQuery库改为libs.baidu.com的
+
+**关闭twitter**: 
+
+_config.yml中twitter_tweet_butto改为false即可
+
+#SEO
+
+使用百度统计工具进行统计
+
 #常用命令
 
 {% codeblock lang:ruby %}
