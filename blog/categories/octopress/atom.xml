@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Octopress | hanfeng.name]]></title>
+  <link href="http://fenghan.github.io/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://fenghan.github.io/"/>
+  <updated>2015-07-17T15:56:00+08:00</updated>
+  <id>http://fenghan.github.io/</id>
+  <author>
+    <name><![CDATA[HanFeng]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[使用Octopress在GitHub上搭建静态博客]]></title>
+    <link href="http://fenghan.github.io/blog/2015/07/17/octopress-blog/"/>
+    <updated>2015-07-17T12:52:50+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/07/17/octopress-blog</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程和要点。 在继续看本文之前，请先确定你具有折腾的精神。</p>
+
+<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/ctooctopress.jpg" alt="image" /></p>
+
+<h1>介绍</h1>
+
+<p><a href="https://github.com/imathis/octopress">Octopress</a>是一个基于Ruby语言的开源静态网站框架， 所谓静态，是指网站的所有内容都是生成好的静态HTML，不含任何后台处理程序，也没有数据库。 这样的好处是网站的加载速度会非常快，整体程序规模也非常轻量级。</p>
+
+<p><a href="https://pages.github.com/">Github Pages</a>是Github上的一项服务， 注册用户可以申请一个和自己账号关联的二级域名， 在上面可以托管一个静态网站，网站内容本身就是Github的一个repository也就是项目， 维护这个项目的代码就是在维护自己的网站。
+此外，用户撰写日志使用的是Markdown语法。这是一种极简化的语法， 它的好处在于可以以纯文本形式表现文章，用户不用关心排版的问题。 基本上来说它相当于HTML标签的最小子集做了一个转义。</p>
+
+<p>综上所述，你将获得一个这样的博客</p>
+
+<ul>
+<li>命令行操作</li>
+<li>纯文本写博客</li>
+<li>定制性高</li>
+<li>纯静态</li>
+<li>尤其适合程序员</li>
+<li>版本化管理</li>
+<li>迁移成本低</li>
+<li>简洁的 Ruby 框架</li>
+<li>Markdown 语法</li>
+</ul>
+
+
+<h1>安装</h1>
+
+<ul>
+<li>Git：版本管理工具，将代码托管到 GitHub
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ruby</span> <span class="o">-</span><span class="n">v</span><span class="o">&lt;</span><span class="sr">/li&gt;</span>
+</span><span class='line'><span class="sr">&lt;/u</span><span class="n">l</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+- Ruby + DevKit：生成静态网页
+- MarkdownPad：Windows 下 Markdown 语法编辑器
+- <strong>安装 Octopress</strong>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;1.克隆 Octopress 至本地&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">git</span> <span class="nb">clone</span> <span class="ss">git</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">imathis</span><span class="o">/</span><span class="n">octopress</span><span class="o">.</span><span class="n">git</span> <span class="n">octopress</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;2.参考 ruby.taobao.org, 配置RubyGems 镜像&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="mi">3</span><span class="o">.</span><span class="err">安装依赖项</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;gem install bundler</span>
+</span><span class='line'><span class="sr">bundle install&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="mi">4</span><span class="o">.</span><span class="err">安装并使用默认主题</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;rake install</span>
+</span><span class='line'><span class="sr">$ gem install rails</span>
+</span></code></pre></td></tr></table></div></figure>
+- Pygments: Jekyll 里默认的语法高亮插件是 Pygments
+    - 安装 Python
+    - 安装 ‘Easy Install’
+    - 安装 Pygments
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">python</span> <span class="o">-</span><span class="n">V</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h1>部署博客至 GitHub</h1>
+
+<p>1.新建仓库
+    username.github.io</p>
+
+<p>2.与本地 Octopress 目录绑定</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">setup_github_pages</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>托管源码至 GitHub</h2>
+
+<p>将 source 目录更新到远程仓库</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">your</span> <span class="n">message</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span>
+</span><span class='line'><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">source</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h1>相关配置</h1>
+
+<p><strong>多说评论</strong></p>
+
+<p><strong>JiaThis分享</strong></p>
+
+<p><strong>自定义 404 页面</strong></p>
+
+<p><strong>自定义导航</strong></p>
+
+<p><strong>主配置文件</strong></p>
+
+<p>在 _config.yml 文件中，设置 url、title、author 等基本信息</p>
+
+<h2>GitHub 上找主题文件</h2>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">install</span><span class="o">[&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">themename</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="o">]</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">generate</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>在 GitHub 上绑定自定义域名</h2>
+
+<p>创建 source/CNAME 文件并指定域名
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="p">&amp;</span>lsquo<span class="p">;</span>hanfeng.com<span class="p">&amp;</span>rsquo<span class="p">;</span> &gt;&gt; <span class="nb">source</span>/CNAME&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;OR&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;echo <span class="p">&amp;</span>lsquo<span class="p">;</span>tech.hanfeng.name<span class="p">&amp;</span>rsquo<span class="p">;</span> &gt;&gt; <span class="nb">source</span>/CNAME
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>解析域名至 GitHub</p>
+
+<ul>
+<li><p>使用子域名
+对于子域名(www.hanfeng.name)，创建 CNAME 记录指向 fenghan.github.io</p></li>
+<li><p>使用顶级域名
+对于顶级域名(hanfeng.name)，使用 A 记录指向 192.30.252.153(154)</p></li>
+</ul>
+
+
+<h1>常用目录</h1>
+
+<p>source  存放程序、博客源码
+public  存放生成的静态网站</p>
+
+<h1>常用命令</h1>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">new_page</span><span class="o">[&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">about</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="o">]</span>          <span class="c1">#creates /source/about/index.markdown</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">new_post</span><span class="o">[&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">octopress</span><span class="o">-</span><span class="n">blog</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="o">]&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;rake generate</span>
+</span><span class='line'><span class="sr">rake preview</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h1>参考链接</h1>
+
+<p>软件安装： <a href="http://blog.csdn.net/kong5090041/article/details/38408211">oukongli的专栏</a></p>
+
+<p>SEO参考： <a href="http://yidao620c.github.io/blog/20150318/octopress-blog.html">笨跑的一刀</a></p>
+]]></content>
+  </entry>
+  
+</feed>
