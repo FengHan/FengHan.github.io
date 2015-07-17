@@ -27,10 +27,20 @@
   <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?2a48f7616c9cd39ec6c4c06ddbd5cbea";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
 
 </head>
 
@@ -247,6 +257,26 @@
 
 <p>source  存放程序、博客源码
 public  存放生成的静态网站</p>
+
+<h1>国内访问加速</h1>
+
+<p><strong>修改字体</strong>：</p>
+
+<p>source/_includes/custom/head.html,</p>
+
+<p>将其中的<a href="https://fonts.googleapis.com">https://fonts.googleapis.com</a> 改为 <a href="http://fonts.useso.com">http://fonts.useso.com</a> 即可。</p>
+
+<p><strong>jquery库</strong>:</p>
+
+<p>/source/_includes/head.html,把google的jQuery库改为libs.baidu.com的</p>
+
+<p><strong>关闭twitter</strong>:</p>
+
+<p>_config.yml中twitter_tweet_butto改为false即可</p>
+
+<h1>SEO</h1>
+
+<p>使用百度统计工具进行统计</p>
 
 <h1>常用命令</h1>
 
