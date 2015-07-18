@@ -1,5 +1,5 @@
 # fenghan.github.io
 
-#hanfeng.name 
+##hanfeng.name 
 
-##This is hanfeng's blog Which use Octopress On Githup Pages.
+This is hanfeng's blog Which use [Octopress](https://github.com/octopress/octopress) On Githup Pages.
