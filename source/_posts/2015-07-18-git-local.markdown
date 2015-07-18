@@ -1,0 +1,253 @@
+---
+layout: post
+title: "Git的本地操作"
+date: 2015-07-18 10:39:26 +0800
+comments: true
+categories: git
+tags: git
+description: Git的本地操作
+---
+
+#前言
+
+我刚毕业那年，公司在开发软件项目的时候使用的是SVN，但总觉得有一些缺点，例如：版本库只保存在了中央服务器上，如果服务器离线或宕机，就无法进行版本管理；当时每天下班时，我们都会提交提交当天的代码，由于代码的合并是在服务器上完成的，所以偶尔会遇到合并的时候出现BUG;
+
+之后的工作中接触到了Git，它很好的解决了我之前遇到的问题,具体学习可参考[Pro Git 第二版](http://git-scm.com/book/en/v2)
+
+![image](http://7xkc1x.com1.z0.glb.clouddn.com/cto_pro-git.jpg?imageView2/2/h/300)
+
+
+#Git 简介
+
+**Git与SVN的比较**
+
+1. SVN是集中式的版本控制软件，而Git是分布式的。
+2. SVN的版本是记录文件与上一次版本的差异，每次checkout时，要迭代这些差异；而Git每个版本会记录全部内容，所以效率更高。
+3. 因为Git在每台电脑上都保存了完整的Version Database， 所以Git可以离线完成大部分操作
+4. Git有着更优雅的分支和实现
+5. Git有着强大的撤销修改和修改版本的能力
+6. Git速度更快，效率更高
+
+**为什么学习Git呢**
+
+1. 现在越来越多的项目放在了GitHub上;
+2. 同时越来越来的公司开始使用Git; 
+3. Android和Linux的版本控制用的都是Git
+
+#Git安装与简单配置
+
+{% codeblock lang:bash %}
+#在全局上配置name和email
+git config --global user.name hanfeng	
+git config --global user.email contact@hanfeng.name
+#生成秘钥和公钥，公钥放到Github或Git服务器上，私钥自己保存
+ssh-keygen -t rsa -c'contact@hanfeng.name'
+#常用快捷键
+git config --global alias.co checkout
+git config --global alias.st status
+git config --global alias.ci commit
+git config --global alias.br branch
+git config --global alias.lol "log --oneline -- decorate --graph -all"
+{% endcodeblock %}
+
+Git config 配置有3个优先级
+local > global > system
+
+git config 的增删改查
+{% codeblock lang:bash %}
+#增
+git config --global --add user.name michael
+#删
+git config --global --unset user.name michael
+#改
+git conifg --global user.name hanfeng
+查
+git config --list --global
+
+{% endcodeblock %}
+
+#Git基本工作流程
+
+Git 使用40个16进制符的SHA-1的Hash来标识对象
+
+Git的对象有4种：
+
+- blob： 文件名，二进制文件或链接
+- tree： 目录
+- commit: 代表一个提交
+- tag： 指向一个固定的历史提交
+
+Tag -> Commit -> Tree -> Blob
+
+Git只关心文件内容，如果两个文件有相同的内容，那么他们会指向相同的Blob, 文件名存储在tree里
+
+创建一个裸仓库
+git init --bare
+
+Git有三个区域 Working directory(工作区), Staging area(暂存区), History repository(历史记录区)
+
+```
+git rm a
+#把工作区和暂存区的a都删掉
+#如果还原 用git reset --hard HEAD a
+
+git mv a c
+#工作区和暂存区a都会改名字为c
+#相当于 mv a c 和 git add a c  
+```
+
+vim .gitignore
+
+> *.[o|a] 
+
+> *.~
+
+> !test.pyc  
+
+> foo/
+
+> **/res  
+  
+test.pyc不要被忽略
+
+顶层或res子目录 
+
+.git/info/exclude  只针对本地仓库
+
+./git/config配置下
+
+> excludesfile = e:/gitignore.txt
+
+
+#Git本地分支与合并
+```
+#只对本地有效
+git tag "v0" 3abefd
+
+#对全局都有效   
+git tab -a "INITIAL_COMMIT" 3abedf
+git tag
+git show v0
+git checkout -b fix -v0
+git stash = git stash svae
+
+git stash save -a "stash1"  
+# -a --all 把untracked files 也stash
+
+git stash list
+
+git stash pop --index stash@{0}   
+# --index, 暂存区还原到暂存区，不然还原到工作区
+
+git stash apply --index stash@{0} 
+#同时保持git stash list
+
+git stash drop stash@{0}
+
+git stash clean 
+# 清楚全部 stash
+```
+
+
+分支切换，就是HEAD引用的切换
+
+git merge有两种： fast-forward， non-fast-forward
+
+fast-forward 只合并了工作区和暂存区，不产生新的Commit对象
+
+non-fast-forward 产生新的Commit对象，HEAD指向
+
+
+#查看与对比历史记录
+
+```
+git show + git对象
+git log 
+git diff
+git show HEAD~ = git show HEAD^
+git show --oneline master^2
+git diff --cached   
+#暂存区与历史记录的比较
+git diff --cached HEAD^2
+git diff --color-words
+git diff --word-diff
+```
+
+
+#撤销修改
+
+```
+git checkout + 分支名
+#把HEAD指向分支， 还原工作区和暂存区
+
+git reset
+git clean 
+git revert
+```
+
+```
+#根据历史记录，只还原暂存区
+git reset master.txt = git rest HEAD master.txt
+
+#将tag指向的commit对象里的内容还原到工作区和暂存区
+git checkout INITIAL_COMMIT --master.txt
+
+
+#将tag指向的commit对象里的内容还原到暂存区
+git reset INITIAL_COMMIT --master.txt
+
+```
+
+```
+git clean -n
+git clean -f
+
+git clean -X -n  
+#查看清除 .gitignore里的内容
+
+git clean -X -f
+
+git clean -x -n 
+#清除所有
+
+git clean -x -f
+
+```
+
+```
+git revert HEAD
+```
+
+
+#重写历史记录
+
+```
+#修改最后一次提交
+git commit --ammend  
+
+#超强的修改历史的能力，维护一个线性的历史
+git rebase  
+
+#可以撤销merge
+git reset + commit对象
+
+#维护HEAD引用信息，配合git reset
+git reflog
+```
+
+```
+git rebase master
+git rebase --abort
+git rebase --continue
+```
+
+```
+git reset --mixed HEAD@{5}
+# --mixed为默认参数，只还原暂存区，把分支名和HEAD引用直接指定到相应的commit对象上
+
+git reset --hard HEAD@{5}
+#还原暂存区和工作区
+ 
+git reset --soft HEAD@{5}
+#都不还原
+```

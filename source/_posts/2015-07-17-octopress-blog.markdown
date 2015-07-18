@@ -17,7 +17,7 @@ description: 使用Octopress在GitHub上搭建静态博客
 
 #介绍
 
-[Octopress](https://github.com/imathis/octopress)是一个基于Ruby语言的开源静态网站框架， 所谓静态，是指网站的所有内容都是生成好的静态HTML，不含任何后台处理程序，也没有数据库。 这样的好处是网站的加载速度会非常快，整体程序规模也非常轻量级。
+[Octopress](https://github.com/imathis/octopress)是一个基于Ruby语言的开源静态网站框架， 所谓静态，是指网站的所有内容都是生成好的静态HTML，不含任何后台处理程序，也没有数据库。 这样的好处是不会读取数据库，也不会有脚本编译，所以网站的加载速度会非常快，整体程序规模也非常轻量级。
 
 [Github Pages](https://pages.github.com/)是Github上的一项服务， 注册用户可以申请一个和自己账号关联的二级域名， 在上面可以托管一个静态网站，网站内容本身就是Github的一个repository也就是项目， 维护这个项目的代码就是在维护自己的网站。
 此外，用户撰写日志使用的是Markdown语法。这是一种极简化的语法， 它的好处在于可以以纯文本形式表现文章，用户不用关心排版的问题。 基本上来说它相当于HTML标签的最小子集做了一个转义。
@@ -32,7 +32,7 @@ description: 使用Octopress在GitHub上搭建静态博客
 - 版本化管理
 - 迁移成本低
 - 简洁的 Ruby 框架
-- Markdown 语法
+- [Markdown](http://www.appinn.com/markdown/) 语法
 
 #安装
 - Git：版本管理工具，将代码托管到 GitHub
