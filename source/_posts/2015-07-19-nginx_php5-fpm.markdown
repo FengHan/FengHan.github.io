@@ -7,7 +7,10 @@ categories: [nginx, php5-fpm]
 tags: [nginx, php5-fpm]
 ---
 
+![](http://nginx.org/nginx.png)
+
 #前言
+
 大学开发网站的时候，大部分的时候使用的是Apache服务器，但进入工作后，服务器都使用Nginx，因为它能承载的并发数是Apache2.2的10倍。
 
 Nginx只负责静态文件，通过php5-fpm调用php-cgi来解析php。
@@ -27,6 +30,8 @@ Fastcgi是用来提高CGI程序性能的，也是一个协议。
 - ngx_http_rewrite_module
 - ngx_http_proxy_module
 - ngx_http_log_module
+
+
 #安装Nginx
 
 

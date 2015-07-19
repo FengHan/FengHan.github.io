@@ -11,7 +11,7 @@ description: 使用Octopress在GitHub上搭建静态博客
 
 #前言
 
-本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程和要点。 在继续看本文之前，请先确定你具有折腾的精神。
+本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程及博客的迁移。 在继续看本文之前，请先确定你具有折腾的精神。
 
 ![image](http://7xkc1x.com1.z0.glb.clouddn.com/ctooctopress.jpg)
 
@@ -150,12 +150,35 @@ _config.yml中twitter_tweet_butto改为false即可
 #常用命令
 
 {% codeblock lang:ruby %}
-rake new_page['about']			#creates /source/about/index.markdown
+rake new_page['about']			
+#creates /source/about/index.markdown
+
 rake new_post['octopress-blog'] 
 
 rake generate
+
 rake preview
+#本地localhost:4000
+
+rake deploy
+#发布代码到Git Pages上
 {% endcodeblock %}
+
+#博客迁移
+
+如果本地已经配置过octopress，只是把octopress删掉重装
+将source和master分支下的内容clone到本地即可(不需要再到官网上去clone全新的octopress)，具体作法：
+
+1）首先将博客源文件clone到本地的octopress文件夹内。
+
+	$ git clone -b source git@github.com:FengHan/fenghan.github.io.git octopress
+
+2）将博客源文件clone到octopress的——deploy文件夹内。
+	
+	$ cd octopress
+	$ git clone git@github.com:FengHan/fenghan.github.io.git _deploy 
+
+执行完这两步就OK了。
 
 #参考链接
 
