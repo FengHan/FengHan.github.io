@@ -9,7 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 我刚毕业那年，公司在开发软件项目的时候使用的是SVN，但总觉得有一些缺点，例如：版本库只保存在了中央服务器上，如果服务器离线或宕机，就无法进行版本管理；当时每天下班时，我们都会提交提交当天的代码，由于代码的合并是在服务器上完成的，所以偶尔会遇到合并的时候出现BUG; &hellip;">
+  <meta name="description" content="前言 大学开发网站的时候，大部分的时候使用的是Apache服务器，但进入工作后，服务器都使用Nginx，因为它能承载的并发数是Apache2.2的10倍。 Nginx只负责静态文件，通过php5-fpm调用php-cgi来解析php。 那CGI是干嘛的？CGI是为了保证web &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,278 @@ var _hmt = _hmt || [];
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/19/nginx_php5-fpm/">在Ubuntu上搭建Nginx + Php5-fpm</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-19T11:25:56+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:25 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>前言</h1>
+
+<p>大学开发网站的时候，大部分的时候使用的是Apache服务器，但进入工作后，服务器都使用Nginx，因为它能承载的并发数是Apache2.2的10倍。</p>
+
+<p>Nginx只负责静态文件，通过php5-fpm调用php-cgi来解析php。</p>
+
+<p>那CGI是干嘛的？CGI是为了保证web server传递过来的数据是标准格式的，方便CGI程序的编写者的协议。</p>
+
+<p>Fastcgi是用来提高CGI程序性能的，也是一个协议。</p>
+
+<p>那PHP-FPM又是什么呢？是一个实现了Fastcgi的程序，被PHP官方收了。</p>
+
+<p>可以<a href="http://nginx.org/en/docs/">Nginx官方文档</a>深入学习，下面这些必看</p>
+
+<ul>
+<li>Installing nginx</li>
+<li>Beginner’s Guide</li>
+<li>Converting rewrite rules</li>
+<li>ngx_http_rewrite_module</li>
+<li>ngx_http_proxy_module</li>
+<li>ngx_http_log_module
+
+<h1>安装Nginx</h1></li>
+</ul>
+
+
+<p><strong>安装Nginx</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>apt-get install nginx</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>配置Nginx</strong></p>
+
+<p>nginx配置文件</p>
+
+<blockquote><p>/etc/nginx/nginx.conf中</p></blockquote>
+
+<p>nginx.conf配置里面包括了</p>
+
+<blockquote><p>include /etc/nginx/conf.d/*.conf;</p>
+
+<p>include /etc/nginx/sites-enabled/*;</p></blockquote>
+
+<p>错误日志</p>
+
+<blockquote><p>error_log /var/log/nginx/error.log;</p></blockquote>
+
+<p>网页的默认目录</p>
+
+<blockquote><p>root /usr/share/nginx/html;</p></blockquote>
+
+<p>配置目录</p>
+
+<blockquote><p>/etc/nginx/sites-available/default</p></blockquote>
+
+<p>修改配置</p>
+
+<pre><code>location ~ \.php$ {
+
+  　　  try_files $uri =404;
+
+  　　  fastcgi_pass 127.0.0.1:9000;
+
+  　　  fastcgi_index index.php;
+
+  　　  include fastcgi_params;
+}
+  　
+</code></pre>
+
+<p><strong>配置生效</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/init.d/nginx reload</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>启动Nginx</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/init.d/nginx start</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>测试Nginx</strong></p>
+
+<p>在 /usr/share/nginx/html下新建index.php</p>
+
+<pre><code>&lt;? php
+phpinfo();
+</code></pre>
+
+<p>　　　　
+nginx -t</p>
+
+<h1>虚拟主机管理</h1>
+
+<p>创建 tech.hanfeng.name</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /usr/share/nginx
+</span><span class='line'>
+</span><span class='line'>mkdir tech.hanfeng.name
+</span><span class='line'>
+</span><span class='line'>cd tech.hanfeng.name
+</span><span class='line'>
+</span><span class='line'>echo '&lt;?php phpinfo();' &gt; index.php
+</span><span class='line'>
+</span><span class='line'>cd /etc/nginx/sites-available/ 
+</span><span class='line'>
+</span><span class='line'>cp default tech.hanfeng.name
+</span><span class='line'>#Apache需要以.conf结尾，Nginx不用
+</span><span class='line'>
+</span><span class='line'>grep -v "#" tech.hanfeng.name
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>server {
+        listen 80;
+        listen [::]:80;
+
+        root /usr/share/nginx/tech.hanfeng.name;
+        index index.php index.html;
+
+        server_name tech.hanfeng.name;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+
+
+
+        location ~ \.php$ {
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+
+                fastcgi_pass 127.0.0.1:9000;
+                fastcgi_index index.php;
+                include fastcgi_params;
+        }
+
+}
+</code></pre>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ln -s /etc/nginx/sites-available/tech.hanfeng.name  /etc/nginx/sites-enabled/tech.hanfeng.name
+</span><span class='line'>
+</span><span class='line'>nginx -t
+</span><span class='line'>
+</span><span class='line'>/etc/init.d/nginx reload</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>安装PHP</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install php5-fpm
+</span><span class='line'>
+</span><span class='line'>sudo apt-get install php5-gd  
+</span><span class='line'># Popular image manipulation library; used extensively by Wordpress and it's plugins.
+</span><span class='line'>
+</span><span class='line'>sudo apt-get install php5-cli   
+</span><span class='line'># Makes the php5 command available to the terminal for php5 scripting
+</span><span class='line'>
+</span><span class='line'>sudo apt-get install php5-curl    
+</span><span class='line'># Allows curl (file downloading tool) to be called from PHP5
+</span><span class='line'>
+</span><span class='line'>sudo apt-get install php5-mcrypt   
+</span><span class='line'># Provides encryption algorithms to PHP scripts
+</span><span class='line'>
+</span><span class='line'>sudo apt-get install php5-mysql   
+</span><span class='line'># Allows PHP5 scripts to talk to a MySQL Database
+</span><span class='line'>
+</span><span class='line'>sudo apt-get install php5-readline  
+</span><span class='line'># Allows PHP5 scripts to use the readline function</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看php5运行进程</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ps -waux | grep php5</span></code></pre></td></tr></table></div></figure>
+
+
+<p>打开关闭php5进程</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo service php5-fpm stop
+</span><span class='line'>sudo service php5-fpm start
+</span><span class='line'>sudo service php5-fpm restart
+</span><span class='line'>sudo service php5-fpm status</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>配置PHP5-FPM</h1>
+
+<p>配置php5监听端口</p>
+
+<blockquote><p>/etc/php5/fpm/pool.d/www.conf</p></blockquote>
+
+<pre><code>把
+listen = /var/run/php5-fpm.sock  改为
+listen = 127.0.0.1:9000
+</code></pre>
+
+<p>一台机器安装nginx，另一台安装php，用上面的修改</p>
+
+<p>重新运行php进程</p>
+
+<p>在浏览器中输入 localhost就可以看到了</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -707,6 +979,10 @@ public  存放生成的静态网站</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/07/19/nginx_php5-fpm/">在Ubuntu上搭建Nginx + Php5-fpm</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/07/18/git-local/">Git的本地操作</a>
