@@ -4,7 +4,7 @@
   <title><![CDATA[hanfeng.name]]></title>
   <link href="http://fenghan.github.io/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-07-19T22:10:48+08:00</updated>
+  <updated>2015-07-19T22:16:06+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -51,7 +51,7 @@
 
 <h1>如何安装Docker</h1>
 
-<p>Docker可以安装到绝大多数的Linux发型版上，包括Ubuntu、CentOS、Redhat等，一课一安装到Mac OS上。</p>
+<p>Docker可以安装到绝大多数的Linux发型版上，包括Ubuntu、CentOS、Redhat等,也可安装到Mac OS上。</p>
 
 <p><a href="https://docs.docker.com/installation">https://docs.docker.com/installation</a>介绍了在各种操作系统上安装Docker的详细步骤。虽然Docker可以安装在Windows上，但是不推荐。</p>
 
@@ -79,8 +79,6 @@ docker version
 </code></pre>
 
 <h3>安装最新版本</h3>
-
-<p>写作时，最新版是1.7.1</p>
 
 <pre><code>sudo apt-get remove --purge docker.io
 </code></pre>
@@ -110,7 +108,7 @@ service docker restart
 Docker Server：它是一个<strong>守护进程（Daemon）</strong>,一直运行在后台。
 它其中嵌入了一个Web Server。</p>
 
-<p>Docker的发展速度太快，目前最新版本到1.5，推荐安装到最新版</p>
+<p>Docker的发展速度太快，目前最新版本到1.7.1，推荐安装到最新版</p>
 
 <p>Docker Client： 它是一个命令行工具，通过HTTP协议与Docker Server交互</p>
 
