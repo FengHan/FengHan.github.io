@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-07-19T13:42:35+08:00</updated>
+  <updated>2015-07-19T13:53:28+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -74,11 +74,11 @@
 </span><span class='line'>&lt;h1&gt;在全局上配置name和email&lt;/h1&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;p&gt;git config <span class="p">&amp;</span>ndash<span class="p">;</span>global user.name hanfeng &lt;br/&gt;
-</span><span class='line'>git config <span class="p">&amp;</span>ndash<span class="p">;</span>global user.email &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#108;&amp;#x74;&amp;#x6f;&amp;#x3a;&amp;#x63;&amp;#111;&amp;#110;&amp;#116;&amp;#97;&amp;#x63;&amp;#x74;&amp;#64;&amp;#104;&amp;#97;&amp;#110;&amp;#102;&amp;#101;&amp;#x6e;&amp;#103;&amp;#46;&amp;#110;&amp;#x61;&amp;#x6d;&amp;#101;&quot;</span>&gt;<span class="p">&amp;</span><span class="c">#99;&amp;#x6f;&amp;#110;&amp;#x74;&amp;#97;&amp;#99;&amp;#116;&amp;#64;&amp;#104;&amp;#97;&amp;#x6e;&amp;#x66;&amp;#x65;&amp;#110;&amp;#x67;&amp;#x2e;&amp;#110;&amp;#x61;&amp;#x6d;&amp;#101;&lt;/a&gt;&lt;/p&gt;</span>
+</span><span class='line'>git config <span class="p">&amp;</span>ndash<span class="p">;</span>global user.email &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#116;&amp;#111;&amp;#58;&amp;#99;&amp;#x6f;&amp;#110;&amp;#116;&amp;#97;&amp;#x63;&amp;#x74;&amp;#64;&amp;#104;&amp;#x61;&amp;#x6e;&amp;#x66;&amp;#101;&amp;#110;&amp;#103;&amp;#46;&amp;#110;&amp;#x61;&amp;#x6d;&amp;#101;&quot;</span>&gt;<span class="p">&amp;</span><span class="c">#99;&amp;#111;&amp;#x6e;&amp;#116;&amp;#97;&amp;#x63;&amp;#x74;&amp;#64;&amp;#104;&amp;#97;&amp;#110;&amp;#102;&amp;#x65;&amp;#110;&amp;#x67;&amp;#46;&amp;#x6e;&amp;#x61;&amp;#109;&amp;#x65;&lt;/a&gt;&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;生成秘钥和公钥，公钥放到Github或Git服务器上，私钥自己保存&lt;/h1&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;p&gt;ssh-keygen -t rsa -c<span class="s1">&#39;&lt;a href=&quot;&amp;#109;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x74;&amp;#x6f;&amp;#x3a;&amp;#x63;&amp;#x6f;&amp;#110;&amp;#116;&amp;#97;&amp;#99;&amp;#x74;&amp;#64;&amp;#x68;&amp;#97;&amp;#110;&amp;#x66;&amp;#101;&amp;#110;&amp;#x67;&amp;#x2e;&amp;#110;&amp;#97;&amp;#x6d;&amp;#x65;&quot;&gt;&amp;#x63;&amp;#111;&amp;#x6e;&amp;#x74;&amp;#x61;&amp;#x63;&amp;#x74;&amp;#64;&amp;#x68;&amp;#97;&amp;#x6e;&amp;#102;&amp;#x65;&amp;#110;&amp;#103;&amp;#46;&amp;#110;&amp;#97;&amp;#x6d;&amp;#x65;&lt;/a&gt;&#39;</span>&lt;/p&gt;
+</span><span class='line'>&lt;p&gt;ssh-keygen -t rsa -c<span class="s1">&#39;&lt;a href=&quot;&amp;#109;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x74;&amp;#x6f;&amp;#x3a;&amp;#x63;&amp;#111;&amp;#x6e;&amp;#x74;&amp;#97;&amp;#99;&amp;#x74;&amp;#64;&amp;#104;&amp;#x61;&amp;#x6e;&amp;#102;&amp;#101;&amp;#x6e;&amp;#x67;&amp;#46;&amp;#110;&amp;#x61;&amp;#109;&amp;#101;&quot;&gt;&amp;#99;&amp;#111;&amp;#110;&amp;#116;&amp;#x61;&amp;#x63;&amp;#116;&amp;#x40;&amp;#x68;&amp;#97;&amp;#x6e;&amp;#102;&amp;#x65;&amp;#x6e;&amp;#x67;&amp;#46;&amp;#110;&amp;#x61;&amp;#x6d;&amp;#101;&lt;/a&gt;&#39;</span>&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;常用快捷键&lt;/h1&gt;
 </span><span class='line'>
@@ -508,6 +508,24 @@ public  存放生成的静态网站</p>
 </span><span class='line'><span class="sr">&lt;p&gt;rake generate</span>
 </span><span class='line'><span class="sr">rake preview</span>
 </span></code></pre></td></tr></table></div></figure></p>
+
+<h1>博客迁移</h1>
+
+<p>如果本地已经配置过octopress，只是把octopress删掉重装
+将source和master分支下的内容clone到本地即可(不需要再到官网上去clone全新的octopress)，具体作法：</p>
+
+<p>1）首先将博客源文件clone到本地的octopress文件夹内。</p>
+
+<pre><code>$ git clone -b source git@github.com:FengHan/fenghan.github.io.git octopress
+</code></pre>
+
+<p>2）将博客源文件clone到octopress的——deploy文件夹内。</p>
+
+<pre><code>$ cd octopress
+$ git clone git@github.com:FengHan/fenghan.github.io.git _deploy 
+</code></pre>
+
+<p>执行完这两步就OK了。</p>
 
 <h1>参考链接</h1>
 

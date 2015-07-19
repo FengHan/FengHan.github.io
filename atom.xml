@@ -4,7 +4,7 @@
   <title><![CDATA[hanfeng.name]]></title>
   <link href="http://fenghan.github.io/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-07-19T13:42:35+08:00</updated>
+  <updated>2015-07-19T13:53:28+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -833,6 +833,24 @@ public  存放生成的静态网站</p>
 </span><span class='line'><span class="n">rake</span> <span class="n">preview</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<h1>博客迁移</h1>
+
+<p>如果本地已经配置过octopress，只是把octopress删掉重装
+将source和master分支下的内容clone到本地即可(不需要再到官网上去clone全新的octopress)，具体作法：</p>
+
+<p>1）首先将博客源文件clone到本地的octopress文件夹内。</p>
+
+<pre><code>$ git clone -b source git@github.com:FengHan/fenghan.github.io.git octopress
+</code></pre>
+
+<p>2）将博客源文件clone到octopress的——deploy文件夹内。</p>
+
+<pre><code>$ cd octopress
+$ git clone git@github.com:FengHan/fenghan.github.io.git _deploy 
+</code></pre>
+
+<p>执行完这两步就OK了。</p>
 
 <h1>参考链接</h1>
 
