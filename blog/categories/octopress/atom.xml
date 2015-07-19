@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-07-19T13:53:28+08:00</updated>
+  <updated>2015-07-19T14:51:18+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -20,7 +20,7 @@
     <id>http://fenghan.github.io/blog/2015/07/17/octopress-blog</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
-<p>本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程和要点。 在继续看本文之前，请先确定你具有折腾的精神。</p>
+<p>本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程及博客的迁移。 在继续看本文之前，请先确定你具有折腾的精神。</p>
 
 <p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/ctooctopress.jpg" alt="image" /></p>
 
@@ -211,11 +211,35 @@ public  存放生成的静态网站</p>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">new_page</span><span class="o">[&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">about</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="o">]</span>          <span class="c1">#creates /source/about/index.markdown</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">new_post</span><span class="o">[&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">octopress</span><span class="o">-</span><span class="n">blog</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="o">]&lt;</span><span class="sr">/p&gt;</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">new_page</span><span class="o">[&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">about</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="o">]&lt;</span><span class="sr">/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;rake generate</span>
-</span><span class='line'><span class="sr">rake preview</span>
+</span><span class='line'><span class="sr">&lt;h1&gt;creates /sou</span><span class="n">rce</span><span class="o">/</span><span class="n">about</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">markdown</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;rake new_post[&amp;lsquo;octopress-blog&amp;rsquo;]&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">rake</span> <span class="n">generate</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;rake preview&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="err">本地</span><span class="ss">localhost</span><span class="p">:</span><span class="mi">4000</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;rake deploy&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="err">发布代码到</span><span class="no">Git</span> <span class="no">Pages</span><span class="err">上</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span>
 </span></code></pre></td></tr></table></div></figure></p>
 
 <h1>博客迁移</h1>

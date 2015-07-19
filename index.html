@@ -758,7 +758,7 @@ git init &ndash;bare</p>
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程和要点。 在继续看本文之前，请先确定你具有折腾的精神。</p>
+<p>本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程及博客的迁移。 在继续看本文之前，请先确定你具有折腾的精神。</p>
 
 <p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/ctooctopress.jpg" alt="image" /></p>
 
@@ -946,11 +946,25 @@ public  存放生成的静态网站</p>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">new_page</span><span class="o">[</span><span class="s1">&#39;about&#39;</span><span class="o">]</span>           <span class="c1">#creates /source/about/index.markdown</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">new_page</span><span class="o">[</span><span class="s1">&#39;about&#39;</span><span class="o">]</span>           
+</span><span class='line'><span class="c1">#creates /source/about/index.markdown</span>
+</span><span class='line'>
 </span><span class='line'><span class="n">rake</span> <span class="n">new_post</span><span class="o">[</span><span class="s1">&#39;octopress-blog&#39;</span><span class="o">]</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">rake</span> <span class="n">generate</span>
+</span><span class='line'>
 </span><span class='line'><span class="n">rake</span> <span class="n">preview</span>
+</span><span class='line'><span class="c1">#本地localhost:4000</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>
+</span><span class='line'><span class="c1">#发布代码到Git Pages上</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
