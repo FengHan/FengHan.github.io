@@ -9,7 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 大学开发网站的时候，大部分的时候使用的是Apache服务器，但进入工作后，服务器都使用Nginx，因为它能承载的并发数是Apache2.2的10倍。 Nginx只负责静态文件，通过php5-fpm调用php-cgi来解析php。 那CGI是干嘛的？CGI是为了保证web &hellip;">
+  <meta name="description" content="前言 有了Docker以后，那些需要多台机器才能完成的实验就变得非常简单了。 什么是Docker， Docker是一个容器引擎,提供了一套完整的容器解决方案。 Docker是2014年最火的开源项目，由Docker公司领导开发，基于Apache2.0开源授权协议发行。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,237 @@ var _hmt = _hmt || [];
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/19/docker/">认识Docker</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-19T22:09:25+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:09 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>前言</h1>
+
+<p>有了Docker以后，那些需要多台机器才能完成的实验就变得非常简单了。</p>
+
+<h1>什么是Docker，</h1>
+
+<p><a href="http://docker.com">Docker</a>是一个<strong>容器</strong>引擎,提供了一套完整的容器解决方案。</p>
+
+<p>Docker是2014年最火的开源项目，由Docker公司领导开发，基于Apache2.0开源授权协议发行。</p>
+
+<p>Docker是用Go语言开发的，其源码在<a href="https://github.com/docker/docker">https://github.com/docker/docker</a></p>
+
+<h1>什么是容器</h1>
+
+<p><strong>容器</strong>是一种历史悠久的<strong>虚拟化技术</strong>，如OpenVZ，Solaris上的Zones，Linux上的LXC等，都是容器的不同实现方式。</p>
+
+<p>一个容器实质上就是运行在宿主机器上的一个进程。只不过在启动这个进程之前，进行了一些特殊处理，让这个进程进入了一个全新的虚拟环境，与宿主机环境分开。所以这个进程及它的子进程认为自己运行在一个独立的世界里面。</p>
+
+<p>容器的优势：
+<em>创建容器速度快</em>，速度在1秒左右，而传统虚拟机需要15s左右</p>
+
+<p>容器运行<strong>占用的额外开销非常小</strong></p>
+
+<p>Docker的优势：</p>
+
+<p>Docker让容器的管理变得极其方便，不需要掌握高深的技术就能使用。</p>
+
+<p>为什么学习Docker：</p>
+
+<p>Docker很可能改变传统的软件“交付”方式和“运行”方式；也可能在绝大多数场合取代传统虚拟机的地位。因此整个IT界都在积极探索如何运用Docker来进行技术变革。</p>
+
+<h1>如何安装Docker</h1>
+
+<p>Docker可以安装到绝大多数的Linux发型版上，包括Ubuntu、CentOS、Redhat等，一课一安装到Mac OS上。</p>
+
+<p><a href="https://docs.docker.com/installation">https://docs.docker.com/installation</a>介绍了在各种操作系统上安装Docker的详细步骤。虽然Docker可以安装在Windows上，但是不推荐。</p>
+
+<p>需要注意的是，<strong>目前Docker只支持64位操作系统</strong></p>
+
+<h3>Ubuntu上安装稳定版</h3>
+
+<p>本文在Ubuntu Trusty 14.04 (LTS)上安装</p>
+
+<pre><code>uname -i   
+</code></pre>
+
+<p>x86_64则为64位系统</p>
+
+<pre><code>uname -r 
+</code></pre>
+
+<p>内核版本要大于3.10</p>
+
+<pre><code>sudo apt-get update
+sudo apt-get install docker.io
+ps axf | grep docker
+docker version 
+#查看docker版本
+</code></pre>
+
+<h3>安装最新版本</h3>
+
+<p>写作时，最新版是1.7.1</p>
+
+<pre><code>sudo apt-get remove --purge docker.io
+</code></pre>
+
+<p>先卸载稳定版的docker</p>
+
+<pre><code>which wget
+</code></pre>
+
+<p>确保安装wget</p>
+
+<pre><code>wget -qO- https://get.docker.com/ | sh
+</code></pre>
+
+<p>获取最新的Docker Packer</p>
+
+<pre><code>ps axf | grep docker
+docker version 
+#查看docker版本
+
+service docker stop
+service docker start
+service docker restart
+</code></pre>
+
+<p>Docker是一个经典的CS架构：
+Docker Server：它是一个<strong>守护进程（Daemon）</strong>,一直运行在后台。
+它其中嵌入了一个Web Server。</p>
+
+<p>Docker的发展速度太快，目前最新版本到1.5，推荐安装到最新版</p>
+
+<p>Docker Client： 它是一个命令行工具，通过HTTP协议与Docker Server交互</p>
+
+<p>巧妙的是，<strong>Docker Server与Docker Client共用同一个可执行文件</strong>,通过</p>
+
+<pre><code>which docker
+</code></pre>
+
+<p>来查看它安装后的路径</p>
+
+<pre><code>sudo docker run hello-world
+</code></pre>
+
+<p>验证docker是否安装正确，它会下载一个测试镜像，并在容器里运行它。</p>
+
+<h1>Docker镜像和镜像仓库</h1>
+
+<p>每个Docker容器运行在独立的虚拟环境中，虚拟环境包括多个方面，其中最重要的就是独立的<strong>文件系统</strong>；在这个文件系统中的读写操作，既不影响宿主机的文件系统，也不影响其它容器的文件系统。</p>
+
+<p>Docker镜像是一个比较复杂的概念。现阶段，我们可以把简单的把<strong>Docker镜像理解成一个目录</strong> Docker Server在启动容器的时候，先根据这个镜像目录，复制出一个<strong>新的目录</strong> ,然后在容器进程启动时，让这个进程chroot到这个新的目录下。这样，这个目录就成了这个容器的根文件系统（<strong>rootfs</strong>）。</p>
+
+<pre><code>docker images
+</code></pre>
+
+<p>查看本地的images镜像</p>
+
+<p><strong>镜像ID</strong>: 每个镜像有一个唯一的一个ID;长度为64个字符。通常只使用前12个字符就可以了。</p>
+
+<p>镜像TAG: 每个镜像可以打上一个或多个TAG</p>
+
+<p>镜像 Repository: 每个镜像存储在一个仓库中</p>
+
+<p><strong>Repository:TAG</strong>: 唯一标识一个镜像</p>
+
+<p>镜像和镜像仓库都存储在Registry中
+本地Registry： 通过docker images查看的就是本地Registry
+官方Registry: Docker官方维护了一个Registry,里面存储了各种各样的镜像。</p>
+
+<p>如果从Docker官方Registry拉取镜像速度很慢，可以舱室<strong>daocloud</strong>提供的加速器服务，<a href="https://dashboard.daocloud.io/mirror">https://dashboard.daocloud.io/mirror</a>有详细的使用方法介绍</p>
+
+<h1>Docker容器的创建、删除、停止、查看等基本命令</h1>
+
+<pre><code>docker run
+</code></pre>
+
+<p>运行容器命令。</p>
+
+<p>docker run是最常用也是最复杂的命令，通过docker help run  我们可以看到该命令有很多选项。</p>
+
+<ul>
+<li>-i -t 缩写为 -it,用于创建交互式容器</li>
+<li>-d  让容器运行在后台，用于创建守护式容器</li>
+<li>-name 为容器指定一个名称
+容器运行成功后，会返回一个64字符的<strong>容器ID</strong>, 作为容器的唯一标识。类似于镜像的ID, 容器ID也可以采用简写形式。</li>
+</ul>
+
+
+<p>通过如下命令来运行一个<strong>交互式容器</strong></p>
+
+<pre><code>sudo docker run -it ubuntu:latest /bin/bash
+</code></pre>
+
+<p>说明</p>
+
+<ul>
+<li>it 指定要创建交互式容器</li>
+<li>ubuntu:latest   以仓库：TAG的形式指定了镜像名称</li>
+<li>/bin/bash 容器对应的进程，会启动一个新的shell</li>
+</ul>
+
+
+<p>通过如上命令，我们启动了新的shell，并运行在容器环境中。由于是一个交互式容器，所以我们会离开当前的shell，被这个新的shell带入到容器的虚拟世界中，此后我们在这个shell里面执行的任何命令，都是相对于这个虚拟世界的。</p>
+
+<pre><code>/cat/etc/issue.net
+</code></pre>
+
+<p>exit 回到现实世界</p>
+
+<p>交互式容器适合一些临时性的任务，当退出bash的时候，交互式容器的生命也就结束了。大多数场合下，我们需要的是<strong>守护式容器</strong>。通过如下方式运行守护式容器：</p>
+
+<pre><code>sudo docker run -d redis
+</code></pre>
+
+<p>说明</p>
+
+<ul>
+<li>d 创建守护式容器</li>
+<li><p>redis镜像名称 这里只有仓库名称，没有指定TAG,那么久使用默认TAG <strong>&lsquo;latest&rsquo;</strong></p></li>
+<li><p><strong>没有指定命令</strong> 那么会使用镜像所提供的<strong>默认命令</strong>。redis镜像的默认命令是 /entrypoint.sh redis-server</p></li>
+</ul>
+
+
+<p><strong>守护式容器运行在后台</strong>， 这样我们就可以继续留在当前shell中进行其它操作</p>
+
+<pre><code>sudo docker ps
+</code></pre>
+
+<p>查看容器的基本信息，包括容器ID、命令、状态等；</p>
+
+<pre><code>sudo docker ps -a 
+</code></pre>
+
+<p>查看之前创建的容器</p>
+
+<pre><code>docker inspect + 镜像ID
+</code></pre>
+
+<p>查看更具体的信息
+    docker rm + 镜像ID
+容器停止后并不会被删除，用这个命令删除</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1013,6 +1244,10 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/07/19/docker/">认识Docker</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/07/19/nginx_php5-fpm/">在Ubuntu上搭建Nginx + Php5-fpm</a>
