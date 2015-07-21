@@ -41,7 +41,7 @@ description: Git的本地操作
 git config --global user.name hanfeng	
 git config --global user.email contact@hanfeng.name
 #生成秘钥和公钥，公钥放到Github或Git服务器上，私钥自己保存
-ssh-keygen -t rsa -c'contact@hanfeng.name'
+ssh-keygen -t rsa -C 'contact@hanfeng.name'
 #常用快捷键
 git config --global alias.co checkout
 git config --global alias.st status

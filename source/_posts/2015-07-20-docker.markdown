@@ -1,0 +1,190 @@
+---
+layout: post
+title: "认识Docker"
+date: 2015-07-19 22:09:25 +0800
+comments: true
+categories: docker
+---
+
+
+
+#前言
+有了Docker以后，那些需要多台机器才能完成的实验就变得非常简单了。
+
+以容器的方式交付软件， 是每一个程序员都需要掌握的新技能。
+
+
+#什么是Docker， 
+
+[Docker](http://docker.com)是一个**容器**引擎,提供了一套完整的容器解决方案。
+
+Docker是2014年最火的开源项目，由Docker公司领导开发，基于Apache2.0开源授权协议发行。
+
+Docker是用Go语言开发的，其源码在<https://github.com/docker/docker>
+![](http://7xkc1x.com1.z0.glb.clouddn.com/docker.jpg?imageView2/2/w/300/)
+
+#什么是容器
+
+**容器**是一种历史悠久的**虚拟化技术**，如OpenVZ，Solaris上的Zones，Linux上的LXC等，都是容器的不同实现方式。
+
+一个容器实质上就是运行在宿主机器上的一个进程。只不过在启动这个进程之前，进行了一些特殊处理，让这个进程进入了一个全新的虚拟环境，与宿主机环境分开。所以这个进程及它的子进程认为自己运行在一个独立的世界里面。
+
+
+容器的优势：
+*创建容器速度快*，速度在1秒左右，而传统虚拟机需要15s左右
+
+容器运行**占用的额外开销非常小**
+
+Docker的优势：
+
+Docker让容器的管理变得极其方便，不需要掌握高深的技术就能使用。
+
+为什么学习Docker：
+
+Docker很可能改变传统的软件“交付”方式和“运行”方式；也可能在绝大多数场合取代传统虚拟机的地位。因此整个IT界都在积极探索如何运用Docker来进行技术变革。
+
+
+#如何安装Docker
+
+Docker可以安装到绝大多数的Linux发型版上，包括Ubuntu、CentOS、Redhat等,也可安装到Mac OS上。
+
+<https://docs.docker.com/installation>介绍了在各种操作系统上安装Docker的详细步骤。虽然Docker可以安装在Windows上，但是不推荐。
+
+需要注意的是，**目前Docker只支持64位操作系统**
+
+###Ubuntu上安装稳定版
+本文在Ubuntu Trusty 14.04 (LTS)上安装
+
+	uname -i   
+
+x86_64则为64位系统
+
+	uname -r 
+
+内核版本要大于3.10
+	
+	sudo apt-get update
+	sudo apt-get install docker.io
+	ps axf | grep docker
+	docker version 
+	#查看docker版本
+
+
+###安装最新版本
+
+
+	sudo apt-get remove --purge docker.io
+先卸载稳定版的docker
+
+	which wget
+确保安装wget
+
+	wget -qO- https://get.docker.com/ | sh
+获取最新的Docker Packer
+
+	ps axf | grep docker
+	docker version 
+	#查看docker版本
+	
+	service docker stop
+	service docker start
+	service docker restart
+
+Docker是一个经典的CS架构：
+Docker Server：它是一个**守护进程（Daemon）**,一直运行在后台。
+它其中嵌入了一个Web Server。
+
+
+
+Docker的发展速度太快，目前最新版本到1.7.1，推荐安装到最新版
+
+Docker Client： 它是一个命令行工具，通过HTTP协议与Docker Server交互
+
+巧妙的是，**Docker Server与Docker Client共用同一个可执行文件**,通过
+
+	which docker
+来查看它安装后的路径
+
+
+	sudo docker run hello-world
+验证docker是否安装正确，它会下载一个测试镜像，并在容器里运行它。
+
+
+#Docker镜像和镜像仓库
+
+每个Docker容器运行在独立的虚拟环境中，虚拟环境包括多个方面，其中最重要的就是独立的**文件系统**；在这个文件系统中的读写操作，既不影响宿主机的文件系统，也不影响其它容器的文件系统。
+
+Docker镜像是一个比较复杂的概念。现阶段，我们可以把简单的把**Docker镜像理解成一个目录** Docker Server在启动容器的时候，先根据这个镜像目录，复制出一个**新的目录** ,然后在容器进程启动时，让这个进程chroot到这个新的目录下。这样，这个目录就成了这个容器的根文件系统（**rootfs**）。
+
+	docker images
+查看本地的images镜像
+
+**镜像ID**: 每个镜像有一个唯一的一个ID;长度为64个字符。通常只使用前12个字符就可以了。
+
+镜像TAG: 每个镜像可以打上一个或多个TAG
+
+镜像 Repository: 每个镜像存储在一个仓库中
+
+**Repository:TAG**: 唯一标识一个镜像
+
+
+镜像和镜像仓库都存储在Registry中
+本地Registry： 通过docker images查看的就是本地Registry
+官方Registry: Docker官方维护了一个Registry,里面存储了各种各样的镜像。
+
+如果从Docker官方Registry拉取镜像速度很慢，可以舱室**daocloud**提供的加速器服务，<https://dashboard.daocloud.io/mirror>有详细的使用方法介绍
+
+
+#Docker容器的创建、删除、停止、查看等基本命令
+
+	docker run
+运行容器命令。
+
+docker run是最常用也是最复杂的命令，通过docker help run  我们可以看到该命令有很多选项。
+
+- -i -t 缩写为 -it,用于创建交互式容器
+- -d  让容器运行在后台，用于创建守护式容器
+- -name 为容器指定一个名称
+容器运行成功后，会返回一个64字符的**容器ID**, 作为容器的唯一标识。类似于镜像的ID, 容器ID也可以采用简写形式。
+
+通过如下命令来运行一个**交互式容器**
+
+	sudo docker run -it ubuntu:latest /bin/bash
+说明
+
+- it 指定要创建交互式容器
+- ubuntu:latest   以仓库：TAG的形式指定了镜像名称
+- /bin/bash 容器对应的进程，会启动一个新的shell
+
+通过如上命令，我们启动了新的shell，并运行在容器环境中。由于是一个交互式容器，所以我们会离开当前的shell，被这个新的shell带入到容器的虚拟世界中，此后我们在这个shell里面执行的任何命令，都是相对于这个虚拟世界的。
+
+	/cat/etc/issue.net
+
+exit 回到现实世界
+
+交互式容器适合一些临时性的任务，当退出bash的时候，交互式容器的生命也就结束了。大多数场合下，我们需要的是**守护式容器**。通过如下方式运行守护式容器：
+
+	sudo docker run -d redis
+说明
+
+- d 创建守护式容器
+- redis镜像名称 这里只有仓库名称，没有指定TAG,那么久使用默认TAG **'latest'**
+
+- **没有指定命令** 那么会使用镜像所提供的**默认命令**。redis镜像的默认命令是 /entrypoint.sh redis-server
+
+**守护式容器运行在后台**， 这样我们就可以继续留在当前shell中进行其它操作
+
+	sudo docker ps
+
+查看容器的基本信息，包括容器ID、命令、状态等；
+
+	sudo docker ps -a 
+查看之前创建的容器
+
+	docker inspect + 镜像ID
+查看更具体的信息
+	docker rm + 镜像ID
+容器停止后并不会被删除，用这个命令删除
+
+
+
