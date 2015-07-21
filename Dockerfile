@@ -1,27 +1,13 @@
-FROM dockerfile/ubuntu
-MAINTAINER hanfneg <contact@hanfeng.name>
+# Using a compact OS
+FROM alpine:latest
 
-# Install Nginx.
-RUN \
-  add-apt-repository -y ppa:nginx/stable && \
-  apt-get update && \
-  apt-get install -y nginx && \
-  rm -rf /var/lib/apt/lists/* && \
-  echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
-  chown -R www-data:www-data /var/lib/nginx
+MAINTAINER Golfen Guo <golfen.guo@daocloud.io> 
 
-# Define mountable directories.
-VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
+RUN apk --update add nginx
 
-# Add Octopress into Nginx server
 COPY . /usr/share/nginx/html
 
-# Define working directory.
-WORKDIR /etc/nginx
-
-# Define default command.
-CMD ["nginx", "-g", "daemon off;"]
-
-# Expose ports.
 EXPOSE 80
-EXPOSE 443
+
+# Start Nginx and keep it from running background
+CMD ["nginx", "-g", "daemon off;"]
