@@ -4,7 +4,7 @@
   <title><![CDATA[hanfeng.name]]></title>
   <link href="http://fenghan.github.io/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-07-21T13:02:02+08:00</updated>
+  <updated>2015-07-21T13:54:33+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -531,7 +531,7 @@ listen = 127.0.0.1:9000
 </span><span class='line'>git config --global user.name hanfeng 
 </span><span class='line'>git config --global user.email contact@hanfeng.name
 </span><span class='line'><span class="c">#生成秘钥和公钥，公钥放到Github或Git服务器上，私钥自己保存</span>
-</span><span class='line'>ssh-keygen -t rsa -c<span class="s1">&#39;contact@hanfeng.name&#39;</span>
+</span><span class='line'>ssh-keygen -t rsa -C <span class="s1">&#39;contact@hanfeng.name&#39;</span>
 </span><span class='line'><span class="c">#常用快捷键</span>
 </span><span class='line'>git config --global alias.co checkout
 </span><span class='line'>git config --global alias.st status
