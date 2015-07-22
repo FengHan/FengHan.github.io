@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Docker | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/docker/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-07-21T22:14:56+08:00</updated>
+  <updated>2015-07-22T17:09:32+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -20,7 +20,7 @@
     <id>http://fenghan.github.io/blog/2015/07/21/docker-summary</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
-<p>这2天里，我了解Docker的初步使用, 并对本博客在<a href="www.daocloud.io">Daocloud</a>上的自动同步做了设置，<a href="http://hanfeng.daoapp.io">http://hanfeng.daoapp.io</a>, Daocloud正在搞活动，<a href="https://github.com/FengHan/fenghan.github.io/blob/master/Dockerfile">写Dockerfile</a>，生成镜像，部署Github代码，<a href="http://blog.daocloud.io/build-dockerfile-campaign/">免费送T-shirt！</a>。 本文主要记录两天所学，记录Docker的学习过程。</p>
+<p>这2天里，我了解Docker的初步使用, 并对本博客在<a href="http://www.daocloud.io">Daocloud</a>上的自动同步做了设置，<a href="http://hanfeng.daoapp.io">http://hanfeng.daoapp.io</a>, Daocloud正在搞活动，<a href="https://github.com/FengHan/fenghan.github.io/blob/master/Dockerfile">写Dockerfile</a>，生成镜像，部署Github代码，<a href="http://blog.daocloud.io/build-dockerfile-campaign/">免费送T-shirt！</a>。 本文主要记录两天所学，记录Docker的学习过程。</p>
 
 <p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_Tshirt.jpg" alt="" /></p>
 
@@ -262,6 +262,16 @@ docker rmi $(docker images ubuntu -q)
 <h1>Docker Hub</h1>
 
 <p><a href="https://registry.hub.docker.com">https://registry.hub.docker.com</a></p>
+
+<p>搜索镜像</p>
+
+<pre><code>docker serach
+</code></pre>
+
+<p>下载镜像</p>
+
+<pre><code>docker pull
+</code></pre>
 ]]></content>
   </entry>
   

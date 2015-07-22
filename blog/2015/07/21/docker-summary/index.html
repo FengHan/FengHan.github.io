@@ -97,7 +97,7 @@ var _hmt = _hmt || [];
 
 <div class="entry-content"><h1>前言</h1>
 
-<p>这2天里，我了解Docker的初步使用, 并对本博客在<a href="www.daocloud.io">Daocloud</a>上的自动同步做了设置，<a href="http://hanfeng.daoapp.io">http://hanfeng.daoapp.io</a>, Daocloud正在搞活动，<a href="https://github.com/FengHan/fenghan.github.io/blob/master/Dockerfile">写Dockerfile</a>，生成镜像，部署Github代码，<a href="http://blog.daocloud.io/build-dockerfile-campaign/">免费送T-shirt！</a>。 本文主要记录两天所学，记录Docker的学习过程。</p>
+<p>这2天里，我了解Docker的初步使用, 并对本博客在<a href="http://www.daocloud.io">Daocloud</a>上的自动同步做了设置，<a href="http://hanfeng.daoapp.io">http://hanfeng.daoapp.io</a>, Daocloud正在搞活动，<a href="https://github.com/FengHan/fenghan.github.io/blob/master/Dockerfile">写Dockerfile</a>，生成镜像，部署Github代码，<a href="http://blog.daocloud.io/build-dockerfile-campaign/">免费送T-shirt！</a>。 本文主要记录两天所学，记录Docker的学习过程。</p>
 
 <p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_Tshirt.jpg" alt="" /></p>
 
@@ -339,6 +339,16 @@ docker rmi $(docker images ubuntu -q)
 <h1>Docker Hub</h1>
 
 <p><a href="https://registry.hub.docker.com">https://registry.hub.docker.com</a></p>
+
+<p>搜索镜像</p>
+
+<pre><code>docker serach
+</code></pre>
+
+<p>下载镜像</p>
+
+<pre><code>docker pull
+</code></pre>
 </div>
 
 
@@ -392,6 +402,8 @@ docker rmi $(docker images ubuntu -q)
         <a class="basic-alignment left" href="/blog/2015/07/19/docker/" title="Previous Post: 认识Docker">&laquo; 认识Docker</a>
       
       
+        <a class="basic-alignment right" href="/blog/2015/07/22/vagrant-lnmp/" title="Next Post: 使用Vagrant搭建本地Ubuntu开发环境">使用Vagrant搭建本地Ubuntu开发环境 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -426,6 +438,10 @@ var duoshuoQuery = {short_name:"fenghan"};
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/22/vagrant-lnmp/">使用Vagrant搭建本地Ubuntu开发环境</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/21/docker-summary/">Docker小结</a>
       </li>
     
@@ -439,10 +455,6 @@ var duoshuoQuery = {short_name:"fenghan"};
     
       <li class="post">
         <a href="/blog/2015/07/18/git-local/">Git的本地操作</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/17/octopress-blog/">使用Octopress在GitHub上搭建静态博客</a>
       </li>
     
   </ul>
