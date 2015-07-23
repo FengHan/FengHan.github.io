@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Php5-fpm | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/php5-fpm/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-07-22T17:14:34+08:00</updated>
+  <updated>2015-07-23T11:36:52+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -48,7 +48,8 @@
 
 <p><strong>安装Nginx</strong></p>
 
-<pre><code>apt-get install nginx
+<pre><code>apt-get update
+apt-get install nginx
 </code></pre>
 
 <p><strong>配置Nginx</strong></p>
@@ -75,7 +76,7 @@
 
 <blockquote><p>/etc/nginx/sites-available/default</p></blockquote>
 
-<p>修改配置</p>
+<h3>fastcgi配置</h3>
 
 <pre><code>location ~ \.php$ {
 
@@ -102,7 +103,8 @@
 
 <p><strong>测试Nginx</strong></p>
 
-<p>在 /usr/share/nginx/html下新建index.php</p>
+<p>再配置好php5-fpm后，再测试
+在 /usr/share/nginx/html下新建index.php</p>
 
 <pre><code>&lt;? php
 phpinfo();
@@ -115,7 +117,7 @@ nginx -t</p>
 
 <p>创建 tech.hanfeng.name</p>
 
-<pre><code class="">cd /usr/share/nginx
+<pre><code>cd /usr/share/nginx
 
 mkdir tech.hanfeng.name
 
@@ -130,6 +132,8 @@ cp default tech.hanfeng.name
 
 grep -v "#" tech.hanfeng.name
 </code></pre>
+
+<p>tech.hanfeng.name 虚拟主机配置：</p>
 
 <pre><code>server {
         listen 80;
@@ -158,9 +162,14 @@ grep -v "#" tech.hanfeng.name
 }
 </code></pre>
 
-<pre><code>ln -s /etc/nginx/sites-available/tech.hanfeng.name  /etc/nginx/sites-enabled/tech.hanfeng.name
+<h3>生成软连接</h3>
 
-nginx -t
+<pre><code>ln -s /etc/nginx/sites-available/tech.hanfeng.name  /etc/nginx/sites-enabled/tech.hanfeng.name
+</code></pre>
+
+<h3>测试并且加载nginx配置</h3>
+
+<pre><code>nginx -t
 
 /etc/init.d/nginx reload
 </code></pre>
@@ -193,14 +202,6 @@ sudo apt-get install php5-readline
 <pre><code>ps -waux | grep php5
 </code></pre>
 
-<p>打开关闭php5进程</p>
-
-<pre><code>sudo service php5-fpm stop
-sudo service php5-fpm start
-sudo service php5-fpm restart
-sudo service php5-fpm status
-</code></pre>
-
 <h1>配置PHP5-FPM</h1>
 
 <p>配置php5监听端口</p>
@@ -210,6 +211,16 @@ sudo service php5-fpm status
 <pre><code>把
 listen = /var/run/php5-fpm.sock  改为
 listen = 127.0.0.1:9000
+</code></pre>
+
+<p>配置好后，重新启动php5-fpm</p>
+
+<h3>php5-fpm命令</h3>
+
+<pre><code>sudo service php5-fpm stop
+sudo service php5-fpm start
+sudo service php5-fpm restart
+sudo service php5-fpm status
 </code></pre>
 
 <p>一台机器安装nginx，另一台安装php，用上面的修改</p>

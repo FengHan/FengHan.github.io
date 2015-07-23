@@ -9,8 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 使用PHP做Web开发已有4年，4年间只有第二年是在Ubuntu下开发，其它都是在Windows下开发，但Win下开发有如下缺点： Windows 不区分大小写，在Win下OK, 上传到服务器上有了Bug。
-Windows 不能测试cron是否写得正确，执行php-cli麻烦 &hellip;">
+  <meta name="description" content="前言 MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做MariDB 安装 首先从 MariaDB 下载页面 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +76,56 @@ var _hmt = _hmt || [];
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-23T10:50:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:50 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>前言</h1>
+
+<p>MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做<a href="https://mariadb.org/">MariDB</a></p>
+
+<h1>安装</h1>
+
+<p>首先从 <a href="http://downloads.mariadb.org/mariadb/repositories/">MariaDB 下载页面</a> 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令</p>
+
+<pre><code>sudo apt-get install software-properties-common
+sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+sudo add-apt-repository 'deb http://mirrors.hustunique.com/mariadb/repo/5.5/ubuntu trusty main'
+</code></pre>
+
+<p>开始安装</p>
+
+<pre><code>sudo apt-get update
+sudo apt-get install mariadb-server
+</code></pre>
+
+<p>这样 MariaDB 5.5 就已经安装成功，你就可以像使用 MySQL 那样对它进行配置和使用了。</p>
+
+<p>使用mysql -uroot -p1234测试。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -226,6 +275,12 @@ EnableSendfile off
 # Nginx 配置添加:
 sendfile off;
 </code></pre>
+
+<h3>补充</h3>
+
+<p>Putty工具连接：</p>
+
+<p>注：虚拟机的默认IP|Port：127.0.0.1:2222   用户：vagrant | root   密码：vagrant</p>
 
 <h3>参考链接</h3>
 
@@ -804,9 +859,9 @@ Docker Server：它是一个<strong>守护进程（Daemon）</strong>,一直运�
 
 <p><strong>安装Nginx</strong></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>apt-get install nginx</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>apt-get update
+apt-get install nginx
+</code></pre>
 
 <p><strong>配置Nginx</strong></p>
 
@@ -832,7 +887,7 @@ Docker Server：它是一个<strong>守护进程（Daemon）</strong>,一直运�
 
 <blockquote><p>/etc/nginx/sites-available/default</p></blockquote>
 
-<p>修改配置</p>
+<h3>fastcgi配置</h3>
 
 <pre><code>location ~ \.php$ {
 
@@ -849,19 +904,18 @@ Docker Server：它是一个<strong>守护进程（Daemon）</strong>,一直运�
 
 <p><strong>配置生效</strong></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/init.d/nginx reload</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>/etc/init.d/nginx reload
+</code></pre>
 
 <p><strong>启动Nginx</strong></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/init.d/nginx start</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>/etc/init.d/nginx start
+</code></pre>
 
 <p><strong>测试Nginx</strong></p>
 
-<p>在 /usr/share/nginx/html下新建index.php</p>
+<p>再配置好php5-fpm后，再测试
+在 /usr/share/nginx/html下新建index.php</p>
 
 <pre><code>&lt;? php
 phpinfo();
@@ -874,36 +928,23 @@ nginx -t</p>
 
 <p>创建 tech.hanfeng.name</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /usr/share/nginx
-</span><span class='line'>
-</span><span class='line'>mkdir tech.hanfeng.name
-</span><span class='line'>
-</span><span class='line'>cd tech.hanfeng.name
-</span><span class='line'>
-</span><span class='line'>echo '&lt;?php phpinfo();' &gt; index.php
-</span><span class='line'>
-</span><span class='line'>cd /etc/nginx/sites-available/ 
-</span><span class='line'>
-</span><span class='line'>cp default tech.hanfeng.name
-</span><span class='line'>#Apache需要以.conf结尾，Nginx不用
-</span><span class='line'>
-</span><span class='line'>grep -v "#" tech.hanfeng.name
-</span></code></pre></td></tr></table></div></figure>
+<pre><code>cd /usr/share/nginx
 
+mkdir tech.hanfeng.name
+
+cd tech.hanfeng.name
+
+echo '&lt;?php phpinfo();' &gt; index.php
+
+cd /etc/nginx/sites-available/ 
+
+cp default tech.hanfeng.name
+#Apache需要以.conf结尾，Nginx不用
+
+grep -v "#" tech.hanfeng.name
+</code></pre>
+
+<p>tech.hanfeng.name 虚拟主机配置：</p>
 
 <pre><code>server {
         listen 80;
@@ -932,17 +973,17 @@ nginx -t</p>
 }
 </code></pre>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ln -s /etc/nginx/sites-available/tech.hanfeng.name  /etc/nginx/sites-enabled/tech.hanfeng.name
-</span><span class='line'>
-</span><span class='line'>nginx -t
-</span><span class='line'>
-</span><span class='line'>/etc/init.d/nginx reload</span></code></pre></td></tr></table></div></figure>
+<h3>生成软连接</h3>
 
+<pre><code>ln -s /etc/nginx/sites-available/tech.hanfeng.name  /etc/nginx/sites-enabled/tech.hanfeng.name
+</code></pre>
+
+<h3>测试并且加载nginx配置</h3>
+
+<pre><code>nginx -t
+
+/etc/init.d/nginx reload
+</code></pre>
 
 <h1>安装PHP</h1>
 
@@ -988,21 +1029,8 @@ nginx -t</p>
 
 <p>查看php5运行进程</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ps -waux | grep php5</span></code></pre></td></tr></table></div></figure>
-
-
-<p>打开关闭php5进程</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo service php5-fpm stop
-</span><span class='line'>sudo service php5-fpm start
-</span><span class='line'>sudo service php5-fpm restart
-</span><span class='line'>sudo service php5-fpm status</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>ps -waux | grep php5
+</code></pre>
 
 <h1>配置PHP5-FPM</h1>
 
@@ -1013,6 +1041,16 @@ nginx -t</p>
 <pre><code>把
 listen = /var/run/php5-fpm.sock  改为
 listen = 127.0.0.1:9000
+</code></pre>
+
+<p>配置好后，重新启动php5-fpm</p>
+
+<h3>php5-fpm命令</h3>
+
+<pre><code>sudo service php5-fpm stop
+sudo service php5-fpm start
+sudo service php5-fpm restart
+sudo service php5-fpm status
 </code></pre>
 
 <p>一台机器安装nginx，另一台安装php，用上面的修改</p>
@@ -1691,6 +1729,10 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/22/vagrant-lnmp/">使用Vagrant搭建本地Ubuntu开发环境</a>
       </li>
     
@@ -1704,10 +1746,6 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
     
       <li class="post">
         <a href="/blog/2015/07/19/nginx_php5-fpm/">在Ubuntu上搭建Nginx + Php5-fpm</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/18/git-local/">Git的本地操作</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ubuntu | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/ubuntu/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-07-22T17:14:34+08:00</updated>
+  <updated>2015-07-23T11:36:52+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -145,6 +145,12 @@ EnableSendfile off
 # Nginx 配置添加:
 sendfile off;
 </code></pre>
+
+<h3>补充</h3>
+
+<p>Putty工具连接：</p>
+
+<p>注：虚拟机的默认IP|Port：127.0.0.1:2222   用户：vagrant | root   密码：vagrant</p>
 
 <h3>参考链接</h3>
 
