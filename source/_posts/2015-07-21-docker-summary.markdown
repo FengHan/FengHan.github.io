@@ -8,7 +8,7 @@ categories: docker
 
 # 前言
 
-这2天里，我了解Docker的初步使用, 并对本博客在[Daocloud](www.daocloud.io)上的自动同步做了设置，<http://hanfeng.daoapp.io>, Daocloud正在搞活动，[写Dockerfile](https://github.com/FengHan/fenghan.github.io/blob/master/Dockerfile)，生成镜像，部署Github代码，[免费送T-shirt！](http://blog.daocloud.io/build-dockerfile-campaign/)。 本文主要记录两天所学，记录Docker的学习过程。
+这2天里，我了解Docker的初步使用, 并对本博客在[Daocloud](http://www.daocloud.io)上的自动同步做了设置，<http://hanfeng.daoapp.io>, Daocloud正在搞活动，[写Dockerfile](https://github.com/FengHan/fenghan.github.io/blob/master/Dockerfile)，生成镜像，部署Github代码，[免费送T-shirt！](http://blog.daocloud.io/build-dockerfile-campaign/)。 本文主要记录两天所学，记录Docker的学习过程。
 
 ![](http://7xkc1x.com1.z0.glb.clouddn.com/cto_Tshirt.jpg)
 # 构建镜像
@@ -211,6 +211,13 @@ docker attach + 容器ID
 #Docker Hub
 
 <https://registry.hub.docker.com>
+
+搜索镜像
+
+	docker serach
+下载镜像
+
+	docker pull
 
 
 

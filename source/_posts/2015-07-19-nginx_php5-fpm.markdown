@@ -37,9 +37,9 @@ Fastcgi是用来提高CGI程序性能的，也是一个协议。
 
 **安装Nginx**
 
-```
-apt-get install nginx
-```
+	apt-get update
+	apt-get install nginx
+
 
 **配置Nginx**
 
@@ -66,8 +66,7 @@ nginx.conf配置里面包括了
 
 > /etc/nginx/sites-available/default
 
-修改配置
-
+### fastcgi配置
 
 	location ~ \.php$ {
 	
@@ -83,18 +82,18 @@ nginx.conf配置里面包括了
 
 **配置生效**
 
-```
-/etc/init.d/nginx reload
-```
+	/etc/init.d/nginx reload
+
 
 **启动Nginx**
 
-```
-/etc/init.d/nginx start
-```
+
+	/etc/init.d/nginx start
+
  
 **测试Nginx**
 
+再配置好php5-fpm后，再测试
 在 /usr/share/nginx/html下新建index.php
 
 	<? php
@@ -107,24 +106,22 @@ nginx -t
 
 创建 tech.hanfeng.name
 
+	cd /usr/share/nginx
+	
+	mkdir tech.hanfeng.name
+	
+	cd tech.hanfeng.name
+	
+	echo '<?php phpinfo();' > index.php
+	
+	cd /etc/nginx/sites-available/ 
+	
+	cp default tech.hanfeng.name
+	#Apache需要以.conf结尾，Nginx不用
+	
+	grep -v "#" tech.hanfeng.name
 
-``` 
-cd /usr/share/nginx
-
-mkdir tech.hanfeng.name
-
-cd tech.hanfeng.name
-
-echo '<?php phpinfo();' > index.php
-
-cd /etc/nginx/sites-available/ 
-
-cp default tech.hanfeng.name
-#Apache需要以.conf结尾，Nginx不用
-
-grep -v "#" tech.hanfeng.name
-
-```
+tech.hanfeng.name 虚拟主机配置：
 
 	server {
 	        listen 80;
@@ -153,13 +150,13 @@ grep -v "#" tech.hanfeng.name
 	}
 
 
-```
-ln -s /etc/nginx/sites-available/tech.hanfeng.name  /etc/nginx/sites-enabled/tech.hanfeng.name
+### 生成软连接
+	ln -s /etc/nginx/sites-available/tech.hanfeng.name  /etc/nginx/sites-enabled/tech.hanfeng.name
+### 测试并且加载nginx配置
+	nginx -t
+	
+	/etc/init.d/nginx reload
 
-nginx -t
-
-/etc/init.d/nginx reload
-```
 
 
 
@@ -190,19 +187,7 @@ sudo apt-get install php5-readline
 
 查看php5运行进程
 
-```
-ps -waux | grep php5
-```
-
-打开关闭php5进程
-
-```
-sudo service php5-fpm stop
-sudo service php5-fpm start
-sudo service php5-fpm restart
-sudo service php5-fpm status
-```
-
+	ps -waux | grep php5
 
 #配置PHP5-FPM
 
@@ -212,6 +197,14 @@ sudo service php5-fpm status
 	把
 	listen = /var/run/php5-fpm.sock  改为
 	listen = 127.0.0.1:9000
+
+配置好后，重新启动php5-fpm
+
+### php5-fpm命令
+	sudo service php5-fpm stop
+	sudo service php5-fpm start
+	sudo service php5-fpm restart
+	sudo service php5-fpm status
 
 一台机器安装nginx，另一台安装php，用上面的修改
 
