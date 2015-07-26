@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>认识Docker - hanfeng.name</title>
+  <title>hanfeng.name</title>
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 有了Docker以后，那些需要多台机器才能完成的实验就变得非常简单了。 以容器的方式交付软件， 是每一个程序员都需要掌握的新技能。 什么是Docker， Docker是一个容器引擎,提供了一套完整的容器解决方案。 Docker是2014年最火的开源项目，由Docker公司领导开发， &hellip;">
+  <meta name="description" content="前言 这2天里，我了解Docker的初步使用, 并对本博客在Daocloud上的自动同步做了设置，http://hanfeng.daoapp.io, Daocloud正在搞活动，写Dockerfile，生成镜像，部署Github代码，免费送T-shirt！。 本文主要记录两天所学， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://fenghan.github.io/blog/2015/07/19/docker/">
+  <link rel="canonical" href="http://fenghan.github.io/posts/4/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="hanfeng.name" type="application/atom+xml">
@@ -74,12 +74,297 @@ var _hmt = _hmt || [];
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">认识Docker</h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/21/docker-summary/">Docker小结</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-21T21:07:41+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:07 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>前言</h1>
+
+<p>这2天里，我了解Docker的初步使用, 并对本博客在<a href="http://www.daocloud.io">Daocloud</a>上的自动同步做了设置，<a href="http://hanfeng.daoapp.io">http://hanfeng.daoapp.io</a>, Daocloud正在搞活动，<a href="https://github.com/FengHan/fenghan.github.io/blob/master/Dockerfile">写Dockerfile</a>，生成镜像，部署Github代码，<a href="http://blog.daocloud.io/build-dockerfile-campaign/">免费送T-shirt！</a>。 本文主要记录两天所学，记录Docker的学习过程。</p>
+
+<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_Tshirt.jpg" alt="" /></p>
+
+<h1>构建镜像</h1>
+
+<p>构建镜像的目的：</p>
+
+<ul>
+<li>保存对容器的修改， 并在此使用</li>
+<li>自定义镜像的能力</li>
+<li>以软件的形式打包并分发服务器及其运行环境。</li>
+</ul>
+
+
+<p>构建镜像的两种方法：</p>
+
+<ol>
+<li><p>docker build 通过Dockfile文件构建</p></li>
+<li><p>docker commit 通过容器构建</p></li>
+</ol>
+
+
+<h3>Dockerfile的制作</h3>
+
+<p>对于开发人员来说，主要是使用Dockerfile来构建镜像，现在简单讲一下Dockerfile的语法</p>
+
+<pre><code>FROM &lt;image&gt; 已经存在的镜像（基础镜像）
+FROM &lt;image:tag&gt;
+</code></pre>
+
+<p>必须是第一条</p>
+
+<pre><code>MAINTAIER hanfeng "contact@hanfeng.name"
+</code></pre>
+
+<p>指定镜像所有者信息</p>
+
+<pre><code>RUN
+</code></pre>
+
+<p>指定当前镜像中运行得命令</p>
+
+<pre><code>RUN echo hello  (shell模式)
+
+RUN ["executable", "param1", "param2"] (exec模式)
+
+RUN["/bin/bash", "-c", "echo hello"]
+</code></pre>
+
+<p>每个RUN指令都会在当前的RUN指令上新创建一个镜像，是分层的。</p>
+
+<pre><code>EXPOSE &lt;port&gt;[&lt;port&gt;]
+EXPOSE 80
+EXPOSE 80:80
+EXPOSE 0.0.0.0:80:80
+</code></pre>
+
+<p>指定运行该镜像的容器使用的端口</p>
+
+<p>只是告诉容器应该打开哪个端口，Dokcer不会自动打开。还是需要启动的时候指定端口</p>
+
+<pre><code>CMD
+CMD["executable",'param1','['param2'](exec模式)
+</code></pre>
+
+<p>能够被Docker run 后面的命令覆盖掉</p>
+
+<pre><code>ENTRYPOINT
+ENTRYPOINT COMMAND P1 P1
+</code></pre>
+
+<p>不会被docker run覆盖</p>
+
+<p>容器运行时的指令</p>
+
+<pre><code>ADD
+</code></pre>
+
+<p>适用于文件路径中有空格的情况</p>
+
+<p>ADD 包含类似tar的解压功能</p>
+
+<p>如果单独复制文件，建议使用COpy</p>
+
+<pre><code>COPY
+
+VOLUME
+VOLUME["/data"]
+</code></pre>
+
+<p>镜像的目录和文件</p>
+
+<pre><code>WORKDIR
+WORKDIR /path/to/workdir
+WORKDIR 使用绝对路径
+
+ENV&lt;key&gt;&lt;value&gt;
+
+USER daemon
+USER nginx
+USER root:root
+</code></pre>
+
+<p>环境设置</p>
+
+<pre><code>ONBUILD
+</code></pre>
+
+<p>镜像触发器</p>
+
+<p>当一个镜像被其他镜像作为基础镜像时执行。</p>
+
+<p>会在构建过程中插入指令</p>
+
+<p>简单的例子：</p>
+
+<pre><code># First dockerfile for test
+FROM ubuntu:14.04
+MAINTAINER hanfeng "contact.hanfeng.name"
+RUN apt-get update
+RUN apt-get install -y nginx
+EXPOSE 80
+</code></pre>
+
+<p>Dockerfile的构建过程</p>
+
+<pre><code>docker build -t ="hanfeng/nginx"
+
+docker run  --name=web01 -p 80 -d hanfeng/nginx -g "daemon off;"
+</code></pre>
+
+<p>执行Dockerfile的每一条指令，执行相当于执行了docker commit一次，每条命令都会产生一个新的镜像层
+执行Dockerfile的下一条命令</p>
+
+<pre><code>docker history image
+#查看构建镜像的历史命令
+</code></pre>
+
+<h3>镜像的发布</h3>
+
+<pre><code>docker push qthhanfeng/nginx    
+</code></pre>
+
+<h1>常用命令</h1>
+
+<pre><code>docker run  --name=web01 -it ubuntu /bin/bash
+</code></pre>
+
+<p>为容器制定一个名字</p>
+
+<pre><code>docker start [-i] 容器名
+</code></pre>
+
+<p>重新启动停止的容器：</p>
+
+<p>参数 -i 以参数的方式</p>
+
+<p>在交互式时，Ctrl + P ，然后 Ctrl + Q</p>
+
+<p>docker attach + 容器ID</p>
+
+<hr />
+
+<p>查看容器日志</p>
+
+<pre><code>docker logs -f -t --tail 容器名
+</code></pre>
+
+<p>-f 更新</p>
+
+<p>-t 时间戳</p>
+
+<p>&ndash;tail  显示最新的</p>
+
+<hr />
+
+<pre><code>docker top 容器
+#查看容器内进程
+docker exec -d -i -t 容器名字
+#在运行中的容器启动新进程
+docker stop
+#发送信号给容器，等待停止
+
+docker kill 容器
+#直接停止容器
+</code></pre>
+
+<p>设置容器的端口映射</p>
+
+<pre><code>docker run -P -it ubuntu /bin/bash
+</code></pre>
+
+<p>-P &ndash;publish-all=true|false默认为fale，所有端口映射</p>
+
+<p>-p &ndash;publish=[]</p>
+
+<pre><code>docker run -p 80 -it ubuntu /bin/bash
+#容器端口
+docker run -p 8080:80 -it ubuntu /bin/bash
+#宿主机端口：容器端口
+docker run -p 0.0.0.0:80 -it ubuntu /bin/bash
+#IP:容器端口
+docker run -p 0.0.0.0:8080:80 -it ubuntu /bin/bash
+#IP:宿主机端口：容器端口
+
+docker run -p 80 --name web -it ubuntu /bina/bash
+
+docker port web
+docker top web
+</code></pre>
+
+<p>重启后，容器没有启动nginx, IP地址和端口映射都会发生改变</p>
+
+<pre><code>docker exec web nginx
+docker top web
+</code></pre>
+
+<h1>DaoCloud提供的加速</h1>
+
+<pre><code>vim /etc/default/docker
+DOCKER_OPTS="$DOCKER_OPTS --registry-mirror=http://字符串.m.daocloud.io"
+#文件末尾添加
+</code></pre>
+
+<p>常用命令：</p>
+
+<pre><code>docker inspect +仓库名:TAG名
+#查看镜像
+
+docker rmi +仓库名:TAG名
+#删除TAG
+
+docker rmi + 镜像ID
+#删除这个镜像对应的所有TAG
+
+docker rmi $(docker images ubuntu -q)
+</code></pre>
+
+<h1>Docker Hub</h1>
+
+<p><a href="https://registry.hub.docker.com">https://registry.hub.docker.com</a></p>
+
+<p>搜索镜像</p>
+
+<pre><code>docker serach
+</code></pre>
+
+<p>下载镜像</p>
+
+<pre><code>docker pull
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/19/docker/">认识Docker</a></h1>
     
     
       <p class="meta">
@@ -95,7 +380,7 @@ var _hmt = _hmt || [];
   </header>
 
 
-<div class="entry-content"><h1>前言</h1>
+  <div class="entry-content"><h1>前言</h1>
 
 <p>有了Docker以后，那些需要多台机器才能完成的实验就变得非常简单了。</p>
 
@@ -300,87 +585,22 @@ Docker Server：它是一个<strong>守护进程（Daemon）</strong>,一直运�
     docker rm + 镜像ID
 容器停止后并不会被删除，用这个命令删除</p>
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
+  
   
 
-<span class="byline author vcard">Posted by <span class="fn">HanFeng</span></span>
 
-      
-
-
-
-
-<time class='entry-date' datetime='2015-07-19T22:09:25+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:09 pm</span></time>
-      
-
-<span class="categories">
+    </article>
   
-    <a class='category' href='/blog/categories/docker/'>docker</a>
-  
-</span>
-
-
-    </p>
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  
-  
-  
-    <!-- JiaThis Button BEGIN -->
-<div class="jiathis_style">
-	<span class="jiathis_txt">分享到：</span>
-	<a class="jiathis_button_icons_1"></a>
-	<a class="jiathis_button_icons_2"></a>
-	<a class="jiathis_button_icons_3"></a>
-	<a class="jiathis_button_icons_4"></a>
-	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	<a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
-<!-- JiaThis Button END -->
-  
-</div>
-
+      <a class="prev" href="/posts/5">&larr; Older</a>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2015/07/19/nginx_php5-fpm/" title="Previous Post: 在Ubuntu上搭建Nginx + php5-fpm">&laquo; 在Ubuntu上搭建Nginx + php5-fpm</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2015/07/21/docker-summary/" title="Next Post: Docker小结">Docker小结 &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/07/19/docker" data-title="认识Docker" data-url="http://fenghan.github.io/blog/2015/07/19/docker/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"fenghan"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-<!-- 多说公共JS代码 end -->
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/posts/3">Newer &rarr;</a>
+    
+  </div>
 </div>
-  </section>
-
-</div>
-
 <aside class="sidebar">
   
     <section>
@@ -436,7 +656,6 @@ var duoshuoQuery = {short_name:"fenghan"};
 
   
 </aside>
-
 
     </div>
   </div>
