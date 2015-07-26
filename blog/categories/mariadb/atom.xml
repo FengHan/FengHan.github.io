@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Mariadb | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/mariadb/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-07-23T11:36:52+08:00</updated>
+  <updated>2015-07-26T15:53:24+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -39,7 +39,7 @@ sudo apt-get install mariadb-server
 
 <p>这样 MariaDB 5.5 就已经安装成功，你就可以像使用 MySQL 那样对它进行配置和使用了。</p>
 
-<p>使用mysql -uroot -p1234测试。</p>
+<p>使用mysql -h -uroot -p1234测试。</p>
 ]]></content>
   </entry>
   

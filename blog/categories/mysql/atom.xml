@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Mysql | hanfeng.name]]></title>
+  <link href="http://fenghan.github.io/blog/categories/mysql/atom.xml" rel="self"/>
+  <link href="http://fenghan.github.io/"/>
+  <updated>2015-07-26T15:53:24+08:00</updated>
+  <id>http://fenghan.github.io/</id>
+  <author>
+    <name><![CDATA[HanFeng]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL数据库管理]]></title>
+    <link href="http://fenghan.github.io/blog/2015/07/23/mysql-study/"/>
+    <updated>2015-07-23T17:26:01+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/07/23/mysql-study</id>
+    <content type="html"><![CDATA[<h3>MySQL权限</h3>
+
+<p>创建用户</p>
+
+<pre><code>grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
+grant select on jikedb.* to webuser@localhost identified by '123';
+</code></pre>
+
+<p>刷新权限</p>
+
+<pre><code>flush privileges;
+</code></pre>
+
+<p>回收权限</p>
+
+<pre><code>revoke select on jikedb.* from webuser@localhost;
+</code></pre>
+
+<p>删除用户</p>
+
+<pre><code>drop user webuser@localhost;
+</code></pre>
+
+<p>查看用户权限</p>
+
+<pre><code>show grants for root@localhost;
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

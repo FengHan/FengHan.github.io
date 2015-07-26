@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>404 Not Found - hanfeng.name</title>
+  <title>MySQL数据库管理 - hanfeng.name</title>
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content=" 404 Not Found 分享到： Recent Posts Redis的数据类型(一) Redis的安装与配置 MySQL数据库管理 Thinkphp 在ubuntu上安装mariadb ">
+  <meta name="description" content="MySQL权限 创建用户 grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
+grant select on jikedb.* to webuser@localhost &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://fenghan.github.io/404.html">
+  <link rel="canonical" href="http://fenghan.github.io/blog/2015/07/23/mysql-study/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="hanfeng.name" type="application/atom+xml">
@@ -75,21 +76,81 @@ var _hmt = _hmt || [];
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">404 Not Found</h1>
+    
+      <h1 class="entry-title">MySQL数据库管理</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-23T17:26:01+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>5:26 pm</span></time>
+        
+      </p>
     
   </header>
-  
-  <script type="text/javascript" src="http://www.qq.com/404/search_children.js" charset="utf-8" homePageUrl="/" homePageName="回到我的主页"></script>
 
 
+<div class="entry-content"><h3>MySQL权限</h3>
+
+<p>创建用户</p>
+
+<pre><code>grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
+grant select on jikedb.* to webuser@localhost identified by '123';
+</code></pre>
+
+<p>刷新权限</p>
+
+<pre><code>flush privileges;
+</code></pre>
+
+<p>回收权限</p>
+
+<pre><code>revoke select on jikedb.* from webuser@localhost;
+</code></pre>
+
+<p>删除用户</p>
+
+<pre><code>drop user webuser@localhost;
+</code></pre>
+
+<p>查看用户权限</p>
+
+<pre><code>show grants for root@localhost;
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-    <footer>
+
+<span class="byline author vcard">Posted by <span class="fn">HanFeng</span></span>
+
       
+
+
+
+
+<time class='entry-date' datetime='2015-07-23T17:26:01+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>5:26 pm</span></time>
       
-        <div class="sharing">
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mysql/'>mysql</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
   
   
   
@@ -109,10 +170,38 @@ var _hmt = _hmt || [];
   
 </div>
 
+    
+    <p class="meta">
       
-    </footer>
-  
+        <a class="basic-alignment left" href="/blog/2015/07/23/thinkphp/" title="Previous Post: Thinkphp">&laquo; Thinkphp</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/24/redis_setup_config/" title="Next Post: Redis的安装与配置">Redis的安装与配置 &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/blog/2015/07/23/mysql-study" data-title="MySQL数据库管理" data-url="http://fenghan.github.io/blog/2015/07/23/mysql-study/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"fenghan"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
 
 </div>
 

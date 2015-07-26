@@ -9,7 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做MariDB 安装 首先从 MariaDB 下载页面 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令 &hellip;">
+  <meta name="description" content="Redis 的数据库内部结构 Redis中每个数据库，都是由一个redis.h/redisDb结构表示： typedef struct redisDb{ int id: //保存着数据库以整数表示的号码 dict *dict； //保存着所有键值对数据，这个属性也被称为键空间（key space &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +82,684 @@ var _hmt = _hmt || [];
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/24/redis-data-type/">Redis的数据类型(一)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-24T14:54:30+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:54 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>Redis 的数据库内部结构</h4>
+
+<pre><code>Redis中每个数据库，都是由一个redis.h/redisDb结构表示：
+    typedef struct redisDb{
+    int id: //保存着数据库以整数表示的号码
+    dict *dict；   //保存着所有键值对数据，这个属性也被称为键空间（key space）
+    dict *expires; //保存着键的过期信息
+    dict *blocking_keys;    //实现列表阻塞原语，
+    dict *watched_keys;     //用于实现WATCH命令
+}redisDb
+</code></pre>
+
+<p>因为Redis是一个键值对数据库（key-value-pairs database）,所以它的数据库本身也是一个字典（俗称 key space）
+- 字典的的键是一个<strong>字符串</strong>对象
+- 字典的值可以是包括<strong>字符串、列表、哈希值、集合或有序集</strong>在内的任意一种Redis类型对象。</p>
+
+<p>在 redisDb  结构的 dict  属性中，保存着数据库的所有键值对数据。
+下图展示了一个包含 number 、book 、message 三个键的数据库—其中 number
+ 键是一个列表，列表中包含三个整数值；book  键是一个哈希表，表中包含三个键
+值对；而 message  键则指向另一个字符串。</p>
+
+<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/redis_hash.jpg" alt="" /></p>
+
+<ul>
+<li>命令
+
+<ul>
+<li>Redis中的命令不区分大小写，SET与set效果一样。</li>
+</ul>
+</li>
+<li>主键（key）
+
+<ul>
+<li>可以用任何二进制序列作为key值，从形如“foo”的简单字符串到一个JPEG文件的内容都可以。空字符串也是有效的key值。</li>
+</ul>
+</li>
+<li>关于key的规则
+
+<ul>
+<li>可以用任何二进制序列作为key值</li>
+<li>格式约定： object-type:id:field</li>
+<li>不用太长的键值。不仅消耗内存，而且在数据查找中计算成本很高。</li>
+<li>太短的键值通常也不是好主意，可读性差。
+
+<ul>
+<li>如用“user:1000:password”来代替“u:1000:pwd”</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>Redis 的 String 类型的底层实现与操作命令</h4>
+
+<p>String是Redis最基本的类型，而且String类型是二进制安全的。意思是Redis的String可以包含任何数据。比如jpg图片或者序列化对象。从内部实现来看其实String可以看做byte数组，最大上限是1G字节。下面是String类型的定义。</p>
+
+<pre><code>struct sdshdr{
+    long len;   //len是buf数组的长度
+    long free;  //free是数组中剩余可用字节数
+    char buf[]; //char数组用于贮存实际的字符串内容
+}String;
+</code></pre>
+
+<p>新增相关命令</p>
+
+<pre><code>Set
+语法：set key value
+解释：把值value赋给key，如果key不存在，新增；否则，更新。
+Setnx
+语法：setnx  key  value
+解释：只 insert 不 update，即，仅仅key不存在时，则设置key的值为value，并返回1，否则返回0  。setnx 是set if not exists 的缩写。
+Setex
+语法： setex key secondes value
+解释： 设置KEY的过期时间和值。过期时间seconds单位是秒。设置过期时间和值是原子操作，如果redis仅仅当做缓存，这个命令很有用。
+msetnx
+语法：msetnx key value  [key value ...]
+解释：所有key都不存在才执行set操作。
+</code></pre>
+
+<p>查询相关命令</p>
+
+<pre><code>get
+语法：get key
+解释：获取key所set的值。
+mget
+语法： mget key [key]
+解释：批量获取key的值。程序一次获取多个值，可以减少网络连接损耗。
+getrange
+语法：getrange  key star end
+解释：获取存储在key中value的字串。字符串的截取有star和end决定，字符串的第一个字符编号是0，第二个是1，一次类推；如果是负数，-1是最后一个字符，-2是倒数第二个字符，一次类推。
+</code></pre>
+
+<p>修改相关命令</p>
+
+<pre><code>getset
+语法：getset key value
+解释：设置key的值，并返回key的旧值。
+append
+语法：append key value
+解释：key存在，在旧值的后面追加value；key不存在，直接set，返回长度。
+setrange (替换部分子串)
+语法：setrange  key offset value
+解释：用value重写key值的一部分，偏移量由offset指定 。
+Incr/decr
+语法：incr/decr  key
+解释：key中如果存储的是数字，则可以通过incr递增key的值，返回递增后的值。如果key不能存在，视为初始值为0。
+Incrby/decrby
+语法：incrby key increment
+解释：用指定的步长增加key存储的数字。如果步长increment是负数，则减。
+注意：递增递减系列的函数，只能对保存的是数字的key操作，不能是字符串。
+</code></pre>
+
+<p>删除及其它命令</p>
+
+<pre><code>del
+语法：del key [key]
+解释：删除指定的key，返回删除key的个数。
+</code></pre>
+
+<p>长度</p>
+
+<pre><code>strlen
+语法：strlen key
+解释：获取key中所存储值的长度。
+</code></pre>
+
+<p>场景案例</p>
+
+<pre><code>案例：博客系统的设计与开发
+需求与实现
+文章的访问量：定义键 post:articleID:pageView，通过INCR命令递增
+自增ID：定义键article:count，通过INCR递增
+存储文章的数据：伪代码如下
+首先获得新文章的ID
+              $postID = INCR posts:count
+将博客文章的诸多元素序列化成字符串
+              $serializedPost = serialize($title,$content,$author,$time)
+把序列化后的字符串存入一个字符串类型的键中
+              SET post:$postID:data,$serializedPost
+获取文章数据的伪代码
+从Redis中读取文章的数据
+              $serializePost=GET post:42:data
+将文章数据反序列化成文章的各个元素
+               $title,$content,$author,$time = unserialize($serializePost)
+获取并递增文章的访问量
+              $count=INCR post:42:pageView
+
+post:count        最后一次的文章ID
+post:42:data      序列化存储文章数据
+post:42:pageView  文章访问量
+
+组合使用多个字符串类型键来存储文章数据
+Post:42:title   第一篇日志
+Post:42:author  Michael
+Post:42:content 今天下雨了
+Post:42:time    2015-07-26
+</code></pre>
+
+<h4>Redis 的 Hash 类型的底层实现与操作命令</h4>
+
+<p>Redis hash 是一个 string 类型的 field 和 value 的映射表，一个 key 可对应多个
+field，一个 field 对应一个value。可以将 Redis 中的 Hash 类型看成具有 String
+Key 和 String  Value 的 map容器。将一个对象存储为 Hash 类型，较于每个字段
+都存储成 string 类型更能节省内存。每一个Hash可以存储2的32次幂 -1个键值对。</p>
+
+<p>Hash 对应 Value 内部实际就是一个 HashMap，实际这里会有2种不同实现，这个
+Hash的成员比较少时 Redis 为了节省内存会采用类似一维数组的方式来紧凑存储即
+zipmap（压缩列表），而不会采用真正的 HashMap 结构，对应的value
+redisObject 的 encoding为 zipmap，当成员数量增大时会自动转成真正的
+HashMap,此时 encoding 为ht。
+<img src="http://7xkc1x.com1.z0.glb.clouddn.com/struct_hash.png" alt="" />
+dict.h/dict 给出了这个字典的定义：</p>
+
+<pre><code>Typedef  struct  dict {
+ dictType *type;  // 特定于类型的处理函数
+ void *privdata;  // 类型处理函数的私有数据
+ dictht ht[2];       // 哈希表（2 个）
+ int rehashidx;  // 记录rehash 进度的标志，值为-1 表示rehash 未进行
+ int iterators;    // 当前正在运作的安全迭代器数量
+} dict;
+</code></pre>
+
+<p>字典所使用的哈希表实现由 dict.h/dictht 类型定义：</p>
+
+<pre><code>typedef struct dictht {
+     dictEntry  **table; // 哈希表节点指针数组（俗称桶，bucket）
+     unsigned long size; // 指针数组的大小
+     unsigned long sizemask; // 指针数组的长度掩码，用于计算索引值
+     unsigned long used; // 哈希表现有的节点数量
+  } dictht;
+</code></pre>
+
+<p>dictEntry 都保存着一个键值对，以及一个指向另一个 dictEntry 结构的指针:</p>
+
+<pre><code>typedef struct dictEntry {
+  void *key;// 键
+  union {
+     void *val;   …
+    } v; // 值
+  struct dictEntry *next;// 链往后继节点
+} dictEntry;
+</code></pre>
+
+<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/redis_hash_struct_pic.png" alt="" /></p>
+
+<p>新增相关命令</p>
+
+<pre><code>hset
+语法：hset key field value
+解释：设置hash表key中的field的值。如果hash表不存在，则创建，并执行设置field的值，如果hash表存在，值field的值覆盖或新增。
+hmset
+语法：hash key  field  value[key value]
+解释：批量设置hash表key的域。
+hsetnx
+语法：hsetnx key field value
+解释：仅仅当field域不存在时，设置hash表field的值。
+</code></pre>
+
+<p>查询相关命令</p>
+
+<pre><code>hget
+语法：hget key field
+解释：获取哈希表key的field值。
+hmget
+语法：hmget key
+hgetall
+语法：hgetall key
+解释：获取hash表的所有域值。
+hkeys
+语法：hkeys key
+解释：获取hash表的所有域。
+hvals
+语法：hvals key
+解释：获取hash表的所有域值。
+hexists
+语法：hexists key field
+解释：判断hash表中是否存在某个域。
+</code></pre>
+
+<p>修改相关命令</p>
+
+<pre><code>hincrby
+
+语法：hincrby key field increment
+解释：hash表field域的数值增加步长increment，如果increment是负值，则是递减。如果域不存在，初始值视为0。
+</code></pre>
+
+<p>删除及其它命令</p>
+
+<pre><code>hdel
+语法：hdel key field[field]
+解释：删除hash的域，如果指定多个field，则删除多个。
+</code></pre>
+
+<p>~</p>
+
+<pre><code>hlen
+语法：hlen key
+解释：获取hash的域数量。
+</code></pre>
+
+<p>场景案例
+<img src="http://7xkc1x.com1.z0.glb.clouddn.com/hash_post.jpg" alt="" /></p>
+
+<h4>List概念与底层实现</h4>
+
+<p>List是一个链表结构，主要功能是push、pop、获取一个范围的所有值等等，操作中key理解为链表的名字。Redis的list类型其实就是一个每个子元素都是string类型的双向链表。我们可以通过push、pop操作从链表的头部或者尾部添加删除元素， push和pop命令的算法时间复杂度都是O(1)，这样list既可以作为栈，又可以作为队列。链表的最大长度是2的32次幂-1。</p>
+
+<h4>List常用操作命令</h4>
+
+<p>LPUSH 与 LRANGE 命令</p>
+
+<pre><code>LPUSH
+语法：LPUSH  key   value
+解释：用来向列表左边增加元素，返回值表示增加元素后列表的长度；LPUSH命令还支持同时增加多个元素。
+
+LRANGE
+语法：LRANGE  key   start  end
+解释：用来获得列表中的某一片段，返回索引从 Start 到 end 之间的所有元素，索引从0开始。LRANGE 命令也支持负索引，-1表示最右边的元素，-2表示最右边倒数第2个元素。
+</code></pre>
+
+<p>RPUSH 与 LINSERT 命令</p>
+
+<pre><code>RPUSH
+语法：RPUSH  key   value
+解释：用来向列表右边增加元素，返回值表示增加元素后列表的长度；RPUSH命令还支持同时增加多个元素。
+LINSERT
+语法：LINSERT  key   BEFORE | AFTER  pivot  value
+解释：此命令首先会在列表中从左到右查找值为pivot的元素，然后根据第2个参数是BEFORE还是AFTER来决定将Value插入到前面还是后面。返回值是插入后元素的个数。
+</code></pre>
+
+<p>LPOP 与 RPOP 命令</p>
+
+<pre><code>LPOP/RPOP
+语法：LPOP/RPOP   key
+解释：LPOP命令可以从列表左边弹出一个元素；RPOP从列表右边弹出一个元素。
+LPOP和LPUSH配合，RPOP和RPUSH配合可以把列表当作栈使用；LPUSH和RPOP配合，RPUSH和LPOP配合可以把列表当作队列使用。
+</code></pre>
+
+<p>LREM 命令</p>
+
+<pre><code>LREM
+语法：LREM  key   count   value
+解释：LREM 命令会删除列表中前 count 个值为value 的元素，返回值是实际删除的元素的个数。
+当 count &gt;0时，从左边开始删除；
+当 count &lt;0时，从右边开始删除；
+当 count =0时，删除所有值为 value 的元素；
+</code></pre>
+
+<p>LTRIM 命令</p>
+
+<pre><code>LTRIM
+语法：LTRIM  key   start   end
+解释：LTRIM 命令会删除列表中指定索引范围外的所有元素，返回值即指定索引内的元素。LTRIM 命令常和 LPUSH命令一起使用来限制列表中元素的数量，比如记录日志时我们希望只保留最近的100条记录，则每次添加日志时调用一次 LTRIM 命令即可。
+</code></pre>
+
+<p>RPOPLPUSH 命令</p>
+
+<pre><code>RPOPLPUSH
+语法：RPOPLPUSH  src   dest
+解释：RPOPLPUSH 命令先从 src 列表的右边弹出一个元素，然后将其加入 dest 列表的左边，并返回这个元素的值。当把列表当作队列时，RPOPLPUSH 可以在多个队列中传递数据。当 src 与dest 相同时，此命令会不断的将队尾的元素移动到队首。
+</code></pre>
+
+<p>LINDEX 与 LSET命令</p>
+
+<pre><code>LINDEX
+语法：LINDEX  key  index
+解释：LINDEX 命令用来返回指定索引的元素，索引从0开始。
+LSET
+语法：LSET key  index  value
+解释：将索引为 index 的元素赋值为 value。
+</code></pre>
+
+<p>LLEN 命令</p>
+
+<h4>List的应用场景</h4>
+
+<pre><code>Redis list应用场景非常多,比如：
+微博的关注列表
+粉丝列表
+博客评论
+消息队列
+取最新 N  个数据的操作
+排行榜应用，取 TOP  N 操作
+</code></pre>
+
+<p>String 类型存储文章 ID 的弊端:</p>
+
+<pre><code>如何获取文章列表
+读取 post:count 键获得博客文章的最大 ID
+根据 ID 进行分页（假设每页10条），第 n 页的文章 ID 范围是“最大的文章ID-(n-1)*10”到“max(最大的文章 ID – n*10+1,1)”
+对每个ID使用HMGET命令来获取文章的数据，伪代码如下：
+
+# 每页显示10篇文章
+$postsPerPage  = 10
+# 获得最后发表的文章 ID
+$lastPostID = GET posts:count
+# 当前页码范围
+$start = $lastPostID – ($currentPage - 1) * $postsPerPage
+$end = max( $lastPostID – $currentPage  * $postsPerPage +1，1)
+
+# 遍历文章 ID 获取数据
+For $i = $start down to $end
+# 获取文章的标题和作者并打印出来
+post = HMGET post:$i，title，author
+         Print $post[0]
+         Print $post[1]
+缺点：删除文章时影响页码分布，都需要从最大文章 ID 开始遍历
+</code></pre>
+
+<p>List 类型存储文章 ID</p>
+
+<pre><code>使用列表类型键 posts:list 记录文章 ID
+LPUSH posts:list  文章ID
+LREM    posts:list  1  文章 ID
+# 使用 LRANGE 实现分页
+$postsPerPage  = 10
+$start =  ($currentPage - 1) * $postsPerPage
+$end =  $currentPage  * $postsPerPage  - 1
+$postsID = LRANGE posts:list，$start，$end
+
+# 获取需要显示文章的 ID 列表
+For   each   $id   in   $postsID
+          $post = HGETALL post:$id
+           print  文章标题：$post.title
+</code></pre>
+
+<p>缺点： 文档内容较多的时候，访问中间的内容性能比较差。因为LIST是通过链表实现的，所以访问中间元素时，效率不高； 解决方法，使用有序集合来存储文章ID.</p>
+
+<p>List 类型存储文章评论</p>
+
+<pre><code># 使用列表类型键post：文章 ID：comments来存储文章的评论
+$serializedComment = serialize($author，$email，$time，$content)
+LPUSH  post:42:comments，$serializedComment
+读取评论时使用 LRANGE 命令
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/24/redis_setup_config/">Redis的安装与配置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-24T10:36:56+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:36 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Redis 的历史与特性</h1>
+
+<p>Redis 是Remote Dictionary Server的缩写，Redis是一个<strong>开源、基于C语言、基于内存可持久化</strong>的高性能NoSQL的<strong>键值对</strong>数据库。在众多场合中均可使用Redis代替传统的数据库或缓存系统。</p>
+
+<p>与Memcache类似的NoSQL型数据库，但它的数据可以持久化的保存在磁盘上，解决了服务重启后数据不丢失的问题。</p>
+
+<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/show_redis.jpg" alt="" /></p>
+
+<p>2015年Redis3.0.1 发布
+    Redis 3.0 最重要的特征是对Redis集群的支持
+Redis约定<strong>次版本号</strong>为偶数的版本是稳定版</p>
+
+<p>主要特性：</p>
+
+<ul>
+<li>存储结构丰富</li>
+<li>内存存储与持久化： 1s内读写10万个键值，异步写入硬盘；</li>
+<li>功能丰富：可用于数据库，缓存系统，队列</li>
+<li>简单稳定</li>
+</ul>
+
+
+<h1>安装</h1>
+
+<p>安装最新版本的3.0， <a href="http://redis.io/download">http://redis.io/download</a></p>
+
+<pre><code>apt-get install make gcc
+wget http://download.redis.io/releases/redis-3.0.3.tar.gz
+tar xzf redis-3.0.3.tar.gz
+cd redis-3.0.3/src
+make install
+</code></pre>
+
+<h3>Redis可执行文件</h3>
+
+<p>redis-cli  #客户端
+redis-server #服务器</p>
+
+<pre><code>ls /usr/local/bin/redis*
+
+cd ..
+mkdir /etc/redis
+cp redis.conf /etc/redis/6379.conf
+
+cd utils/
+cp redis_init_script /etc/init.d/redisd
+
+sudo update-rc.d redisd defaults
+service redisd start
+</code></pre>
+
+<h3>启动方法</h3>
+
+<ol>
+<li>redis-server&amp;
+
+<ul>
+<li>ps -ef |grep redis 检测后台进程是否存在</li>
+<li>netstat -tunpl |grep 6379  检测6379端口是否在监听</li>
+<li>redis-cli检测， shutdown退出</li>
+</ul>
+</li>
+<li><p>指定配置文件启动</p>
+
+<p> redis-server /usr/local/redis/etc/redis.conf</p>
+
+<p> 修改配置文件 daemonize yes</p></li>
+<li><p>使用Redis启动脚本设置开机启动</p></li>
+</ol>
+
+
+<p>启动脚本位于redis_init_script位于安装目录的/utils目录下，</p>
+
+<pre><code>-   新建目录/etc/redis
+-   复制redis.conf到/etc/redis/重命名为6379.conf
+-   修改6379.conf配置
+-   复制redis_init_script脚本文件复制到/etc/init.d目录中，并重命名redisd
+-   执行随系统自动启动命令 
+    -   sudo update-rc.d redisd defaults
+    -   service redisd start
+</code></pre>
+
+<h3>停止方法</h3>
+
+<ol>
+<li>退出客户端用CTRL + C</li>
+<li>在客户端下，执行SHUTDOWN，停止服务</li>
+<li>kill -9 PID</li>
+</ol>
+
+
+<h3>redis 的配置</h3>
+
+<p>redis.conf #redis server的配置文件</p>
+
+<p>sentinel.conf #redis sentine配置文件，用于监控</p>
+
+<ul>
+<li>基本项配置</li>
+<li><strong>持久化（Persistence）</strong>相关配置</li>
+<li><strong>Replication配置</strong></li>
+<li>Security配置</li>
+<li>Limit配置</li>
+<li>SlowLog配置</li>
+<li>Advanced配置</li>
+<li>INCLUEDS配置
+
+<h5>基本配置</h5></li>
+<li>daemonize 如果需要在后台运行，把该项改为yes</li>
+<li>pidfile 配置多个pid地址， 默认在/var/run/redis.pid</li>
+<li>bind  绑定ip， 设置后只接受来自该ip的请求</li>
+<li>port 监听端口，默认6379</li>
+<li>timeout 设置客户端连接的超时时间，单位为秒</li>
+<li>loglevel分为4级， debug， verbose, notice, warning</li>
+<li>logfile 配置log文件地址</li>
+</ul>
+
+
+<p>总结: 上述配置基本项中，port为必配项，其余项一般情况下保持默认即可。</p>
+
+<h5>持久化配置项目</h5>
+
+<ul>
+<li>databases 设置数据库的个数， 默认使用的数据库为0</li>
+<li>save 设置redis进行数据库镜像的频率</li>
+<li>rdbcompression 在进行镜像备份时，是否进行压缩</li>
+<li>Dbfilename 镜像备份文件的文件名</li>
+<li>Dir 数据库镜像备份的文件放置路径
+
+<h5>Limit配置项目</h5>
+
+maxclients 客户端的并发连接数，默认10000
+maxmemory配置Redis Server可占用的最大内存
+
+<h5>Security配置项</h5>
+
+<p>Requirepass 设置登录时需要使用的密码</p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/23/mysql-study/">MySQL数据库管理</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-23T17:26:01+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>5:26 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>MySQL权限</h3>
+
+<p>创建用户</p>
+
+<pre><code>grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
+grant select on jikedb.* to webuser@localhost identified by '123';
+</code></pre>
+
+<p>刷新权限</p>
+
+<pre><code>flush privileges;
+</code></pre>
+
+<p>回收权限</p>
+
+<pre><code>revoke select on jikedb.* from webuser@localhost;
+</code></pre>
+
+<p>删除用户</p>
+
+<pre><code>drop user webuser@localhost;
+</code></pre>
+
+<p>查看用户权限</p>
+
+<pre><code>show grants for root@localhost;
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/23/thinkphp/">Thinkphp</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-23T11:55:43+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:55 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>前言</h1>
+
+<p>PHP 作为一种广泛用于 Web 服务器端的脚本语言，在敏捷 Web 开发方面有独特的优势，成功案例多、社区活跃、资源丰富，框架也非常多。ThinkPHP 作为一款起步较早、相对成熟的国产 PHP 框架，在国内有相当的用户量，借这个机会向大家介绍 ThinkPHP 基础知识，为后续的项目实战做好准备。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a></h1>
     
     
@@ -119,7 +797,7 @@ sudo apt-get install mariadb-server
 
 <p>这样 MariaDB 5.5 就已经安装成功，你就可以像使用 MySQL 那样对它进行配置和使用了。</p>
 
-<p>使用mysql -uroot -p1234测试。</p>
+<p>使用mysql -h -uroot -p1234测试。</p>
 </div>
   
   
@@ -1451,272 +2129,9 @@ git init &ndash;bare</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/17/octopress-blog/">使用Octopress在GitHub上搭建静态博客</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-17T12:52:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:52 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>前言</h1>
-
-<p>本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程及博客的迁移。 在继续看本文之前，请先确定你具有折腾的精神。</p>
-
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/ctooctopress.jpg" alt="image" /></p>
-
-<h1>介绍</h1>
-
-<p><a href="https://github.com/imathis/octopress">Octopress</a>是一个基于Ruby语言的开源静态网站框架， 所谓静态，是指网站的所有内容都是生成好的静态HTML，不含任何后台处理程序，也没有数据库。 这样的好处是不会读取数据库，也不会有脚本编译，所以网站的加载速度会非常快，整体程序规模也非常轻量级。</p>
-
-<p><a href="https://pages.github.com/">Github Pages</a>是Github上的一项服务， 注册用户可以申请一个和自己账号关联的二级域名， 在上面可以托管一个静态网站，网站内容本身就是Github的一个repository也就是项目， 维护这个项目的代码就是在维护自己的网站。
-此外，用户撰写日志使用的是Markdown语法。这是一种极简化的语法， 它的好处在于可以以纯文本形式表现文章，用户不用关心排版的问题。 基本上来说它相当于HTML标签的最小子集做了一个转义。</p>
-
-<p>综上所述，你将获得一个这样的博客</p>
-
-<ul>
-<li>命令行操作</li>
-<li>纯文本写博客</li>
-<li>定制性高</li>
-<li>纯静态</li>
-<li>尤其适合程序员</li>
-<li>版本化管理</li>
-<li>迁移成本低</li>
-<li>简洁的 Ruby 框架</li>
-<li><a href="http://www.appinn.com/markdown/">Markdown</a> 语法</li>
-</ul>
-
-
-<h1>安装</h1>
-
-<ul>
-<li>Git：版本管理工具，将代码托管到 GitHub</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ruby</span> <span class="o">-</span><span class="n">v</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Ruby + DevKit：生成静态网页</li>
-<li>MarkdownPad：Windows 下 Markdown 语法编辑器</li>
-<li><strong>安装 Octopress</strong></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#1.克隆 Octopress 至本地</span>
-</span><span class='line'><span class="n">git</span> <span class="nb">clone</span> <span class="ss">git</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">imathis</span><span class="o">/</span><span class="n">octopress</span><span class="o">.</span><span class="n">git</span> <span class="n">octopress</span>
-</span><span class='line'><span class="c1">#2.参考 ruby.taobao.org, 配置RubyGems 镜像</span>
-</span><span class='line'><span class="c1">#3.安装依赖项</span>
-</span><span class='line'><span class="n">gem</span> <span class="n">install</span> <span class="n">bundler</span>
-</span><span class='line'><span class="n">bundle</span> <span class="n">install</span>
-</span><span class='line'><span class="c1">#4.安装并使用默认主题</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">install</span>
-</span><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">rails</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Pygments: Jekyll 里默认的语法高亮插件是 Pygments
-
-<ul>
-<li>安装 Python</li>
-<li>安装 ‘Easy Install’</li>
-<li>安装 Pygments</li>
-</ul>
-</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">python</span> <span class="o">-</span><span class="n">V</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>部署博客至 GitHub</h1>
-
-<p>1.新建仓库
-    username.github.io</p>
-
-<p>2.与本地 Octopress 目录绑定</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">setup_github_pages</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>托管源码至 GitHub</h2>
-
-<p>将 source 目录更新到远程仓库</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
-</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s1">&#39;your message&#39;</span>
-</span><span class='line'><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">source</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>相关配置</h1>
-
-<p><strong>多说评论</strong></p>
-
-<p><strong>JiaThis分享</strong></p>
-
-<p><strong>自定义 404 页面</strong></p>
-
-<p><strong>自定义导航</strong></p>
-
-<p><strong>主配置文件</strong></p>
-
-<p>在 _config.yml 文件中，设置 url、title、author 等基本信息</p>
-
-<h2>GitHub 上找主题文件</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">install</span><span class="o">[</span><span class="s1">&#39;themename&#39;</span><span class="o">]</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">generate</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>在 GitHub 上绑定自定义域名</h2>
-
-<p>创建 source/CNAME 文件并指定域名</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s1">&#39;hanfeng.com&#39;</span> &gt;&gt; <span class="nb">source</span>/CNAME
-</span><span class='line'><span class="c"># OR</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s1">&#39;tech.hanfeng.name&#39;</span> &gt;&gt; <span class="nb">source</span>/CNAME
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>解析域名至 GitHub</p>
-
-<ul>
-<li><p>使用子域名
-对于子域名(www.hanfeng.name)，创建 CNAME 记录指向 fenghan.github.io</p></li>
-<li><p>使用顶级域名
-对于顶级域名(hanfeng.name)，使用 A 记录指向 192.30.252.153(154)</p></li>
-</ul>
-
-
-<h1>常用目录</h1>
-
-<p>source  存放程序、博客源码
-public  存放生成的静态网站</p>
-
-<h1>国内访问加速</h1>
-
-<p><strong>修改字体</strong>：</p>
-
-<p>source/_includes/custom/head.html,</p>
-
-<p>将其中的<a href="https://fonts.googleapis.com">https://fonts.googleapis.com</a> 改为 <a href="http://fonts.useso.com">http://fonts.useso.com</a> 即可。</p>
-
-<p><strong>jquery库</strong>:</p>
-
-<p>/source/_includes/head.html,把google的jQuery库改为libs.baidu.com的</p>
-
-<p><strong>关闭twitter</strong>:</p>
-
-<p>_config.yml中twitter_tweet_butto改为false即可</p>
-
-<h1>SEO</h1>
-
-<p>使用百度统计工具进行统计</p>
-
-<h1>常用命令</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">new_page</span><span class="o">[</span><span class="s1">&#39;about&#39;</span><span class="o">]</span>           
-</span><span class='line'><span class="c1">#creates /source/about/index.markdown</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">new_post</span><span class="o">[</span><span class="s1">&#39;octopress-blog&#39;</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">generate</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">preview</span>
-</span><span class='line'><span class="c1">#本地localhost:4000</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>
-</span><span class='line'><span class="c1">#发布代码到Git Pages上</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>博客迁移</h1>
-
-<p>如果本地已经配置过octopress，只是把octopress删掉重装
-将source和master分支下的内容clone到本地即可(不需要再到官网上去clone全新的octopress)，具体作法：</p>
-
-<p>1）首先将博客源文件clone到本地的octopress文件夹内。</p>
-
-<pre><code>$ git clone -b source git@github.com:FengHan/fenghan.github.io.git octopress
-</code></pre>
-
-<p>2）将博客源文件clone到octopress的——deploy文件夹内。</p>
-
-<pre><code>$ cd octopress
-$ git clone git@github.com:FengHan/fenghan.github.io.git _deploy 
-</code></pre>
-
-<p>执行完这两步就OK了。</p>
-
-<h1>参考链接</h1>
-
-<p>软件安装： <a href="http://blog.csdn.net/kong5090041/article/details/38408211">oukongli的专栏</a></p>
-
-<p>SEO参考： <a href="http://yidao620c.github.io/blog/20150318/octopress-blog.html">笨跑的一刀</a></p>
-
-<p> <a href="http://pan.baidu.com/s/1bndNlTl">软件下载</a>   密码: e3p3</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/posts/2">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -1729,23 +2144,23 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/24/redis-data-type/">Redis的数据类型(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/24/redis_setup_config/">Redis的安装与配置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/23/mysql-study/">MySQL数据库管理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/23/thinkphp/">Thinkphp</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/22/vagrant-lnmp/">使用Vagrant搭建本地Ubuntu开发环境</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/21/docker-summary/">Docker小结</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/19/docker/">认识Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/19/nginx_php5-fpm/">在Ubuntu上搭建Nginx + Php5-fpm</a>
       </li>
     
   </ul>
