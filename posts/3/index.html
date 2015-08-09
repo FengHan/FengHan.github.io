@@ -9,7 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做MariDB 安装 首先从 MariaDB 下载页面 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令 &hellip;">
+  <meta name="description" content="成为一名PHP开发者要学习哪些内容？ 活到老，学到老，作为开发者，要不断地学习，那应该怎样学习呢？ ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/26/learn-php/">PHP开发工程师</a></h1>
     
     
       <p class="meta">
@@ -91,35 +91,20 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-23T10:50:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:50 am</span></time>
+<time class='entry-date' datetime='2015-07-26T22:22:29+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:22 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
+  <div class="entry-content"><p>成为一名PHP开发者要学习哪些内容？</p>
 
-<p>MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做<a href="https://mariadb.org/">MariDB</a></p>
+<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/what_shoud_learn_for_phper.jpg" alt="" /></p>
 
-<h1>安装</h1>
+<p>活到老，学到老，作为开发者，要不断地学习，那应该怎样学习呢？</p>
 
-<p>首先从 <a href="http://downloads.mariadb.org/mariadb/repositories/">MariaDB 下载页面</a> 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令</p>
-
-<pre><code>sudo apt-get install software-properties-common
-sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-sudo add-apt-repository 'deb http://mirrors.hustunique.com/mariadb/repo/5.5/ubuntu trusty main'
-</code></pre>
-
-<p>开始安装</p>
-
-<pre><code>sudo apt-get update
-sudo apt-get install mariadb-server
-</code></pre>
-
-<p>这样 MariaDB 5.5 就已经安装成功，你就可以像使用 MySQL 那样对它进行配置和使用了。</p>
-
-<p>使用mysql -h -uroot -p1234测试。</p>
+<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/how_to_learn_php.jpg" alt="" /></p>
 </div>
   
   
@@ -132,7 +117,7 @@ sudo apt-get install mariadb-server
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/22/vagrant-lnmp/">使用Vagrant搭建本地Ubuntu开发环境</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/26/composer/">Composer</a></h1>
     
     
       <p class="meta">
@@ -141,152 +126,23 @@ sudo apt-get install mariadb-server
 
 
 
-<time class='entry-date' datetime='2015-07-22T14:13:27+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>2:13 pm</span></time>
+<time class='entry-date' datetime='2015-07-26T19:45:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:45 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
+  <div class="entry-content"><p><a href="http://www.phpcomposer.com/composer-the-new-age-of-dependency-manager-for-php/">参考链接</a></p>
 
-<p>使用PHP做Web开发已有4年，4年间只有第二年是在Ubuntu下开发，其它都是在Windows下开发，但Win下开发有如下缺点：</p>
+<p>全局安装：</p>
 
-<ol>
-<li>Windows 不区分大小写，在Win下OK, 上传到服务器上有了Bug。</li>
-<li>Windows 不能测试cron是否写得正确，执行php-cli麻烦</li>
-<li>开发环境与生产环境不同，莫名的产生了一些Bug</li>
-<li>自己的Linux水平下降，对服务器的一些配置慢慢感到了生疏。</li>
-</ol>
-
-
-<p>但在Ubuntu下开发，也有问题：</p>
-
-<ol>
-<li>不习惯的编辑器，那时使用IDEA作为编辑器，真心不好用。</li>
-<li>当初用Word写文档，Ubuntu里没有。（现在用Markdown了）</li>
-<li>团队开发使用QQ作为通讯工具，还要装一个QQ。（QQ真不适合作为沟通工具，其它无关内容总分心）</li>
-</ol>
-
-
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_vagrant.png" alt="" /></p>
-
-<h1>Vagrant优点</h1>
-
-<p><a href="http://docs.vagrantup.com/">Vagrant</a>是用来管理虚拟机的，它有如下好处：</p>
-
-<ol>
-<li>对于开发人员来说，Vagrant可以帮你统一团队成员的开发环境。</li>
-<li>对于运维人员来说，Vagrant可以给你提供一个与线上一致的测试环境。</li>
-<li>对于设计人员来说，Vagrant可以让你只需要专注在设计上。</li>
-</ol>
-
-
-<p>Vagrant适合用来管理虚拟机，而Docker适合用来管理应用环境。</p>
-
-<h3>需要安装的软件：</h3>
-
-<ul>
-<li>Vagrant</li>
-<li>Virtual Box</li>
-<li>putty</li>
-<li>box <a href="https://atlas.hashicorp.com/boxes/search">虚拟机镜像查看</a></li>
-</ul>
-
-
-<p>添加box ubuntu/trusty64</p>
-
-<pre><code>vagrant version
-#查看版本
-
-vagrant add box ubuntu/trusty64
-# download the box named "ubuntu/trusty64" from Internet
-#下载ubuntu14.04 lts(long term supporting)
+<pre><code>$ curl -sS https://getcomposer.org/installer | php
+$ mv composer.phar /usr/local/bin/composer
 </code></pre>
 
-<p>添加的boxes会被多个项目重复利用。每个项目都会克隆它，而不会修改它。两个项目之间不会相互影响</p>
-
-<pre><code>vagrant box list
-#查看box列表
-
-vagrant init ubuntu/trusty64; 
-vagrant init
-
-vagrant up --provider virtualbox
-vagrant up
-
-vagrant ssh
-</code></pre>
-
-<p>bootstrap.sh 文件</p>
-
-<pre><code>#!/usr/bin/env bash
-
-apt-get update
-apt-get install -y apache2
-if ! [ -L /var/www ]; then
-  rm -rf /var/www
-  ln -fs /vagrant /var/www
-fi
-</code></pre>
-
-<p>Vagrantfile文件 配置文件</p>
-
-<pre><code>Vagrant.configure("2") do |config|
-   config.vm.box = "hashicorp/precise32"
-   config.vm.provision :shell, path: "bootstrap.sh"
-   config.vm.network :forwarded_port, guest: 80, host: 4567
-   config.vm.network :private_network, ip: "192.168.33.10"
-   #重启虚拟机，这样我们就能用 192.168.33.10 访问这台机器了，你可以把 IP 改成其他地址，只要不产生冲突就行。
-end
-</code></pre>
-
-<p>vagrant load &ndash;provision</p>
-
-<p>vagrant login
-输入用户名和密码</p>
-
-<p>vagrant share</p>
-
-<p>将产生一个网址，互联网上的其他人能够访问</p>
-
-<h3>停止工作</h3>
-
-<pre><code>vagrant suspend
-vagrant halt
-vagrant destroy
-</code></pre>
-
-<h3>打包分发</h3>
-
-<pre><code>vagrant package
-vagrant package --output NAME 导出box (NAME.box)
-</code></pre>
-
-<p>打包完成后会在当前目录生成一个 package.box 的文件，将这个文件传给其他用户，其他用户只要添加这个 box 并用其初始化自己的开发目录就能得到一个一模一样的开发环境了。</p>
-
-<h3>注意事项</h3>
-
-<p>使用 Apache/Nginx 时会出现诸如图片修改后但页面刷新仍然是旧文件的情况，是由于静态文件缓存造成的。需要对虚拟机里的 Apache/Nginx 配置文件进行修改：</p>
-
-<pre><code># Apache 配置添加:
-EnableSendfile off
-
-# Nginx 配置添加:
-sendfile off;
-</code></pre>
-
-<h3>补充</h3>
-
-<p>Putty工具连接：</p>
-
-<p>注：虚拟机的默认IP|Port：127.0.0.1:2222   用户：vagrant | root   密码：vagrant</p>
-
-<h3>参考链接</h3>
-
-<p><a href="http://www.ciandt.com.cn/blog/how-to-use-vagrant-build-drupal-development-environment-windows">CI&amp;T: 使用VAGRANT构建DRUPAL本地开发环境 - WINDOWS</a></p>
-
-<p><a href="http://segmentfault.com/a/1190000000264347">使用 Vagrant 打造跨平台开发环境</a></p>
+<p>Composer 中国镜像
+    composer config -g repositories.packagist composer <a href="http://packagist.phpcomposer.com">http://packagist.phpcomposer.com</a></p>
 </div>
   
   
@@ -311,6 +167,34 @@ sendfile off;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/09/laravel-homestead/">使用homestead搭建本地Laravel开发环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/29/c-difficult/">C语言学习中的难重点</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/27/qcloud/">腾讯云主机免费试用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/27/ssh-server/">Ubuntu 14.04远程登录服务器--ssh的安装和配置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/26/learn-php/">PHP开发工程师</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/26/composer/">Composer</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/26/yii/">Yii 2.0框架</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/24/redis-data-type/">Redis的数据类型(一)</a>
       </li>
     
@@ -320,34 +204,6 @@ sendfile off;
     
       <li class="post">
         <a href="/blog/2015/07/23/mysql-study/">MySQL数据库管理</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/23/thinkphp/">Thinkphp</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/22/vagrant-lnmp/">使用Vagrant搭建本地Ubuntu开发环境</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/21/docker-summary/">Docker小结</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/19/docker/">认识Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/19/nginx_php5-fpm/">在Ubuntu上搭建Nginx + Php5-fpm</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/18/git-local/">Git的本地操作</a>
       </li>
     
   </ul>

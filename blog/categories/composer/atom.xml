@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Composer | hanfeng.name]]></title>
+  <link href="http://fenghan.github.io/blog/categories/composer/atom.xml" rel="self"/>
+  <link href="http://fenghan.github.io/"/>
+  <updated>2015-08-09T15:21:20+08:00</updated>
+  <id>http://fenghan.github.io/</id>
+  <author>
+    <name><![CDATA[HanFeng]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Composer]]></title>
+    <link href="http://fenghan.github.io/blog/2015/07/26/composer/"/>
+    <updated>2015-07-26T19:45:50+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/07/26/composer</id>
+    <content type="html"><![CDATA[<p><a href="http://www.phpcomposer.com/composer-the-new-age-of-dependency-manager-for-php/">参考链接</a></p>
+
+<p>全局安装：</p>
+
+<pre><code>$ curl -sS https://getcomposer.org/installer | php
+$ mv composer.phar /usr/local/bin/composer
+</code></pre>
+
+<p>Composer 中国镜像
+    composer config -g repositories.packagist composer <a href="http://packagist.phpcomposer.com">http://packagist.phpcomposer.com</a></p>
+]]></content>
+  </entry>
+  
+</feed>

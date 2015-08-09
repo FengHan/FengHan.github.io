@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ssh | hanfeng.name]]></title>
+  <link href="http://fenghan.github.io/blog/categories/ssh/atom.xml" rel="self"/>
+  <link href="http://fenghan.github.io/"/>
+  <updated>2015-08-09T15:21:20+08:00</updated>
+  <id>http://fenghan.github.io/</id>
+  <author>
+    <name><![CDATA[HanFeng]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu 14.04远程登录服务器--ssh的安装和配置]]></title>
+    <link href="http://fenghan.github.io/blog/2015/07/27/ssh-server/"/>
+    <updated>2015-07-27T15:22:47+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/07/27/ssh-server</id>
+    <content type="html"><![CDATA[<pre><code>sudo apt-get update
+sudo apt-get install openssh-server
+sudo ps -e |grep ssh
+
+#没有启动，输入
+service ssh start
+</code></pre>
+
+<p>vi /etc/ssh/sshd_config</p>
+
+<p>把配置文件中的"PermitRootLogin without-password"加一个"#&ldquo;号,把它注释掉&ndash;>再增加一句"PermitRootLogin yes&rdquo;&ndash;>保存，修改成功。</p>
+]]></content>
+  </entry>
+  
+</feed>

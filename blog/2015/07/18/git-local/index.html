@@ -453,6 +453,14 @@ git init &ndash;bare</p>
 </span><span class='line'>git reset --soft HEAD@{5}
 </span><span class='line'>#都不还原</span></code></pre></td></tr></table></div></figure>
 
+
+<pre><code>touch README.md //新建说明文件
+git init //在当前项目目录中生成本地git管理,并建立一个隐藏.git目录
+git add . //添加当前目录中的所有文件到索引
+git commit -m "first commit" //提交到本地源码库，并附加提交注释
+git remote add origin https://github.com/chape/test.git //添加到远程项目，别名为origin
+git push -u origin master //把本地源码库push到github 别名为origin的远程项目中，确认提交
+</code></pre>
 </div>
 
 
@@ -542,6 +550,34 @@ var duoshuoQuery = {short_name:"fenghan"};
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/09/laravel-homestead/">使用homestead搭建本地Laravel开发环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/29/c-difficult/">C语言学习中的难重点</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/27/qcloud/">腾讯云主机免费试用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/27/ssh-server/">Ubuntu 14.04远程登录服务器--ssh的安装和配置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/26/learn-php/">PHP开发工程师</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/26/composer/">Composer</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/26/yii/">Yii 2.0框架</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/24/redis-data-type/">Redis的数据类型(一)</a>
       </li>
     
@@ -551,34 +587,6 @@ var duoshuoQuery = {short_name:"fenghan"};
     
       <li class="post">
         <a href="/blog/2015/07/23/mysql-study/">MySQL数据库管理</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/23/thinkphp/">Thinkphp</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/22/vagrant-lnmp/">使用Vagrant搭建本地Ubuntu开发环境</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/21/docker-summary/">Docker小结</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/19/docker/">认识Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/19/nginx_php5-fpm/">在Ubuntu上搭建Nginx + Php5-fpm</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/18/git-local/">Git的本地操作</a>
       </li>
     
   </ul>

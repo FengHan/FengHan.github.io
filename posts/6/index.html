@@ -9,7 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程及博客的迁移。 在继续看本文之前，请先确定你具有折腾的精神。 介绍 &hellip;">
+  <meta name="description" content="前言 PHP 作为一种广泛用于 Web 服务器端的脚本语言，在敏捷 Web 开发方面有独特的优势，成功案例多、社区活跃、资源丰富，框架也非常多。ThinkPHP 作为一款起步较早、相对成熟的国产 PHP 框架，在国内有相当的用户量，借这个机会向大家介绍 ThinkPHP 基础知识， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/17/octopress-blog/">使用Octopress在GitHub上搭建静态博客</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/23/thinkphp/">Thinkphp</a></h1>
     
     
       <p class="meta">
@@ -91,7 +91,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-17T12:52:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:52 pm</span></time>
+<time class='entry-date' datetime='2015-07-23T11:55:43+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:55 am</span></time>
         
       </p>
     
@@ -100,241 +100,57 @@ var _hmt = _hmt || [];
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程及博客的迁移。 在继续看本文之前，请先确定你具有折腾的精神。</p>
+<p>PHP 作为一种广泛用于 Web 服务器端的脚本语言，在敏捷 Web 开发方面有独特的优势，成功案例多、社区活跃、资源丰富，框架也非常多。ThinkPHP 作为一款起步较早、相对成熟的国产 PHP 框架，在国内有相当的用户量，借这个机会向大家介绍 ThinkPHP 基础知识，为后续的项目实战做好准备。</p>
+</div>
+  
+  
 
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/ctooctopress.jpg" alt="image" /></p>
 
-<h1>介绍</h1>
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a></h1>
+    
+    
+      <p class="meta">
+        
 
-<p><a href="https://github.com/imathis/octopress">Octopress</a>是一个基于Ruby语言的开源静态网站框架， 所谓静态，是指网站的所有内容都是生成好的静态HTML，不含任何后台处理程序，也没有数据库。 这样的好处是不会读取数据库，也不会有脚本编译，所以网站的加载速度会非常快，整体程序规模也非常轻量级。</p>
 
-<p><a href="https://pages.github.com/">Github Pages</a>是Github上的一项服务， 注册用户可以申请一个和自己账号关联的二级域名， 在上面可以托管一个静态网站，网站内容本身就是Github的一个repository也就是项目， 维护这个项目的代码就是在维护自己的网站。
-此外，用户撰写日志使用的是Markdown语法。这是一种极简化的语法， 它的好处在于可以以纯文本形式表现文章，用户不用关心排版的问题。 基本上来说它相当于HTML标签的最小子集做了一个转义。</p>
 
-<p>综上所述，你将获得一个这样的博客</p>
 
-<ul>
-<li>命令行操作</li>
-<li>纯文本写博客</li>
-<li>定制性高</li>
-<li>纯静态</li>
-<li>尤其适合程序员</li>
-<li>版本化管理</li>
-<li>迁移成本低</li>
-<li>简洁的 Ruby 框架</li>
-<li><a href="http://www.appinn.com/markdown/">Markdown</a> 语法</li>
-</ul>
+<time class='entry-date' datetime='2015-07-23T10:50:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:50 am</span></time>
+        
+      </p>
+    
+  </header>
 
+
+  <div class="entry-content"><h1>前言</h1>
+
+<p>MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做<a href="https://mariadb.org/">MariDB</a></p>
 
 <h1>安装</h1>
 
-<ul>
-<li>Git：版本管理工具，将代码托管到 GitHub</li>
-</ul>
+<p>首先从 <a href="http://downloads.mariadb.org/mariadb/repositories/">MariaDB 下载页面</a> 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令</p>
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ruby</span> <span class="o">-</span><span class="n">v</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Ruby + DevKit：生成静态网页</li>
-<li>MarkdownPad：Windows 下 Markdown 语法编辑器</li>
-<li><strong>安装 Octopress</strong></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#1.克隆 Octopress 至本地</span>
-</span><span class='line'><span class="n">git</span> <span class="nb">clone</span> <span class="ss">git</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">imathis</span><span class="o">/</span><span class="n">octopress</span><span class="o">.</span><span class="n">git</span> <span class="n">octopress</span>
-</span><span class='line'><span class="c1">#2.参考 ruby.taobao.org, 配置RubyGems 镜像</span>
-</span><span class='line'><span class="c1">#3.安装依赖项</span>
-</span><span class='line'><span class="n">gem</span> <span class="n">install</span> <span class="n">bundler</span>
-</span><span class='line'><span class="n">bundle</span> <span class="n">install</span>
-</span><span class='line'><span class="c1">#4.安装并使用默认主题</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">install</span>
-</span><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">rails</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Pygments: Jekyll 里默认的语法高亮插件是 Pygments
-
-<ul>
-<li>安装 Python</li>
-<li>安装 ‘Easy Install’</li>
-<li>安装 Pygments</li>
-</ul>
-</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">python</span> <span class="o">-</span><span class="n">V</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>部署博客至 GitHub</h1>
-
-<p>1.新建仓库
-    username.github.io</p>
-
-<p>2.与本地 Octopress 目录绑定</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">setup_github_pages</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>托管源码至 GitHub</h2>
-
-<p>将 source 目录更新到远程仓库</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
-</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s1">&#39;your message&#39;</span>
-</span><span class='line'><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">source</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>相关配置</h1>
-
-<p><strong>多说评论</strong></p>
-
-<p><strong>JiaThis分享</strong></p>
-
-<p><strong>自定义 404 页面</strong></p>
-
-<p><strong>自定义导航</strong></p>
-
-<p><strong>主配置文件</strong></p>
-
-<p>在 _config.yml 文件中，设置 url、title、author 等基本信息</p>
-
-<h2>GitHub 上找主题文件</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">install</span><span class="o">[</span><span class="s1">&#39;themename&#39;</span><span class="o">]</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">generate</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>在 GitHub 上绑定自定义域名</h2>
-
-<p>创建 source/CNAME 文件并指定域名</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s1">&#39;hanfeng.com&#39;</span> &gt;&gt; <span class="nb">source</span>/CNAME
-</span><span class='line'><span class="c"># OR</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s1">&#39;tech.hanfeng.name&#39;</span> &gt;&gt; <span class="nb">source</span>/CNAME
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>解析域名至 GitHub</p>
-
-<ul>
-<li><p>使用子域名
-对于子域名(www.hanfeng.name)，创建 CNAME 记录指向 fenghan.github.io</p></li>
-<li><p>使用顶级域名
-对于顶级域名(hanfeng.name)，使用 A 记录指向 192.30.252.153(154)</p></li>
-</ul>
-
-
-<h1>常用目录</h1>
-
-<p>source  存放程序、博客源码
-public  存放生成的静态网站</p>
-
-<h1>国内访问加速</h1>
-
-<p><strong>修改字体</strong>：</p>
-
-<p>source/_includes/custom/head.html,</p>
-
-<p>将其中的<a href="https://fonts.googleapis.com">https://fonts.googleapis.com</a> 改为 <a href="http://fonts.useso.com">http://fonts.useso.com</a> 即可。</p>
-
-<p><strong>jquery库</strong>:</p>
-
-<p>/source/_includes/head.html,把google的jQuery库改为libs.baidu.com的</p>
-
-<p><strong>关闭twitter</strong>:</p>
-
-<p>_config.yml中twitter_tweet_butto改为false即可</p>
-
-<h1>SEO</h1>
-
-<p>使用百度统计工具进行统计</p>
-
-<h1>常用命令</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">new_page</span><span class="o">[</span><span class="s1">&#39;about&#39;</span><span class="o">]</span>           
-</span><span class='line'><span class="c1">#creates /source/about/index.markdown</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">new_post</span><span class="o">[</span><span class="s1">&#39;octopress-blog&#39;</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">generate</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">preview</span>
-</span><span class='line'><span class="c1">#本地localhost:4000</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>
-</span><span class='line'><span class="c1">#发布代码到Git Pages上</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>博客迁移</h1>
-
-<p>如果本地已经配置过octopress，只是把octopress删掉重装
-将source和master分支下的内容clone到本地即可(不需要再到官网上去clone全新的octopress)，具体作法：</p>
-
-<p>1）首先将博客源文件clone到本地的octopress文件夹内。</p>
-
-<pre><code>$ git clone -b source git@github.com:FengHan/fenghan.github.io.git octopress
+<pre><code>sudo apt-get install software-properties-common
+sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+sudo add-apt-repository 'deb http://mirrors.hustunique.com/mariadb/repo/5.5/ubuntu trusty main'
 </code></pre>
 
-<p>2）将博客源文件clone到octopress的——deploy文件夹内。</p>
+<p>开始安装</p>
 
-<pre><code>$ cd octopress
-$ git clone git@github.com:FengHan/fenghan.github.io.git _deploy 
+<pre><code>sudo apt-get update
+sudo apt-get install mariadb-server
 </code></pre>
 
-<p>执行完这两步就OK了。</p>
+<p>这样 MariaDB 5.5 就已经安装成功，你就可以像使用 MySQL 那样对它进行配置和使用了。</p>
 
-<h1>参考链接</h1>
-
-<p>软件安装： <a href="http://blog.csdn.net/kong5090041/article/details/38408211">oukongli的专栏</a></p>
-
-<p>SEO参考： <a href="http://yidao620c.github.io/blog/20150318/octopress-blog.html">笨跑的一刀</a></p>
-
-<p> <a href="http://pan.baidu.com/s/1bndNlTl">软件下载</a>   密码: e3p3</p>
+<p>使用mysql -h -uroot -p1234测试。</p>
 </div>
   
   
@@ -343,6 +159,8 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
     </article>
   
   <div class="pagination">
+    
+      <a class="prev" href="/posts/7">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -357,6 +175,34 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/09/laravel-homestead/">使用homestead搭建本地Laravel开发环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/29/c-difficult/">C语言学习中的难重点</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/27/qcloud/">腾讯云主机免费试用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/27/ssh-server/">Ubuntu 14.04远程登录服务器--ssh的安装和配置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/26/learn-php/">PHP开发工程师</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/26/composer/">Composer</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/26/yii/">Yii 2.0框架</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/24/redis-data-type/">Redis的数据类型(一)</a>
       </li>
     
@@ -366,34 +212,6 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
     
       <li class="post">
         <a href="/blog/2015/07/23/mysql-study/">MySQL数据库管理</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/23/thinkphp/">Thinkphp</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/22/vagrant-lnmp/">使用Vagrant搭建本地Ubuntu开发环境</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/21/docker-summary/">Docker小结</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/19/docker/">认识Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/19/nginx_php5-fpm/">在Ubuntu上搭建Nginx + Php5-fpm</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/18/git-local/">Git的本地操作</a>
       </li>
     
   </ul>
