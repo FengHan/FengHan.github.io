@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>MySQL数据库管理 - hanfeng.name</title>
+  <title>PHP各个版本的新特性 - hanfeng.name</title>
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="MySQL权限 创建用户 grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
-grant select on jikedb.* to webuser@localhost &hellip;">
+  <meta name="description" content="两年前，公司由PHP5.2 升级到了PHP5.3,此后在PHP5.3上开发了有一年的时间，此后不断的升级，现在记录一些我用到的特性。 PHP5.3 PHP5.3一方面在面向对象开发等方面有所加强, 另一方面也增加了不少实用的语法特性和新扩展。 支持命名空间
+新增两个魔术方法invoke &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@ grant select on jikedb.* to webuser@localhost &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://fenghan.github.io/blog/2015/07/23/mysql-study/">
+  <link rel="canonical" href="http://fenghan.github.io/blog/2015/08/11/php_version/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="hanfeng.name" type="application/atom+xml">
@@ -80,7 +80,7 @@ var _hmt = _hmt || [];
   
   <header>
     
-      <h1 class="entry-title">MySQL数据库管理</h1>
+      <h1 class="entry-title">PHP各个版本的新特性</h1>
     
     
       <p class="meta">
@@ -89,40 +89,71 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-23T17:26:01+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>5:26 pm</span></time>
+<time class='entry-date' datetime='2015-08-11T14:19:23+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:19 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h3>MySQL权限</h3>
+<div class="entry-content"><p>两年前，公司由PHP5.2 升级到了PHP5.3,此后在PHP5.3上开发了有一年的时间，此后不断的升级，现在记录一些我用到的特性。</p>
 
-<p>创建用户</p>
+<h1>PHP5.3</h1>
 
-<pre><code>grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
-grant select on jikedb.* to webuser@localhost identified by '123';
-</code></pre>
+<p> PHP5.3一方面在面向对象开发等方面有所加强, 另一方面也增加了不少实用的语法特性和新扩展。</p>
 
-<p>刷新权限</p>
+<ol>
+<li>支持命名空间</li>
+<li>新增两个魔术方法<strong>invoke 和</strong>callStatic</li>
+<li>三元符增加了一个快捷方式来书写。</li>
+<li>支持闭包</li>
+</ol>
 
-<pre><code>flush privileges;
-</code></pre>
 
-<p>回收权限</p>
+<p>命名空间的分隔符为反斜杠\</p>
 
-<pre><code>revoke select on jikedb.* from webuser@localhost;
-</code></pre>
+<p>以函数形式来调用对象时，__invoke()方法将被自动调用。</p>
 
-<p>删除用户</p>
+<p>当尝试调用类中不存在的静态方法时，__callStatic()魔术方法将被自动调用。</p>
 
-<pre><code>drop user webuser@localhost;
-</code></pre>
+<h1>PHP 5.4</h1>
 
-<p>查看用户权限</p>
+<p>当升级到PHP5.4版本的时候，我们的开发环境有XP全部升级到了WIN7</p>
 
-<pre><code>show grants for root@localhost;
-</code></pre>
+<ul>
+<li>数组简写形式  [1,2,3]  [&lsquo;foo&rsquo; => &lsquo;banana&rsquo;, &lsquo;bar&rsquo; => &lsquo;apple&rsquo;]</li>
+<li>内置Web服务器  php -S localhost:8000 -t public</li>
+<li>&lt;?=（精简回显语法）现在始终可用，无论 short_tags ini 设置的值为何。</li>
+<li><p>PHP 5.4版本将是最后一个支持Windows XP 和 Windows 2003的版本，今后将不再提供针对这些操作系统的二进制包。</p></li>
+<li><p>返回数组的函数调用现在可以直接解除引用：</p>
+
+<p>  function fruits() {<br/>
+      return [&lsquo;apple&rsquo;, &lsquo;banana&rsquo;, &lsquo;orange&rsquo;];<br/>
+  }</p>
+
+<p>  echo fruits()[0]; // Outputs: apple</p></li>
+</ul>
+
+
+<h1>PHP 5.5</h1>
+
+<p>Laravel 框架对PHP的版本要求是大于等于PHP5.5.9</p>
+
+<ul>
+<li>不推荐使用 mysql 函数，推荐使用 PDO 或 MySQL</li>
+</ul>
+
+
+<h1>PHP 5.6</h1>
+
+<ul>
+<li>命名空间支持常量和函数：</li>
+</ul>
+
+
+<h1>PHP 7</h1>
+
+<p>2015年11月发布</p>
 </div>
 
 
@@ -138,14 +169,8 @@ grant select on jikedb.* to webuser@localhost identified by '123';
 
 
 
-<time class='entry-date' datetime='2015-07-23T17:26:01+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>5:26 pm</span></time>
+<time class='entry-date' datetime='2015-08-11T14:19:23+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:19 pm</span></time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/mysql/'>mysql</a>
-  
-</span>
 
 
     </p>
@@ -173,10 +198,10 @@ grant select on jikedb.* to webuser@localhost identified by '123';
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/07/23/thinkphp/" title="Previous Post: Thinkphp">&laquo; Thinkphp</a>
+        <a class="basic-alignment left" href="/blog/2015/08/09/laravel-homestead/" title="Previous Post: 使用Homestead搭建本地Laravel开发环境">&laquo; 使用Homestead搭建本地Laravel开发环境</a>
       
       
-        <a class="basic-alignment right" href="/blog/2015/07/24/redis_setup_config/" title="Next Post: Redis的安装与配置">Redis的安装与配置 &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2015/08/11/php-patterns/" title="Next Post: PHP设计模式">PHP设计模式 &raquo;</a>
       
     </p>
   </footer>
@@ -185,7 +210,7 @@ grant select on jikedb.* to webuser@localhost identified by '123';
   <section>
     <h1>Comments</h1>
     <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/07/23/mysql-study" data-title="MySQL数据库管理" data-url="http://fenghan.github.io/blog/2015/07/23/mysql-study/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/08/11/php_version" data-title="PHP各个版本的新特性" data-url="http://fenghan.github.io/blog/2015/08/11/php_version/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">

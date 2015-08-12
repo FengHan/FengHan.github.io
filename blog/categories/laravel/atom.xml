@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Laravel | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/laravel/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-08-09T15:21:20+08:00</updated>
+  <updated>2015-08-12T17:46:13+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[使用homestead搭建本地Laravel开发环境]]></title>
+    <title type="html"><![CDATA[使用Homestead搭建本地Laravel开发环境]]></title>
     <link href="http://fenghan.github.io/blog/2015/08/09/laravel-homestead/"/>
     <updated>2015-08-09T15:06:33+08:00</updated>
     <id>http://fenghan.github.io/blog/2015/08/09/laravel-homestead</id>
@@ -57,7 +57,7 @@ init.sh
 <pre><code>ssh-keygen -t rsa -C "you@homestead"
 </code></pre>
 
-<p>配置文件</p>
+<p>配置文件 ~/.homestead/Homestead.yaml</p>
 
 <pre><code>---
 ip: "192.168.10.10"
@@ -71,7 +71,7 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: d:\sites\blog\blog
+    - map: d:\sites\blog
       to: /home/vagrant/blog
 
 sites:
@@ -131,6 +131,13 @@ HTTP: 8000 -&gt; Forwards To 80
 MySQL: 33060 -&gt; Forwards To 3306
 Postgres: 54320 -&gt; Forwards To 5432
 </code></pre>
+
+<h3>配置</h3>
+
+<pre><code>php artisan key:generate
+</code></pre>
+
+<p>将生成的key复制到config/app.php替换82行的APP_KEY键值。</p>
 
 <h3>参考链接</h3>
 

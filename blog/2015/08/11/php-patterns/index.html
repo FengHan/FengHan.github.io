@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>hanfeng.name</title>
+  <title>PHP设计模式 - hanfeng.name</title>
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 本文是Laracasts的phpstorm视频教程的文字记录版 https://laracasts.com/series/how-to-be-awesome-in-phpstorm/episodes/2 注意事项：本文所述快捷键和你的会不同，是我自定义的。 Hello Google &hellip;">
+  <meta name="description" content="目标： 掌握PHP各类设计模式
+具备设计纯面向对象框架和系统的能力 编辑器的选择 PHP IDE 建议使用phpstorm, 因为适合PHP面向对象的开发 选择编程字体 因为1, l, i o,O,0 不好区分 必须选择等宽字体
+常见的等宽编程字体包括Courier New, Consolas. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://fenghan.github.io/">
+  <link rel="canonical" href="http://fenghan.github.io/blog/2015/08/11/php-patterns/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="hanfeng.name" type="application/atom+xml">
@@ -74,163 +76,12 @@ var _hmt = _hmt || [];
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/12/phpstorm/">Phpstorm</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-12T08:35:25+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:35 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>前言</h1>
-
-<p>本文是Laracasts的phpstorm视频教程的文字记录版</p>
-
-<p><a href="https://laracasts.com/series/how-to-be-awesome-in-phpstorm/episodes/2">https://laracasts.com/series/how-to-be-awesome-in-phpstorm/episodes/2</a></p>
-
-<p>注意事项：本文所述快捷键和你的会不同，是我自定义的。</p>
-
-<h3>Hello</h3>
-
-<p>Google  phpstorm eap (easy access platform)</p>
-
-<h3>Minimalism 精简IDE</h3>
-
-<ul>
-<li>Ctrl + 1 打开关闭侧边栏  : Way的习惯是尽可能的关闭</li>
-<li>Navicat -> Class   打开类</li>
-<li>Navicat -> Symbol 打开函数</li>
-<li>View  -> Start Button 隐藏状态栏 ; Way 不需要它</li>
-<li>View -> NavigationBar 隐藏导航；Way从来不用它</li>
-<li><p>View ->  Toolbar  隐藏工具栏 ；Way都用快捷键</p></li>
-<li><p>File-> Settings-> 搜索Breadcrumbs ，隐藏它，重启phpstorm</p></li>
-<li><p>File-> Settings->Colors &amp; Fonts</p></li>
-<li>Save AS : demo-theme，</li>
-<li>size： 15  字体大小
-line： spacing： 1.4 字间距</li>
-<li><a href="http://daylerees.github.io/">http://daylerees.github.io/</a>查看主题</li>
-<li><p><a href="https://github.com/daylerees/colour-schemes">https://github.com/daylerees/colour-schemes</a></p>
-
-<p>  顺便介绍一下phpstorm主题安装方法：</p>
-
-<p>  1、下载主题安装包：以icls结尾的文件，把安装包文件复制到config目录</p>
-
-<p>  C:\Users\Administrator.WebIde90\config\colors
-  wget <a href="https://raw.githubusercontent.com/daylerees/colour-schemes/master/jetbrains/earthsong.icls">https://raw.githubusercontent.com/daylerees/colour-schemes/master/jetbrains/earthsong.icls</a>
-  注：这里以window系统为例。
-  2、重启phpstorm</p>
-
-<p>  3、File->Settings->Colors&amp;Fonts，选择相应的主题包，即可。</p></li>
-<li><p>右键单击 文件名top， tap placement ，勾选none</p></li>
-</ul>
-
-
-<h3>Color IDE</h3>
-
-<p>HELP -> FIND ACTION  搜索plugins -> configure plugins
-Brower rpositersies 搜索Colors -> 选择color ide 安装</p>
-
-<h3>Two Important Keybindings</h3>
-
-<ul>
-<li>两个重要的按键</li>
-<li>一个是 Navicat -> file</li>
-<li><p>另一个是  Navicat -> file structure</p></li>
-<li><p>File -> settings -> keymap -> save as michaele&rsquo;s key</p></li>
-<li><p>File -> settings -> keymap -> 点击搜索小图标 -> 输入键盘组合</p></li>
-</ul>
-
-
-<p>双击 -> remore ctrl + shift + o</p>
-
-<p>我自定义的快捷键</p>
-
-<ul>
-<li><p>alt + p -> open file</p></li>
-<li><p>alt + r -> file structure</p></li>
-<li>alt + e ->  recent files</li>
-<li>alt + o -> class</li>
-<li><p>alt + t -> Refactor this</p></li>
-<li><p>alt + shift + a -> enter action or option name</p></li>
-<li>alt + shift + o -> sylbol</li>
-<li>alt + n -> new file</li>
-<li>ctrl + w 关闭页面</li>
-<li><p>alt + , 设置</p></li>
-<li><p>ctrl + w 关闭当前页面</p></li>
-<li><p>ctrl + 1</p></li>
-</ul>
-
-
-<h3>Create New Files Quickly</h3>
-
-<p>alt + 向上箭头  和 alt + n 快捷键在快速的创建文件</p>
-
-<h3>Custom File Templates</h3>
-
-<p>Ctrl + ，  file and code templates</p>
-
-<h3>Live Templates</h3>
-
-<p>double shift 然后， 输入 live template ，选择 save as 进行设置</p>
-
-<p>textfield设置
-    <!-- $VALUE$ Form Input -->
-    <div class="form-group"></p>
-
-<pre><code>&lt;/div&gt;
-</code></pre>
-
-<p>还要设置Edit attributes</p>
-
-<h3>Custom Formatting</h3>
-
-<ul>
-<li><p>Alt + Shift + F 格式化代码</p></li>
-<li><p>Code Style -> PHP -> Other -> Align key value styles</p></li>
-<li><p>convert null to low case</p></li>
-<li><p>convert true/false to low case</p></li>
-</ul>
-
-
-<h3>Refactoring: Name and Method</h3>
-
-<p>Refactor this: Ctrl + Alt + Shift + R</p>
-
-<h3>Refactoring: Pull Up</h3>
-
-<p>用快捷键 将子类中的方法移动到父类中。
-Alt + t -> Refactor this 然后输入 up</p>
-
-<h3>Refactoring: Extract Interface</h3>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/11/php-patterns/">PHP设计模式</a></h1>
+      <h1 class="entry-title">PHP设计模式</h1>
     
     
       <p class="meta">
@@ -246,7 +97,7 @@ Alt + t -> Refactor this 然后输入 up</p>
   </header>
 
 
-  <div class="entry-content"><h3>目标：</h3>
+<div class="entry-content"><h3>目标：</h3>
 
 <ul>
 <li>掌握PHP各类设计模式</li>
@@ -309,20 +160,81 @@ Alt + t -> Refactor this 然后输入 up</p>
 
 <h3>PSR, Composer, Phar</h3>
 </div>
-  
-  
 
 
-    </article>
+  <footer>
+    <p class="meta">
+      
   
-  <div class="pagination">
+
+<span class="byline author vcard">Posted by <span class="fn">HanFeng</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-11T16:59:07+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:59 pm</span></time>
+      
+
+
+    </p>
     
-      <a class="prev" href="/posts/2">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
+      <div class="sharing">
+  
+  
+  
+  
+    <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_icons_1"></a>
+	<a class="jiathis_button_icons_2"></a>
+	<a class="jiathis_button_icons_3"></a>
+	<a class="jiathis_button_icons_4"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
 </div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/11/php_version/" title="Previous Post: PHP各个版本的新特性">&laquo; PHP各个版本的新特性</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/12/phpstorm/" title="Next Post: phpstorm">phpstorm &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/blog/2015/08/11/php-patterns" data-title="PHP设计模式" data-url="http://fenghan.github.io/blog/2015/08/11/php-patterns/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"fenghan"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -378,6 +290,7 @@ Alt + t -> Refactor this 然后输入 up</p>
 
   
 </aside>
+
 
     </div>
   </div>

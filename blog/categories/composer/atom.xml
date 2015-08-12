@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Composer | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/composer/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-08-09T15:21:20+08:00</updated>
+  <updated>2015-08-12T17:46:13+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -26,8 +26,11 @@
 $ mv composer.phar /usr/local/bin/composer
 </code></pre>
 
-<p>Composer 中国镜像
-    composer config -g repositories.packagist composer <a href="http://packagist.phpcomposer.com">http://packagist.phpcomposer.com</a></p>
+<p>Composer 中国镜像</p>
+
+<p>采用</p>
+
+<p> <a href="http://pkg.phpcomposer.com/">composer 的全局配置文件</a></p>
 ]]></content>
   </entry>
   

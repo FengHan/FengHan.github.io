@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>使用homestead搭建本地Laravel开发环境 - hanfeng.name</title>
+  <title>使用Homestead搭建本地Laravel开发环境 - hanfeng.name</title>
   <meta name="author" content="HanFeng">
 
   
@@ -83,7 +83,7 @@ var _hmt = _hmt || [];
   
   <header>
     
-      <h1 class="entry-title">使用homestead搭建本地Laravel开发环境</h1>
+      <h1 class="entry-title">使用Homestead搭建本地Laravel开发环境</h1>
     
     
       <p class="meta">
@@ -138,7 +138,7 @@ init.sh
 <pre><code>ssh-keygen -t rsa -C "you@homestead"
 </code></pre>
 
-<p>配置文件</p>
+<p>配置文件 ~/.homestead/Homestead.yaml</p>
 
 <pre><code>---
 ip: "192.168.10.10"
@@ -152,7 +152,7 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: d:\sites\blog\blog
+    - map: d:\sites\blog
       to: /home/vagrant/blog
 
 sites:
@@ -213,6 +213,13 @@ MySQL: 33060 -&gt; Forwards To 3306
 Postgres: 54320 -&gt; Forwards To 5432
 </code></pre>
 
+<h3>配置</h3>
+
+<pre><code>php artisan key:generate
+</code></pre>
+
+<p>将生成的key复制到config/app.php替换82行的APP_KEY键值。</p>
+
 <h3>参考链接</h3>
 
 <p> <a href="http://www.golaravel.com/laravel/docs/5.1/homestead/">golaravel</a></p>
@@ -271,6 +278,8 @@ Postgres: 54320 -&gt; Forwards To 5432
         <a class="basic-alignment left" href="/blog/2015/07/29/c-difficult/" title="Previous Post: C语言学习中的难重点">&laquo; C语言学习中的难重点</a>
       
       
+        <a class="basic-alignment right" href="/blog/2015/08/11/php_version/" title="Next Post: PHP各个版本的新特性">PHP各个版本的新特性 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -278,7 +287,7 @@ Postgres: 54320 -&gt; Forwards To 5432
   <section>
     <h1>Comments</h1>
     <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/08/09/laravel-homestead" data-title="使用homestead搭建本地Laravel开发环境" data-url="http://fenghan.github.io/blog/2015/08/09/laravel-homestead/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/08/09/laravel-homestead" data-title="使用Homestead搭建本地Laravel开发环境" data-url="http://fenghan.github.io/blog/2015/08/09/laravel-homestead/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -305,7 +314,19 @@ var duoshuoQuery = {short_name:"fenghan"};
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/08/09/laravel-homestead/">使用homestead搭建本地Laravel开发环境</a>
+        <a href="/blog/2015/08/12/phpstorm/">Phpstorm</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/11/php-patterns/">PHP设计模式</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/11/php_version/">PHP各个版本的新特性</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/09/laravel-homestead/">使用Homestead搭建本地Laravel开发环境</a>
       </li>
     
       <li class="post">
@@ -330,18 +351,6 @@ var duoshuoQuery = {short_name:"fenghan"};
     
       <li class="post">
         <a href="/blog/2015/07/26/yii/">Yii 2.0框架</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/24/redis-data-type/">Redis的数据类型(一)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/24/redis_setup_config/">Redis的安装与配置</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/23/mysql-study/">MySQL数据库管理</a>
       </li>
     
   </ul>

@@ -9,7 +9,14 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="成为一名PHP开发者要学习哪些内容？ 活到老，学到老，作为开发者，要不断地学习，那应该怎样学习呢？ ">
+  <meta name="description" content="运算符: 自增、自减运算符
+进制： 各种进制转换、原码、反码、补码
+数组： 一维数组、二维数组、多维数组
+循环： 多重循环的嵌套、排序、查找
+函数：递归函数、递归调用
+指针：一级指针、多级指针、指针和数组、函数、结构体之间的关系
+内存管理： C语言内存管理问题、内存泄露、野指针
+有参宏及条件编译 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +89,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/26/learn-php/">PHP开发工程师</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/29/c-difficult/">C语言学习中的难重点</a></h1>
     
     
       <p class="meta">
@@ -91,20 +98,25 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-26T22:22:29+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:22 pm</span></time>
+<time class='entry-date' datetime='2015-07-29T23:18:44+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:18 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>成为一名PHP开发者要学习哪些内容？</p>
+  <div class="entry-content"><ol>
+<li>运算符: 自增、自减运算符</li>
+<li>进制： 各种进制转换、原码、反码、补码</li>
+<li>数组： 一维数组、二维数组、多维数组</li>
+<li>循环： 多重循环的嵌套、排序、查找</li>
+<li>函数：递归函数、递归调用</li>
+<li>指针：一级指针、多级指针、指针和数组、函数、结构体之间的关系</li>
+<li>内存管理： C语言内存管理问题、内存泄露、野指针</li>
+<li>有参宏及条件编译</li>
+<li>多文件开发： 多文件编译、多文件开发</li>
+</ol>
 
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/what_shoud_learn_for_phper.jpg" alt="" /></p>
-
-<p>活到老，学到老，作为开发者，要不断地学习，那应该怎样学习呢？</p>
-
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/how_to_learn_php.jpg" alt="" /></p>
 </div>
   
   
@@ -117,7 +129,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/26/composer/">Composer</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/27/qcloud/">腾讯云主机免费试用</a></h1>
     
     
       <p class="meta">
@@ -126,23 +138,33 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-26T19:45:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:45 pm</span></time>
+<time class='entry-date' datetime='2015-07-27T16:19:32+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:19 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><a href="http://www.phpcomposer.com/composer-the-new-age-of-dependency-manager-for-php/">参考链接</a></p>
+  <div class="entry-content"><p>今天免费申请了<a href="http://qcloud.com">腾讯云</a>主机的免费试用15天。
+50元的代金券买了两台数据库，并使用了负载均衡。</p>
 
-<p>全局安装：</p>
+<p>记录主要操作如下：</p>
 
-<pre><code>$ curl -sS https://getcomposer.org/installer | php
-$ mv composer.phar /usr/local/bin/composer
-</code></pre>
+<p>修改 /etc/hostname 和 /etc/hosts</p>
 
-<p>Composer 中国镜像
-    composer config -g repositories.packagist composer <a href="http://packagist.phpcomposer.com">http://packagist.phpcomposer.com</a></p>
+<p>配置openssh-server</p>
+
+<p>安装nginx php5-fpm php5-mysql php5-cli</p>
+
+<p>域名A记录和CNAME指向</p>
+
+<p>配置nginx虚拟主机</p>
+
+<p>安装mariadb</p>
+
+<p>安装redis</p>
+
+<p>购买了两台mysql服务器</p>
 </div>
   
   
@@ -167,7 +189,19 @@ $ mv composer.phar /usr/local/bin/composer
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/08/09/laravel-homestead/">使用homestead搭建本地Laravel开发环境</a>
+        <a href="/blog/2015/08/12/phpstorm/">Phpstorm</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/11/php-patterns/">PHP设计模式</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/11/php_version/">PHP各个版本的新特性</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/09/laravel-homestead/">使用Homestead搭建本地Laravel开发环境</a>
       </li>
     
       <li class="post">
@@ -192,18 +226,6 @@ $ mv composer.phar /usr/local/bin/composer
     
       <li class="post">
         <a href="/blog/2015/07/26/yii/">Yii 2.0框架</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/24/redis-data-type/">Redis的数据类型(一)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/24/redis_setup_config/">Redis的安装与配置</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/23/mysql-study/">MySQL数据库管理</a>
       </li>
     
   </ul>

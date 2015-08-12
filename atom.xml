@@ -4,7 +4,7 @@
   <title><![CDATA[hanfeng.name]]></title>
   <link href="http://fenghan.github.io/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-08-09T15:21:20+08:00</updated>
+  <updated>2015-08-12T17:46:13+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -14,7 +14,271 @@
 
   
   <entry>
-    <title type="html"><![CDATA[使用homestead搭建本地Laravel开发环境]]></title>
+    <title type="html"><![CDATA[Phpstorm]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/12/phpstorm/"/>
+    <updated>2015-08-12T08:35:25+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/12/phpstorm</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>本文是Laracasts的phpstorm视频教程的文字记录版</p>
+
+<p><a href="https://laracasts.com/series/how-to-be-awesome-in-phpstorm/episodes/2">https://laracasts.com/series/how-to-be-awesome-in-phpstorm/episodes/2</a></p>
+
+<p>注意事项：本文所述快捷键和你的会不同，是我自定义的。</p>
+
+<h3>Hello</h3>
+
+<p>Google  phpstorm eap (easy access platform)</p>
+
+<h3>Minimalism 精简IDE</h3>
+
+<ul>
+<li>Ctrl + 1 打开关闭侧边栏  : Way的习惯是尽可能的关闭</li>
+<li>Navicat -> Class   打开类</li>
+<li>Navicat -> Symbol 打开函数</li>
+<li>View  -> Start Button 隐藏状态栏 ; Way 不需要它</li>
+<li>View -> NavigationBar 隐藏导航；Way从来不用它</li>
+<li><p>View ->  Toolbar  隐藏工具栏 ；Way都用快捷键</p></li>
+<li><p>File-> Settings-> 搜索Breadcrumbs ，隐藏它，重启phpstorm</p></li>
+<li><p>File-> Settings->Colors &amp; Fonts</p></li>
+<li>Save AS : demo-theme，</li>
+<li>size： 15  字体大小
+line： spacing： 1.4 字间距</li>
+<li><a href="http://daylerees.github.io/">http://daylerees.github.io/</a>查看主题</li>
+<li><p><a href="https://github.com/daylerees/colour-schemes">https://github.com/daylerees/colour-schemes</a></p>
+
+<p>  顺便介绍一下phpstorm主题安装方法：</p>
+
+<p>  1、下载主题安装包：以icls结尾的文件，把安装包文件复制到config目录</p>
+
+<p>  C:\Users\Administrator.WebIde90\config\colors
+  wget <a href="https://raw.githubusercontent.com/daylerees/colour-schemes/master/jetbrains/earthsong.icls">https://raw.githubusercontent.com/daylerees/colour-schemes/master/jetbrains/earthsong.icls</a>
+  注：这里以window系统为例。
+  2、重启phpstorm</p>
+
+<p>  3、File->Settings->Colors&amp;Fonts，选择相应的主题包，即可。</p></li>
+<li><p>右键单击 文件名top， tap placement ，勾选none</p></li>
+</ul>
+
+
+<h3>Color IDE</h3>
+
+<p>HELP -> FIND ACTION  搜索plugins -> configure plugins
+Brower rpositersies 搜索Colors -> 选择color ide 安装</p>
+
+<h3>Two Important Keybindings</h3>
+
+<ul>
+<li>两个重要的按键</li>
+<li>一个是 Navicat -> file</li>
+<li><p>另一个是  Navicat -> file structure</p></li>
+<li><p>File -> settings -> keymap -> save as michaele&rsquo;s key</p></li>
+<li><p>File -> settings -> keymap -> 点击搜索小图标 -> 输入键盘组合</p></li>
+</ul>
+
+
+<p>双击 -> remore ctrl + shift + o</p>
+
+<p>我自定义的快捷键</p>
+
+<ul>
+<li><p>alt + p -> open file</p></li>
+<li><p>alt + r -> file structure</p></li>
+<li>alt + e ->  recent files</li>
+<li>alt + o -> class</li>
+<li><p>alt + t -> Refactor this</p></li>
+<li><p>alt + shift + a -> enter action or option name</p></li>
+<li>alt + shift + o -> sylbol</li>
+<li>alt + n -> new file</li>
+<li>ctrl + w 关闭页面</li>
+<li><p>alt + , 设置</p></li>
+<li><p>ctrl + w 关闭当前页面</p></li>
+<li><p>ctrl + 1</p></li>
+</ul>
+
+
+<h3>Create New Files Quickly</h3>
+
+<p>alt + 向上箭头  和 alt + n 快捷键在快速的创建文件</p>
+
+<h3>Custom File Templates</h3>
+
+<p>Ctrl + ，  file and code templates</p>
+
+<h3>Live Templates</h3>
+
+<p>double shift 然后， 输入 live template ，选择 save as 进行设置</p>
+
+<p>textfield设置
+    <!-- $VALUE$ Form Input -->
+    <div class="form-group"></p>
+
+<pre><code>&lt;/div&gt;
+</code></pre>
+
+<p>还要设置Edit attributes</p>
+
+<h3>Custom Formatting</h3>
+
+<ul>
+<li><p>Alt + Shift + F 格式化代码</p></li>
+<li><p>Code Style -> PHP -> Other -> Align key value styles</p></li>
+<li><p>convert null to low case</p></li>
+<li><p>convert true/false to low case</p></li>
+</ul>
+
+
+<h3>Refactoring: Name and Method</h3>
+
+<p>Refactor this: Ctrl + Alt + Shift + R</p>
+
+<h3>Refactoring: Pull Up</h3>
+
+<p>用快捷键 将子类中的方法移动到父类中。
+Alt + t -> Refactor this 然后输入 up</p>
+
+<h3>Refactoring: Extract Interface</h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PHP设计模式]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/11/php-patterns/"/>
+    <updated>2015-08-11T16:59:07+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/11/php-patterns</id>
+    <content type="html"><![CDATA[<h3>目标：</h3>
+
+<ul>
+<li>掌握PHP各类设计模式</li>
+<li>具备设计纯面向对象框架和系统的能力</li>
+</ul>
+
+
+<h3>编辑器的选择</h3>
+
+<p>PHP IDE 建议使用phpstorm, 因为适合PHP面向对象的开发</p>
+
+<h3>选择编程字体</h3>
+
+<p>因为1, l, i  o,O,0 不好区分</p>
+
+<ol>
+<li>必须选择等宽字体</li>
+<li>常见的等宽编程字体包括Courier New, Consolas.</li>
+<li>推荐使用 Source Code pro, 是有Adobe公司专门为程序员设计，免费开源。</li>
+</ol>
+
+
+<p>PHPstorm在File -> Settings -> Editor -> Colors &amp; Fonts -> Font 先Save As, 再更改</p>
+
+<h3>命名空间与 autoload</h3>
+
+<p>开发符合PSR-0规范的基础框架</p>
+
+<ol>
+<li>全部使用命名空间</li>
+<li>所有PHP文件必须自动载入，不能有include/require</li>
+<li>单一入口</li>
+</ol>
+
+
+<p>PSR-0规范被PSR-4规范代替（2014.10</p>
+
+<ul>
+<li><a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md">PSR-4 English</a></li>
+<li><a href="http://segmentfault.com/a/1190000002521658">PSR-4 中文</a></li>
+</ul>
+
+
+<p>一个关于 文件路径 自动加载 的规范</p>
+
+<ol>
+<li><p>“命名空间前缀”，其必须与至少一个“文件基目录”相对应；</p></li>
+<li><p>末尾的类名必须与对应的以 .php 为后缀的文件同名。</p></li>
+</ol>
+
+
+<p><a href="http://www.bubuko.com/infodetail-557809.html">一个遵循PSR-4的文件autoload的例子</a></p>
+
+<h3>PHP面向对象的高级特性</h3>
+
+<p>SPL库的使用（php标准库） PHP5.5
+1. SplStack, SplQueue, SplHeap, SplFixedArray</p>
+
+<h3>11种PHP设计模式</h3>
+
+<h3>PSR, Composer, Phar</h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PHP各个版本的新特性]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/11/php_version/"/>
+    <updated>2015-08-11T14:19:23+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/11/php_version</id>
+    <content type="html"><![CDATA[<p>两年前，公司由PHP5.2 升级到了PHP5.3,此后在PHP5.3上开发了有一年的时间，此后不断的升级，现在记录一些我用到的特性。</p>
+
+<h1>PHP5.3</h1>
+
+<p> PHP5.3一方面在面向对象开发等方面有所加强, 另一方面也增加了不少实用的语法特性和新扩展。</p>
+
+<ol>
+<li>支持命名空间</li>
+<li>新增两个魔术方法<strong>invoke 和</strong>callStatic</li>
+<li>三元符增加了一个快捷方式来书写。</li>
+<li>支持闭包</li>
+</ol>
+
+
+<p>命名空间的分隔符为反斜杠\</p>
+
+<p>以函数形式来调用对象时，__invoke()方法将被自动调用。</p>
+
+<p>当尝试调用类中不存在的静态方法时，__callStatic()魔术方法将被自动调用。</p>
+
+<h1>PHP 5.4</h1>
+
+<p>当升级到PHP5.4版本的时候，我们的开发环境有XP全部升级到了WIN7</p>
+
+<ul>
+<li>数组简写形式  [1,2,3]  [&lsquo;foo&rsquo; => &lsquo;banana&rsquo;, &lsquo;bar&rsquo; => &lsquo;apple&rsquo;]</li>
+<li>内置Web服务器  php -S localhost:8000 -t public</li>
+<li>&lt;?=（精简回显语法）现在始终可用，无论 short_tags ini 设置的值为何。</li>
+<li><p>PHP 5.4版本将是最后一个支持Windows XP 和 Windows 2003的版本，今后将不再提供针对这些操作系统的二进制包。</p></li>
+<li><p>返回数组的函数调用现在可以直接解除引用：</p>
+
+<p>  function fruits() {<br/>
+      return [&lsquo;apple&rsquo;, &lsquo;banana&rsquo;, &lsquo;orange&rsquo;];<br/>
+  }</p>
+
+<p>  echo fruits()[0]; // Outputs: apple</p></li>
+</ul>
+
+
+<h1>PHP 5.5</h1>
+
+<p>Laravel 框架对PHP的版本要求是大于等于PHP5.5.9</p>
+
+<ul>
+<li>不推荐使用 mysql 函数，推荐使用 PDO 或 MySQL</li>
+</ul>
+
+
+<h1>PHP 5.6</h1>
+
+<ul>
+<li>命名空间支持常量和函数：</li>
+</ul>
+
+
+<h1>PHP 7</h1>
+
+<p>2015年11月发布</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用Homestead搭建本地Laravel开发环境]]></title>
     <link href="http://fenghan.github.io/blog/2015/08/09/laravel-homestead/"/>
     <updated>2015-08-09T15:06:33+08:00</updated>
     <id>http://fenghan.github.io/blog/2015/08/09/laravel-homestead</id>
@@ -57,7 +321,7 @@ init.sh
 <pre><code>ssh-keygen -t rsa -C "you@homestead"
 </code></pre>
 
-<p>配置文件</p>
+<p>配置文件 ~/.homestead/Homestead.yaml</p>
 
 <pre><code>---
 ip: "192.168.10.10"
@@ -71,7 +335,7 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: d:\sites\blog\blog
+    - map: d:\sites\blog
       to: /home/vagrant/blog
 
 sites:
@@ -131,6 +395,13 @@ HTTP: 8000 -&gt; Forwards To 80
 MySQL: 33060 -&gt; Forwards To 3306
 Postgres: 54320 -&gt; Forwards To 5432
 </code></pre>
+
+<h3>配置</h3>
+
+<pre><code>php artisan key:generate
+</code></pre>
+
+<p>将生成的key复制到config/app.php替换82行的APP_KEY键值。</p>
 
 <h3>参考链接</h3>
 
@@ -235,8 +506,11 @@ service ssh start
 $ mv composer.phar /usr/local/bin/composer
 </code></pre>
 
-<p>Composer 中国镜像
-    composer config -g repositories.packagist composer <a href="http://packagist.phpcomposer.com">http://packagist.phpcomposer.com</a></p>
+<p>Composer 中国镜像</p>
+
+<p>采用</p>
+
+<p> <a href="http://pkg.phpcomposer.com/">composer 的全局配置文件</a></p>
 ]]></content>
   </entry>
   
@@ -2147,251 +2421,6 @@ git commit -m "first commit" //提交到本地源码库，并附加提交注释
 git remote add origin https://github.com/chape/test.git //添加到远程项目，别名为origin
 git push -u origin master //把本地源码库push到github 别名为origin的远程项目中，确认提交
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用Octopress在GitHub上搭建静态博客]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/17/octopress-blog/"/>
-    <updated>2015-07-17T12:52:50+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/17/octopress-blog</id>
-    <content type="html"><![CDATA[<h1>前言</h1>
-
-<p>本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程及博客的迁移。 在继续看本文之前，请先确定你具有折腾的精神。</p>
-
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/ctooctopress.jpg" alt="image" /></p>
-
-<h1>介绍</h1>
-
-<p><a href="https://github.com/imathis/octopress">Octopress</a>是一个基于Ruby语言的开源静态网站框架， 所谓静态，是指网站的所有内容都是生成好的静态HTML，不含任何后台处理程序，也没有数据库。 这样的好处是不会读取数据库，也不会有脚本编译，所以网站的加载速度会非常快，整体程序规模也非常轻量级。</p>
-
-<p><a href="https://pages.github.com/">Github Pages</a>是Github上的一项服务， 注册用户可以申请一个和自己账号关联的二级域名， 在上面可以托管一个静态网站，网站内容本身就是Github的一个repository也就是项目， 维护这个项目的代码就是在维护自己的网站。
-此外，用户撰写日志使用的是Markdown语法。这是一种极简化的语法， 它的好处在于可以以纯文本形式表现文章，用户不用关心排版的问题。 基本上来说它相当于HTML标签的最小子集做了一个转义。</p>
-
-<p>综上所述，你将获得一个这样的博客</p>
-
-<ul>
-<li>命令行操作</li>
-<li>纯文本写博客</li>
-<li>定制性高</li>
-<li>纯静态</li>
-<li>尤其适合程序员</li>
-<li>版本化管理</li>
-<li>迁移成本低</li>
-<li>简洁的 Ruby 框架</li>
-<li><a href="http://www.appinn.com/markdown/">Markdown</a> 语法</li>
-</ul>
-
-
-<h1>安装</h1>
-
-<ul>
-<li>Git：版本管理工具，将代码托管到 GitHub</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ruby</span> <span class="o">-</span><span class="n">v</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Ruby + DevKit：生成静态网页</li>
-<li>MarkdownPad：Windows 下 Markdown 语法编辑器</li>
-<li><strong>安装 Octopress</strong></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#1.克隆 Octopress 至本地</span>
-</span><span class='line'><span class="n">git</span> <span class="nb">clone</span> <span class="ss">git</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">imathis</span><span class="o">/</span><span class="n">octopress</span><span class="o">.</span><span class="n">git</span> <span class="n">octopress</span>
-</span><span class='line'><span class="c1">#2.参考 ruby.taobao.org, 配置RubyGems 镜像</span>
-</span><span class='line'><span class="c1">#3.安装依赖项</span>
-</span><span class='line'><span class="n">gem</span> <span class="n">install</span> <span class="n">bundler</span>
-</span><span class='line'><span class="n">bundle</span> <span class="n">install</span>
-</span><span class='line'><span class="c1">#4.安装并使用默认主题</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">install</span>
-</span><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">rails</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Pygments: Jekyll 里默认的语法高亮插件是 Pygments
-
-<ul>
-<li>安装 Python</li>
-<li>安装 ‘Easy Install’</li>
-<li>安装 Pygments</li>
-</ul>
-</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">python</span> <span class="o">-</span><span class="n">V</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>部署博客至 GitHub</h1>
-
-<p>1.新建仓库
-    username.github.io</p>
-
-<p>2.与本地 Octopress 目录绑定</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">setup_github_pages</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>托管源码至 GitHub</h2>
-
-<p>将 source 目录更新到远程仓库</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
-</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s1">&#39;your message&#39;</span>
-</span><span class='line'><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">source</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>相关配置</h1>
-
-<p><strong>多说评论</strong></p>
-
-<p><strong>JiaThis分享</strong></p>
-
-<p><strong>自定义 404 页面</strong></p>
-
-<p><strong>自定义导航</strong></p>
-
-<p><strong>主配置文件</strong></p>
-
-<p>在 _config.yml 文件中，设置 url、title、author 等基本信息</p>
-
-<h2>GitHub 上找主题文件</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">install</span><span class="o">[</span><span class="s1">&#39;themename&#39;</span><span class="o">]</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">generate</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>在 GitHub 上绑定自定义域名</h2>
-
-<p>创建 source/CNAME 文件并指定域名</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s1">&#39;hanfeng.com&#39;</span> &gt;&gt; <span class="nb">source</span>/CNAME
-</span><span class='line'><span class="c"># OR</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s1">&#39;tech.hanfeng.name&#39;</span> &gt;&gt; <span class="nb">source</span>/CNAME
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>解析域名至 GitHub</p>
-
-<ul>
-<li><p>使用子域名
-对于子域名(www.hanfeng.name)，创建 CNAME 记录指向 fenghan.github.io</p></li>
-<li><p>使用顶级域名
-对于顶级域名(hanfeng.name)，使用 A 记录指向 192.30.252.153(154)</p></li>
-</ul>
-
-
-<h1>常用目录</h1>
-
-<p>source  存放程序、博客源码
-public  存放生成的静态网站</p>
-
-<h1>国内访问加速</h1>
-
-<p><strong>修改字体</strong>：</p>
-
-<p>source/_includes/custom/head.html,</p>
-
-<p>将其中的<a href="https://fonts.googleapis.com">https://fonts.googleapis.com</a> 改为 <a href="http://fonts.useso.com">http://fonts.useso.com</a> 即可。</p>
-
-<p><strong>jquery库</strong>:</p>
-
-<p>/source/_includes/head.html,把google的jQuery库改为libs.baidu.com的</p>
-
-<p><strong>关闭twitter</strong>:</p>
-
-<p>_config.yml中twitter_tweet_butto改为false即可</p>
-
-<h1>SEO</h1>
-
-<p>使用百度统计工具进行统计</p>
-
-<h1>常用命令</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">new_page</span><span class="o">[</span><span class="s1">&#39;about&#39;</span><span class="o">]</span>           
-</span><span class='line'><span class="c1">#creates /source/about/index.markdown</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">new_post</span><span class="o">[</span><span class="s1">&#39;octopress-blog&#39;</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">generate</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">preview</span>
-</span><span class='line'><span class="c1">#本地localhost:4000</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>
-</span><span class='line'><span class="c1">#发布代码到Git Pages上</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>博客迁移</h1>
-
-<p>如果本地已经配置过octopress，只是把octopress删掉重装
-将source和master分支下的内容clone到本地即可(不需要再到官网上去clone全新的octopress)，具体作法：</p>
-
-<p>1）首先将博客源文件clone到本地的octopress文件夹内。</p>
-
-<pre><code>$ git clone -b source git@github.com:FengHan/fenghan.github.io.git octopress
-</code></pre>
-
-<p>2）将博客源文件clone到octopress的——deploy文件夹内。</p>
-
-<pre><code>$ cd octopress
-$ git clone git@github.com:FengHan/fenghan.github.io.git _deploy 
-</code></pre>
-
-<p>执行完这两步就OK了。</p>
-
-<h1>参考链接</h1>
-
-<p>软件安装： <a href="http://blog.csdn.net/kong5090041/article/details/38408211">oukongli的专栏</a></p>
-
-<p>SEO参考： <a href="http://yidao620c.github.io/blog/20150318/octopress-blog.html">笨跑的一刀</a></p>
-
-<p> <a href="http://pan.baidu.com/s/1bndNlTl">软件下载</a>   密码: e3p3</p>
 ]]></content>
   </entry>
   
