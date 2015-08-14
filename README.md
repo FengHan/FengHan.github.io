@@ -1,10 +1,12 @@
 # 韩峰的博客
 
 ### 源代码
-这里是韩峰博客的源代码，基于Octopress和Github Pages， 博客域名为 hanfeng.name
+这里是韩峰博客的源代码，基于Octopress和Github Pages， 博客域名为 hanfeng.name,
+
+国内访问hanfeng.daocloud.io速度快。
 
 ### 持续集成
-当使用如下命令的时候，它会同步到 hanfneg.daocloud.io,
+当使用如下命令的时候，它会同步到 hanfeng.daocloud.io
 
 	cd _deploy
 	git tag 0812

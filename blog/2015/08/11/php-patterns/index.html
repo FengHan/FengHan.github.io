@@ -9,9 +9,10 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="目标： 掌握PHP各类设计模式
-具备设计纯面向对象框架和系统的能力 编辑器的选择 PHP IDE 建议使用phpstorm, 因为适合PHP面向对象的开发 选择编程字体 因为1, l, i o,O,0 不好区分 必须选择等宽字体
-常见的等宽编程字体包括Courier New, Consolas. &hellip;">
+  <meta name="description" content="前言 本文是慕课网《大话PHP设计模式》的文字记录
+视频内容：大话PHP设计模式
+GitHub代码 目标： 掌握PHP各类设计模式
+具备设计纯面向对象框架和系统的能力 编辑器的选择 PHP IDE 建议使用phpstorm, 因为适合PHP面向对象的开发 选择编程字体 因为1, l, i o,O, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,7 +98,16 @@ var _hmt = _hmt || [];
   </header>
 
 
-<div class="entry-content"><h3>目标：</h3>
+<div class="entry-content"><h2>前言</h2>
+
+<ul>
+<li><p>本文是慕课网《大话PHP设计模式》的文字记录</p></li>
+<li><p>视频内容：<a href="http://www.imooc.com/view/236">大话PHP设计模式</a></p></li>
+<li><a href="https://github.com/FengHan/php_pattern/">GitHub代码</a></li>
+</ul>
+
+
+<h3>目标：</h3>
 
 <ul>
 <li>掌握PHP各类设计模式</li>
@@ -153,12 +163,92 @@ var _hmt = _hmt || [];
 
 <h3>PHP面向对象的高级特性</h3>
 
-<p>SPL库的使用（php标准库） PHP5.5
-1. SplStack, SplQueue, SplHeap, SplFixedArray</p>
+<h4>SPL库的使用（php标准库） PHP5.5</h4>
+
+<ol>
+<li>SplStack, SplQueue, SplHeap, SplFixedArray</li>
+</ol>
+
+
+<h4>魔术方法</h4>
+
+<ol>
+<li><strong>get </strong>set</li>
+<li><strong>call </strong>callStatic</li>
+<li>__toString</li>
+<li>__invoke  将一个对象当做函数使用</li>
+</ol>
+
 
 <h3>11种PHP设计模式</h3>
 
-<h3>PSR, Composer, Phar</h3>
+<ol>
+<li>工厂模式： 工厂方法或类生成对象，而不是在代码中直接new</li>
+<li>单例模式： 使某个类的对象仅允许创建一个</li>
+<li>注册模式： 全局共享和交换对象</li>
+</ol>
+
+
+<p>工厂模式的好处：
+1. 工厂里被实例化的类，类名可修改，参数可调</p>
+
+<h3>适配器模式</h3>
+
+<ol>
+<li>适配器模式，可以将截然不同的函数接口封装成统一的API</li>
+<li>example： PHP的数据库操作有mysql，mysqli，pdo3种，可以用适配器模式统一成一致。类似的场景还有cache适配器，将memcache, redis, file, apc等不同的缓存函数，统一成一致。</li>
+</ol>
+
+
+<h3>策略模式</h3>
+
+<p>将一组特定的行为和算法封装成类，以适应默写特定的上下文环境，这种模式就是策略模式。</p>
+
+<p>实际应用举例，例如一个电商网站系统，针对男性女性用户要各自跳转到不同的商品类目，并且所有广告位展示不同的广告。</p>
+
+<p>使用策略模式可以实现Ioc，依赖倒置，控制反转</p>
+
+<p>ps， 不同的支付接口也可以调用策略模式</p>
+
+<h3>数据对象映射模式</h3>
+
+<ol>
+<li>数据对象映射模式，是将对象和数据存储映射起来，对一个对象的操作会映射为对数据存储的操作</li>
+<li>在代码中实现数据对象映射模式，我们将实现一个ORM类，将复杂的SQL语句映射成对象属性的操作。</li>
+<li>结合使用数据对象模式，工厂模式，注册模式</li>
+</ol>
+
+
+<h3>观察者模式</h3>
+
+<ol>
+<li>观察者模式(Observer),当一个对象状态发生改变时，依赖它的对象全部收到通知，并自动更新</li>
+<li>一个事件发生后，要执行一连串的更新操作。传统的编程方式，就是在时间的代码之后直接加入处理逻辑。当更新的逻辑增多之后，代码会变得难以维护。这种方式是耦合的，侵入式的，增加新的逻辑需要改变事件主体的代码</li>
+<li>观察者模式实现了低耦合，非侵入式的通知和更新机制</li>
+</ol>
+
+
+<h3>原型模式</h3>
+
+<ol>
+<li>与工厂模式作用类似，都是用来创建对象</li>
+<li>与工厂模式实现不同，原型模式是先创建好一个原型对象，然后通过clone原型对象来创建新的对象。这样就免去了类创建时重复的初始化操作。</li>
+<li>原型模式适用于大对象的创建。创建一个大对象需要很大的开销，如果每次new就会消耗很大，原型模式仅需要内存拷贝即可。</li>
+</ol>
+
+
+<p>ps: 就是使用关键字clone对实例化好的类进行克隆。</p>
+
+<h3>装饰器模式</h3>
+
+<ol>
+<li>注释七模式（Decorator），可以动态地添加修改类的功能</li>
+<li>一个类提供了一项功能，如果要在修改并添加额外的功能，传统的编程模式，需要一个子类来继承它，并重新实现类的方法</li>
+<li>使用装饰器模式，仅需在运行时添加一个装饰器对象极客实现，可以实现最大的灵活性
+
+<h3>PSR, Composer, Phar</h3></li>
+</ol>
+
 </div>
 
 
@@ -242,6 +332,22 @@ var duoshuoQuery = {short_name:"fenghan"};
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/14/redis-datastructure2/">Redis数据结构类型2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/14/nginx-error-msg/">Nginx错误信息汇总</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/14/interview-prepare/">用百度脑图来准备面试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/13/sort/">排序</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/12/phpstorm/">Phpstorm</a>
       </li>
     
@@ -263,22 +369,6 @@ var duoshuoQuery = {short_name:"fenghan"};
     
       <li class="post">
         <a href="/blog/2015/07/27/qcloud/">腾讯云主机免费试用</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/27/ssh-server/">Ubuntu 14.04远程登录服务器--ssh的安装和配置</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/26/learn-php/">PHP开发工程师</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/26/composer/">Composer</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/26/yii/">Yii 2.0框架</a>
       </li>
     
   </ul>

@@ -5,14 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Yii 2.0框架 - hanfeng.name</title>
+  <title>Redis数据结构类型2 - hanfeng.name</title>
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="框架介绍 高性能、基于组件 实现了MVC模式
-代码简洁优雅
-全栈框架，对关系型和NoSQL数据库都提供了查询生成器和ActiveRecord；多层缓存支持。
-高性能始终是Yii的首要目标之一。 目前主要有1.1 和2.0 两个版本。 2.0是一个完全重写的版本，采用了最新的技术和协议， &hellip;">
+  <meta name="description" content="前言 本文记录是极客学院 Redis系列课程的文字记录 文档
+Redis Desktop Manager 集合类型与有序集合类型 集合类型概述 Set， string类型的无序集合，不允许有重复元素。通过hash table实现，可以取并集、交集、差集， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://fenghan.github.io/blog/2015/07/26/yii/">
+  <link rel="canonical" href="http://fenghan.github.io/blog/2015/08/14/redis-datastructure2/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="hanfeng.name" type="application/atom+xml">
@@ -82,7 +80,7 @@ var _hmt = _hmt || [];
   
   <header>
     
-      <h1 class="entry-title">Yii 2.0框架</h1>
+      <h1 class="entry-title">Redis数据结构类型2</h1>
     
     
       <p class="meta">
@@ -91,54 +89,82 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-26T19:22:48+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:22 pm</span></time>
+<time class='entry-date' datetime='2015-08-14T14:02:41+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:02 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h3>框架介绍</h3>
+<div class="entry-content"><h1>前言</h1>
 
-<p>高性能、基于组件</p>
+<p>本文记录是极客学院 <a href="http://www.jikexueyuan.com/course/1693_1.html?ss=2">Redis系列课程</a>的文字记录</p>
 
-<ol>
-<li>实现了MVC模式</li>
-<li>代码简洁优雅</li>
-<li>全栈框架，对关系型和NoSQL数据库都提供了查询生成器和ActiveRecord；多层缓存支持。</li>
-<li>高性能始终是Yii的首要目标之一。</li>
-</ol>
+<p><a href="http://redisdoc.com/">文档</a>
+<a href="http://redisdesktop.com/download">Redis Desktop Manager</a></p>
+
+<h1>集合类型与有序集合类型</h1>
+
+<h3>集合类型概述</h3>
+
+<p>Set， string类型的无序集合，不允许有重复元素。通过hash table实现，可以取并集、交集、差集，可以实现sns中好友推荐和blog的tag功能。</p>
+
+<p>底层实现： 整数集合（都是整数值，数量不超过512），字典。</p>
+
+<p>存储一个列表数据，又不希望出现重复数据时，set是一个很好的选择。</p>
+
+<p>集合还提供了判断某个成员是否在一个set集合内的接口。</p>
+
+<p>sadd srem spop
+- sadd key member 返回值，成功的数量
+- srem key member 返回值，删除的的数量， 可删除多个
+- spop key 随机弹出一个元素，返回弹出的元素</p>
+
+<h2>获取</h2>
+
+<ul>
+<li>smembers key  查看元素</li>
+<li>srandmember key count  count>0 返回不重复， count &lt; 0,可能重复</li>
+<li>SISMEMBER key member  集合中是否存在key</li>
+<li>SCARD member  统计集合个数</li>
+</ul>
 
 
-<p>目前主要有1.1 和2.0 两个版本。</p>
+<p>运算命令
+- SDIFF A B 差集， 所有属于A，不属于B; 1 2 3， 2 3 4 => 1
+- SINTER A B  交集  所有属于A, 且属于B
+- SUNION A B  并集
+- SDIFFSTORE  不会返回结果，而是会存储在dest结果中</p>
 
-<p>2.0是一个完全重写的版本，采用了最新的技术和协议，包括依赖包管理器Composer， PHP代码规范PSR、命名空间、Traits（特质）等等。2.0 代表新一代框架。</p>
+<h2>Redis 有序集合类型概述</h2>
 
-<p>Yii2.0需要<strong>PHP5.4.0</strong>以上的版本。</p>
+<p>Sorted Sort
+底层实现：</p>
 
-<h3>框架部署</h3>
-
-<ol>
-<li>通过Composer安装，升级简单
-<a href="http://www.yiiframework.com/download/">安装说明</a></li>
-</ol>
-
-
-<h3>Yii 2.0 表单怎么用？</h3>
-
-<ol>
-<li>创建模型</li>
-<li>按规则自动验证</li>
-<li>视图通过小部件（widgets）自动生成HTML</li>
-</ol>
+<ul>
+<li>压缩列表（数量不超过128，且小于64字节）、</li>
+<li>跳跃表（skiplist）</li>
+</ul>
 
 
-<p>可能出现的问题</p>
+<p>需要有序的，不重复的，可以选择它。 可以构建优先级的队列。</p>
 
-<ol>
-<li>命名空间要写对</li>
-<li>记的引用（use）所需要的小部件或是类</li>
-</ol>
+<p>有序集合类型与列表的比较，相同点：</p>
+
+<ul>
+<li>二者都是有序的。</li>
+<li>二者都可以获得某一范围的元素。</li>
+</ul>
+
+
+<p>不同点：</p>
+
+<ul>
+<li>列表通过链表实现，获取靠近两端的数据速度快，适合“新鲜事”和“日志”。</li>
+<li>有序集合使用散列表和跳跃表实现，读取中间数据速度也快。</li>
+<li>列表不能简单的调整元素的位置，而有序集可以。</li>
+<li>有序集合比列表类型更耗内存。</li>
+</ul>
 
 </div>
 
@@ -155,7 +181,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-26T19:22:48+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:22 pm</span></time>
+<time class='entry-date' datetime='2015-08-14T14:02:41+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:02 pm</span></time>
       
 
 
@@ -184,10 +210,8 @@ var _hmt = _hmt || [];
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/07/24/redis-data-type/" title="Previous Post: redis的数据类型(一)">&laquo; redis的数据类型(一)</a>
+        <a class="basic-alignment left" href="/blog/2015/08/14/nginx-error-msg/" title="Previous Post: nginx错误信息汇总">&laquo; nginx错误信息汇总</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/07/26/composer/" title="Next Post: Composer">Composer &raquo;</a>
       
     </p>
   </footer>
@@ -196,7 +220,7 @@ var _hmt = _hmt || [];
   <section>
     <h1>Comments</h1>
     <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/07/26/yii" data-title="Yii 2.0框架" data-url="http://fenghan.github.io/blog/2015/07/26/yii/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/08/14/redis-datastructure2" data-title="Redis数据结构类型2" data-url="http://fenghan.github.io/blog/2015/08/14/redis-datastructure2/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">

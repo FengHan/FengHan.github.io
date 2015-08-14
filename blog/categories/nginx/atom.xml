@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Nginx | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/nginx/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-08-12T17:46:13+08:00</updated>
+  <updated>2015-08-14T15:18:14+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Nginx错误信息汇总]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/14/nginx-error-msg/"/>
+    <updated>2015-08-14T12:18:19+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/14/nginx-error-msg</id>
+    <content type="html"><![CDATA[<h3>Nginx服务器返回403</h3>
+
+<p>开了Astrill VPN, 关闭Astrill，即可</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在Ubuntu上搭建Nginx + Php5-fpm]]></title>

@@ -9,8 +9,9 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="MySQL权限 创建用户 grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
-grant select on jikedb.* to webuser@localhost &hellip;">
+  <meta name="description" content="参考链接 全局安装： $ curl -sS https://getcomposer.org/installer | php
+$ mv composer.phar /usr/local/bin/composer Composer 中国镜像 采用 composer 的全局配置文件
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,7 +84,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/23/mysql-study/">MySQL数据库管理</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/26/composer/">Composer</a></h1>
     
     
       <p class="meta">
@@ -92,40 +93,26 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-23T17:26:01+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>5:26 pm</span></time>
+<time class='entry-date' datetime='2015-07-26T19:45:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:45 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h3>MySQL权限</h3>
+  <div class="entry-content"><p><a href="http://www.phpcomposer.com/composer-the-new-age-of-dependency-manager-for-php/">参考链接</a></p>
 
-<p>创建用户</p>
+<p>全局安装：</p>
 
-<pre><code>grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
-grant select on jikedb.* to webuser@localhost identified by '123';
+<pre><code>$ curl -sS https://getcomposer.org/installer | php
+$ mv composer.phar /usr/local/bin/composer
 </code></pre>
 
-<p>刷新权限</p>
+<p>Composer 中国镜像</p>
 
-<pre><code>flush privileges;
-</code></pre>
+<p>采用</p>
 
-<p>回收权限</p>
-
-<pre><code>revoke select on jikedb.* from webuser@localhost;
-</code></pre>
-
-<p>删除用户</p>
-
-<pre><code>drop user webuser@localhost;
-</code></pre>
-
-<p>查看用户权限</p>
-
-<pre><code>show grants for root@localhost;
-</code></pre>
+<p> <a href="http://pkg.phpcomposer.com/">composer 的全局配置文件</a></p>
 </div>
   
   
@@ -138,7 +125,7 @@ grant select on jikedb.* to webuser@localhost identified by '123';
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/23/thinkphp/">Thinkphp</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/26/yii/">Yii 2.0框架</a></h1>
     
     
       <p class="meta">
@@ -147,16 +134,55 @@ grant select on jikedb.* to webuser@localhost identified by '123';
 
 
 
-<time class='entry-date' datetime='2015-07-23T11:55:43+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:55 am</span></time>
+<time class='entry-date' datetime='2015-07-26T19:22:48+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:22 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
+  <div class="entry-content"><h3>框架介绍</h3>
 
-<p>PHP 作为一种广泛用于 Web 服务器端的脚本语言，在敏捷 Web 开发方面有独特的优势，成功案例多、社区活跃、资源丰富，框架也非常多。ThinkPHP 作为一款起步较早、相对成熟的国产 PHP 框架，在国内有相当的用户量，借这个机会向大家介绍 ThinkPHP 基础知识，为后续的项目实战做好准备。</p>
+<p>高性能、基于组件</p>
+
+<ol>
+<li>实现了MVC模式</li>
+<li>代码简洁优雅</li>
+<li>全栈框架，对关系型和NoSQL数据库都提供了查询生成器和ActiveRecord；多层缓存支持。</li>
+<li>高性能始终是Yii的首要目标之一。</li>
+</ol>
+
+
+<p>目前主要有1.1 和2.0 两个版本。</p>
+
+<p>2.0是一个完全重写的版本，采用了最新的技术和协议，包括依赖包管理器Composer， PHP代码规范PSR、命名空间、Traits（特质）等等。2.0 代表新一代框架。</p>
+
+<p>Yii2.0需要<strong>PHP5.4.0</strong>以上的版本。</p>
+
+<h3>框架部署</h3>
+
+<ol>
+<li>通过Composer安装，升级简单
+<a href="http://www.yiiframework.com/download/">安装说明</a></li>
+</ol>
+
+
+<h3>Yii 2.0 表单怎么用？</h3>
+
+<ol>
+<li>创建模型</li>
+<li>按规则自动验证</li>
+<li>视图通过小部件（widgets）自动生成HTML</li>
+</ol>
+
+
+<p>可能出现的问题</p>
+
+<ol>
+<li>命名空间要写对</li>
+<li>记的引用（use）所需要的小部件或是类</li>
+</ol>
+
 </div>
   
   
@@ -181,6 +207,22 @@ grant select on jikedb.* to webuser@localhost identified by '123';
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/14/redis-datastructure2/">Redis数据结构类型2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/14/nginx-error-msg/">Nginx错误信息汇总</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/14/interview-prepare/">用百度脑图来准备面试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/13/sort/">排序</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/12/phpstorm/">Phpstorm</a>
       </li>
     
@@ -202,22 +244,6 @@ grant select on jikedb.* to webuser@localhost identified by '123';
     
       <li class="post">
         <a href="/blog/2015/07/27/qcloud/">腾讯云主机免费试用</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/27/ssh-server/">Ubuntu 14.04远程登录服务器--ssh的安装和配置</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/26/learn-php/">PHP开发工程师</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/26/composer/">Composer</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/26/yii/">Yii 2.0框架</a>
       </li>
     
   </ul>
