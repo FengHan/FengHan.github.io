@@ -1,0 +1,31 @@
+---
+layout: post
+title: "腾讯云主机免费试用"
+date: 2015-07-27 16:19:32 +0800
+comments: true
+categories: 
+---
+
+
+今天免费申请了[腾讯云](http://qcloud.com)主机的免费试用15天。
+50元的代金券买了两台数据库，并使用了负载均衡。
+
+
+记录主要操作如下：
+
+修改 /etc/hostname 和 /etc/hosts
+
+配置openssh-server
+
+安装nginx php5-fpm php5-mysql php5-cli
+
+域名A记录和CNAME指向
+
+配置nginx虚拟主机
+
+安装mariadb
+
+安装redis
+
+
+购买了两台mysql服务器

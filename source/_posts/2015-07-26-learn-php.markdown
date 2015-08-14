@@ -1,0 +1,15 @@
+---
+layout: post
+title: "PHP开发工程师"
+date: 2015-07-26 22:22:29 +0800
+comments: true
+categories: 
+---
+成为一名PHP开发者要学习哪些内容？
+
+![](http://7xkc1x.com1.z0.glb.clouddn.com/what_shoud_learn_for_phper.jpg)
+
+
+活到老，学到老，作为开发者，要不断地学习，那应该怎样学习呢？
+
+![](http://7xkc1x.com1.z0.glb.clouddn.com/how_to_learn_php.jpg)

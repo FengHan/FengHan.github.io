@@ -23,4 +23,4 @@ MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完
 
 这样 MariaDB 5.5 就已经安装成功，你就可以像使用 MySQL 那样对它进行配置和使用了。
 
-使用mysql -uroot -p1234测试。
+使用mysql -h -uroot -p1234测试。

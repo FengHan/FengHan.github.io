@@ -1,0 +1,127 @@
+---
+layout: post
+title: "phpstorm"
+date: 2015-08-12 08:35:25 +0800
+comments: true
+categories: 
+---
+#前言
+
+本文是[Laracasts的phpstorm视频教程](https://laracasts.com/series/how-to-be-awesome-in-phpstorm/episodes/2)的文字记录版
+
+
+注意事项：本文所述快捷键和你的会不同，是我自定义的，我已将配置文件放到了[Github/PHPstorm](https://github.com/FengHan/phpstorm)
+### Hello
+
+Google  phpstorm eap (easy access platform)
+
+
+### Minimalism 精简IDE
+- Ctrl + 1 打开关闭侧边栏  : Way的习惯是尽可能的关闭
+- Navicat -> Class   打开类
+- Navicat -> Symbol	打开函数
+- View	-> Start Button 隐藏状态栏 ; Way 不需要它
+- View -> NavigationBar	隐藏导航；Way从来不用它
+- View ->  Toolbar	隐藏工具栏	；Way都用快捷键
+
+- File-> Settings-> 搜索Breadcrumbs ，隐藏它，重启phpstorm
+
+- File-> Settings->Colors & Fonts
+- Save AS : demo-theme，
+- size： 15  字体大小
+ line： spacing： 1.4 字间距
+- <http://daylerees.github.io/>查看主题
+- <https://github.com/daylerees/colour-schemes>
+	
+	顺便介绍一下phpstorm主题安装方法：
+	
+	1、下载主题安装包：以icls结尾的文件，把安装包文件复制到config目录
+	
+	C:\Users\Administrator\.WebIde90\config\colors
+	wget https://raw.githubusercontent.com/daylerees/colour-schemes/master/jetbrains/earthsong.icls
+	注：这里以window系统为例。
+	2、重启phpstorm
+	
+	3、File->Settings->Colors&Fonts，选择相应的主题包，即可。
+
+- 右键单击 文件名top， tap placement ，勾选none
+
+### Color IDE
+
+HELP -> FIND ACTION  搜索plugins -> configure plugins 
+Brower rpositersies 搜索Colors -> 选择color ide 安装
+
+### Two Important Keybindings
+- 两个重要的按键
+- 一个是 Navicat -> file 
+- 另一个是  Navicat -> file structure
+
+- File -> settings -> keymap -> save as michaele's key
+
+- File -> settings -> keymap -> 点击搜索小图标 -> 输入键盘组合
+
+双击 -> remore ctrl + shift + o
+
+我自定义的快捷键
+
+- alt + p -> open file
+
+- alt + r -> file structure
+- alt + e ->  recent files
+- alt + o -> class 
+- alt + t -> Refactor this 
+
+- alt + shift + a -> enter action or option name
+- alt + shift + o -> sylbol
+- alt + n -> new file 
+- ctrl + w 关闭页面
+- alt + , 设置
+
+- ctrl + w 关闭当前页面
+
+
+
+- ctrl + 1
+
+### Create New Files Quickly
+
+alt + 向上箭头  和 alt + n 快捷键在快速的创建文件
+
+###  Custom File Templates
+
+Ctrl + ，  file and code templates
+
+### Live Templates
+
+double shift 然后， 输入 live template ，选择 save as 进行设置
+
+textfield设置
+	<!-- $VALUE$ Form Input -->
+	<div class="form-group">
+    {{ Form::label('$NAME$', '$VALUE$')}}
+    {{ Form::text('$NAME$', null, ['class' => 'form-control'])}}
+	</div>
+还要设置Edit attributes
+
+### Custom Formatting
+- Alt + Shift + F 格式化代码
+
+
+- Code Style -> PHP -> Other -> Align key value styles
+
+- convert null to low case
+
+- convert true/false to low case
+
+### Refactoring: Name and Method
+
+Refactor this: Ctrl + Alt + Shift + R
+
+### Refactoring: Pull Up
+
+用快捷键 将子类中的方法移动到父类中。
+Alt + t -> Refactor this 然后输入 up
+
+### Refactoring: Extract Interface
+
+## phpStorm的编码格式

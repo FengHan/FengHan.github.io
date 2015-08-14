@@ -1,0 +1,19 @@
+---
+layout: post
+title: "Composer"
+date: 2015-07-26 19:45:50 +0800
+comments: true
+categories: composer
+---
+[参考链接](http://www.phpcomposer.com/composer-the-new-age-of-dependency-manager-for-php/)
+
+全局安装：
+
+	$ curl -sS https://getcomposer.org/installer | php
+	$ mv composer.phar /usr/local/bin/composer
+
+Composer 中国镜像
+
+采用
+
+ [composer 的全局配置文件](http://pkg.phpcomposer.com/)

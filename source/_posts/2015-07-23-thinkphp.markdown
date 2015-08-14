@@ -1,0 +1,10 @@
+---
+layout: post
+title: "Thinkphp"
+date: 2015-07-23 11:55:43 +0800
+comments: true
+categories: 
+---
+# 前言
+PHP 作为一种广泛用于 Web 服务器端的脚本语言，在敏捷 Web 开发方面有独特的优势，成功案例多、社区活跃、资源丰富，框架也非常多。ThinkPHP 作为一款起步较早、相对成熟的国产 PHP 框架，在国内有相当的用户量，借这个机会向大家介绍 ThinkPHP 基础知识，为后续的项目实战做好准备。
+
