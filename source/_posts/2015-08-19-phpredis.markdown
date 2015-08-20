@@ -1,0 +1,86 @@
+---
+layout: post
+title: "phpredis小结"
+date: 2015-08-19 15:28:13 +0800
+comments: true
+categories: phpredis
+---
+# 前言
+PHP 安装redis有两种方法，这篇文章所阐述的内容是以扩展的方式安装phpredis
+
+# Redis
+
+	apt-get install redis-server
+	apt-get install php5-redis
+
+
+我们通过 apt-get安装的扩展配置将出现在  /etc/php5/mods-available
+
+把将要启用的模块的配置文件做一个软连接到
+/etc/php5/apache2/conf.d  (LAMP/LNAMP)   
+/etc/php5/fpm/conf.d (LNMP )
+
+通常情况系统会帮我们做好软连接.
+
+redis的应用场景：
+1. 用户访问量
+2. 用户活跃度，每日的访问量 setbit
+3. 存储Session
+
+提供内存缓存
+数据结构
+
+postgress 做集群和横向扩容的时候比较麻烦
+
+用redis的hash和list做索引，用mysql做数据存储
+自建索引（hash list）
+
+用list记录用户访问页面，堆栈
+
+
+
+首页做缓存，放到redis里面
+
+## redis高级数据结构 bitmaps 和 HyperLogLogs
+php单进程的
+请求结束后，进程回收。
+只能够保证每次请求连接一次redis
+
+## 新的数据结构
+bitmaps, 
+HyperLogLogs: 占用少量内容，
+
+
+计算内存消耗，计算CPU消耗
+
+**性能和开销**
+
+一天人均15次，每天100万用户访问。
+每次用户访问都写入日志。
+用户的每一次会话都产生一次id
+
+
+目标：搭建每日访问100万用户的网站架构。
+
+Redis的Pub/Sub
+
+
+### redis3.0
+系统必须装有gcc
+
+redis 3.0安装
+wget http://download.redis.io/releases/redis-3.0.0.tar.gz
+
+tar -zxvf redis-3.0.0.tar.gz
+cd redis-3.0.0
+make
+make install
+
+编译好的文件默认在src目录中
+
+# Todo
+
+写一个phpredis的类，有以下要求：
+1. 单例模式，只实例化一次Redis
+2. 封装connect, auth, 选择哪个库
+

@@ -7,6 +7,14 @@ categories: mysql
 ---
 
 ### MySQL权限
+
+	mysql> grant all privileges on laravel5.* to laravel@localhost identified by 'secret' with grant option;
+	flush privileges;
+
+- 用户名：laravel
+- 密码： secret
+- 授权：数据库laravel5的所有表的所有权限
+
 创建用户
 
 	grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
@@ -25,5 +33,9 @@ categories: mysql
 查看用户权限
 
 	show grants for root@localhost;
+
+
+### 参考链接
+[分配权限](http://blog.csdn.net/wengyupeng/article/details/3290415)
 
 
