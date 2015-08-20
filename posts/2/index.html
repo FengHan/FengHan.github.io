@@ -9,12 +9,8 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 想要搭建一个自己的PHP框架，需要哪些功能呢？ 单一入口
-类的自动加载
-MVC
-易于配置
-有电子商务相关的接口：购物车，订单，支付 如何实现 单一入口 nginx配置 location / { try_files $uri $uri/ /index.php?/$uri;
-} &hellip;">
+  <meta name="description" content="前言 PHP 安装redis有两种方法，这篇文章所阐述的内容是以扩展的方式安装phpredis Redis apt-get install redis-server
+apt-get install php5-redis 我们通过 apt-get安装的扩展配置将出现在 /etc/php5/mods- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +77,111 @@ var _hmt = _hmt || [];
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/19/phpredis/">Phpredis小结</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-19T15:28:13+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:28 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>前言</h1>
+
+<p>PHP 安装redis有两种方法，这篇文章所阐述的内容是以扩展的方式安装phpredis</p>
+
+<h1>Redis</h1>
+
+<pre><code>apt-get install redis-server
+apt-get install php5-redis
+</code></pre>
+
+<p>我们通过 apt-get安装的扩展配置将出现在  /etc/php5/mods-available</p>
+
+<p>把将要启用的模块的配置文件做一个软连接到
+/etc/php5/apache2/conf.d  (LAMP/LNAMP) <br/>
+/etc/php5/fpm/conf.d (LNMP )</p>
+
+<p>通常情况系统会帮我们做好软连接.</p>
+
+<p>redis的应用场景：
+1. 用户访问量
+2. 用户活跃度，每日的访问量 setbit
+3. 存储Session</p>
+
+<p>提供内存缓存
+数据结构</p>
+
+<p>postgress 做集群和横向扩容的时候比较麻烦</p>
+
+<p>用redis的hash和list做索引，用mysql做数据存储
+自建索引（hash list）</p>
+
+<p>用list记录用户访问页面，堆栈</p>
+
+<p>首页做缓存，放到redis里面</p>
+
+<h2>redis高级数据结构 bitmaps 和 HyperLogLogs</h2>
+
+<p>php单进程的
+请求结束后，进程回收。
+只能够保证每次请求连接一次redis</p>
+
+<h2>新的数据结构</h2>
+
+<p>bitmaps,
+HyperLogLogs: 占用少量内容，</p>
+
+<p>计算内存消耗，计算CPU消耗</p>
+
+<p><strong>性能和开销</strong></p>
+
+<p>一天人均15次，每天100万用户访问。
+每次用户访问都写入日志。
+用户的每一次会话都产生一次id</p>
+
+<p>目标：搭建每日访问100万用户的网站架构。</p>
+
+<p>Redis的Pub/Sub</p>
+
+<h3>redis3.0</h3>
+
+<p>系统必须装有gcc</p>
+
+<p>redis 3.0安装
+wget <a href="http://download.redis.io/releases/redis-3.0.0.tar.gz">http://download.redis.io/releases/redis-3.0.0.tar.gz</a></p>
+
+<p>tar -zxvf redis-3.0.0.tar.gz
+cd redis-3.0.0
+make
+make install</p>
+
+<p>编译好的文件默认在src目录中</p>
+
+<h1>Todo</h1>
+
+<p>写一个phpredis的类，有以下要求：
+1. 单例模式，只实例化一次Redis
+2. 封装connect, auth, 选择哪个库</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -162,145 +263,6 @@ var _hmt = _hmt || [];
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/17/composer-autoload/">Composer自动加载的原理</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-17T15:29:35+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:29 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>前言</h1>
-
-<p>当PHP引擎试图实例化未知类的操作时，就会调用<strong>autoload(),并将类名当做字符串传递给它。但</strong>autoload()有个缺点，就是 一个进程中只能定义一次。这是就可以使用spl_autoload_register()函数。它可以把函数注册到__autoload队列中. 现在我们来看看composer是如何实现自动加载的。</p>
-
-<p>composer.json 文件</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="nt">&quot;autoload&quot;</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nt">&quot;classmap&quot;</span> <span class="p">:</span> <span class="p">[</span>
-</span><span class='line'>            <span class="s2">&quot;app/controllers&quot;</span><span class="p">,</span>
-</span><span class='line'>            <span class="s2">&quot;app/models&quot;</span>
-</span><span class='line'>        <span class="p">]</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>当我们composer dump-autoload的时候，文件/vendor/composer/autoload_clasmap.php会把类名和绝对地址做个想射。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$vendorDir</span> <span class="o">=</span> <span class="nb">dirname</span><span class="p">(</span><span class="nb">dirname</span><span class="p">(</span><span class="k">__FILE__</span><span class="p">));</span>
-</span><span class='line'><span class="nv">$baseDir</span> <span class="o">=</span> <span class="nb">dirname</span><span class="p">(</span><span class="nv">$vendorDir</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>    <span class="s1">&#39;Article&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/models/Article.php&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s1">&#39;BaseController&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/controllers/BaseController.php&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s1">&#39;HomeController&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/controllers/HomeController.php&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>首页index.php调用composer的autoload文件</p>
-
-<pre><code>require '../vendor/autoload.php';
-</code></pre>
-
-<p>会调用ComposerAutoloaderInit类的静态方法getLoader(）</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class='line'><span class="k">require_once</span> <span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/composer&#39;</span> <span class="o">.</span> <span class="s1">&#39;/autoload_real.php&#39;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="nx">ComposerAutoloaderInita488c85ce5c077906f9c1829b6492f6b</span><span class="o">::</span><span class="na">getLoader</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>verdor/composer/目录下有四个配置文件：</p>
-
-<ul>
-<li>autoload_classmap.php：  要加载的class映射</li>
-<li>autoload_files.php：     要加载的文件</li>
-<li>autoload_namespaces.php：    psr-0标准</li>
-<li>psr4.php：                   psr-4标准</li>
-</ul>
-
-
-<p>getLoader(）这个方法会先把这些配置文件放到ClassLoader的私有属性中。</p>
-
-<p>然后通过$loader->register(true);来调用spl_autoload_register()</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">register</span><span class="p">(</span><span class="nv">$prepend</span> <span class="o">=</span> <span class="k">false</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="nb">spl_autoload_register</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="s1">&#39;loadClass&#39;</span><span class="p">),</span> <span class="k">true</span><span class="p">,</span> <span class="nv">$prepend</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>spl_autoload_register()把loadClass()方法注册到了autoload队列中,然后当PHP引擎试图实例化未知类的操作时，就会根据类名和命名空间加载这个类文件。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">loadClass</span><span class="p">(</span><span class="nv">$class</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$file</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">findFile</span><span class="p">(</span><span class="nv">$class</span><span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">includeFile</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -316,6 +278,10 @@ var _hmt = _hmt || [];
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/08/21/alauda/">Docker灵雀云</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/20/redis-message-queue/">用Redis实现消息队列</a>
@@ -351,10 +317,6 @@ var _hmt = _hmt || [];
     
       <li class="post">
         <a href="/blog/2015/08/13/sort/">排序</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/12/phpstorm/">Phpstorm</a>
       </li>
     
   </ul>
