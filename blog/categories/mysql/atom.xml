@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Mysql | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/mysql/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-08-15T22:49:18+08:00</updated>
+  <updated>2015-08-20T22:47:04+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -19,6 +19,17 @@
     <updated>2015-07-23T17:26:01+08:00</updated>
     <id>http://fenghan.github.io/blog/2015/07/23/mysql-study</id>
     <content type="html"><![CDATA[<h3>MySQL权限</h3>
+
+<pre><code>mysql&gt; grant all privileges on laravel5.* to laravel@localhost identified by 'secret' with grant option;
+flush privileges;
+</code></pre>
+
+<ul>
+<li>用户名：laravel</li>
+<li>密码： secret</li>
+<li>授权：数据库laravel5的所有表的所有权限</li>
+</ul>
+
 
 <p>创建用户</p>
 
@@ -45,6 +56,10 @@ grant select on jikedb.* to webuser@localhost identified by '123';
 
 <pre><code>show grants for root@localhost;
 </code></pre>
+
+<h3>参考链接</h3>
+
+<p><a href="http://blog.csdn.net/wengyupeng/article/details/3290415">分配权限</a></p>
 ]]></content>
   </entry>
   

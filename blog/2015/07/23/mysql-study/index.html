@@ -9,8 +9,9 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="MySQL权限 创建用户 grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
-grant select on jikedb.* to webuser@localhost &hellip;">
+  <meta name="description" content="MySQL权限 mysql&gt; grant all privileges on laravel5.* to laravel@localhost identified by 'secret' with grant option;
+flush privileges; 用户名：laravel
+密码 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -98,6 +99,17 @@ var _hmt = _hmt || [];
 
 <div class="entry-content"><h3>MySQL权限</h3>
 
+<pre><code>mysql&gt; grant all privileges on laravel5.* to laravel@localhost identified by 'secret' with grant option;
+flush privileges;
+</code></pre>
+
+<ul>
+<li>用户名：laravel</li>
+<li>密码： secret</li>
+<li>授权：数据库laravel5的所有表的所有权限</li>
+</ul>
+
+
 <p>创建用户</p>
 
 <pre><code>grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
@@ -123,6 +135,10 @@ grant select on jikedb.* to webuser@localhost identified by '123';
 
 <pre><code>show grants for root@localhost;
 </code></pre>
+
+<h3>参考链接</h3>
+
+<p><a href="http://blog.csdn.net/wengyupeng/article/details/3290415">分配权限</a></p>
 </div>
 
 
@@ -212,6 +228,22 @@ var duoshuoQuery = {short_name:"fenghan"};
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/20/redis-message-queue/">用Redis实现消息队列</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/19/phpredis/">Phpredis小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/17/buid-your-own-php-framework/">搭建自己的PHP开发框架</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/17/composer-autoload/">Composer自动加载的原理</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/15/php-framework-hilda/">使用Composer搭建自己的PHP框架</a>
       </li>
     
@@ -233,22 +265,6 @@ var duoshuoQuery = {short_name:"fenghan"};
     
       <li class="post">
         <a href="/blog/2015/08/12/phpstorm/">Phpstorm</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/11/php-patterns/">PHP设计模式</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/11/php_version/">PHP各个版本的新特性</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/09/laravel-homestead/">使用Homestead搭建本地Laravel开发环境</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/29/c-difficult/">C语言学习中的难重点</a>
       </li>
     
   </ul>

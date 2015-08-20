@@ -4,7 +4,7 @@
   <title><![CDATA[hanfeng.name]]></title>
   <link href="http://fenghan.github.io/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-08-15T22:49:18+08:00</updated>
+  <updated>2015-08-20T22:47:04+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -12,6 +12,295 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[用Redis实现消息队列]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/20/redis-message-queue/"/>
+    <updated>2015-08-20T22:40:48+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/20/redis-message-queue</id>
+    <content type="html"><![CDATA[<h1>目标</h1>
+
+<ol>
+<li>用户注册时，将注册信息（例如用户名、密码、邮箱等）Push到Redis的List里。</li>
+<li>用PHP-CLI脚本，读取队列的消息，存取到数据库。</li>
+</ol>
+
+
+<p>代码如下：</p>
+
+<ul>
+<li><a href="https://github.com/hildalove/tiny/blob/master/Tiny/MessageQueue/PHPMQ.php">PHPMQ CLASS</a></li>
+<li><a href="https://github.com/hildalove/tiny/blob/master/Tiny/MessageQueue/UserMQ.php">UserMQ CLASS</a></li>
+<li><a href="https://github.com/hildalove/tiny/blob/master/App/Controller/MQ.php">user reg Controller</a></li>
+<li><a href="https://github.com/hildalove/tiny/blob/master/cron/user_mq.php">PHP-CLI CRON</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Phpredis小结]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/19/phpredis/"/>
+    <updated>2015-08-19T15:28:13+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/19/phpredis</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>PHP 安装redis有两种方法，这篇文章所阐述的内容是以扩展的方式安装phpredis</p>
+
+<h1>Redis</h1>
+
+<pre><code>apt-get install redis-server
+apt-get install php5-redis
+</code></pre>
+
+<p>我们通过 apt-get安装的扩展配置将出现在  /etc/php5/mods-available</p>
+
+<p>把将要启用的模块的配置文件做一个软连接到
+/etc/php5/apache2/conf.d  (LAMP/LNAMP) <br/>
+/etc/php5/fpm/conf.d (LNMP )</p>
+
+<p>通常情况系统会帮我们做好软连接.</p>
+
+<p>redis的应用场景：
+1. 用户访问量
+2. 用户活跃度，每日的访问量 setbit
+3. 存储Session</p>
+
+<p>提供内存缓存
+数据结构</p>
+
+<p>postgress 做集群和横向扩容的时候比较麻烦</p>
+
+<p>用redis的hash和list做索引，用mysql做数据存储
+自建索引（hash list）</p>
+
+<p>用list记录用户访问页面，堆栈</p>
+
+<p>首页做缓存，放到redis里面</p>
+
+<h2>redis高级数据结构 bitmaps 和 HyperLogLogs</h2>
+
+<p>php单进程的
+请求结束后，进程回收。
+只能够保证每次请求连接一次redis</p>
+
+<h2>新的数据结构</h2>
+
+<p>bitmaps,
+HyperLogLogs: 占用少量内容，</p>
+
+<p>计算内存消耗，计算CPU消耗</p>
+
+<p><strong>性能和开销</strong></p>
+
+<p>一天人均15次，每天100万用户访问。
+每次用户访问都写入日志。
+用户的每一次会话都产生一次id</p>
+
+<p>目标：搭建每日访问100万用户的网站架构。</p>
+
+<p>Redis的Pub/Sub</p>
+
+<h3>redis3.0</h3>
+
+<p>系统必须装有gcc</p>
+
+<p>redis 3.0安装
+wget <a href="http://download.redis.io/releases/redis-3.0.0.tar.gz">http://download.redis.io/releases/redis-3.0.0.tar.gz</a></p>
+
+<p>tar -zxvf redis-3.0.0.tar.gz
+cd redis-3.0.0
+make
+make install</p>
+
+<p>编译好的文件默认在src目录中</p>
+
+<h1>Todo</h1>
+
+<p>写一个phpredis的类，有以下要求：
+1. 单例模式，只实例化一次Redis
+2. 封装connect, auth, 选择哪个库</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[搭建自己的PHP开发框架]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/17/buid-your-own-php-framework/"/>
+    <updated>2015-08-17T17:24:04+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/17/buid-your-own-php-framework</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>想要搭建一个自己的PHP框架，需要哪些功能呢？</p>
+
+<ul>
+<li>单一入口</li>
+<li>类的自动加载</li>
+<li>MVC</li>
+<li>易于配置</li>
+<li>有电子商务相关的接口：购物车，订单，支付</li>
+</ul>
+
+
+<h1>如何实现</h1>
+
+<h3>单一入口</h3>
+
+<p>nginx配置</p>
+
+<pre><code>location / {
+    try_files $uri $uri/ /index.php?/$uri;
+}
+</code></pre>
+
+<ol>
+<li>将uri全部定向到index.php</li>
+<li>在入口文件，实现路由分发，实化例Ccontroller类，然后调用方法。</li>
+</ol>
+
+
+<h3>类的自动加载</h3>
+
+<ol>
+<li>维护命名空间与绝对路径的映射</li>
+<li>使用spl_autoload_register注册函数，当调用不存在的类时，自动加载。</li>
+</ol>
+
+
+<h3>MVC</h3>
+
+<ol>
+<li>每个Controller继承一个Controoler，在这个类中实现存储数据和include模板文件</li>
+<li>用工厂模式和注册树模式来实例化对应的Model类</li>
+</ol>
+
+
+<h3>易于配置</h3>
+
+<ol>
+<li>定义Config类实现\ArrayAccess， 然后加载config目录下的所有文件。也是用注册树和工厂模式。</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Composer自动加载的原理]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/17/composer-autoload/"/>
+    <updated>2015-08-17T15:29:35+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/17/composer-autoload</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>当PHP引擎试图实例化未知类的操作时，就会调用<strong>autoload(),并将类名当做字符串传递给它。但</strong>autoload()有个缺点，就是 一个进程中只能定义一次。这是就可以使用spl_autoload_register()函数。它可以把函数注册到__autoload队列中. 现在我们来看看composer是如何实现自动加载的。</p>
+
+<p>composer.json 文件</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;autoload&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;classmap&quot;</span> <span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="s2">&quot;app/controllers&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s2">&quot;app/models&quot;</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当我们composer dump-autoload的时候，文件/vendor/composer/autoload_clasmap.php会把类名和绝对地址做个想射。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$vendorDir</span> <span class="o">=</span> <span class="nb">dirname</span><span class="p">(</span><span class="nb">dirname</span><span class="p">(</span><span class="k">__FILE__</span><span class="p">));</span>
+</span><span class='line'><span class="nv">$baseDir</span> <span class="o">=</span> <span class="nb">dirname</span><span class="p">(</span><span class="nv">$vendorDir</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>    <span class="s1">&#39;Article&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/models/Article.php&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;BaseController&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/controllers/BaseController.php&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;HomeController&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/controllers/HomeController.php&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>首页index.php调用composer的autoload文件</p>
+
+<pre><code>require '../vendor/autoload.php';
+</code></pre>
+
+<p>会调用ComposerAutoloaderInit类的静态方法getLoader(）</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">require_once</span> <span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/composer&#39;</span> <span class="o">.</span> <span class="s1">&#39;/autoload_real.php&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="nx">ComposerAutoloaderInita488c85ce5c077906f9c1829b6492f6b</span><span class="o">::</span><span class="na">getLoader</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>verdor/composer/目录下有四个配置文件：</p>
+
+<ul>
+<li>autoload_classmap.php：  要加载的class映射</li>
+<li>autoload_files.php：     要加载的文件</li>
+<li>autoload_namespaces.php：    psr-0标准</li>
+<li>psr4.php：                   psr-4标准</li>
+</ul>
+
+
+<p>getLoader(）这个方法会先把这些配置文件放到ClassLoader的私有属性中。</p>
+
+<p>然后通过$loader->register(true);来调用spl_autoload_register()</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">register</span><span class="p">(</span><span class="nv">$prepend</span> <span class="o">=</span> <span class="k">false</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nb">spl_autoload_register</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="s1">&#39;loadClass&#39;</span><span class="p">),</span> <span class="k">true</span><span class="p">,</span> <span class="nv">$prepend</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>spl_autoload_register()把loadClass()方法注册到了autoload队列中,然后当PHP引擎试图实例化未知类的操作时，就会根据类名和命名空间加载这个类文件。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">loadClass</span><span class="p">(</span><span class="nv">$class</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$file</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">findFile</span><span class="p">(</span><span class="nv">$class</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">includeFile</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用Composer搭建自己的PHP框架]]></title>
@@ -1425,229 +1714,6 @@ $serializedComment = serialize($author，$email，$time，$content)
 LPUSH  post:42:comments，$serializedComment
 读取评论时使用 LRANGE 命令
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Redis的安装与配置]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/24/redis_setup_config/"/>
-    <updated>2015-07-24T10:36:56+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/24/redis_setup_config</id>
-    <content type="html"><![CDATA[<h1>Redis 的历史与特性</h1>
-
-<p>Redis 是Remote Dictionary Server的缩写，Redis是一个<strong>开源、基于C语言、基于内存可持久化</strong>的高性能NoSQL的<strong>键值对</strong>数据库。在众多场合中均可使用Redis代替传统的数据库或缓存系统。</p>
-
-<p>与Memcache类似的NoSQL型数据库，但它的数据可以持久化的保存在磁盘上，解决了服务重启后数据不丢失的问题。</p>
-
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/show_redis.jpg" alt="" /></p>
-
-<p>2015年Redis3.0.1 发布
-    Redis 3.0 最重要的特征是对Redis集群的支持
-Redis约定<strong>次版本号</strong>为偶数的版本是稳定版</p>
-
-<p>主要特性：</p>
-
-<ul>
-<li>存储结构丰富</li>
-<li>内存存储与持久化： 1s内读写10万个键值，异步写入硬盘；</li>
-<li>功能丰富：可用于数据库，缓存系统，队列</li>
-<li>简单稳定</li>
-</ul>
-
-
-<h1>安装</h1>
-
-<p>安装最新版本的3.0， <a href="http://redis.io/download">http://redis.io/download</a></p>
-
-<pre><code>apt-get install make gcc
-wget http://download.redis.io/releases/redis-3.0.3.tar.gz
-tar xzf redis-3.0.3.tar.gz
-cd redis-3.0.3/src
-make install
-</code></pre>
-
-<h3>Redis可执行文件</h3>
-
-<p>redis-cli  #客户端
-redis-server #服务器</p>
-
-<pre><code>ls /usr/local/bin/redis*
-
-cd ..
-mkdir /etc/redis
-cp redis.conf /etc/redis/6379.conf
-
-cd utils/
-cp redis_init_script /etc/init.d/redisd
-
-sudo update-rc.d redisd defaults
-service redisd start
-</code></pre>
-
-<h3>启动方法</h3>
-
-<ol>
-<li>redis-server&amp;
-
-<ul>
-<li>ps -ef |grep redis 检测后台进程是否存在</li>
-<li>netstat -tunpl |grep 6379  检测6379端口是否在监听</li>
-<li>redis-cli检测， shutdown退出</li>
-</ul>
-</li>
-<li><p>指定配置文件启动</p>
-
-<p> redis-server /usr/local/redis/etc/redis.conf</p>
-
-<p> 修改配置文件 daemonize yes</p></li>
-<li><p>使用Redis启动脚本设置开机启动</p></li>
-</ol>
-
-
-<p>启动脚本位于redis_init_script位于安装目录的/utils目录下，</p>
-
-<pre><code>-   新建目录/etc/redis
--   复制redis.conf到/etc/redis/重命名为6379.conf
--   修改6379.conf配置
--   复制redis_init_script脚本文件复制到/etc/init.d目录中，并重命名redisd
--   执行随系统自动启动命令 
-    -   sudo update-rc.d redisd defaults
-    -   service redisd start
-</code></pre>
-
-<h3>停止方法</h3>
-
-<ol>
-<li>退出客户端用CTRL + C</li>
-<li>在客户端下，执行SHUTDOWN，停止服务</li>
-<li>kill -9 PID</li>
-</ol>
-
-
-<h3>redis 的配置</h3>
-
-<p>redis.conf #redis server的配置文件</p>
-
-<p>sentinel.conf #redis sentine配置文件，用于监控</p>
-
-<ul>
-<li>基本项配置</li>
-<li><strong>持久化（Persistence）</strong>相关配置</li>
-<li><strong>Replication配置</strong></li>
-<li>Security配置</li>
-<li>Limit配置</li>
-<li>SlowLog配置</li>
-<li>Advanced配置</li>
-<li>INCLUEDS配置
-
-<h5>基本配置</h5></li>
-<li>daemonize 如果需要在后台运行，把该项改为yes</li>
-<li>pidfile 配置多个pid地址， 默认在/var/run/redis.pid</li>
-<li>bind  绑定ip， 设置后只接受来自该ip的请求</li>
-<li>port 监听端口，默认6379</li>
-<li>timeout 设置客户端连接的超时时间，单位为秒</li>
-<li>loglevel分为4级， debug， verbose, notice, warning</li>
-<li>logfile 配置log文件地址</li>
-</ul>
-
-
-<p>总结: 上述配置基本项中，port为必配项，其余项一般情况下保持默认即可。</p>
-
-<h5>持久化配置项目</h5>
-
-<ul>
-<li>databases 设置数据库的个数， 默认使用的数据库为0</li>
-<li>save 设置redis进行数据库镜像的频率</li>
-<li>rdbcompression 在进行镜像备份时，是否进行压缩</li>
-<li>Dbfilename 镜像备份文件的文件名</li>
-<li>Dir 数据库镜像备份的文件放置路径
-
-<h5>Limit配置项目</h5>
-
-maxclients 客户端的并发连接数，默认10000
-maxmemory配置Redis Server可占用的最大内存
-
-<h5>Security配置项</h5>
-
-<p>Requirepass 设置登录时需要使用的密码</p></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MySQL数据库管理]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/23/mysql-study/"/>
-    <updated>2015-07-23T17:26:01+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/23/mysql-study</id>
-    <content type="html"><![CDATA[<h3>MySQL权限</h3>
-
-<p>创建用户</p>
-
-<pre><code>grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
-grant select on jikedb.* to webuser@localhost identified by '123';
-</code></pre>
-
-<p>刷新权限</p>
-
-<pre><code>flush privileges;
-</code></pre>
-
-<p>回收权限</p>
-
-<pre><code>revoke select on jikedb.* from webuser@localhost;
-</code></pre>
-
-<p>删除用户</p>
-
-<pre><code>drop user webuser@localhost;
-</code></pre>
-
-<p>查看用户权限</p>
-
-<pre><code>show grants for root@localhost;
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Thinkphp]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/23/thinkphp/"/>
-    <updated>2015-07-23T11:55:43+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/23/thinkphp</id>
-    <content type="html"><![CDATA[<h1>前言</h1>
-
-<p>PHP 作为一种广泛用于 Web 服务器端的脚本语言，在敏捷 Web 开发方面有独特的优势，成功案例多、社区活跃、资源丰富，框架也非常多。ThinkPHP 作为一款起步较早、相对成熟的国产 PHP 框架，在国内有相当的用户量，借这个机会向大家介绍 ThinkPHP 基础知识，为后续的项目实战做好准备。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[在ubuntu上安装mariadb]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/23/mariadb-setup/"/>
-    <updated>2015-07-23T10:50:50+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/23/mariadb-setup</id>
-    <content type="html"><![CDATA[<h1>前言</h1>
-
-<p>MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做<a href="https://mariadb.org/">MariDB</a></p>
-
-<h1>安装</h1>
-
-<p>首先从 <a href="http://downloads.mariadb.org/mariadb/repositories/">MariaDB 下载页面</a> 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令</p>
-
-<pre><code>sudo apt-get install software-properties-common
-sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-sudo add-apt-repository 'deb http://mirrors.hustunique.com/mariadb/repo/5.5/ubuntu trusty main'
-</code></pre>
-
-<p>开始安装</p>
-
-<pre><code>sudo apt-get update
-sudo apt-get install mariadb-server
-</code></pre>
-
-<p>这样 MariaDB 5.5 就已经安装成功，你就可以像使用 MySQL 那样对它进行配置和使用了。</p>
-
-<p>使用mysql -h -uroot -p1234测试。</p>
 ]]></content>
   </entry>
   
