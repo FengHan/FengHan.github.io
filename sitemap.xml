@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://fenghan.github.io/blog/2015/08/21/performance/</loc>
+    <lastmod>2015-08-21T14:52:36+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://fenghan.github.io/blog/2015/08/21/alauda/</loc>
     <lastmod>2015-08-21T02:24:30+08:00</lastmod>
   </url>
@@ -183,5 +187,8 @@
   </url>
   <url>
     <loc>http://fenghan.github.io/blog/categories/dcoker/</loc>
+  </url>
+  <url>
+    <loc>http://fenghan.github.io/blog/categories/perfomance/</loc>
   </url>
 </urlset>

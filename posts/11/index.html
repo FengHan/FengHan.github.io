@@ -9,7 +9,10 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="Redis 的数据库内部结构 Redis中每个数据库，都是由一个redis.h/redisDb结构表示： typedef struct redisDb{ int id: //保存着数据库以整数表示的号码 dict *dict； //保存着所有键值对数据，这个属性也被称为键空间（key space &hellip;">
+  <meta name="description" content="框架介绍 高性能、基于组件 实现了MVC模式
+代码简洁优雅
+全栈框架，对关系型和NoSQL数据库都提供了查询生成器和ActiveRecord；多层缓存支持。
+高性能始终是Yii的首要目标之一。 目前主要有1.1 和2.0 两个版本。 2.0是一个完全重写的版本，采用了最新的技术和协议， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +79,76 @@ var _hmt = _hmt || [];
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/26/yii/">Yii 2.0框架</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-26T19:22:48+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:22 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>框架介绍</h3>
+
+<p>高性能、基于组件</p>
+
+<ol>
+<li>实现了MVC模式</li>
+<li>代码简洁优雅</li>
+<li>全栈框架，对关系型和NoSQL数据库都提供了查询生成器和ActiveRecord；多层缓存支持。</li>
+<li>高性能始终是Yii的首要目标之一。</li>
+</ol>
+
+
+<p>目前主要有1.1 和2.0 两个版本。</p>
+
+<p>2.0是一个完全重写的版本，采用了最新的技术和协议，包括依赖包管理器Composer， PHP代码规范PSR、命名空间、Traits（特质）等等。2.0 代表新一代框架。</p>
+
+<p>Yii2.0需要<strong>PHP5.4.0</strong>以上的版本。</p>
+
+<h3>框架部署</h3>
+
+<ol>
+<li>通过Composer安装，升级简单
+<a href="http://www.yiiframework.com/download/">安装说明</a></li>
+</ol>
+
+
+<h3>Yii 2.0 表单怎么用？</h3>
+
+<ol>
+<li>创建模型</li>
+<li>按规则自动验证</li>
+<li>视图通过小部件（widgets）自动生成HTML</li>
+</ol>
+
+
+<p>可能出现的问题</p>
+
+<ol>
+<li>命名空间要写对</li>
+<li>记的引用（use）所需要的小部件或是类</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -502,173 +575,6 @@ LPUSH  post:42:comments，$serializedComment
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/24/redis_setup_config/">Redis的安装与配置</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-24T10:36:56+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:36 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Redis 的历史与特性</h1>
-
-<p>Redis 是Remote Dictionary Server的缩写，Redis是一个<strong>开源、基于C语言、基于内存可持久化</strong>的高性能NoSQL的<strong>键值对</strong>数据库。在众多场合中均可使用Redis代替传统的数据库或缓存系统。</p>
-
-<p>与Memcache类似的NoSQL型数据库，但它的数据可以持久化的保存在磁盘上，解决了服务重启后数据不丢失的问题。</p>
-
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/show_redis.jpg" alt="" /></p>
-
-<p>2015年Redis3.0.1 发布
-    Redis 3.0 最重要的特征是对Redis集群的支持
-Redis约定<strong>次版本号</strong>为偶数的版本是稳定版</p>
-
-<p>主要特性：</p>
-
-<ul>
-<li>存储结构丰富</li>
-<li>内存存储与持久化： 1s内读写10万个键值，异步写入硬盘；</li>
-<li>功能丰富：可用于数据库，缓存系统，队列</li>
-<li>简单稳定</li>
-</ul>
-
-
-<h1>安装</h1>
-
-<p>安装最新版本的3.0， <a href="http://redis.io/download">http://redis.io/download</a></p>
-
-<pre><code>apt-get install make gcc
-wget http://download.redis.io/releases/redis-3.0.3.tar.gz
-tar xzf redis-3.0.3.tar.gz
-cd redis-3.0.3/src
-make install
-</code></pre>
-
-<h3>Redis可执行文件</h3>
-
-<p>redis-cli  #客户端
-redis-server #服务器</p>
-
-<pre><code>ls /usr/local/bin/redis*
-
-cd ..
-mkdir /etc/redis
-cp redis.conf /etc/redis/6379.conf
-
-cd utils/
-cp redis_init_script /etc/init.d/redisd
-
-sudo update-rc.d redisd defaults
-service redisd start
-</code></pre>
-
-<h3>启动方法</h3>
-
-<ol>
-<li>redis-server&amp;
-
-<ul>
-<li>ps -ef |grep redis 检测后台进程是否存在</li>
-<li>netstat -tunpl |grep 6379  检测6379端口是否在监听</li>
-<li>redis-cli检测， shutdown退出</li>
-</ul>
-</li>
-<li><p>指定配置文件启动</p>
-
-<p> redis-server /usr/local/redis/etc/redis.conf</p>
-
-<p> 修改配置文件 daemonize yes</p></li>
-<li><p>使用Redis启动脚本设置开机启动</p></li>
-</ol>
-
-
-<p>启动脚本位于redis_init_script位于安装目录的/utils目录下，</p>
-
-<pre><code>-   新建目录/etc/redis
--   复制redis.conf到/etc/redis/重命名为6379.conf
--   修改6379.conf配置
--   复制redis_init_script脚本文件复制到/etc/init.d目录中，并重命名redisd
--   执行随系统自动启动命令 
-    -   sudo update-rc.d redisd defaults
-    -   service redisd start
-</code></pre>
-
-<h3>停止方法</h3>
-
-<ol>
-<li>退出客户端用CTRL + C</li>
-<li>在客户端下，执行SHUTDOWN，停止服务</li>
-<li>kill -9 PID</li>
-</ol>
-
-
-<h3>redis 的配置</h3>
-
-<p>redis.conf #redis server的配置文件</p>
-
-<p>sentinel.conf #redis sentine配置文件，用于监控</p>
-
-<ul>
-<li>基本项配置</li>
-<li><strong>持久化（Persistence）</strong>相关配置</li>
-<li><strong>Replication配置</strong></li>
-<li>Security配置</li>
-<li>Limit配置</li>
-<li>SlowLog配置</li>
-<li>Advanced配置</li>
-<li>INCLUEDS配置
-
-<h5>基本配置</h5></li>
-<li>daemonize 如果需要在后台运行，把该项改为yes</li>
-<li>pidfile 配置多个pid地址， 默认在/var/run/redis.pid</li>
-<li>bind  绑定ip， 设置后只接受来自该ip的请求</li>
-<li>port 监听端口，默认6379</li>
-<li>timeout 设置客户端连接的超时时间，单位为秒</li>
-<li>loglevel分为4级， debug， verbose, notice, warning</li>
-<li>logfile 配置log文件地址</li>
-</ul>
-
-
-<p>总结: 上述配置基本项中，port为必配项，其余项一般情况下保持默认即可。</p>
-
-<h5>持久化配置项目</h5>
-
-<ul>
-<li>databases 设置数据库的个数， 默认使用的数据库为0</li>
-<li>save 设置redis进行数据库镜像的频率</li>
-<li>rdbcompression 在进行镜像备份时，是否进行压缩</li>
-<li>Dbfilename 镜像备份文件的文件名</li>
-<li>Dir 数据库镜像备份的文件放置路径
-
-<h5>Limit配置项目</h5>
-
-maxclients 客户端的并发连接数，默认10000
-maxmemory配置Redis Server可占用的最大内存
-
-<h5>Security配置项</h5>
-
-<p>Requirepass 设置登录时需要使用的密码</p></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/12">&larr; Older</a>
@@ -684,6 +590,10 @@ maxmemory配置Redis Server可占用的最大内存
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/08/21/performance/">负载计算方法及不同语言开发解决性能问题的思想等</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/21/alauda/">Docker灵雀云</a>
@@ -719,10 +629,6 @@ maxmemory配置Redis Server可占用的最大内存
     
       <li class="post">
         <a href="/blog/2015/08/14/interview-prepare/">用百度脑图来准备面试</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/13/sort/">排序</a>
       </li>
     
   </ul>
