@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MySQL主从配置及读写分离 - hanfeng.name</title>
+  <meta name="author" content="HanFeng">
+
+  
+  <meta name="description" content="前言 以前在公司的时候，公司配了MySQL主从，在线上用PHPMyAdmin查看从库信息，但只给了读权限，用于查看线上信息。今天记录一下MySQL主从的搭建过程。（我使用的是MariaDb5.5） Notice 在用户不多、并发不大、mysql服务器在同一个局域网内，MySQL主从是没有问题的。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://fenghan.github.io/blog/2015/08/23/mysql-master-slave/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="hanfeng.name" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?2a48f7616c9cd39ec6c4c06ddbd5cbea";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">hanfeng.name</a></h1>
+  
+    <h2>I am a software engineer with interests in web applications.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="fenghan.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">MySQL主从配置及读写分离</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-23T21:53:41+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:53 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>前言</h1>
+
+<p>以前在公司的时候，公司配了MySQL主从，在线上用PHPMyAdmin查看从库信息，但只给了读权限，用于查看线上信息。今天记录一下MySQL主从的搭建过程。（我使用的是MariaDb5.5）</p>
+
+<h2>Notice</h2>
+
+<p>在用户不多、并发不大、mysql服务器在同一个局域网内，MySQL主从是没有问题的。</p>
+
+<p>但实时性非常高的情况下，做了读写分离就不行。因为单线程同步需要花时间，时间上不允许。</p>
+
+<h1>MySQL主从配置</h1>
+
+<ol>
+<li>mysql的版本相同， mysql主从同源，即具有相同的库、表及记录。</li>
+<li>数据迁移的时候，从库的版本高于主库。</li>
+<li><p>把主库从库都停掉。因为打包主库的时候会花很长时间，这时如果主库还有文件写入，很容易出错。
+ cd /var/lib/
+ tar zcvf mysql.tar.gz ./mysql</p>
+
+<p> scp mysql.tar.gz vagrant@192.168.33.10:/tmp</p></li>
+<li>配置/etc/mysql/my.cnf
+ server-id               = 1
+ log_bin                 = /var/log/mysql/mysql-bin.log
+ expire_logs_days        = 10
+ max_binlog_size         = 100M      每个bin log文件最大的大小
+开启log_bin日志，性能就会降低。没修改一条数据，就会写入文件。硬盘不大的情况下，会写满数据库</li>
+</ol>
+
+
+<p>要放到msyql有权限的目录里。</p>
+
+<p>我们的目的是用从库修复主库。
+靠从库的bin_log来恢复主机。</p>
+
+<p>写bin_log性能降低，但因为我们做了主从，我们靠读多个从库来提高并发量。</p>
+
+<p>让从库能够通过tcp 来连接主库，
+5. 为从库专门准备一个用户。</p>
+
+<pre><code>create user 'slave_1'@'%' IDENTIFIED BY 'abcd' ;
+grant replication slave  on *.* to 'slave_1'@'%';
+或者一条命令
+GRANT REPLICATION SLAVE ON *.* to 'mysync'@'%' identified by 'q123456'; 
+</code></pre>
+
+<ol>
+<li><p>通过  SHOW MASTER STATUS; 显示当前主库的binlog文件与文件位置，我们需要将这个位置记录下来
+   SHOW MASTER STATUS;</p></li>
+<li><p>连接到从库   开启主从同步</p>
+
+<p> CHANGE MASTER TO MASTER_HOST = &lsquo;192.168.33.12&rsquo; ,MASTER_USER=&lsquo;slave_2&rsquo; ,MASTER_PASSWORD = &lsquo;1234&rsquo; ,MASTER_LOG_FILE =&lsquo;mysql-bin.000002&rsquo;, MASTER_LOG_POS=973</p></li>
+<li>不想同步系统库可以选择忽略系统库
+ binlog_ignore_db        = mysql</li>
+<li><p>SALVE命令
+ START SLAVE</p>
+
+<p> STOP  SLAVE</p>
+
+<p> SHOW SLAVE STATUS\G</p></li>
+</ol>
+
+
+<p>我在安装的时候遇到的错误：
+<a href="http://serverfault.com/questions/586651/mysql-refuses-to-accept-remote-connections">MySQL refuses to accept remote connections</a></p>
+
+<p>解决方法：
+    sudo netstat -ntlup | grep mysql
+    tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      127018/mysqld</p>
+
+<p>修改/etc/mysql/my.cnf
+    bind-address = 0.0.0.0</p>
+
+<h1>读写分离</h1>
+
+<p>主库创建新用户
+    GRANT all privileges  ON tiny.<em> to &lsquo;michael&rsquo;@&lsquo;%&rsquo; identified by &lsquo;1234&rsquo;;
+    flush privileges;
+从库创建新用户，只给读的权限。
+    GRANT SELECT  ON tiny.</em> to &lsquo;michael2&rsquo;@&lsquo;%&rsquo; identified by &lsquo;1234&rsquo;;</p>
+
+<pre><code>flush privileges;
+</code></pre>
+
+<h3>代码</h3>
+
+<p><a href="https://github.com/hildalove/tiny/blob/master/Tiny/Proxy/Proxy.php">代理模式</a></p>
+
+<p><a href="https://github.com/hildalove/tiny/blob/master/Tiny/Service/Factory.php">获取数据库实例</a></p>
+
+<p><a href="https://github.com/hildalove/tiny/blob/master/App/Controller/Mysql.php">控制器</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">HanFeng</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-23T21:53:41+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:53 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mysql/'>mysql</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+  
+    <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_icons_1"></a>
+	<a class="jiathis_button_icons_2"></a>
+	<a class="jiathis_button_icons_3"></a>
+	<a class="jiathis_button_icons_4"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/23/php-develop/" title="Previous Post: [转]PHP程序员的技术成长规划">&laquo; [转]PHP程序员的技术成长规划</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/blog/2015/08/23/mysql-master-slave" data-title="MySQL主从配置及读写分离" data-url="http://fenghan.github.io/blog/2015/08/23/mysql-master-slave/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"fenghan"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/08/23/mysql-master-slave/">MySQL主从配置及读写分离</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/23/php-develop/">[转]PHP程序员的技术成长规划</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/22/vagrant-network/">Vagrant的网络设置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/21/performance/">负载计算方法及不同语言开发解决性能问题的思想等</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/21/alauda/">Docker灵雀云</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/20/redis-message-queue/">用Redis实现消息队列</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/19/phpredis/">Phpredis小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/17/buid-your-own-php-framework/">搭建自己的PHP开发框架</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/17/composer-autoload/">Composer自动加载的原理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/15/php-framework-hilda/">使用Composer搭建自己的PHP框架</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - HanFeng -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

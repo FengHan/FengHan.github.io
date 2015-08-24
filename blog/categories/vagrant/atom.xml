@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Vagrant | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/vagrant/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-08-21T21:24:07+08:00</updated>
+  <updated>2015-08-24T12:57:23+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -12,6 +12,44 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Vagrant的网络设置]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/22/vagrant-network/"/>
+    <updated>2015-08-22T14:34:46+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/22/vagrant-network</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>今天要做Mysql主从配置，就需要两台Ubuntu的服务器，所以先要研究下Vagrant的网络配置。</p>
+
+<p>Vagrant有三种网络配置</p>
+
+<ol>
+<li>Forwarded port</li>
+<li>Private network</li>
+<li>Public network</li>
+</ol>
+
+
+<h1>Private Network</h1>
+
+<p>我的需求是两台Ubutu在同一网段，并且都访问主机和外部网络。所以我选择private network。 它的缺点是外部网络无法访问。</p>
+
+<p>设定语法为：</p>
+
+<pre><code>config.vm.network "private_network", ip: "192.168.50.4"
+</code></pre>
+
+<p>配置hostname</p>
+
+<pre><code>config.vm.hostname = "master"
+</code></pre>
+
+<h1>参考链接</h1>
+
+<p><a href="http://www.williamsang.com/archives/2401.html?utm_source=tuicool#private">Vagrant网络配置</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用Vagrant搭建本地Ubuntu开发环境]]></title>

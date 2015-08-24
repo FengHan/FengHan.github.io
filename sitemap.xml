@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://fenghan.github.io/blog/2015/08/23/mysql-master-slave/</loc>
+    <lastmod>2015-08-23T21:53:41+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://fenghan.github.io/blog/2015/08/23/php-develop/</loc>
+    <lastmod>2015-08-23T21:32:55+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://fenghan.github.io/blog/2015/08/22/vagrant-network/</loc>
+    <lastmod>2015-08-22T14:34:46+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://fenghan.github.io/blog/2015/08/21/performance/</loc>
     <lastmod>2015-08-21T14:52:36+08:00</lastmod>
   </url>

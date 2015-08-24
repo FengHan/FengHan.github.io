@@ -9,8 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="Nginx服务器返回403 开了Astrill VPN, 关闭Astrill，即可
-">
+  <meta name="description" content="前言 当PHP引擎试图实例化未知类的操作时，就会调用autoload(),并将类名当做字符串传递给它。但autoload()有个缺点，就是 一个进程中只能定义一次。这是就可以使用spl_autoload_register()函数。它可以把函数注册到__autoload队列中. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/14/nginx-error-msg/">Nginx错误信息汇总</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/17/composer-autoload/">Composer自动加载的原理</a></h1>
     
     
       <p class="meta">
@@ -92,16 +91,124 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-14T12:18:19+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:18 pm</span></time>
+<time class='entry-date' datetime='2015-08-17T15:29:35+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:29 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h3>Nginx服务器返回403</h3>
+  <div class="entry-content"><h1>前言</h1>
 
-<p>开了Astrill VPN, 关闭Astrill，即可</p>
+<p>当PHP引擎试图实例化未知类的操作时，就会调用<strong>autoload(),并将类名当做字符串传递给它。但</strong>autoload()有个缺点，就是 一个进程中只能定义一次。这是就可以使用spl_autoload_register()函数。它可以把函数注册到__autoload队列中. 现在我们来看看composer是如何实现自动加载的。</p>
+
+<p>composer.json 文件</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;autoload&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;classmap&quot;</span> <span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="s2">&quot;app/controllers&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s2">&quot;app/models&quot;</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当我们composer dump-autoload的时候，文件/vendor/composer/autoload_clasmap.php会把类名和绝对地址做个想射。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$vendorDir</span> <span class="o">=</span> <span class="nb">dirname</span><span class="p">(</span><span class="nb">dirname</span><span class="p">(</span><span class="k">__FILE__</span><span class="p">));</span>
+</span><span class='line'><span class="nv">$baseDir</span> <span class="o">=</span> <span class="nb">dirname</span><span class="p">(</span><span class="nv">$vendorDir</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>    <span class="s1">&#39;Article&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/models/Article.php&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;BaseController&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/controllers/BaseController.php&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;HomeController&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/controllers/HomeController.php&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>首页index.php调用composer的autoload文件</p>
+
+<pre><code>require '../vendor/autoload.php';
+</code></pre>
+
+<p>会调用ComposerAutoloaderInit类的静态方法getLoader(）</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">require_once</span> <span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/composer&#39;</span> <span class="o">.</span> <span class="s1">&#39;/autoload_real.php&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="nx">ComposerAutoloaderInita488c85ce5c077906f9c1829b6492f6b</span><span class="o">::</span><span class="na">getLoader</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>verdor/composer/目录下有四个配置文件：</p>
+
+<ul>
+<li>autoload_classmap.php：  要加载的class映射</li>
+<li>autoload_files.php：     要加载的文件</li>
+<li>autoload_namespaces.php：    psr-0标准</li>
+<li>psr4.php：                   psr-4标准</li>
+</ul>
+
+
+<p>getLoader(）这个方法会先把这些配置文件放到ClassLoader的私有属性中。</p>
+
+<p>然后通过$loader->register(true);来调用spl_autoload_register()</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">register</span><span class="p">(</span><span class="nv">$prepend</span> <span class="o">=</span> <span class="k">false</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nb">spl_autoload_register</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="s1">&#39;loadClass&#39;</span><span class="p">),</span> <span class="k">true</span><span class="p">,</span> <span class="nv">$prepend</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>spl_autoload_register()把loadClass()方法注册到了autoload队列中,然后当PHP引擎试图实例化未知类的操作时，就会根据类名和命名空间加载这个类文件。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">loadClass</span><span class="p">(</span><span class="nv">$class</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$file</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">findFile</span><span class="p">(</span><span class="nv">$class</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">includeFile</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
   
   
@@ -114,7 +221,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/14/interview-prepare/">用百度脑图来准备面试</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/15/php-framework-hilda/">使用Composer搭建自己的PHP框架</a></h1>
     
     
       <p class="meta">
@@ -123,7 +230,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-14T11:03:37+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:03 am</span></time>
+<time class='entry-date' datetime='2015-08-15T08:45:27+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:45 am</span></time>
         
       </p>
     
@@ -132,41 +239,25 @@ var _hmt = _hmt || [];
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>要开始找工作了，用百度脑图来整理了一下项目经验和PHP相关知识
-<a href="http://naotu.baidu.com/viewshare.html?shareId=axpmx5cuomos">点此</a></p>
+<p>今天参照<a href="http://lvwenhan.com/php/410.html">教程</a>，使用Composer来搭建自己的框架。</p>
 
-<h3>关于MindMapper</h3>
+<p>我给它起了一个名字叫做Hilda PHP Framework.</p>
 
-<p>以前做脑图一直用MindMapper，我觉得它的优点：</p>
+<p>通过构建这样的微型框架，有利于我们学习框架的自动加载、单入口文件、MVC的原理，因为需要什么，就加载什么。这样，自己的框架就像搭积木一样完成了，避免了重复发明轮子的烦恼。</p>
 
-<ol>
-<li>样子好看</li>
-<li>快捷键好用，可以不用动鼠标，就完成脑图</li>
-</ol>
+<h2>Hilda特性：</h2>
 
-
-<p>缺点：</p>
-
-<ol>
-<li>付费软件</li>
-<li>没有中文版，第三方汉化包做得不好，中文写着写着顺序就乱了</li>
-<li>不便于分享，以前写的很多脑图，现在都不知道放在那里了</li>
-<li>生成的脑图，需要用专门的软件打开，为了一个脑图，要安装软件，费时</li>
-</ol>
+<ul>
+<li>单入口文件</li>
+<li>MVC架构</li>
+<li>微型路由，基于<a href="https://packagist.org/packages/codingbean/macaw">codingbean/macaw</a></li>
+<li>数据库的ORM 采用 <a href="http://laravel-china.org/docs/5.0/eloquent">Eloquent</a></li>
+</ul>
 
 
-<h3>　百度脑图的优点：</h3>
+<h1>安装方法</h1>
 
-<ol>
-<li>开源，源代码放在了GitHub上</li>
-<li>快捷键好用</li>
-<li>便于分享</li>
-<li>样子还不错</li>
-<li>用浏览器随时可更改，便于维护
-６. 百度 FEX 团队的 f-cube 小组（原 UEditor 小组）维护，靠谱</li>
-<li>左下角有整个文件的预览，对内容较多的脑图很有帮助</li>
-</ol>
-
+<p>它的Github地址为：<a href="https://github.com/FengHan/hilda">https://github.com/FengHan/hilda</a></p>
 </div>
   
   
@@ -189,6 +280,18 @@ var _hmt = _hmt || [];
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/08/23/mysql-master-slave/">MySQL主从配置及读写分离</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/23/php-develop/">[转]PHP程序员的技术成长规划</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/22/vagrant-network/">Vagrant的网络设置</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/21/performance/">负载计算方法及不同语言开发解决性能问题的思想等</a>
@@ -216,18 +319,6 @@ var _hmt = _hmt || [];
     
       <li class="post">
         <a href="/blog/2015/08/15/php-framework-hilda/">使用Composer搭建自己的PHP框架</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/14/redis-datastructure2/">Redis数据结构类型2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/14/nginx-error-msg/">Nginx错误信息汇总</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/14/interview-prepare/">用百度脑图来准备面试</a>
       </li>
     
   </ul>

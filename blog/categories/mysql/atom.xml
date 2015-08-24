@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Mysql | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/mysql/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-08-21T21:24:07+08:00</updated>
+  <updated>2015-08-24T12:57:23+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -12,6 +12,104 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL主从配置及读写分离]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/23/mysql-master-slave/"/>
+    <updated>2015-08-23T21:53:41+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/23/mysql-master-slave</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>以前在公司的时候，公司配了MySQL主从，在线上用PHPMyAdmin查看从库信息，但只给了读权限，用于查看线上信息。今天记录一下MySQL主从的搭建过程。（我使用的是MariaDb5.5）</p>
+
+<h2>Notice</h2>
+
+<p>在用户不多、并发不大、mysql服务器在同一个局域网内，MySQL主从是没有问题的。</p>
+
+<p>但实时性非常高的情况下，做了读写分离就不行。因为单线程同步需要花时间，时间上不允许。</p>
+
+<h1>MySQL主从配置</h1>
+
+<ol>
+<li>mysql的版本相同， mysql主从同源，即具有相同的库、表及记录。</li>
+<li>数据迁移的时候，从库的版本高于主库。</li>
+<li><p>把主库从库都停掉。因为打包主库的时候会花很长时间，这时如果主库还有文件写入，很容易出错。
+ cd /var/lib/
+ tar zcvf mysql.tar.gz ./mysql</p>
+
+<p> scp mysql.tar.gz vagrant@192.168.33.10:/tmp</p></li>
+<li>配置/etc/mysql/my.cnf
+ server-id               = 1
+ log_bin                 = /var/log/mysql/mysql-bin.log
+ expire_logs_days        = 10
+ max_binlog_size         = 100M      每个bin log文件最大的大小
+开启log_bin日志，性能就会降低。没修改一条数据，就会写入文件。硬盘不大的情况下，会写满数据库</li>
+</ol>
+
+
+<p>要放到msyql有权限的目录里。</p>
+
+<p>我们的目的是用从库修复主库。
+靠从库的bin_log来恢复主机。</p>
+
+<p>写bin_log性能降低，但因为我们做了主从，我们靠读多个从库来提高并发量。</p>
+
+<p>让从库能够通过tcp 来连接主库，
+5. 为从库专门准备一个用户。</p>
+
+<pre><code>create user 'slave_1'@'%' IDENTIFIED BY 'abcd' ;
+grant replication slave  on *.* to 'slave_1'@'%';
+或者一条命令
+GRANT REPLICATION SLAVE ON *.* to 'mysync'@'%' identified by 'q123456'; 
+</code></pre>
+
+<ol>
+<li><p>通过  SHOW MASTER STATUS; 显示当前主库的binlog文件与文件位置，我们需要将这个位置记录下来
+   SHOW MASTER STATUS;</p></li>
+<li><p>连接到从库   开启主从同步</p>
+
+<p> CHANGE MASTER TO MASTER_HOST = &lsquo;192.168.33.12&rsquo; ,MASTER_USER=&lsquo;slave_2&rsquo; ,MASTER_PASSWORD = &lsquo;1234&rsquo; ,MASTER_LOG_FILE =&lsquo;mysql-bin.000002&rsquo;, MASTER_LOG_POS=973</p></li>
+<li>不想同步系统库可以选择忽略系统库
+ binlog_ignore_db        = mysql</li>
+<li><p>SALVE命令
+ START SLAVE</p>
+
+<p> STOP  SLAVE</p>
+
+<p> SHOW SLAVE STATUS\G</p></li>
+</ol>
+
+
+<p>我在安装的时候遇到的错误：
+<a href="http://serverfault.com/questions/586651/mysql-refuses-to-accept-remote-connections">MySQL refuses to accept remote connections</a></p>
+
+<p>解决方法：
+    sudo netstat -ntlup | grep mysql
+    tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      127018/mysqld</p>
+
+<p>修改/etc/mysql/my.cnf
+    bind-address = 0.0.0.0</p>
+
+<h1>读写分离</h1>
+
+<p>主库创建新用户
+    GRANT all privileges  ON tiny.<em> to &lsquo;michael&rsquo;@&lsquo;%&rsquo; identified by &lsquo;1234&rsquo;;
+    flush privileges;
+从库创建新用户，只给读的权限。
+    GRANT SELECT  ON tiny.</em> to &lsquo;michael2&rsquo;@&lsquo;%&rsquo; identified by &lsquo;1234&rsquo;;</p>
+
+<pre><code>flush privileges;
+</code></pre>
+
+<h3>代码</h3>
+
+<p><a href="https://github.com/hildalove/tiny/blob/master/Tiny/Proxy/Proxy.php">代理模式</a></p>
+
+<p><a href="https://github.com/hildalove/tiny/blob/master/Tiny/Service/Factory.php">获取数据库实例</a></p>
+
+<p><a href="https://github.com/hildalove/tiny/blob/master/App/Controller/Mysql.php">控制器</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MySQL数据库管理]]></title>
