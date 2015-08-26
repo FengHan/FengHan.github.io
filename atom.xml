@@ -4,7 +4,7 @@
   <title><![CDATA[hanfeng.name]]></title>
   <link href="http://fenghan.github.io/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-08-24T12:57:23+08:00</updated>
+  <updated>2015-08-26T14:15:23+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -26,26 +26,35 @@
 
 <p>在用户不多、并发不大、mysql服务器在同一个局域网内，MySQL主从是没有问题的。</p>
 
-<p>但实时性非常高的情况下，做了读写分离就不行。因为单线程同步需要花时间，时间上不允许。</p>
+<p>主从数据库缺点：</p>
+
+<ol>
+<li>因为开启了bin log日志，所以会有性能开销。</li>
+<li>在实时性非常高的情况下，做了读写分离就不行。因为单线程同步需要花时间，时间上不允许。</li>
+</ol>
+
 
 <h1>MySQL主从配置</h1>
 
 <ol>
 <li>mysql的版本相同， mysql主从同源，即具有相同的库、表及记录。</li>
 <li>数据迁移的时候，从库的版本高于主库。</li>
-<li><p>把主库从库都停掉。因为打包主库的时候会花很长时间，这时如果主库还有文件写入，很容易出错。
- cd /var/lib/
+<li><p>把主库从库都停掉。因为打包主库的时候会花很长时间，这时如果主库还有文件写入，很容易出错。</p>
+
+<p> cd /var/lib/
  tar zcvf mysql.tar.gz ./mysql</p>
 
 <p> scp mysql.tar.gz vagrant@192.168.33.10:/tmp</p></li>
-<li>配置/etc/mysql/my.cnf
- server-id               = 1
+<li><p>配置/etc/mysql/my.cnf</p>
+
+<p> server-id               = 1
  log_bin                 = /var/log/mysql/mysql-bin.log
  expire_logs_days        = 10
- max_binlog_size         = 100M      每个bin log文件最大的大小
-开启log_bin日志，性能就会降低。没修改一条数据，就会写入文件。硬盘不大的情况下，会写满数据库</li>
+ max_binlog_size         = 100M      每个bin log文件最大的大小</p></li>
 </ol>
 
+
+<p>开启log_bin日志，性能就会降低。没修改一条数据，就会写入文件。硬盘不大的情况下，会写满数据库</p>
 
 <p>要放到msyql有权限的目录里。</p>
 
@@ -64,44 +73,61 @@ GRANT REPLICATION SLAVE ON *.* to 'mysync'@'%' identified by 'q123456';
 </code></pre>
 
 <ol>
-<li><p>通过  SHOW MASTER STATUS; 显示当前主库的binlog文件与文件位置，我们需要将这个位置记录下来
-   SHOW MASTER STATUS;</p></li>
-<li><p>连接到从库   开启主从同步</p>
+<li><p>通过  SHOW MASTER STATUS; 显示当前主库的binlog文件与文件位置，我们需要将这个位置记录下来</p>
 
-<p> CHANGE MASTER TO MASTER_HOST = &lsquo;192.168.33.12&rsquo; ,MASTER_USER=&lsquo;slave_2&rsquo; ,MASTER_PASSWORD = &lsquo;1234&rsquo; ,MASTER_LOG_FILE =&lsquo;mysql-bin.000002&rsquo;, MASTER_LOG_POS=973</p></li>
-<li>不想同步系统库可以选择忽略系统库
- binlog_ignore_db        = mysql</li>
-<li><p>SALVE命令
- START SLAVE</p>
-
-<p> STOP  SLAVE</p>
-
-<p> SHOW SLAVE STATUS\G</p></li>
+<p>   SHOW MASTER STATUS;</p></li>
 </ol>
 
+
+<p>连接到从库   开启主从同步</p>
+
+<pre><code>CHANGE MASTER TO MASTER_HOST = '192.168.33.12' ,MASTER_USER='slave_2' ,MASTER_PASSWORD = '1234' ,MASTER_LOG_FILE ='mysql-bin.000002', MASTER_LOG_POS=973
+</code></pre>
+
+<p> 不想同步系统库可以选择忽略系统库</p>
+
+<pre><code>binlog_ignore_db        = mysql
+</code></pre>
+
+<p>SALVE命令</p>
+
+<pre><code>START SLAVE
+STOP  SLAVE
+SHOW SLAVE STATUS\G
+</code></pre>
 
 <p>我在安装的时候遇到的错误：
 <a href="http://serverfault.com/questions/586651/mysql-refuses-to-accept-remote-connections">MySQL refuses to accept remote connections</a></p>
 
-<p>解决方法：
-    sudo netstat -ntlup | grep mysql
-    tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      127018/mysqld</p>
+<p>解决方法：</p>
 
-<p>修改/etc/mysql/my.cnf
-    bind-address = 0.0.0.0</p>
+<pre><code>sudo netstat -ntlup | grep mysql
+tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      127018/mysqld
+</code></pre>
+
+<p>修改/etc/mysql/my.cnf</p>
+
+<pre><code>bind-address = 0.0.0.0
+</code></pre>
 
 <h1>读写分离</h1>
 
-<p>主库创建新用户
-    GRANT all privileges  ON tiny.<em> to &lsquo;michael&rsquo;@&lsquo;%&rsquo; identified by &lsquo;1234&rsquo;;
-    flush privileges;
-从库创建新用户，只给读的权限。
-    GRANT SELECT  ON tiny.</em> to &lsquo;michael2&rsquo;@&lsquo;%&rsquo; identified by &lsquo;1234&rsquo;;</p>
+<p>主库创建新用户</p>
 
-<pre><code>flush privileges;
+<pre><code>GRANT all privileges  ON tiny.* to 'michael'@'%' identified by '1234'; 
+flush privileges;
+</code></pre>
+
+<p>从库创建新用户，只给读的权限。</p>
+
+<pre><code>GRANT SELECT  ON tiny.* to 'michael2'@'%' identified by '1234'; 
+
+flush privileges;
 </code></pre>
 
 <h3>代码</h3>
+
+<p>代码我放到了我的GitHub上，我自己写了一个MVC的简易框架。这样，框架的任何一个部分我都了解，大大节约了我写代码示例的时间。然后学习优秀框架的思想，继续维护我的框架。</p>
 
 <p><a href="https://github.com/hildalove/tiny/blob/master/Tiny/Proxy/Proxy.php">代理模式</a></p>
 
