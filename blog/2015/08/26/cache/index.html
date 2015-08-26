@@ -5,14 +5,19 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>hanfeng.name</title>
+  <title>缓存 - hanfeng.name</title>
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="sudo apt-get update
-sudo apt-get install openssh-server
-sudo ps -e |grep ssh #没有启动，输入
-service ssh start vi /etc/ssh/sshd_config 把配置文件中的" &hellip;">
+  <meta name="description" content="缓存的类型 局域网缓存
+网络缓存
+硬盘缓存
+内存缓存
+数据库缓存
+Opcode缓存
+客户端浏览器缓存 opcode Opcode是一种PHP脚本编译后的中间语言 opcache php5.5 默认安装
+xcache php5.4
+php 5.2 zned optimization 被淘汰了。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +26,7 @@ service ssh start vi /etc/ssh/sshd_config 把配置文件中的" &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://fenghan.github.io/posts/12/">
+  <link rel="canonical" href="http://fenghan.github.io/blog/2015/08/26/cache/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="hanfeng.name" type="application/atom+xml">
@@ -77,15 +82,12 @@ var _hmt = _hmt || [];
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/27/ssh-server/">Ubuntu 14.04远程登录服务器--ssh的安装和配置</a></h1>
+      <h1 class="entry-title">缓存</h1>
     
     
       <p class="meta">
@@ -94,76 +96,124 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-27T15:22:47+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:22 pm</span></time>
+<time class='entry-date' datetime='2015-08-26T16:26:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:26 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><pre><code>sudo apt-get update
-sudo apt-get install openssh-server
-sudo ps -e |grep ssh
+<div class="entry-content"><h3>缓存的类型</h3>
 
-#没有启动，输入
-service ssh start
-</code></pre>
+<ul>
+<li>局域网缓存</li>
+<li>网络缓存</li>
+<li>硬盘缓存</li>
+<li>内存缓存</li>
+<li>数据库缓存</li>
+<li>Opcode缓存</li>
+<li>客户端浏览器缓存</li>
+</ul>
 
-<p>vi /etc/ssh/sshd_config</p>
 
-<p>把配置文件中的"PermitRootLogin without-password"加一个"#&ldquo;号,把它注释掉&ndash;>再增加一句"PermitRootLogin yes&rdquo;&ndash;>保存，修改成功。</p>
+<h3>opcode</h3>
+
+<p>Opcode是一种PHP脚本编译后的中间语言</p>
+
+<ul>
+<li>opcache php5.5 默认安装</li>
+<li>xcache  php5.4</li>
+<li>php 5.2 zned optimization 被淘汰了。</li>
+<li>wincache windows下</li>
+<li>APC  PHP5.4  （PS: 上一家公司安装了APC）</li>
+</ul>
+
+
+<p>APCU xcache wincache 支持php API调用 （默认情况下 效率高于memcache）</p>
+
+<h4>客户端浏览器缓存</h4>
+
+<p>客户端缓存 （浏览器缓存） 静态资源引用公共服务器资源</p>
+
+<p>把图片放在多个域名下，可以多线程加载图片 例如pc1.domain.com pc2.domain.com</p>
+
+<p>xxx.com/abc.js?t=1234343 开发测试的时候，用这种方法防止浏览器缓存。给静态资源加时间戳带尾巴。</p>
+
+<p>在发行产品的时候带版本号。</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
+  
+
+<span class="byline author vcard">Posted by <span class="fn">HanFeng</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-26T16:26:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:26 pm</span></time>
+      
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/26/learn-php/">PHP开发工程师</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-26T22:22:29+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:22 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>成为一名PHP开发者要学习哪些内容？</p>
-
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/what_shoud_learn_for_phper.jpg" alt="" /></p>
-
-<p>活到老，学到老，作为开发者，要不断地学习，那应该怎样学习呢？</p>
-
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/how_to_learn_php.jpg" alt="" /></p>
+      <div class="sharing">
+  
+  
+  
+  
+    <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_icons_1"></a>
+	<a class="jiathis_button_icons_2"></a>
+	<a class="jiathis_button_icons_3"></a>
+	<a class="jiathis_button_icons_4"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
 </div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
   
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/posts/13">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-    <a class="next" href="/posts/11">Newer &rarr;</a>
-    
-  </div>
 </div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/26/fen-biao/" title="Previous Post: 水平分表">&laquo; 水平分表</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/blog/2015/08/26/cache" data-title="缓存" data-url="http://fenghan.github.io/blog/2015/08/26/cache/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"fenghan"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -219,6 +269,7 @@ service ssh start
 
   
 </aside>
+
 
     </div>
   </div>

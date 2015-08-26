@@ -4,7 +4,7 @@
   <title><![CDATA[hanfeng.name]]></title>
   <link href="http://fenghan.github.io/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-08-26T14:15:23+08:00</updated>
+  <updated>2015-08-26T16:41:35+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -12,6 +12,137 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[缓存]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/26/cache/"/>
+    <updated>2015-08-26T16:26:59+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/26/cache</id>
+    <content type="html"><![CDATA[<h3>缓存的类型</h3>
+
+<ul>
+<li>局域网缓存</li>
+<li>网络缓存</li>
+<li>硬盘缓存</li>
+<li>内存缓存</li>
+<li>数据库缓存</li>
+<li>Opcode缓存</li>
+<li>客户端浏览器缓存</li>
+</ul>
+
+
+<h3>opcode</h3>
+
+<p>Opcode是一种PHP脚本编译后的中间语言</p>
+
+<ul>
+<li>opcache php5.5 默认安装</li>
+<li>xcache  php5.4</li>
+<li>php 5.2 zned optimization 被淘汰了。</li>
+<li>wincache windows下</li>
+<li>APC  PHP5.4  （PS: 上一家公司安装了APC）</li>
+</ul>
+
+
+<p>APCU xcache wincache 支持php API调用 （默认情况下 效率高于memcache）</p>
+
+<h4>客户端浏览器缓存</h4>
+
+<p>客户端缓存 （浏览器缓存） 静态资源引用公共服务器资源</p>
+
+<p>把图片放在多个域名下，可以多线程加载图片 例如pc1.domain.com pc2.domain.com</p>
+
+<p>xxx.com/abc.js?t=1234343 开发测试的时候，用这种方法防止浏览器缓存。给静态资源加时间戳带尾巴。</p>
+
+<p>在发行产品的时候带版本号。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[水平分表]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/26/fen-biao/"/>
+    <updated>2015-08-26T16:21:34+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/26/fen-biao</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>学习分库、分表的一记录，后期整理，添加示例。</p>
+
+<h1>正文</h1>
+
+<p>数据库分表与分库的实现方法：</p>
+
+<p>tb_user_0  &hellip; tb_user_1 &hellip;.tb_user_2 &hellip;. tb_user_3</p>
+
+<hr />
+
+<p>当多张表具有完全相同的数据结构时，我们认为这些表示对一个实体数据的横向切分。</p>
+
+<p>每张表都可以有自己的id
+但是所有切分出来的表必须具备全局uid
+分表后要按照某个元素（通常全局id）进行某种算法的计算，得到表后缀。</p>
+
+<p>id生成器。（用redis做id在断电的情况下有风险），通常用mysql</p>
+
+<p>uuid 得到一个字符串</p>
+
+<p>自建索引</p>
+
+<p>当数据库大了，分表是必然的。分表之后，建索引是必然的。</p>
+
+<p>将全局id进行一次md5将得到一个由16进制数值组成的32位字符串。 数据越多越均匀。分成15张表，</p>
+
+<p>或分成256张表。</p>
+
+<p>分成80张： FF = 255 255%80 取余数。分多少张表，就余多少。</p>
+
+<hr />
+
+<p>如果只是做简单切分的时候后，我们会遇到问题：</p>
+
+<ol>
+<li>当我们需要将这些数据进行统计与分析的时候，不能使用聚合函数</li>
+<li><p>当我们查询某条数据时，我们必须要知道我要查询的数据在哪一张表里，否则我就需要查询所有的表来查找结果。</p></li>
+<li><p>当我插入数据的时候，我必须尽可能的让每张表的负载均匀</p></li>
+<li>当我要修改数据的时候，我必须明确我要修改的数据在哪里。</li>
+</ol>
+
+
+<p>在不同的时期分表，会产生不同的问题。</p>
+
+<ol>
+<li>项目启动阶段就进行分表</li>
+<li>项目启动阶段没有分表，而是在项目进行到积累了一定数据量以后再进行分表</li>
+<li>项目之前就进行切分过表，但是被切分后的表经过长时间运行，又产生了大量数据，需要再次分表</li>
+</ol>
+
+
+<p>。</p>
+
+<p>合理的分表不单单能解决单张表数据量过大的问题，还能优化我们的业务逻辑。</p>
+
+<p>tb_product_store_sh
+tb_product_store_bj
+tb_product_store_hubei</p>
+
+<p>基于区域位置的分表，非常适合做类似库存，商户信息，工商管理等有着明显区域性的数据分表。</p>
+
+<p>基于IP地址的分表， 用于统计与分析数据。访问日志。
+（几十万的数据开始考虑分表。）
+当数据达到100多万的时候，就要考虑分表。</p>
+
+<p>按时间分表，
+日志。
+财务报表。
+绩效考核。</p>
+
+<p>工资流水、销售业绩、出纳凭证等记录，按年份来分表。</p>
+
+<p>考勤记录  销售业绩
+个人考勤记录 签单记录  按月分表比较适合</p>
+
+<p>季度、半年度、部门业绩 工资资产 等</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MySQL主从配置及读写分离]]></title>
@@ -1719,54 +1850,6 @@ Postgres: 54320 -&gt; Forwards To 5432
 <p> <a href="http://www.golaravel.com/laravel/docs/5.1/homestead/">golaravel</a></p>
 
 <p><a href="https://phphub.org/topics/2">phphub.org</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[C语言学习中的难重点]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/29/c-difficult/"/>
-    <updated>2015-07-29T23:18:44+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/29/c-difficult</id>
-    <content type="html"><![CDATA[<ol>
-<li>运算符: 自增、自减运算符</li>
-<li>进制： 各种进制转换、原码、反码、补码</li>
-<li>数组： 一维数组、二维数组、多维数组</li>
-<li>循环： 多重循环的嵌套、排序、查找</li>
-<li>函数：递归函数、递归调用</li>
-<li>指针：一级指针、多级指针、指针和数组、函数、结构体之间的关系</li>
-<li>内存管理： C语言内存管理问题、内存泄露、野指针</li>
-<li>有参宏及条件编译</li>
-<li>多文件开发： 多文件编译、多文件开发</li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[腾讯云主机免费试用]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/27/qcloud/"/>
-    <updated>2015-07-27T16:19:32+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/27/qcloud</id>
-    <content type="html"><![CDATA[<p>今天免费申请了<a href="http://qcloud.com">腾讯云</a>主机的免费试用15天。
-50元的代金券买了两台数据库，并使用了负载均衡。</p>
-
-<p>记录主要操作如下：</p>
-
-<p>修改 /etc/hostname 和 /etc/hosts</p>
-
-<p>配置openssh-server</p>
-
-<p>安装nginx php5-fpm php5-mysql php5-cli</p>
-
-<p>域名A记录和CNAME指向</p>
-
-<p>配置nginx虚拟主机</p>
-
-<p>安装mariadb</p>
-
-<p>安装redis</p>
-
-<p>购买了两台mysql服务器</p>
 ]]></content>
   </entry>
   
