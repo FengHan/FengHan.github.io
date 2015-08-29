@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://fenghan.github.io/blog/2015/08/29/agile/</loc>
+    <lastmod>2015-08-29T12:33:45+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://fenghan.github.io/blog/2015/08/28/senior-programmer/</loc>
+    <lastmod>2015-08-28T08:00:02+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://fenghan.github.io/blog/2015/08/26/cache/</loc>
     <lastmod>2015-08-26T16:26:59+08:00</lastmod>
   </url>
@@ -210,5 +218,8 @@
   </url>
   <url>
     <loc>http://fenghan.github.io/blog/categories/perfomance/</loc>
+  </url>
+  <url>
+    <loc>http://fenghan.github.io/blog/categories/agile/</loc>
   </url>
 </urlset>

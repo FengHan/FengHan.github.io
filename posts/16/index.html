@@ -9,7 +9,9 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做MariDB 安装 首先从 MariaDB 下载页面 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令 &hellip;">
+  <meta name="description" content="MySQL权限 mysql&gt; grant all privileges on laravel5.* to laravel@localhost identified by 'secret' with grant option;
+flush privileges; 用户名：laravel
+密码 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +84,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/23/mysql-study/">MySQL数据库管理</a></h1>
     
     
       <p class="meta">
@@ -91,35 +93,55 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-23T10:50:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:50 am</span></time>
+<time class='entry-date' datetime='2015-07-23T17:26:01+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>5:26 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
+  <div class="entry-content"><h3>MySQL权限</h3>
 
-<p>MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做<a href="https://mariadb.org/">MariDB</a></p>
-
-<h1>安装</h1>
-
-<p>首先从 <a href="http://downloads.mariadb.org/mariadb/repositories/">MariaDB 下载页面</a> 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令</p>
-
-<pre><code>sudo apt-get install software-properties-common
-sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-sudo add-apt-repository 'deb http://mirrors.opencas.cn/mariadb/repo/5.5/ubuntu trusty main'
+<pre><code>mysql&gt; grant all privileges on laravel5.* to laravel@localhost identified by 'secret' with grant option;
+flush privileges;
 </code></pre>
 
-<p>开始安装</p>
+<ul>
+<li>用户名：laravel</li>
+<li>密码： secret</li>
+<li>授权：数据库laravel5的所有表的所有权限</li>
+</ul>
 
-<pre><code>sudo apt-get update
-sudo apt-get install mariadb-server
+
+<p>创建用户</p>
+
+<pre><code>grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
+grant select on jikedb.* to webuser@localhost identified by '123';
 </code></pre>
 
-<p>这样 MariaDB 5.5 就已经安装成功，你就可以像使用 MySQL 那样对它进行配置和使用了。</p>
+<p>刷新权限</p>
 
-<p>使用mysql -h -uroot -p1234测试。</p>
+<pre><code>flush privileges;
+</code></pre>
+
+<p>回收权限</p>
+
+<pre><code>revoke select on jikedb.* from webuser@localhost;
+</code></pre>
+
+<p>删除用户</p>
+
+<pre><code>drop user webuser@localhost;
+</code></pre>
+
+<p>查看用户权限</p>
+
+<pre><code>show grants for root@localhost;
+</code></pre>
+
+<h3>参考链接</h3>
+
+<p><a href="http://blog.csdn.net/wengyupeng/article/details/3290415">分配权限</a></p>
 </div>
   
   
@@ -132,7 +154,7 @@ sudo apt-get install mariadb-server
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/22/vagrant-lnmp/">使用Vagrant搭建本地Ubuntu开发环境</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/23/thinkphp/">Thinkphp</a></h1>
     
     
       <p class="meta">
@@ -141,7 +163,7 @@ sudo apt-get install mariadb-server
 
 
 
-<time class='entry-date' datetime='2015-07-22T14:13:27+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>2:13 pm</span></time>
+<time class='entry-date' datetime='2015-07-23T11:55:43+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:55 am</span></time>
         
       </p>
     
@@ -150,143 +172,7 @@ sudo apt-get install mariadb-server
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>使用PHP做Web开发已有4年，4年间只有第二年是在Ubuntu下开发，其它都是在Windows下开发，但Win下开发有如下缺点：</p>
-
-<ol>
-<li>Windows 不区分大小写，在Win下OK, 上传到服务器上有了Bug。</li>
-<li>Windows 不能测试cron是否写得正确，执行php-cli麻烦</li>
-<li>开发环境与生产环境不同，莫名的产生了一些Bug</li>
-<li>自己的Linux水平下降，对服务器的一些配置慢慢感到了生疏。</li>
-</ol>
-
-
-<p>但在Ubuntu下开发，也有问题：</p>
-
-<ol>
-<li>不习惯的编辑器，那时使用IDEA作为编辑器，真心不好用。</li>
-<li>当初用Word写文档，Ubuntu里没有。（现在用Markdown了）</li>
-<li>团队开发使用QQ作为通讯工具，还要装一个QQ。（QQ真不适合作为沟通工具，其它无关内容总分心）</li>
-</ol>
-
-
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_vagrant.png" alt="" /></p>
-
-<h1>Vagrant优点</h1>
-
-<p><a href="http://docs.vagrantup.com/">Vagrant</a>是用来管理虚拟机的，它有如下好处：</p>
-
-<ol>
-<li>对于开发人员来说，Vagrant可以帮你统一团队成员的开发环境。</li>
-<li>对于运维人员来说，Vagrant可以给你提供一个与线上一致的测试环境。</li>
-<li>对于设计人员来说，Vagrant可以让你只需要专注在设计上。</li>
-</ol>
-
-
-<p>Vagrant适合用来管理虚拟机，而Docker适合用来管理应用环境。</p>
-
-<h3>需要安装的软件：</h3>
-
-<ul>
-<li>Vagrant</li>
-<li>Virtual Box</li>
-<li>putty</li>
-<li>box <a href="https://atlas.hashicorp.com/boxes/search">虚拟机镜像查看</a></li>
-</ul>
-
-
-<p>添加box ubuntu/trusty64</p>
-
-<pre><code>vagrant version
-#查看版本
-
-vagrant add box ubuntu/trusty64
-# download the box named "ubuntu/trusty64" from Internet
-#下载ubuntu14.04 lts(long term supporting)
-</code></pre>
-
-<p>添加的boxes会被多个项目重复利用。每个项目都会克隆它，而不会修改它。两个项目之间不会相互影响</p>
-
-<pre><code>vagrant box list
-#查看box列表
-
-vagrant init ubuntu/trusty64; 
-vagrant init
-
-vagrant up --provider virtualbox
-vagrant up
-
-vagrant ssh
-</code></pre>
-
-<p>bootstrap.sh 文件</p>
-
-<pre><code>#!/usr/bin/env bash
-
-apt-get update
-apt-get install -y apache2
-if ! [ -L /var/www ]; then
-  rm -rf /var/www
-  ln -fs /vagrant /var/www
-fi
-</code></pre>
-
-<p>Vagrantfile文件 配置文件</p>
-
-<pre><code>Vagrant.configure("2") do |config|
-   config.vm.box = "hashicorp/precise32"
-   config.vm.provision :shell, path: "bootstrap.sh"
-   config.vm.network :forwarded_port, guest: 80, host: 4567
-   config.vm.network :private_network, ip: "192.168.33.10"
-   #重启虚拟机，这样我们就能用 192.168.33.10 访问这台机器了，你可以把 IP 改成其他地址，只要不产生冲突就行。
-end
-</code></pre>
-
-<p>vagrant load &ndash;provision</p>
-
-<p>vagrant login
-输入用户名和密码</p>
-
-<p>vagrant share</p>
-
-<p>将产生一个网址，互联网上的其他人能够访问</p>
-
-<h3>停止工作</h3>
-
-<pre><code>vagrant suspend
-vagrant halt
-vagrant destroy
-</code></pre>
-
-<h3>打包分发</h3>
-
-<pre><code>vagrant package
-vagrant package --output NAME 导出box (NAME.box)
-</code></pre>
-
-<p>打包完成后会在当前目录生成一个 package.box 的文件，将这个文件传给其他用户，其他用户只要添加这个 box 并用其初始化自己的开发目录就能得到一个一模一样的开发环境了。</p>
-
-<h3>注意事项</h3>
-
-<p>使用 Apache/Nginx 时会出现诸如图片修改后但页面刷新仍然是旧文件的情况，是由于静态文件缓存造成的。需要对虚拟机里的 Apache/Nginx 配置文件进行修改：</p>
-
-<pre><code># Apache 配置添加:
-EnableSendfile off
-
-# Nginx 配置添加:
-sendfile off;
-</code></pre>
-
-<h3>补充</h3>
-
-<p>Putty工具连接：</p>
-
-<p>注：虚拟机的默认IP|Port：127.0.0.1:2222   用户：vagrant | root   密码：vagrant</p>
-
-<h3>参考链接</h3>
-
-<p><a href="http://www.ciandt.com.cn/blog/how-to-use-vagrant-build-drupal-development-environment-windows">CI&amp;T: 使用VAGRANT构建DRUPAL本地开发环境 - WINDOWS</a></p>
-
-<p><a href="http://segmentfault.com/a/1190000000264347">使用 Vagrant 打造跨平台开发环境</a></p>
+<p>PHP 作为一种广泛用于 Web 服务器端的脚本语言，在敏捷 Web 开发方面有独特的优势，成功案例多、社区活跃、资源丰富，框架也非常多。ThinkPHP 作为一款起步较早、相对成熟的国产 PHP 框架，在国内有相当的用户量，借这个机会向大家介绍 ThinkPHP 基础知识，为后续的项目实战做好准备。</p>
 </div>
   
   
@@ -309,6 +195,14 @@ sendfile off;
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/26/cache/">缓存</a>
@@ -340,14 +234,6 @@ sendfile off;
     
       <li class="post">
         <a href="/blog/2015/08/20/redis-message-queue/">用Redis实现消息队列</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/19/phpredis/">Phpredis小结</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/17/buid-your-own-php-framework/">搭建自己的PHP开发框架</a>
       </li>
     
   </ul>

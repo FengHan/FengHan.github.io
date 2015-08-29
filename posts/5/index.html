@@ -9,8 +9,8 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 PHP 安装redis有两种方法，这篇文章所阐述的内容是以扩展的方式安装phpredis Redis apt-get install redis-server
-apt-get install php5-redis 我们通过 apt-get安装的扩展配置将出现在 /etc/php5/mods- &hellip;">
+  <meta name="description" content="今晚把博客迁移到了灵雀云
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,7 +83,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/19/phpredis/">Phpredis小结</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/21/alauda/">Docker灵雀云</a></h1>
     
     
       <p class="meta">
@@ -92,90 +92,14 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-19T15:28:13+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:28 pm</span></time>
+<time class='entry-date' datetime='2015-08-21T02:24:30+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>2:24 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
-
-<p>PHP 安装redis有两种方法，这篇文章所阐述的内容是以扩展的方式安装phpredis</p>
-
-<h1>Redis</h1>
-
-<pre><code>apt-get install redis-server
-apt-get install php5-redis
-</code></pre>
-
-<p>我们通过 apt-get安装的扩展配置将出现在  /etc/php5/mods-available</p>
-
-<p>把将要启用的模块的配置文件做一个软连接到
-/etc/php5/apache2/conf.d  (LAMP/LNAMP) <br/>
-/etc/php5/fpm/conf.d (LNMP )</p>
-
-<p>通常情况系统会帮我们做好软连接.</p>
-
-<p>redis的应用场景：
-1. 用户访问量
-2. 用户活跃度，每日的访问量 setbit
-3. 存储Session</p>
-
-<p>提供内存缓存
-数据结构</p>
-
-<p>postgress 做集群和横向扩容的时候比较麻烦</p>
-
-<p>用redis的hash和list做索引，用mysql做数据存储
-自建索引（hash list）</p>
-
-<p>用list记录用户访问页面，堆栈</p>
-
-<p>首页做缓存，放到redis里面</p>
-
-<h2>redis高级数据结构 bitmaps 和 HyperLogLogs</h2>
-
-<p>php单进程的
-请求结束后，进程回收。
-只能够保证每次请求连接一次redis</p>
-
-<h2>新的数据结构</h2>
-
-<p>bitmaps,
-HyperLogLogs: 占用少量内容，</p>
-
-<p>计算内存消耗，计算CPU消耗</p>
-
-<p><strong>性能和开销</strong></p>
-
-<p>一天人均15次，每天100万用户访问。
-每次用户访问都写入日志。
-用户的每一次会话都产生一次id</p>
-
-<p>目标：搭建每日访问100万用户的网站架构。</p>
-
-<p>Redis的Pub/Sub</p>
-
-<h3>redis3.0</h3>
-
-<p>系统必须装有gcc</p>
-
-<p>redis 3.0安装
-wget <a href="http://download.redis.io/releases/redis-3.0.0.tar.gz">http://download.redis.io/releases/redis-3.0.0.tar.gz</a></p>
-
-<p>tar -zxvf redis-3.0.0.tar.gz
-cd redis-3.0.0
-make
-make install</p>
-
-<p>编译好的文件默认在src目录中</p>
-
-<h1>Todo</h1>
-
-<p>写一个phpredis的类，有以下要求：
-1. 单例模式，只实例化一次Redis
-2. 封装connect, auth, 选择哪个库</p>
+  <div class="entry-content"><p>今晚把博客迁移到了<a href="http://alauda.cn">灵雀云</a></p>
 </div>
   
   
@@ -188,7 +112,7 @@ make install</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/17/buid-your-own-php-framework/">搭建自己的PHP开发框架</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/20/redis-message-queue/">用Redis实现消息队列</a></h1>
     
     
       <p class="meta">
@@ -197,64 +121,29 @@ make install</p>
 
 
 
-<time class='entry-date' datetime='2015-08-17T17:24:04+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:24 pm</span></time>
+<time class='entry-date' datetime='2015-08-20T22:40:48+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:40 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
+  <div class="entry-content"><h1>目标</h1>
 
-<p>想要搭建一个自己的PHP框架，需要哪些功能呢？</p>
+<ol>
+<li>用户注册时，将注册信息（例如用户名、密码、邮箱等）Push到Redis的List里。</li>
+<li>用PHP-CLI脚本，读取队列的消息，存取到数据库。</li>
+</ol>
+
+
+<p>代码如下：</p>
 
 <ul>
-<li>单一入口</li>
-<li>类的自动加载</li>
-<li>MVC</li>
-<li>易于配置</li>
-<li>有电子商务相关的接口：购物车，订单，支付</li>
+<li><a href="https://github.com/hildalove/tiny/blob/master/Tiny/MessageQueue/PHPMQ.php">PHPMQ CLASS</a></li>
+<li><a href="https://github.com/hildalove/tiny/blob/master/Tiny/MessageQueue/UserMQ.php">UserMQ CLASS</a></li>
+<li><a href="https://github.com/hildalove/tiny/blob/master/App/Controller/MQ.php">user reg Controller</a></li>
+<li><a href="https://github.com/hildalove/tiny/blob/master/cron/user_mq.php">PHP-CLI CRON</a></li>
 </ul>
-
-
-<h1>如何实现</h1>
-
-<h3>单一入口</h3>
-
-<p>nginx配置</p>
-
-<pre><code>location / {
-    try_files $uri $uri/ /index.php?/$uri;
-}
-</code></pre>
-
-<ol>
-<li>将uri全部定向到index.php</li>
-<li>在入口文件，实现路由分发，实化例Ccontroller类，然后调用方法。</li>
-</ol>
-
-
-<h3>类的自动加载</h3>
-
-<ol>
-<li>维护命名空间与绝对路径的映射</li>
-<li>使用spl_autoload_register注册函数，当调用不存在的类时，自动加载。</li>
-</ol>
-
-
-<h3>MVC</h3>
-
-<ol>
-<li>每个Controller继承一个Controoler，在这个类中实现存储数据和include模板文件</li>
-<li>用工厂模式和注册树模式来实例化对应的Model类</li>
-</ol>
-
-
-<h3>易于配置</h3>
-
-<ol>
-<li>定义Config类实现\ArrayAccess， 然后加载config目录下的所有文件。也是用注册树和工厂模式。</li>
-</ol>
 
 </div>
   
@@ -278,6 +167,14 @@ make install</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/26/cache/">缓存</a>
@@ -309,14 +206,6 @@ make install</p>
     
       <li class="post">
         <a href="/blog/2015/08/20/redis-message-queue/">用Redis实现消息队列</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/19/phpredis/">Phpredis小结</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/17/buid-your-own-php-framework/">搭建自己的PHP开发框架</a>
       </li>
     
   </ul>

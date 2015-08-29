@@ -4,7 +4,7 @@
   <title><![CDATA[hanfeng.name]]></title>
   <link href="http://fenghan.github.io/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-08-26T16:41:35+08:00</updated>
+  <updated>2015-08-29T16:11:34+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -12,6 +12,116 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SCRUM敏捷式开发（Agile）思维整理]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/29/agile/"/>
+    <updated>2015-08-29T12:33:45+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/29/agile</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>今天看到朋友圈里关于<a href="www.teambition.com">teambition</a>团队协作工具的介绍。</p>
+
+<p>由此联想到了以前公司的SCRUM敏捷式开发。这里整理一下敏捷式团队开发的一些思绪。</p>
+
+<h1>SCRUM</h1>
+
+<p><img src="http://images.cnblogs.com/cnblogs_com/taven/201010/2010-10-17_202832.png" alt="" /></p>
+
+<p>就如上图(图片为网络搜寻)所看到的，一个超大的白板上规矩的排满了各种纸条。每个纸条上写着各种任务。如果谁对这个任务感兴趣，就在这个纸条上写上自己的名字。为了便于说明，我假设了一个场景进行阐述。</p>
+
+<h4>周一上午</h4>
+
+<p>IT经理已经和总经理进行了讨论。IT 经理说：</p>
+
+<ol>
+<li><p>上周，市场部门已经提前跟我说过，国庆节来了，我们是一个电商网站，要做出一些活动，所以们这周会给3个月内未购买过产品的用户发电子邮件。这个任务包含了前端HTML和后端PHP的一些逻辑。</p></li>
+<li><p>我们的网站要有一个法语的版本，所以我们在接下来的这两个星期会考虑我们的数据库设计。</p></li>
+</ol>
+
+
+<p>&hellip;（省略若干任务）</p>
+
+<h4>周一下午</h4>
+
+<p>IT部门的10个人聚集在会议室。打算做两件事情：
+1. 讨论上周的任务完成情况，当然在一般的情况下，这些任务是都完成了的。Review一下成果。</p>
+
+<ol>
+<li>讨论IT经理上午和总经理谈得任务，把每条任务进行逐行分解。并把任务平均分配到2个team上。接下来把任务打印出来。贴到白板上。正如上图所见，左面第一列的每一个方格子内是一系列相关的任务，这是打算是打算要这两个星期要做的事情。</li>
+</ol>
+
+
+<h3>周二上午10点</h3>
+
+<p>每天上午，IT部门的10个人站在这块白班前面，把自己今天打算要做的任务纸条上写下自己的名字，然后挪动到中间的格子里。叙说一下我对这个任务的看法，打算怎么做，预估多长时间能够昨晚。</p>
+
+<h3>周三上午</h3>
+
+<p>每天早上10点，IT部的人都会站在这块白板前面，对写下名字的任务叙说3件事情：</p>
+
+<ol>
+<li>我昨天做了什么</li>
+<li>我遇到了哪些困难</li>
+<li>我今天打算做些什么</li>
+</ol>
+
+
+<h3>周四上午</h3>
+
+<p>这里叙说一下为什么站在白板前面，而不是坐在会议室里，因为这样站着效率跟高效，10分钟就能够讨论结束。其实每天早上的这个会议叫做Sprint会议。</p>
+
+<p>今天有人已经完成了任务，他会把任务纸条放在最右边的那栏里，表示任务已经完成。</p>
+
+<h2>总结：</h2>
+
+<p>OK, 这就是我执行了2年的SCRUM敏捷式开发的流程。我是一个执行者的流程来看待这件事件。它的优点：</p>
+
+<ol>
+<li>任务清楚，明确，一切围绕着目标。</li>
+<li>中途加入的临时任务如果不是特别紧急、重要会安排到下周。</li>
+</ol>
+
+
+<p>缺点：
+1. 每天时间满满的一个任务接着一个任务，时间久了会有些疲惫。</p>
+
+<p>每一段工作任务都会会学到很多东西，把它记录下来，总结下来，为下一家公司发光发热。</p>
+
+<p>这有一个网上的SCRUM可以看看<a href="http://home.leangoo.com/">leangoo</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何成为高级程序员]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/28/senior-programmer/"/>
+    <updated>2015-08-28T08:00:02+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/28/senior-programmer</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>高级程序员都干些什么呢？怎样才能成为高级程序员呢？其实初级或刚入行的朋友喜欢问这样的问题。可能想把作为下一个奋斗的目标吧。下面是微信账号“威哥干Java”的看法。</p>
+
+<p>一个项目好比画了两个圈，内外镶嵌，高级程序员负责内圈代码，初级程序员负责外圈代码。想要成为高级程序员，你就得往内圈挤。</p>
+
+<p>从专业的角度上有三点：</p>
+
+<ol>
+<li>确定开发团队、技术路线和技术架构，为关键模块设计技术实现，能够满足长期发展的业务需要。</li>
+<li>能参与系统调研，需求分析。负责概要设计、详细设计， 开发计划等编制并实施。负责核心内码通用模块功能实现，解决一些技术问题。</li>
+<li>负责提升团队技术能力，协同项目经理进行项目开发，并实现重要的功能，指导和培养团队的成员。</li>
+</ol>
+
+
+<p>满足3个必备条件：</p>
+
+<ol>
+<li>具备看官方英文文档的能力。</li>
+<li>上专业顶级的社区。</li>
+<li>成为Github重度感染者。</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[缓存]]></title>
@@ -993,6 +1103,19 @@ make install</p>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<h1>psr-0 与psr - 4 的不同</h1>
+
+<ol>
+<li>PSR-4中，在类名中使用下划线没有任何特殊含义。而PSR-0则规定类名中的下划线_会被转化成目录分隔符。</li>
+<li>composer的PSR-4带来更简洁的文件结构。</li>
+<li>参考：<a href="http://segmentfault.com/a/1190000000380008">PSR-4——新鲜出炉的PHP规范</a></li>
+</ol>
+
+
+<p>总结：
+1. 命名空间前缀对应相应的文件夹
+2. 类名和文件名相同，文件后缀为PHP</p>
 ]]></content>
   </entry>
   
@@ -1650,206 +1773,6 @@ Alt + t -> Refactor this 然后输入 up</p>
 <h3>更多的设计模式</h3>
 
 <p>在工程中思考并实践</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[PHP各个版本的新特性]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/11/php_version/"/>
-    <updated>2015-08-11T14:19:23+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/11/php_version</id>
-    <content type="html"><![CDATA[<p>两年前，公司由PHP5.2 升级到了PHP5.3,此后在PHP5.3上开发了有一年的时间，此后不断的升级，现在记录一些我用到的特性。</p>
-
-<h1>PHP5.3</h1>
-
-<p> PHP5.3一方面在面向对象开发等方面有所加强, 另一方面也增加了不少实用的语法特性和新扩展。</p>
-
-<ol>
-<li>支持命名空间</li>
-<li>新增两个魔术方法<strong>invoke 和</strong>callStatic</li>
-<li>三元符增加了一个快捷方式来书写。</li>
-<li>支持闭包</li>
-</ol>
-
-
-<p>命名空间的分隔符为反斜杠\</p>
-
-<p>以函数形式来调用对象时，__invoke()方法将被自动调用。</p>
-
-<p>当尝试调用类中不存在的静态方法时，__callStatic()魔术方法将被自动调用。</p>
-
-<h1>PHP 5.4</h1>
-
-<p>当升级到PHP5.4版本的时候，我们的开发环境有XP全部升级到了WIN7</p>
-
-<ul>
-<li>数组简写形式  [1,2,3]  [&lsquo;foo&rsquo; => &lsquo;banana&rsquo;, &lsquo;bar&rsquo; => &lsquo;apple&rsquo;]</li>
-<li>内置Web服务器  php -S localhost:8000 -t public</li>
-<li>&lt;?=（精简回显语法）现在始终可用，无论 short_tags ini 设置的值为何。</li>
-<li><p>PHP 5.4版本将是最后一个支持Windows XP 和 Windows 2003的版本，今后将不再提供针对这些操作系统的二进制包。</p></li>
-<li><p>返回数组的函数调用现在可以直接解除引用：</p>
-
-<p>  function fruits() {<br/>
-      return [&lsquo;apple&rsquo;, &lsquo;banana&rsquo;, &lsquo;orange&rsquo;];<br/>
-  }</p>
-
-<p>  echo fruits()[0]; // Outputs: apple</p></li>
-</ul>
-
-
-<h1>PHP 5.5</h1>
-
-<p>Laravel 框架对PHP的版本要求是大于等于PHP5.5.9</p>
-
-<ul>
-<li>不推荐使用 mysql 函数，推荐使用 PDO 或 MySQL</li>
-</ul>
-
-
-<h1>PHP 5.6</h1>
-
-<ul>
-<li>命名空间支持常量和函数：</li>
-</ul>
-
-
-<h1>PHP 7</h1>
-
-<p>2015年11月发布</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用Homestead搭建本地Laravel开发环境]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/09/laravel-homestead/"/>
-    <updated>2015-08-09T15:06:33+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/09/laravel-homestead</id>
-    <content type="html"><![CDATA[<h3>环境说明</h3>
-
-<ul>
-<li>64bit Win7系统</li>
-<li>Git Bash</li>
-<li>Vagrant</li>
-<li>Virtual Box</li>
-</ul>
-
-
-<h3>约定</h3>
-
-<p>我们要创建一个项目blog，放在/d/sites/blog/目录下面</p>
-
-<h3>安装</h3>
-
-<p>创建项目目录</p>
-
-<pre><code>cd /d/sites
-mkdir blog
-</code></pre>
-
-<p>下载laravel的box和homestead</p>
-
-<pre><code>vagrant box add laravel/homestead
-git clone https://github.com/laravel/homestead.git Homestead
-</code></pre>
-
-<p>生成Homestead.yaml 到~/.homestead目录下</p>
-
-<pre><code>cd /d/sites/blog/Homestead/
-init.sh
-</code></pre>
-
-<p>生成秘钥</p>
-
-<pre><code>ssh-keygen -t rsa -C "you@homestead"
-</code></pre>
-
-<p>配置文件 ~/.homestead/Homestead.yaml</p>
-
-<pre><code>---
-ip: "192.168.10.10"
-memory: 2048
-cpus: 1
-provider: virtualbox
-
-authorize: ~/.ssh/id_rsa.pub
-
-keys:
-    - ~/.ssh/id_rsa
-
-folders:
-    - map: d:\sites\blog
-      to: /home/vagrant/blog
-
-sites:
-    - map: blog.app
-      to: /home/vagrant/blog/public
-
-databases:
-    - homestead
-
-variables:
-    - key: APP_ENV
-      value: local
-
-# blackfire:
-#     - id: foo
-#       token: bar
-#       client-id: foo
-#       client-token: bar
-
-# ports:
-#     - send: 93000
-#       to: 9300
-#     - send: 7777
-#       to: 777
-#       protocol: udp
-</code></pre>
-
-<h3>Win下添加快捷键</h3>
-
-<pre><code>cd ~
-vi .bashrc
-alias vm="ssh vagrant@127.0.0.1 -p 2222"
-
-source .bashrc
-</code></pre>
-
-<h3>启动虚拟机</h3>
-
-<pre><code>cd /d/sites/blog/Homestead/
-vagrant up
-</code></pre>
-
-<h3>修改hosts文件</h3>
-
-<h3>虚拟机的mysql</h3>
-
-<pre><code>host: 127.0.0.1
-port: 33060
-user: homestead
-pass: secret
-</code></pre>
-
-<h3>虚拟机里的端口转发</h3>
-
-<pre><code>SSH: 2222 -&gt; Forwards To 22
-HTTP: 8000 -&gt; Forwards To 80
-MySQL: 33060 -&gt; Forwards To 3306
-Postgres: 54320 -&gt; Forwards To 5432
-</code></pre>
-
-<h3>配置</h3>
-
-<pre><code>php artisan key:generate
-</code></pre>
-
-<p>将生成的key复制到config/app.php替换82行的APP_KEY键值。</p>
-
-<h3>参考链接</h3>
-
-<p> <a href="http://www.golaravel.com/laravel/docs/5.1/homestead/">golaravel</a></p>
-
-<p><a href="https://phphub.org/topics/2">phphub.org</a></p>
 ]]></content>
   </entry>
   

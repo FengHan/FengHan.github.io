@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SCRUM敏捷式开发（Agile）思维整理 - hanfeng.name</title>
+  <meta name="author" content="HanFeng">
+
+  
+  <meta name="description" content="前言 今天看到朋友圈里关于teambition团队协作工具的介绍。 由此联想到了以前公司的SCRUM敏捷式开发。这里整理一下敏捷式团队开发的一些思绪。 SCRUM 就如上图(图片为网络搜寻)所看到的，一个超大的白板上规矩的排满了各种纸条。每个纸条上写着各种任务。如果谁对这个任务感兴趣， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://fenghan.github.io/blog/2015/08/29/agile/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="hanfeng.name" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?2a48f7616c9cd39ec6c4c06ddbd5cbea";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">hanfeng.name</a></h1>
+  
+    <h2>I am a software engineer with interests in web applications.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="fenghan.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SCRUM敏捷式开发（Agile）思维整理</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-29T12:33:45+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:33 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>前言</h1>
+
+<p>今天看到朋友圈里关于<a href="www.teambition.com">teambition</a>团队协作工具的介绍。</p>
+
+<p>由此联想到了以前公司的SCRUM敏捷式开发。这里整理一下敏捷式团队开发的一些思绪。</p>
+
+<h1>SCRUM</h1>
+
+<p><img src="http://images.cnblogs.com/cnblogs_com/taven/201010/2010-10-17_202832.png" alt="" /></p>
+
+<p>就如上图(图片为网络搜寻)所看到的，一个超大的白板上规矩的排满了各种纸条。每个纸条上写着各种任务。如果谁对这个任务感兴趣，就在这个纸条上写上自己的名字。为了便于说明，我假设了一个场景进行阐述。</p>
+
+<h4>周一上午</h4>
+
+<p>IT经理已经和总经理进行了讨论。IT 经理说：</p>
+
+<ol>
+<li><p>上周，市场部门已经提前跟我说过，国庆节来了，我们是一个电商网站，要做出一些活动，所以们这周会给3个月内未购买过产品的用户发电子邮件。这个任务包含了前端HTML和后端PHP的一些逻辑。</p></li>
+<li><p>我们的网站要有一个法语的版本，所以我们在接下来的这两个星期会考虑我们的数据库设计。</p></li>
+</ol>
+
+
+<p>&hellip;（省略若干任务）</p>
+
+<h4>周一下午</h4>
+
+<p>IT部门的10个人聚集在会议室。打算做两件事情：
+1. 讨论上周的任务完成情况，当然在一般的情况下，这些任务是都完成了的。Review一下成果。</p>
+
+<ol>
+<li>讨论IT经理上午和总经理谈得任务，把每条任务进行逐行分解。并把任务平均分配到2个team上。接下来把任务打印出来。贴到白板上。正如上图所见，左面第一列的每一个方格子内是一系列相关的任务，这是打算是打算要这两个星期要做的事情。</li>
+</ol>
+
+
+<h3>周二上午10点</h3>
+
+<p>每天上午，IT部门的10个人站在这块白班前面，把自己今天打算要做的任务纸条上写下自己的名字，然后挪动到中间的格子里。叙说一下我对这个任务的看法，打算怎么做，预估多长时间能够昨晚。</p>
+
+<h3>周三上午</h3>
+
+<p>每天早上10点，IT部的人都会站在这块白板前面，对写下名字的任务叙说3件事情：</p>
+
+<ol>
+<li>我昨天做了什么</li>
+<li>我遇到了哪些困难</li>
+<li>我今天打算做些什么</li>
+</ol>
+
+
+<h3>周四上午</h3>
+
+<p>这里叙说一下为什么站在白板前面，而不是坐在会议室里，因为这样站着效率跟高效，10分钟就能够讨论结束。其实每天早上的这个会议叫做Sprint会议。</p>
+
+<p>今天有人已经完成了任务，他会把任务纸条放在最右边的那栏里，表示任务已经完成。</p>
+
+<h2>总结：</h2>
+
+<p>OK, 这就是我执行了2年的SCRUM敏捷式开发的流程。我是一个执行者的流程来看待这件事件。它的优点：</p>
+
+<ol>
+<li>任务清楚，明确，一切围绕着目标。</li>
+<li>中途加入的临时任务如果不是特别紧急、重要会安排到下周。</li>
+</ol>
+
+
+<p>缺点：
+1. 每天时间满满的一个任务接着一个任务，时间久了会有些疲惫。</p>
+
+<p>每一段工作任务都会会学到很多东西，把它记录下来，总结下来，为下一家公司发光发热。</p>
+
+<p>这有一个网上的SCRUM可以看看<a href="http://home.leangoo.com/">leangoo</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">HanFeng</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-29T12:33:45+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:33 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/agile/'>agile</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+  
+    <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_icons_1"></a>
+	<a class="jiathis_button_icons_2"></a>
+	<a class="jiathis_button_icons_3"></a>
+	<a class="jiathis_button_icons_4"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/28/senior-programmer/" title="Previous Post: 如何成为高级程序员">&laquo; 如何成为高级程序员</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/blog/2015/08/29/agile" data-title="SCRUM敏捷式开发（Agile）思维整理" data-url="http://fenghan.github.io/blog/2015/08/29/agile/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"fenghan"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/26/cache/">缓存</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/26/fen-biao/">水平分表</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/23/mysql-master-slave/">MySQL主从配置及读写分离</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/23/php-develop/">[转]PHP程序员的技术成长规划</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/22/vagrant-network/">Vagrant的网络设置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/21/performance/">负载计算方法及不同语言开发解决性能问题的思想等</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/21/alauda/">Docker灵雀云</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/20/redis-message-queue/">用Redis实现消息队列</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - HanFeng -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
