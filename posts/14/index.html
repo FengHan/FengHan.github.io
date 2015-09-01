@@ -9,9 +9,8 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="参考链接 全局安装： $ curl -sS https://getcomposer.org/installer | php
-$ mv composer.phar /usr/local/bin/composer Composer 中国镜像 采用 composer 的全局配置文件
-">
+  <meta name="description" content="今天免费申请了腾讯云主机的免费试用15天。
+50元的代金券买了两台数据库，并使用了负载均衡。 记录主要操作如下： 修改 /etc/hostname 和 /etc/hosts 配置openssh-server 安装nginx php5-fpm php5-mysql php5-cli &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,7 +83,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/26/composer/">Composer</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/27/qcloud/">腾讯云主机免费试用</a></h1>
     
     
       <p class="meta">
@@ -93,26 +92,33 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-26T19:45:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:45 pm</span></time>
+<time class='entry-date' datetime='2015-07-27T16:19:32+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:19 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><a href="http://www.phpcomposer.com/composer-the-new-age-of-dependency-manager-for-php/">参考链接</a></p>
+  <div class="entry-content"><p>今天免费申请了<a href="http://qcloud.com">腾讯云</a>主机的免费试用15天。
+50元的代金券买了两台数据库，并使用了负载均衡。</p>
 
-<p>全局安装：</p>
+<p>记录主要操作如下：</p>
 
-<pre><code>$ curl -sS https://getcomposer.org/installer | php
-$ mv composer.phar /usr/local/bin/composer
-</code></pre>
+<p>修改 /etc/hostname 和 /etc/hosts</p>
 
-<p>Composer 中国镜像</p>
+<p>配置openssh-server</p>
 
-<p>采用</p>
+<p>安装nginx php5-fpm php5-mysql php5-cli</p>
 
-<p> <a href="http://pkg.phpcomposer.com/">composer 的全局配置文件</a></p>
+<p>域名A记录和CNAME指向</p>
+
+<p>配置nginx虚拟主机</p>
+
+<p>安装mariadb</p>
+
+<p>安装redis</p>
+
+<p>购买了两台mysql服务器</p>
 </div>
   
   
@@ -125,7 +131,7 @@ $ mv composer.phar /usr/local/bin/composer
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/26/yii/">Yii 2.0框架</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/27/ssh-server/">Ubuntu 14.04远程登录服务器--ssh的安装和配置</a></h1>
     
     
       <p class="meta">
@@ -134,55 +140,24 @@ $ mv composer.phar /usr/local/bin/composer
 
 
 
-<time class='entry-date' datetime='2015-07-26T19:22:48+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:22 pm</span></time>
+<time class='entry-date' datetime='2015-07-27T15:22:47+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:22 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h3>框架介绍</h3>
+  <div class="entry-content"><pre><code>sudo apt-get update
+sudo apt-get install openssh-server
+sudo ps -e |grep ssh
 
-<p>高性能、基于组件</p>
+#没有启动，输入
+service ssh start
+</code></pre>
 
-<ol>
-<li>实现了MVC模式</li>
-<li>代码简洁优雅</li>
-<li>全栈框架，对关系型和NoSQL数据库都提供了查询生成器和ActiveRecord；多层缓存支持。</li>
-<li>高性能始终是Yii的首要目标之一。</li>
-</ol>
+<p>vi /etc/ssh/sshd_config</p>
 
-
-<p>目前主要有1.1 和2.0 两个版本。</p>
-
-<p>2.0是一个完全重写的版本，采用了最新的技术和协议，包括依赖包管理器Composer， PHP代码规范PSR、命名空间、Traits（特质）等等。2.0 代表新一代框架。</p>
-
-<p>Yii2.0需要<strong>PHP5.4.0</strong>以上的版本。</p>
-
-<h3>框架部署</h3>
-
-<ol>
-<li>通过Composer安装，升级简单
-<a href="http://www.yiiframework.com/download/">安装说明</a></li>
-</ol>
-
-
-<h3>Yii 2.0 表单怎么用？</h3>
-
-<ol>
-<li>创建模型</li>
-<li>按规则自动验证</li>
-<li>视图通过小部件（widgets）自动生成HTML</li>
-</ol>
-
-
-<p>可能出现的问题</p>
-
-<ol>
-<li>命名空间要写对</li>
-<li>记的引用（use）所需要的小部件或是类</li>
-</ol>
-
+<p>把配置文件中的"PermitRootLogin without-password"加一个"#&ldquo;号,把它注释掉&ndash;>再增加一句"PermitRootLogin yes&rdquo;&ndash;>保存，修改成功。</p>
 </div>
   
   
@@ -205,6 +180,18 @@ $ mv composer.phar /usr/local/bin/composer
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/30/performance-bottleneck/">性能瓶颈</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
@@ -232,18 +219,6 @@ $ mv composer.phar /usr/local/bin/composer
     
       <li class="post">
         <a href="/blog/2015/08/22/vagrant-network/">Vagrant的网络设置</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/21/performance/">负载计算方法及不同语言开发解决性能问题的思想等</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/21/alauda/">Docker灵雀云</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/20/redis-message-queue/">用Redis实现消息队列</a>
       </li>
     
   </ul>

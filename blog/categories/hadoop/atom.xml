@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Hadoop | hanfeng.name]]></title>
+  <link href="http://fenghan.github.io/blog/categories/hadoop/atom.xml" rel="self"/>
+  <link href="http://fenghan.github.io/"/>
+  <updated>2015-09-01T10:56:10+08:00</updated>
+  <id>http://fenghan.github.io/</id>
+  <author>
+    <name><![CDATA[HanFeng]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hadoop介绍]]></title>
+    <link href="http://fenghan.github.io/blog/2015/08/30/hadoop-intro/"/>
+    <updated>2015-08-30T16:22:21+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/08/30/hadoop-intro</id>
+    <content type="html"><![CDATA[<p>慕课网<a href="http://www.imooc.com/learn/391">Hadoop大数据平台架构与实践&ndash;基础篇</a> 的文字记录</p>
+
+<h1>初识Hadoop</h1>
+
+<h2>课程简介</h2>
+
+<h4>介绍的内容：</h4>
+
+<ol>
+<li>大数据技术的相关概念</li>
+<li>Hadoop的架构和运行机制</li>
+<li>实战：Hadoop的安装和配置</li>
+<li>实战： Hadoop的开发</li>
+</ol>
+
+
+<h4>学习目标：</h4>
+
+<ol>
+<li>掌握大数据存储与处理技术的原理（理论知识）</li>
+<li>掌握Hadoop的使用和开发能力（实践能力）</li>
+</ol>
+
+
+<h4>课程学习建议：</h4>
+
+<ol>
+<li>书籍：
+
+<ol>
+<li>《Hadoop权威指南》</li>
+<li>《Hadoop技术详解》</li>
+</ol>
+</li>
+<li>实践很重要，边听边实践</li>
+</ol>
+
+
+<h4>课程预备知识</h4>
+
+<ol>
+<li>Linux常用命令</li>
+<li>Java编程基础
+
+<h2>Hadoop的前世今生</h2>
+
+<p>单机的系统瓶颈： 存储容量，读写速率，计算效率</p></li>
+</ol>
+
+
+<p>Google大数据技术：
+1. MapReduce
+2. BigTable
+3. GFS</p>
+
+<ul>
+<li>革命性的变化1：成本降低，能用PC机，就不用大型机和高端存储。</li>
+<li>革命性得变化2： 软件容错硬件故障视为常态，通过软件保证可靠性</li>
+<li>革命性的变化3： 简化并行分布式计算，无须控制节点同步和数据交换</li>
+</ul>
+
+
+<p>Google只发表了论文，没有开放源代码。</p>
+
+<p>Hadoop是一个模仿大数据技术的开源实现。</p>
+
+<h2>Hadoop的功能与优势</h2>
+
+<h4>什么是Hadoop</h4>
+
+<p>Hadoop是<strong>开源的</strong>， <strong>分布式存储</strong> + <strong>分布式计算平台</strong>。
+<a href="http://hadoop.apache.org/">http://hadoop.apache.org/</a></p>
+
+<p>它包括两个核心组成：</p>
+
+<ul>
+<li>HDFS: 分布式文件系统，存储海量的数据</li>
+<li>MapReduce: 并行处理框架，实现任务分解和调度</li>
+</ul>
+
+
+<h4>Hadoop可以用来做什么?</h4>
+
+<p>搭建大型数据仓库，PB级数据的存储、处理、分析、统计业务。</p>
+
+<ul>
+<li>搜索引擎</li>
+<li>商业智能</li>
+<li>日志分析</li>
+<li>数据挖掘</li>
+</ul>
+
+
+<h4>Hadoop的优势</h4>
+
+<ol>
+<li>高扩展</li>
+<li>低成本</li>
+<li>成熟的生态圈</li>
+</ol>
+
+
+<h4>Hadoop的应用情况</h4>
+
+<ul>
+<li>国外： facebook twitter yahoo intel hulu linkedIn</li>
+<li>国内： 百度，京东，淘宝，华为，新浪微博，小米，腾讯，网易</li>
+</ul>
+
+
+<p>Hadoop已成为业内大数据平台的首选</p>
+
+<h4>Hadoop的人才需求</h4>
+
+<ol>
+<li>Hadoop开发人才</li>
+<li>Hadoop运维人才</li>
+</ol>
+
+
+<h2>Haoop的生态系统及版本</h2>
+
+<h4>生态系统</h4>
+
+<ul>
+<li>Hive
+
+<ul>
+<li>中文：小蜜蜂，不需要Hadoop任务程序，只需要写SQL语句。降低了使用Hadoop的使用门槛</li>
+<li>它是基于Hadoop之上的一个数据仓库</li>
+</ul>
+</li>
+<li>HBase 存储结构化数据的分布式数据库。
+
+<ul>
+<li>与传动数据相比：放弃事务特性，最求更高的扩展</li>
+<li>与HDFS的区别：随机读写和实时访问，实现对表数据的读写功能</li>
+</ul>
+</li>
+<li>zookeeper
+
+<ul>
+<li>像动物管理员一样，监控Hadoop集群里面每一个节点的状态。管理配置，维护节点之前的一致性
+
+<h4>版本</h4></li>
+</ul>
+</li>
+</ul>
+
+
+<p>1.x 与 2.x （现在2.6）</p>
+
+<p>我们选择1.2的版本，因为1.x稳定，且对于新手易于理解容易上手。</p>
+
+<hr />
+
+<h1>Hadoop的核心 - HDFS简介</h1>
+
+<h2>HDFS设计架构</h2>
+
+<ul>
+<li>Blocks
+
+<ul>
+<li>HDFS的文件被分成块进行存储</li>
+<li>HDFS块的默认大小为64M</li>
+<li>块是文件存储处理的逻辑单元</li>
+</ul>
+</li>
+<li>NameNode
+
+<ul>
+<li>NameNode是管理节点，存放文件元数据</li>
+<li>文件与数据块的映射表</li>
+<li>数据块（Block）与数据节点(DataNode)的映射表</li>
+</ul>
+</li>
+<li>DataNode
+
+<ul>
+<li>用来存放数据块的。</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>数据管理策略</h2>
+
+<h4>HDFS数据管理与容错</h4>
+
+<p>每个数据块3个副本，分布在两个机架内的三个节点</p>
+
+<h4>心跳检测</h4>
+
+<ul>
+<li>DataNode定期向NameNode发送心跳信息</li>
+<li>二级NameNode定期同步元数据镜像文件和修改日志， NameNode发生故障时，备胎转正。</li>
+</ul>
+
+
+<h4>HDFS读取文件流程</h4>
+
+<h4>HDFS特点</h4>
+
+<hr />
+
+<h1>Hadoop的核心 - MapReduce简介</h1>
+]]></content>
+  </entry>
+  
+</feed>
