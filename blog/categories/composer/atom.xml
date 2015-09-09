@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Composer | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/composer/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-09-01T10:56:10+08:00</updated>
+  <updated>2015-09-09T11:44:29+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -31,6 +31,18 @@ $ mv composer.phar /usr/local/bin/composer
 <p>采用</p>
 
 <p> <a href="http://pkg.phpcomposer.com/">composer 的全局配置文件</a></p>
+
+<h2>Windows上安装</h2>
+
+<p><a href="https://getcomposer.org/doc/00-intro.md#installation-windows">https://getcomposer.org/doc/00-intro.md#installation-windows</a></p>
+
+<p>遇到的坑： php.ini 要把php_openssl打开。</p>
+
+<h2>简单实用</h2>
+
+<pre><code>composer require phpspec/phpspec
+composer create-project laravel/laravel learning-laravel-5
+</code></pre>
 ]]></content>
   </entry>
   

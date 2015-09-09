@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Csrf | hanfeng.name]]></title>
+  <link href="http://fenghan.github.io/blog/categories/csrf/atom.xml" rel="self"/>
+  <link href="http://fenghan.github.io/"/>
+  <updated>2015-09-09T11:44:29+08:00</updated>
+  <id>http://fenghan.github.io/</id>
+  <author>
+    <name><![CDATA[HanFeng]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Cross Site Request Forgery]]></title>
+    <link href="http://fenghan.github.io/blog/2015/09/05/csrf/"/>
+    <updated>2015-09-05T17:00:56+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/09/05/csrf</id>
+    <content type="html"><![CDATA[<p>CSRF（Cross-site request forgery跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。</p>
+
+<h3>CSRF 攻击的防范；</h3>
+
+<ol>
+<li><p>加密令牌：web应用程序可以在网页中嵌入一个加密的令牌，所有的请求都包含这个加密令牌，由于跨站请求无法获取这个令牌，所以伪造的请求很容易就被服务器识别；</p></li>
+<li><p>Referer头途径：使用web应用程序也可以验证请求来源页面的Referer，然后由于隐私考虑，这个referer经常被客户端过滤；</p></li>
+</ol>
+
+
+<h3>加密令牌</h3>
+
+<p>1.根据 加密参数、用户的session_id(), 时间戳和存放在session中的HASH函数。</p>
+
+<p>把令牌token和时间戳 放到form的hidden里面。</p>
+
+<pre><code>$_SESSION[STOKEN_NAME] = gen_token(); // 随机数
+&lt;input type="hideen" value="session_token" value= &lt;?=$_SESSION[STOKEN_NAME]?&gt;
+</code></pre>
+
+<p>每次请求的时候，要验证session_token。</p>
+
+<p>参考链接：</p>
+
+<ol>
+<li><a href="http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html">http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html</a></li>
+<li><a href="https://www.shiyanlou.com/courses/303#">实验楼 - Elgg 系统 CSRF 攻击实验</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

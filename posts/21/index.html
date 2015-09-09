@@ -9,7 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 我刚毕业那年，公司在开发软件项目的时候使用的是SVN，但总觉得有一些缺点，例如：版本库只保存在了中央服务器上，如果服务器离线或宕机，就无法进行版本管理；当时每天下班时，我们都会提交提交当天的代码，由于代码的合并是在服务器上完成的，所以偶尔会遇到合并的时候出现BUG; &hellip;">
+  <meta name="description" content="前言 MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做MariDB 安装 首先从 MariaDB 下载页面 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/18/git-local/">Git的本地操作</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a></h1>
     
     
       <p class="meta">
@@ -91,7 +91,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-18T10:39:26+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:39 am</span></time>
+<time class='entry-date' datetime='2015-07-23T10:50:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:50 am</span></time>
         
       </p>
     
@@ -100,370 +100,26 @@ var _hmt = _hmt || [];
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>我刚毕业那年，公司在开发软件项目的时候使用的是SVN，但总觉得有一些缺点，例如：版本库只保存在了中央服务器上，如果服务器离线或宕机，就无法进行版本管理；当时每天下班时，我们都会提交提交当天的代码，由于代码的合并是在服务器上完成的，所以偶尔会遇到合并的时候出现BUG;</p>
+<p>MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做<a href="https://mariadb.org/">MariDB</a></p>
 
-<p>之后的工作中接触到了Git，它很好的解决了我之前遇到的问题,具体学习可参考<a href="http://git-scm.com/book/en/v2">Pro Git 第二版</a></p>
+<h1>安装</h1>
 
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_pro-git.jpg?imageView2/2/h/300" alt="image" /></p>
+<p>首先从 <a href="http://downloads.mariadb.org/mariadb/repositories/">MariaDB 下载页面</a> 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令</p>
 
-<h1>Git 简介</h1>
-
-<p><strong>Git与SVN的比较</strong></p>
-
-<ol>
-<li>SVN是集中式的版本控制软件，而Git是分布式的。</li>
-<li>SVN的版本是记录文件与上一次版本的差异，每次checkout时，要迭代这些差异；而Git每个版本会记录全部内容，所以效率更高。</li>
-<li>因为Git在每台电脑上都保存了完整的Version Database， 所以Git可以离线完成大部分操作</li>
-<li>Git有着更优雅的分支和实现</li>
-<li>Git有着强大的撤销修改和修改版本的能力</li>
-<li>Git速度更快，效率更高</li>
-</ol>
-
-
-<p><strong>为什么学习Git呢</strong></p>
-
-<ol>
-<li>现在越来越多的项目放在了GitHub上;</li>
-<li>同时越来越来的公司开始使用Git;</li>
-<li>Android和Linux的版本控制用的都是Git</li>
-</ol>
-
-
-<h1>Git安装与简单配置</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#在全局上配置name和email</span>
-</span><span class='line'>git config --global user.name hanfeng 
-</span><span class='line'>git config --global user.email contact@hanfeng.name
-</span><span class='line'><span class="c">#生成秘钥和公钥，公钥放到Github或Git服务器上，私钥自己保存</span>
-</span><span class='line'>ssh-keygen -t rsa -C <span class="s1">&#39;contact@hanfeng.name&#39;</span>
-</span><span class='line'><span class="c">#常用快捷键</span>
-</span><span class='line'>git config --global alias.co checkout
-</span><span class='line'>git config --global alias.st status
-</span><span class='line'>git config --global alias.ci commit
-</span><span class='line'>git config --global alias.br branch
-</span><span class='line'>git config --global alias.lol <span class="s2">&quot;log --oneline -- decorate --graph -all&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Git config 配置有3个优先级
-local > global > system</p>
-
-<p>git config 的增删改查</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#增</span>
-</span><span class='line'>git config --global --add user.name michael
-</span><span class='line'><span class="c">#删</span>
-</span><span class='line'>git config --global --unset user.name michael
-</span><span class='line'><span class="c">#改</span>
-</span><span class='line'>git conifg --global user.name hanfeng
-</span><span class='line'>查
-</span><span class='line'>git config --list --global
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>Git基本工作流程</h1>
-
-<p>Git 使用40个16进制符的SHA-1的Hash来标识对象</p>
-
-<p>Git的对象有4种：</p>
-
-<ul>
-<li>blob： 文件名，二进制文件或链接</li>
-<li>tree： 目录</li>
-<li>commit: 代表一个提交</li>
-<li>tag： 指向一个固定的历史提交</li>
-</ul>
-
-
-<p>Tag -> Commit -> Tree -> Blob</p>
-
-<p>Git只关心文件内容，如果两个文件有相同的内容，那么他们会指向相同的Blob, 文件名存储在tree里</p>
-
-<p>创建一个裸仓库
-git init &ndash;bare</p>
-
-<p>Git有三个区域 Working directory(工作区), Staging area(暂存区), History repository(历史记录区)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git rm a
-</span><span class='line'>#把工作区和暂存区的a都删掉
-</span><span class='line'>#如果还原 用git reset --hard HEAD a
-</span><span class='line'>
-</span><span class='line'>git mv a c
-</span><span class='line'>#工作区和暂存区a都会改名字为c
-</span><span class='line'>#相当于 mv a c 和 git add a c  </span></code></pre></td></tr></table></div></figure>
-
-
-<p>vim .gitignore</p>
-
-<blockquote><p>*.[o|a]</p>
-
-<p>*.~</p>
-
-<p>!test.pyc</p>
-
-<p>foo/</p>
-
-<p>**/res</p></blockquote>
-
-<p>test.pyc不要被忽略</p>
-
-<p>顶层或res子目录</p>
-
-<p>.git/info/exclude  只针对本地仓库</p>
-
-<p>./git/config配置下</p>
-
-<blockquote><p>excludesfile = e:/gitignore.txt</p></blockquote>
-
-<h1>Git本地分支与合并</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#只对本地有效
-</span><span class='line'>git tag "v0" 3abefd
-</span><span class='line'>
-</span><span class='line'>#对全局都有效   
-</span><span class='line'>git tab -a "INITIAL_COMMIT" 3abedf
-</span><span class='line'>git tag
-</span><span class='line'>git show v0
-</span><span class='line'>git checkout -b fix -v0
-</span><span class='line'>git stash = git stash svae
-</span><span class='line'>
-</span><span class='line'>git stash save -a "stash1"  
-</span><span class='line'># -a --all 把untracked files 也stash
-</span><span class='line'>
-</span><span class='line'>git stash list
-</span><span class='line'>
-</span><span class='line'>git stash pop --index stash@{0}   
-</span><span class='line'># --index, 暂存区还原到暂存区，不然还原到工作区
-</span><span class='line'>
-</span><span class='line'>git stash apply --index stash@{0} 
-</span><span class='line'>#同时保持git stash list
-</span><span class='line'>
-</span><span class='line'>git stash drop stash@{0}
-</span><span class='line'>
-</span><span class='line'>git stash clean 
-</span><span class='line'># 清楚全部 stash</span></code></pre></td></tr></table></div></figure>
-
-
-<p>分支切换，就是HEAD引用的切换</p>
-
-<p>git merge有两种： fast-forward， non-fast-forward</p>
-
-<p>fast-forward 只合并了工作区和暂存区，不产生新的Commit对象</p>
-
-<p>non-fast-forward 产生新的Commit对象，HEAD指向</p>
-
-<h1>查看与对比历史记录</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git show + git对象
-</span><span class='line'>git log 
-</span><span class='line'>git diff
-</span><span class='line'>git show HEAD~ = git show HEAD^
-</span><span class='line'>git show --oneline master^2
-</span><span class='line'>git diff --cached   
-</span><span class='line'>#暂存区与历史记录的比较
-</span><span class='line'>git diff --cached HEAD^2
-</span><span class='line'>git diff --color-words
-</span><span class='line'>git diff --word-diff</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>撤销修改</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout + 分支名
-</span><span class='line'>#把HEAD指向分支， 还原工作区和暂存区
-</span><span class='line'>
-</span><span class='line'>git reset
-</span><span class='line'>git clean 
-</span><span class='line'>git revert</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#根据历史记录，只还原暂存区
-</span><span class='line'>git reset master.txt = git rest HEAD master.txt
-</span><span class='line'>
-</span><span class='line'>#将tag指向的commit对象里的内容还原到工作区和暂存区
-</span><span class='line'>git checkout INITIAL_COMMIT --master.txt
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>#将tag指向的commit对象里的内容还原到暂存区
-</span><span class='line'>git reset INITIAL_COMMIT --master.txt
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git clean -n
-</span><span class='line'>git clean -f
-</span><span class='line'>
-</span><span class='line'>git clean -X -n  
-</span><span class='line'>#查看清除 .gitignore里的内容
-</span><span class='line'>
-</span><span class='line'>git clean -X -f
-</span><span class='line'>
-</span><span class='line'>git clean -x -n 
-</span><span class='line'>#清除所有
-</span><span class='line'>
-</span><span class='line'>git clean -x -f
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git revert HEAD</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>重写历史记录</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#修改最后一次提交
-</span><span class='line'>git commit --ammend  
-</span><span class='line'>
-</span><span class='line'>#超强的修改历史的能力，维护一个线性的历史
-</span><span class='line'>git rebase  
-</span><span class='line'>
-</span><span class='line'>#可以撤销merge
-</span><span class='line'>git reset + commit对象
-</span><span class='line'>
-</span><span class='line'>#维护HEAD引用信息，配合git reset
-</span><span class='line'>git reflog</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git rebase master
-</span><span class='line'>git rebase --abort
-</span><span class='line'>git rebase --continue</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git reset --mixed HEAD@{5}
-</span><span class='line'># --mixed为默认参数，只还原暂存区，把分支名和HEAD引用直接指定到相应的commit对象上
-</span><span class='line'>
-</span><span class='line'>git reset --hard HEAD@{5}
-</span><span class='line'>#还原暂存区和工作区
-</span><span class='line'> 
-</span><span class='line'>git reset --soft HEAD@{5}
-</span><span class='line'>#都不还原</span></code></pre></td></tr></table></div></figure>
-
-
-<pre><code>touch README.md //新建说明文件
-git init //在当前项目目录中生成本地git管理,并建立一个隐藏.git目录
-git add . //添加当前目录中的所有文件到索引
-git commit -m "first commit" //提交到本地源码库，并附加提交注释
-git remote add origin https://github.com/chape/test.git //添加到远程项目，别名为origin
-git push -u origin master //把本地源码库push到github 别名为origin的远程项目中，确认提交
+<pre><code>sudo apt-get install software-properties-common
+sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+sudo add-apt-repository 'deb http://mirrors.opencas.cn/mariadb/repo/5.5/ubuntu trusty main'
 </code></pre>
+
+<p>开始安装</p>
+
+<pre><code>sudo apt-get update
+sudo apt-get install mariadb-server
+</code></pre>
+
+<p>这样 MariaDB 5.5 就已经安装成功，你就可以像使用 MySQL 那样对它进行配置和使用了。</p>
+
+<p>使用mysql -h -uroot -p1234测试。</p>
 </div>
   
   
@@ -476,7 +132,7 @@ git push -u origin master //把本地源码库push到github 别名为origin的�
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/17/octopress-blog/">使用Octopress在GitHub上搭建静态博客</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/22/vagrant-lnmp/">使用Vagrant搭建本地Ubuntu开发环境</a></h1>
     
     
       <p class="meta">
@@ -485,7 +141,7 @@ git push -u origin master //把本地源码库push到github 别名为origin的�
 
 
 
-<time class='entry-date' datetime='2015-07-17T12:52:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:52 pm</span></time>
+<time class='entry-date' datetime='2015-07-22T14:13:27+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>2:13 pm</span></time>
         
       </p>
     
@@ -494,241 +150,143 @@ git push -u origin master //把本地源码库push到github 别名为origin的�
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程及博客的迁移。 在继续看本文之前，请先确定你具有折腾的精神。</p>
+<p>使用PHP做Web开发已有4年，4年间只有第二年是在Ubuntu下开发，其它都是在Windows下开发，但Win下开发有如下缺点：</p>
 
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/ctooctopress.jpg" alt="image" /></p>
+<ol>
+<li>Windows 不区分大小写，在Win下OK, 上传到服务器上有了Bug。</li>
+<li>Windows 不能测试cron是否写得正确，执行php-cli麻烦</li>
+<li>开发环境与生产环境不同，莫名的产生了一些Bug</li>
+<li>自己的Linux水平下降，对服务器的一些配置慢慢感到了生疏。</li>
+</ol>
 
-<h1>介绍</h1>
 
-<p><a href="https://github.com/imathis/octopress">Octopress</a>是一个基于Ruby语言的开源静态网站框架， 所谓静态，是指网站的所有内容都是生成好的静态HTML，不含任何后台处理程序，也没有数据库。 这样的好处是不会读取数据库，也不会有脚本编译，所以网站的加载速度会非常快，整体程序规模也非常轻量级。</p>
+<p>但在Ubuntu下开发，也有问题：</p>
 
-<p><a href="https://pages.github.com/">Github Pages</a>是Github上的一项服务， 注册用户可以申请一个和自己账号关联的二级域名， 在上面可以托管一个静态网站，网站内容本身就是Github的一个repository也就是项目， 维护这个项目的代码就是在维护自己的网站。
-此外，用户撰写日志使用的是Markdown语法。这是一种极简化的语法， 它的好处在于可以以纯文本形式表现文章，用户不用关心排版的问题。 基本上来说它相当于HTML标签的最小子集做了一个转义。</p>
+<ol>
+<li>不习惯的编辑器，那时使用IDEA作为编辑器，真心不好用。</li>
+<li>当初用Word写文档，Ubuntu里没有。（现在用Markdown了）</li>
+<li>团队开发使用QQ作为通讯工具，还要装一个QQ。（QQ真不适合作为沟通工具，其它无关内容总分心）</li>
+</ol>
 
-<p>综上所述，你将获得一个这样的博客</p>
+
+<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_vagrant.png" alt="" /></p>
+
+<h1>Vagrant优点</h1>
+
+<p><a href="http://docs.vagrantup.com/">Vagrant</a>是用来管理虚拟机的，它有如下好处：</p>
+
+<ol>
+<li>对于开发人员来说，Vagrant可以帮你统一团队成员的开发环境。</li>
+<li>对于运维人员来说，Vagrant可以给你提供一个与线上一致的测试环境。</li>
+<li>对于设计人员来说，Vagrant可以让你只需要专注在设计上。</li>
+</ol>
+
+
+<p>Vagrant适合用来管理虚拟机，而Docker适合用来管理应用环境。</p>
+
+<h3>需要安装的软件：</h3>
 
 <ul>
-<li>命令行操作</li>
-<li>纯文本写博客</li>
-<li>定制性高</li>
-<li>纯静态</li>
-<li>尤其适合程序员</li>
-<li>版本化管理</li>
-<li>迁移成本低</li>
-<li>简洁的 Ruby 框架</li>
-<li><a href="http://www.appinn.com/markdown/">Markdown</a> 语法</li>
+<li>Vagrant</li>
+<li>Virtual Box</li>
+<li>putty</li>
+<li>box <a href="https://atlas.hashicorp.com/boxes/search">虚拟机镜像查看</a></li>
 </ul>
 
 
-<h1>安装</h1>
+<p>添加box ubuntu/trusty64</p>
 
-<ul>
-<li>Git：版本管理工具，将代码托管到 GitHub</li>
-</ul>
+<pre><code>vagrant version
+#查看版本
 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ruby</span> <span class="o">-</span><span class="n">v</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Ruby + DevKit：生成静态网页</li>
-<li>MarkdownPad：Windows 下 Markdown 语法编辑器</li>
-<li><strong>安装 Octopress</strong></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#1.克隆 Octopress 至本地</span>
-</span><span class='line'><span class="n">git</span> <span class="nb">clone</span> <span class="ss">git</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">imathis</span><span class="o">/</span><span class="n">octopress</span><span class="o">.</span><span class="n">git</span> <span class="n">octopress</span>
-</span><span class='line'><span class="c1">#2.参考 ruby.taobao.org, 配置RubyGems 镜像</span>
-</span><span class='line'><span class="c1">#3.安装依赖项</span>
-</span><span class='line'><span class="n">gem</span> <span class="n">install</span> <span class="n">bundler</span>
-</span><span class='line'><span class="n">bundle</span> <span class="n">install</span>
-</span><span class='line'><span class="c1">#4.安装并使用默认主题</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">install</span>
-</span><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">rails</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Pygments: Jekyll 里默认的语法高亮插件是 Pygments
-
-<ul>
-<li>安装 Python</li>
-<li>安装 ‘Easy Install’</li>
-<li>安装 Pygments</li>
-</ul>
-</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">python</span> <span class="o">-</span><span class="n">V</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>部署博客至 GitHub</h1>
-
-<p>1.新建仓库
-    username.github.io</p>
-
-<p>2.与本地 Octopress 目录绑定</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">setup_github_pages</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>托管源码至 GitHub</h2>
-
-<p>将 source 目录更新到远程仓库</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
-</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s1">&#39;your message&#39;</span>
-</span><span class='line'><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">source</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>相关配置</h1>
-
-<p><strong>多说评论</strong></p>
-
-<p><strong>JiaThis分享</strong></p>
-
-<p><strong>自定义 404 页面</strong></p>
-
-<p><strong>自定义导航</strong></p>
-
-<p><strong>主配置文件</strong></p>
-
-<p>在 _config.yml 文件中，设置 url、title、author 等基本信息</p>
-
-<h2>GitHub 上找主题文件</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">install</span><span class="o">[</span><span class="s1">&#39;themename&#39;</span><span class="o">]</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">generate</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>在 GitHub 上绑定自定义域名</h2>
-
-<p>创建 source/CNAME 文件并指定域名</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s1">&#39;hanfeng.com&#39;</span> &gt;&gt; <span class="nb">source</span>/CNAME
-</span><span class='line'><span class="c"># OR</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s1">&#39;tech.hanfeng.name&#39;</span> &gt;&gt; <span class="nb">source</span>/CNAME
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>解析域名至 GitHub</p>
-
-<ul>
-<li><p>使用子域名
-对于子域名(www.hanfeng.name)，创建 CNAME 记录指向 fenghan.github.io</p></li>
-<li><p>使用顶级域名
-对于顶级域名(hanfeng.name)，使用 A 记录指向 192.30.252.153(154)</p></li>
-</ul>
-
-
-<h1>常用目录</h1>
-
-<p>source  存放程序、博客源码
-public  存放生成的静态网站</p>
-
-<h1>国内访问加速</h1>
-
-<p><strong>修改字体</strong>：</p>
-
-<p>source/_includes/custom/head.html,</p>
-
-<p>将其中的<a href="https://fonts.googleapis.com">https://fonts.googleapis.com</a> 改为 <a href="http://fonts.useso.com">http://fonts.useso.com</a> 即可。</p>
-
-<p><strong>jquery库</strong>:</p>
-
-<p>/source/_includes/head.html,把google的jQuery库改为libs.baidu.com的</p>
-
-<p><strong>关闭twitter</strong>:</p>
-
-<p>_config.yml中twitter_tweet_butto改为false即可</p>
-
-<h1>SEO</h1>
-
-<p>使用百度统计工具进行统计</p>
-
-<h1>常用命令</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">new_page</span><span class="o">[</span><span class="s1">&#39;about&#39;</span><span class="o">]</span>           
-</span><span class='line'><span class="c1">#creates /source/about/index.markdown</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">new_post</span><span class="o">[</span><span class="s1">&#39;octopress-blog&#39;</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">generate</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">preview</span>
-</span><span class='line'><span class="c1">#本地localhost:4000</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>
-</span><span class='line'><span class="c1">#发布代码到Git Pages上</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>博客迁移</h1>
-
-<p>如果本地已经配置过octopress，只是把octopress删掉重装
-将source和master分支下的内容clone到本地即可(不需要再到官网上去clone全新的octopress)，具体作法：</p>
-
-<p>1）首先将博客源文件clone到本地的octopress文件夹内。</p>
-
-<pre><code>$ git clone -b source git@github.com:FengHan/fenghan.github.io.git octopress
+vagrant add box ubuntu/trusty64
+# download the box named "ubuntu/trusty64" from Internet
+#下载ubuntu14.04 lts(long term supporting)
 </code></pre>
 
-<p>2）将博客源文件clone到octopress的——deploy文件夹内。</p>
+<p>添加的boxes会被多个项目重复利用。每个项目都会克隆它，而不会修改它。两个项目之间不会相互影响</p>
 
-<pre><code>$ cd octopress
-$ git clone git@github.com:FengHan/fenghan.github.io.git _deploy 
+<pre><code>vagrant box list
+#查看box列表
+
+vagrant init ubuntu/trusty64; 
+vagrant init
+
+vagrant up --provider virtualbox
+vagrant up
+
+vagrant ssh
 </code></pre>
 
-<p>执行完这两步就OK了。</p>
+<p>bootstrap.sh 文件</p>
 
-<h1>参考链接</h1>
+<pre><code>#!/usr/bin/env bash
 
-<p>软件安装： <a href="http://blog.csdn.net/kong5090041/article/details/38408211">oukongli的专栏</a></p>
+apt-get update
+apt-get install -y apache2
+if ! [ -L /var/www ]; then
+  rm -rf /var/www
+  ln -fs /vagrant /var/www
+fi
+</code></pre>
 
-<p>SEO参考： <a href="http://yidao620c.github.io/blog/20150318/octopress-blog.html">笨跑的一刀</a></p>
+<p>Vagrantfile文件 配置文件</p>
 
-<p> <a href="http://pan.baidu.com/s/1bndNlTl">软件下载</a>   密码: e3p3</p>
+<pre><code>Vagrant.configure("2") do |config|
+   config.vm.box = "hashicorp/precise32"
+   config.vm.provision :shell, path: "bootstrap.sh"
+   config.vm.network :forwarded_port, guest: 80, host: 4567
+   config.vm.network :private_network, ip: "192.168.33.10"
+   #重启虚拟机，这样我们就能用 192.168.33.10 访问这台机器了，你可以把 IP 改成其他地址，只要不产生冲突就行。
+end
+</code></pre>
+
+<p>vagrant load &ndash;provision</p>
+
+<p>vagrant login
+输入用户名和密码</p>
+
+<p>vagrant share</p>
+
+<p>将产生一个网址，互联网上的其他人能够访问</p>
+
+<h3>停止工作</h3>
+
+<pre><code>vagrant suspend
+vagrant halt
+vagrant destroy
+</code></pre>
+
+<h3>打包分发</h3>
+
+<pre><code>vagrant package
+vagrant package --output NAME 导出box (NAME.box)
+</code></pre>
+
+<p>打包完成后会在当前目录生成一个 package.box 的文件，将这个文件传给其他用户，其他用户只要添加这个 box 并用其初始化自己的开发目录就能得到一个一模一样的开发环境了。</p>
+
+<h3>注意事项</h3>
+
+<p>使用 Apache/Nginx 时会出现诸如图片修改后但页面刷新仍然是旧文件的情况，是由于静态文件缓存造成的。需要对虚拟机里的 Apache/Nginx 配置文件进行修改：</p>
+
+<pre><code># Apache 配置添加:
+EnableSendfile off
+
+# Nginx 配置添加:
+sendfile off;
+</code></pre>
+
+<h3>补充</h3>
+
+<p>Putty工具连接：</p>
+
+<p>注：虚拟机的默认IP|Port：127.0.0.1:2222   用户：vagrant | root   密码：vagrant</p>
+
+<h3>参考链接</h3>
+
+<p><a href="http://www.ciandt.com.cn/blog/how-to-use-vagrant-build-drupal-development-environment-windows">CI&amp;T: 使用VAGRANT构建DRUPAL本地开发环境 - WINDOWS</a></p>
+
+<p><a href="http://segmentfault.com/a/1190000000264347">使用 Vagrant 打造跨平台开发环境</a></p>
 </div>
   
   
@@ -737,6 +295,8 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
     </article>
   
   <div class="pagination">
+    
+      <a class="prev" href="/posts/22">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -749,6 +309,26 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/04/bdd/">行为驱动开发</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/03/test-driver/">驱动式开发</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
@@ -768,26 +348,6 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
     
       <li class="post">
         <a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/26/cache/">缓存</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/26/fen-biao/">水平分表</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/23/mysql-master-slave/">MySQL主从配置及读写分离</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/23/php-develop/">[转]PHP程序员的技术成长规划</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/22/vagrant-network/">Vagrant的网络设置</a>
       </li>
     
   </ul>

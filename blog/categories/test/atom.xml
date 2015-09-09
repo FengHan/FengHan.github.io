@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Test | hanfeng.name]]></title>
+  <link href="http://fenghan.github.io/blog/categories/test/atom.xml" rel="self"/>
+  <link href="http://fenghan.github.io/"/>
+  <updated>2015-09-09T11:44:29+08:00</updated>
+  <id>http://fenghan.github.io/</id>
+  <author>
+    <name><![CDATA[HanFeng]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[驱动式开发]]></title>
+    <link href="http://fenghan.github.io/blog/2015/09/03/test-driver/"/>
+    <updated>2015-09-03T17:11:29+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/09/03/test-driver</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>中国外包软件的成功率只有5%。</p>
+
+<p>成功的定义是以下3点。</p>
+
+<ol>
+<li>按期交付 （在客户规定的工期内）</li>
+<li>正常运营</li>
+<li>不超预算</li>
+</ol>
+
+
+<h1>PHPUnit</h1>
+
+<p>安装：</p>
+
+<p>按照官网步骤进行安装</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -9,10 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 本文是记录北京大学在Coursera上的《高级数据结构与算法》的课程。 排序 基本概念 序列 Sequence:线性表 :有记录组成
-记录 Record： 结点，进行排序的基本单位
-关键码Key： 唯一确定记录的一个或多个域
-排序码 Sort Key： 作为排序运算依据的一个或多个域 排序 &hellip;">
+  <meta name="description" content="前言 当PHP引擎试图实例化未知类的操作时，就会调用autoload(),并将类名当做字符串传递给它。但autoload()有个缺点，就是 一个进程中只能定义一次。这是就可以使用spl_autoload_register()函数。它可以把函数注册到__autoload队列中. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/13/sort/">排序</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/17/composer-autoload/">Composer自动加载的原理</a></h1>
     
     
       <p class="meta">
@@ -94,7 +91,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-13T19:50:20+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:50 pm</span></time>
+<time class='entry-date' datetime='2015-08-17T15:29:35+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:29 pm</span></time>
         
       </p>
     
@@ -103,63 +100,167 @@ var _hmt = _hmt || [];
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>本文是记录北京大学在Coursera上的《高级数据结构与算法》的课程。</p>
+<p>当PHP引擎试图实例化未知类的操作时，就会调用<strong>autoload(),并将类名当做字符串传递给它。但</strong>autoload()有个缺点，就是 一个进程中只能定义一次。这是就可以使用spl_autoload_register()函数。它可以把函数注册到__autoload队列中. 现在我们来看看composer是如何实现自动加载的。</p>
 
-<p><a href="https://www.coursera.org/learn/gaoji-shuju-jiegou/lecture/J5sEw/pai-xu-wen-ti-de-ji-ben-gai-nian">排序</a></p>
+<p>composer.json 文件</p>
 
-<h3>基本概念</h3>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;autoload&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;classmap&quot;</span> <span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="s2">&quot;app/controllers&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s2">&quot;app/models&quot;</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当我们composer dump-autoload的时候，文件/vendor/composer/autoload_clasmap.php会把类名和绝对地址做个想射。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$vendorDir</span> <span class="o">=</span> <span class="nb">dirname</span><span class="p">(</span><span class="nb">dirname</span><span class="p">(</span><span class="k">__FILE__</span><span class="p">));</span>
+</span><span class='line'><span class="nv">$baseDir</span> <span class="o">=</span> <span class="nb">dirname</span><span class="p">(</span><span class="nv">$vendorDir</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>    <span class="s1">&#39;Article&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/models/Article.php&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;BaseController&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/controllers/BaseController.php&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;HomeController&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/controllers/HomeController.php&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>首页index.php调用composer的autoload文件</p>
+
+<pre><code>require '../vendor/autoload.php';
+</code></pre>
+
+<p>会调用ComposerAutoloaderInit类的静态方法getLoader(）</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">require_once</span> <span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/composer&#39;</span> <span class="o">.</span> <span class="s1">&#39;/autoload_real.php&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="nx">ComposerAutoloaderInita488c85ce5c077906f9c1829b6492f6b</span><span class="o">::</span><span class="na">getLoader</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>verdor/composer/目录下有四个配置文件：</p>
 
 <ul>
-<li>序列 Sequence:线性表 :有记录组成</li>
-<li>记录 Record： 结点，进行排序的基本单位</li>
-<li>关键码Key： 唯一确定记录的一个或多个域</li>
-<li>排序码 Sort Key： 作为排序运算依据的一个或多个域</li>
+<li>autoload_classmap.php：  要加载的class映射</li>
+<li>autoload_files.php：     要加载的文件</li>
+<li>autoload_namespaces.php：    psr-0标准</li>
+<li>psr4.php：                   psr-4标准</li>
 </ul>
 
 
-<p>排序：</p>
+<p>getLoader(）这个方法会先把这些配置文件放到ClassLoader的私有属性中。</p>
 
-<ul>
-<li>将序列中的记录 Record 按照排序码顺序排列起来</li>
-<li>排序码Sort Key域的值具有不减（或不增）的顺序</li>
-</ul>
+<p>然后通过$loader->register(true);来调用spl_autoload_register()</p>
 
-
-<p>内排序：</p>
-
-<ul>
-<li>整个排序过程在内存中完成</li>
-</ul>
-
-
-<p>&lt;=  不减序</p>
-
-<blockquote><p>= 不增序</p></blockquote>
-
-<p>正序</p>
-
-<p>逆序</p>
-
-<p>稳定性：</p>
-
-<ul>
-<li>存在多个具有相同排序码的记录</li>
-<li>排序后这些记录的相对次序保持不变</li>
-</ul>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">register</span><span class="p">(</span><span class="nv">$prepend</span> <span class="o">=</span> <span class="k">false</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nb">spl_autoload_register</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="s1">&#39;loadClass&#39;</span><span class="p">),</span> <span class="k">true</span><span class="p">,</span> <span class="nv">$prepend</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>稳定性的证明： 形式证明</p>
+<p>spl_autoload_register()把loadClass()方法注册到了autoload队列中,然后当PHP引擎试图实例化未知类的操作时，就会根据类名和命名空间加载这个类文件。</p>
 
-<p>不稳定的证明： 反例说明</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">loadClass</span><span class="p">(</span><span class="nv">$class</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$file</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">findFile</span><span class="p">(</span><span class="nv">$class</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">includeFile</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>衡量标准：</p>
 
-<ul>
-<li>时间代价： 记录比较和移动的次数</li>
-<li>空间代价</li>
-<li>算法本身的复杂度</li>
-</ul>
+<h1>psr-0 与psr - 4 的不同</h1>
 
+<ol>
+<li>PSR-4中，在类名中使用下划线没有任何特殊含义。而PSR-0则规定类名中的下划线_会被转化成目录分隔符。</li>
+<li>composer的PSR-4带来更简洁的文件结构。</li>
+<li>参考：<a href="http://segmentfault.com/a/1190000000380008">PSR-4——新鲜出炉的PHP规范</a></li>
+</ol>
+
+
+<p>总结：
+1. 命名空间前缀对应相应的文件夹
+2. 类名和文件名相同，文件后缀为PHP</p>
+
+<h3>psr-4</h3>
+
+<pre><code>{
+    "psr-4" : {
+       "Foo\\": "src/"
+    },
+}
+</code></pre>
+
+<p>按照PSR-4的规则，当试图自动加载 &ldquo;Foo\Bar\Baz&rdquo; 这个class时，会去寻找 &ldquo;src/Bar/Baz.php&rdquo; 这个文件，如果它存在则进行加载。</p>
+
+<h3>prs-0</h3>
+
+<pre><code>{
+    "psr-0" : {
+       "Foo\\": "src/",
+    },
+}
+</code></pre>
+
+<p>PSR-0有此配置，那么会去寻找 &ldquo;src/Foo/Bar/Baz.php&rdquo;</p>
+
+<p>PSR-0当试图自动加载 &ldquo;Foo\A_B&rdquo; 这个class时，会去寻找 &ldquo;src/Foo/A/B.php&rdquo; 这个文件.</p>
+
+<p>参考链接<a href="http://www.tuicool.com/articles/mARrMj6">http://www.tuicool.com/articles/mARrMj6</a></p>
+
+<h3>classmap</h3>
+
+<pre><code>{
+    "autoload": {
+            "classmap": [
+                "database"
+            ],
+    }
+}
+</code></pre>
+
+<p>classmap 做的是类名和文件所在位置的映射</p>
 </div>
   
   
@@ -172,7 +273,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/12/phpstorm/">Phpstorm</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/15/php-framework-hilda/">使用Composer搭建自己的PHP框架</a></h1>
     
     
       <p class="meta">
@@ -181,7 +282,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-12T08:35:25+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:35 am</span></time>
+<time class='entry-date' datetime='2015-08-15T08:45:27+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:45 am</span></time>
         
       </p>
     
@@ -190,124 +291,25 @@ var _hmt = _hmt || [];
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>本文是<a href="https://laracasts.com/series/how-to-be-awesome-in-phpstorm/episodes/2">Laracasts的phpstorm视频教程</a>的文字记录版</p>
+<p>今天参照<a href="http://lvwenhan.com/php/410.html">教程</a>，使用Composer来搭建自己的框架。</p>
 
-<p>注意事项：本文所述快捷键和你的会不同，是我自定义的，我已将配置文件放到了<a href="https://github.com/FengHan/phpstorm">Github/PHPstorm</a></p>
+<p>我给它起了一个名字叫做Hilda PHP Framework.</p>
 
-<h3>Hello</h3>
+<p>通过构建这样的微型框架，有利于我们学习框架的自动加载、单入口文件、MVC的原理，因为需要什么，就加载什么。这样，自己的框架就像搭积木一样完成了，避免了重复发明轮子的烦恼。</p>
 
-<p>Google  phpstorm eap (easy access platform)</p>
-
-<h3>Minimalism 精简IDE</h3>
+<h2>Hilda特性：</h2>
 
 <ul>
-<li>Ctrl + 1 打开关闭侧边栏  : Way的习惯是尽可能的关闭</li>
-<li>Navicat -> Class   打开类</li>
-<li>Navicat -> Symbol 打开函数</li>
-<li>View  -> Start Button 隐藏状态栏 ; Way 不需要它</li>
-<li>View -> NavigationBar 隐藏导航；Way从来不用它</li>
-<li><p>View ->  Toolbar  隐藏工具栏 ；Way都用快捷键</p></li>
-<li><p>File-> Settings-> 搜索Breadcrumbs ，隐藏它，重启phpstorm</p></li>
-<li><p>File-> Settings->Colors &amp; Fonts</p></li>
-<li>Save AS : demo-theme，</li>
-<li>size： 15  字体大小
-line： spacing： 1.4 字间距</li>
-<li><a href="http://daylerees.github.io/">http://daylerees.github.io/</a>查看主题</li>
-<li><p><a href="https://github.com/daylerees/colour-schemes">https://github.com/daylerees/colour-schemes</a></p>
-
-<p>  顺便介绍一下phpstorm主题安装方法：</p>
-
-<p>  1、下载主题安装包：以icls结尾的文件，把安装包文件复制到config目录</p>
-
-<p>  C:\Users\Administrator.WebIde90\config\colors
-  wget <a href="https://raw.githubusercontent.com/daylerees/colour-schemes/master/jetbrains/earthsong.icls">https://raw.githubusercontent.com/daylerees/colour-schemes/master/jetbrains/earthsong.icls</a>
-  注：这里以window系统为例。
-  2、重启phpstorm</p>
-
-<p>  3、File->Settings->Colors&amp;Fonts，选择相应的主题包，即可。</p></li>
-<li><p>右键单击 文件名top， tap placement ，勾选none</p></li>
+<li>单入口文件</li>
+<li>MVC架构</li>
+<li>微型路由，基于<a href="https://packagist.org/packages/codingbean/macaw">codingbean/macaw</a></li>
+<li>数据库的ORM 采用 <a href="http://laravel-china.org/docs/5.0/eloquent">Eloquent</a></li>
 </ul>
 
 
-<h3>Color IDE</h3>
+<h1>安装方法</h1>
 
-<p>HELP -> FIND ACTION  搜索plugins -> configure plugins
-Brower rpositersies 搜索Colors -> 选择color ide 安装</p>
-
-<h3>Two Important Keybindings</h3>
-
-<ul>
-<li>两个重要的按键</li>
-<li>一个是 Navicat -> file</li>
-<li><p>另一个是  Navicat -> file structure</p></li>
-<li><p>File -> settings -> keymap -> save as michaele&rsquo;s key</p></li>
-<li><p>File -> settings -> keymap -> 点击搜索小图标 -> 输入键盘组合</p></li>
-</ul>
-
-
-<p>双击 -> remore ctrl + shift + o</p>
-
-<p>我自定义的快捷键</p>
-
-<ul>
-<li><p>alt + p -> open file</p></li>
-<li><p>alt + r -> file structure</p></li>
-<li>alt + e ->  recent files</li>
-<li>alt + o -> class</li>
-<li><p>alt + t -> Refactor this</p></li>
-<li><p>alt + shift + a -> enter action or option name</p></li>
-<li>alt + shift + o -> sylbol</li>
-<li>alt + n -> new file</li>
-<li>ctrl + w 关闭页面</li>
-<li><p>alt + , 设置</p></li>
-<li><p>ctrl + w 关闭当前页面</p></li>
-<li><p>ctrl + 1</p></li>
-</ul>
-
-
-<h3>Create New Files Quickly</h3>
-
-<p>alt + 向上箭头  和 alt + n 快捷键在快速的创建文件</p>
-
-<h3>Custom File Templates</h3>
-
-<p>Ctrl + ，  file and code templates</p>
-
-<h3>Live Templates</h3>
-
-<p>double shift 然后， 输入 live template ，选择 save as 进行设置</p>
-
-<p>textfield设置
-    <!-- $VALUE$ Form Input -->
-    <div class="form-group"></p>
-
-<pre><code>&lt;/div&gt;
-</code></pre>
-
-<p>还要设置Edit attributes</p>
-
-<h3>Custom Formatting</h3>
-
-<ul>
-<li><p>Alt + Shift + F 格式化代码</p></li>
-<li><p>Code Style -> PHP -> Other -> Align key value styles</p></li>
-<li><p>convert null to low case</p></li>
-<li><p>convert true/false to low case</p></li>
-</ul>
-
-
-<h3>Refactoring: Name and Method</h3>
-
-<p>Refactor this: Ctrl + Alt + Shift + R</p>
-
-<h3>Refactoring: Pull Up</h3>
-
-<p>用快捷键 将子类中的方法移动到父类中。
-Alt + t -> Refactor this 然后输入 up</p>
-
-<h3>Refactoring: Extract Interface</h3>
-
-<h2>phpStorm的编码格式</h2>
+<p>它的Github地址为：<a href="https://github.com/FengHan/hilda">https://github.com/FengHan/hilda</a></p>
 </div>
   
   
@@ -332,6 +334,26 @@ Alt + t -> Refactor this 然后输入 up</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/04/bdd/">行为驱动开发</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/03/test-driver/">驱动式开发</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
       </li>
     
@@ -349,26 +371,6 @@ Alt + t -> Refactor this 然后输入 up</p>
     
       <li class="post">
         <a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/26/cache/">缓存</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/26/fen-biao/">水平分表</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/23/mysql-master-slave/">MySQL主从配置及读写分离</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/23/php-develop/">[转]PHP程序员的技术成长规划</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/22/vagrant-network/">Vagrant的网络设置</a>
       </li>
     
   </ul>

@@ -1,0 +1,818 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>hanfeng.name</title>
+  <meta name="author" content="HanFeng">
+
+  
+  <meta name="description" content="前言 大学开发网站的时候，大部分的时候使用的是Apache服务器，但进入工作后，服务器都使用Nginx，因为它能承载的并发数是Apache2.2的10倍。 Nginx只负责静态文件，通过php5-fpm调用php-cgi来解析php。 那CGI是干嘛的？CGI是为了保证web &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://fenghan.github.io/posts/23/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="hanfeng.name" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+  <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?2a48f7616c9cd39ec6c4c06ddbd5cbea";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">hanfeng.name</a></h1>
+  
+    <h2>I am a software engineer with interests in web applications.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="fenghan.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/19/nginx_php5-fpm/">在Ubuntu上搭建Nginx + Php5-fpm</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-19T11:25:56+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:25 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://nginx.org/nginx.png" alt="" /></p>
+
+<h1>前言</h1>
+
+<p>大学开发网站的时候，大部分的时候使用的是Apache服务器，但进入工作后，服务器都使用Nginx，因为它能承载的并发数是Apache2.2的10倍。</p>
+
+<p>Nginx只负责静态文件，通过php5-fpm调用php-cgi来解析php。</p>
+
+<p>那CGI是干嘛的？CGI是为了保证web server传递过来的数据是标准格式的，方便CGI程序的编写者的协议。</p>
+
+<p>Fastcgi是用来提高CGI程序性能的，也是一个协议。</p>
+
+<p>那PHP-FPM又是什么呢？是一个实现了Fastcgi的程序，被PHP官方收了。</p>
+
+<p>可以<a href="http://nginx.org/en/docs/">Nginx官方文档</a>深入学习，下面这些必看</p>
+
+<ul>
+<li>Installing nginx</li>
+<li>Beginner’s Guide</li>
+<li>Converting rewrite rules</li>
+<li>ngx_http_rewrite_module</li>
+<li>ngx_http_proxy_module</li>
+<li>ngx_http_log_module</li>
+</ul>
+
+
+<h1>安装Nginx</h1>
+
+<p><strong>安装Nginx</strong></p>
+
+<pre><code>apt-get update
+apt-get install nginx
+</code></pre>
+
+<p><strong>配置Nginx</strong></p>
+
+<p>nginx配置文件</p>
+
+<blockquote><p>/etc/nginx/nginx.conf中</p></blockquote>
+
+<p>nginx.conf配置里面包括了</p>
+
+<blockquote><p>include /etc/nginx/conf.d/*.conf;</p>
+
+<p>include /etc/nginx/sites-enabled/*;</p></blockquote>
+
+<p>错误日志</p>
+
+<blockquote><p>error_log /var/log/nginx/error.log;</p></blockquote>
+
+<p>网页的默认目录</p>
+
+<blockquote><p>root /usr/share/nginx/html;</p></blockquote>
+
+<p>配置目录</p>
+
+<blockquote><p>/etc/nginx/sites-available/default</p></blockquote>
+
+<h3>fastcgi配置</h3>
+
+<pre><code>location ~ \.php$ {
+
+  　　  try_files $uri =404;
+
+  　　  fastcgi_pass 127.0.0.1:9000;
+
+  　　  fastcgi_index index.php;
+
+  　　  include fastcgi_params;
+}
+  　
+</code></pre>
+
+<p><strong>配置生效</strong></p>
+
+<pre><code>/etc/init.d/nginx reload
+</code></pre>
+
+<p><strong>启动Nginx</strong></p>
+
+<pre><code>/etc/init.d/nginx start
+</code></pre>
+
+<p><strong>测试Nginx</strong></p>
+
+<p>再配置好php5-fpm后，再测试
+在 /usr/share/nginx/html下新建index.php</p>
+
+<pre><code>&lt;? php
+phpinfo();
+</code></pre>
+
+<p>　　　　
+nginx -t</p>
+
+<h1>虚拟主机管理</h1>
+
+<p>创建 tech.hanfeng.name</p>
+
+<pre><code>cd /usr/share/nginx
+
+mkdir tech.hanfeng.name
+
+cd tech.hanfeng.name
+
+echo '&lt;?php phpinfo();' &gt; index.php
+
+cd /etc/nginx/sites-available/ 
+
+cp default tech.hanfeng.name
+#Apache需要以.conf结尾，Nginx不用
+
+grep -v "#" tech.hanfeng.name
+</code></pre>
+
+<p>tech.hanfeng.name 虚拟主机配置：</p>
+
+<pre><code>server {
+        listen 80;
+        listen [::]:80;
+
+        root /usr/share/nginx/tech.hanfeng.name;
+        index index.php index.html;
+
+        server_name tech.hanfeng.name;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+
+
+
+        location ~ \.php$ {
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+
+                fastcgi_pass 127.0.0.1:9000;
+                fastcgi_index index.php;
+                include fastcgi_params;
+        }
+
+}
+</code></pre>
+
+<h3>生成软连接</h3>
+
+<pre><code>ln -s /etc/nginx/sites-available/tech.hanfeng.name  /etc/nginx/sites-enabled/tech.hanfeng.name
+</code></pre>
+
+<h3>测试并且加载nginx配置</h3>
+
+<pre><code>nginx -t
+
+/etc/init.d/nginx reload
+</code></pre>
+
+<h1>安装PHP</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install php5-fpm
+</span><span class='line'>
+</span><span class='line'>sudo apt-get install php5-gd  
+</span><span class='line'># Popular image manipulation library; used extensively by Wordpress and it's plugins.
+</span><span class='line'>
+</span><span class='line'>sudo apt-get install php5-cli   
+</span><span class='line'># Makes the php5 command available to the terminal for php5 scripting
+</span><span class='line'>
+</span><span class='line'>sudo apt-get install php5-curl    
+</span><span class='line'># Allows curl (file downloading tool) to be called from PHP5
+</span><span class='line'>
+</span><span class='line'>sudo apt-get install php5-mcrypt   
+</span><span class='line'># Provides encryption algorithms to PHP scripts
+</span><span class='line'>
+</span><span class='line'>sudo apt-get install php5-mysql   
+</span><span class='line'># Allows PHP5 scripts to talk to a MySQL Database
+</span><span class='line'>
+</span><span class='line'>sudo apt-get install php5-readline  
+</span><span class='line'># Allows PHP5 scripts to use the readline function</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看php5运行进程</p>
+
+<pre><code>ps -waux | grep php5
+</code></pre>
+
+<h1>配置PHP5-FPM</h1>
+
+<p>配置php5监听端口</p>
+
+<blockquote><p>/etc/php5/fpm/pool.d/www.conf</p></blockquote>
+
+<pre><code>把
+listen = /var/run/php5-fpm.sock  改为
+listen = 127.0.0.1:9000
+</code></pre>
+
+<p>配置好后，重新启动php5-fpm</p>
+
+<h3>php5-fpm命令</h3>
+
+<pre><code>sudo service php5-fpm stop
+sudo service php5-fpm start
+sudo service php5-fpm restart
+sudo service php5-fpm status
+</code></pre>
+
+<p>一台机器安装nginx，另一台安装php，用上面的修改</p>
+
+<p>重新运行php进程</p>
+
+<p>在浏览器中输入 localhost就可以看到了</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/18/git-local/">Git的本地操作</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-18T10:39:26+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:39 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>前言</h1>
+
+<p>我刚毕业那年，公司在开发软件项目的时候使用的是SVN，但总觉得有一些缺点，例如：版本库只保存在了中央服务器上，如果服务器离线或宕机，就无法进行版本管理；当时每天下班时，我们都会提交提交当天的代码，由于代码的合并是在服务器上完成的，所以偶尔会遇到合并的时候出现BUG;</p>
+
+<p>之后的工作中接触到了Git，它很好的解决了我之前遇到的问题,具体学习可参考<a href="http://git-scm.com/book/en/v2">Pro Git 第二版</a></p>
+
+<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_pro-git.jpg?imageView2/2/h/300" alt="image" /></p>
+
+<h1>Git 简介</h1>
+
+<p><strong>Git与SVN的比较</strong></p>
+
+<ol>
+<li>SVN是集中式的版本控制软件，而Git是分布式的。</li>
+<li>SVN的版本是记录文件与上一次版本的差异，每次checkout时，要迭代这些差异；而Git每个版本会记录全部内容，所以效率更高。</li>
+<li>因为Git在每台电脑上都保存了完整的Version Database， 所以Git可以离线完成大部分操作</li>
+<li>Git有着更优雅的分支和实现</li>
+<li>Git有着强大的撤销修改和修改版本的能力</li>
+<li>Git速度更快，效率更高</li>
+</ol>
+
+
+<p><strong>为什么学习Git呢</strong></p>
+
+<ol>
+<li>现在越来越多的项目放在了GitHub上;</li>
+<li>同时越来越来的公司开始使用Git;</li>
+<li>Android和Linux的版本控制用的都是Git</li>
+</ol>
+
+
+<h1>Git安装与简单配置</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#在全局上配置name和email</span>
+</span><span class='line'>git config --global user.name hanfeng 
+</span><span class='line'>git config --global user.email contact@hanfeng.name
+</span><span class='line'><span class="c">#生成秘钥和公钥，公钥放到Github或Git服务器上，私钥自己保存</span>
+</span><span class='line'>ssh-keygen -t rsa -C <span class="s1">&#39;contact@hanfeng.name&#39;</span>
+</span><span class='line'><span class="c">#常用快捷键</span>
+</span><span class='line'>git config --global alias.co checkout
+</span><span class='line'>git config --global alias.st status
+</span><span class='line'>git config --global alias.ci commit
+</span><span class='line'>git config --global alias.br branch
+</span><span class='line'>git config --global alias.lol <span class="s2">&quot;log --oneline -- decorate --graph -all&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Git config 配置有3个优先级
+local > global > system</p>
+
+<p>git config 的增删改查</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#增</span>
+</span><span class='line'>git config --global --add user.name michael
+</span><span class='line'><span class="c">#删</span>
+</span><span class='line'>git config --global --unset user.name michael
+</span><span class='line'><span class="c">#改</span>
+</span><span class='line'>git conifg --global user.name hanfeng
+</span><span class='line'>查
+</span><span class='line'>git config --list --global
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Git基本工作流程</h1>
+
+<p>Git 使用40个16进制符的SHA-1的Hash来标识对象</p>
+
+<p>Git的对象有4种：</p>
+
+<ul>
+<li>blob： 文件名，二进制文件或链接</li>
+<li>tree： 目录</li>
+<li>commit: 代表一个提交</li>
+<li>tag： 指向一个固定的历史提交</li>
+</ul>
+
+
+<p>Tag -> Commit -> Tree -> Blob</p>
+
+<p>Git只关心文件内容，如果两个文件有相同的内容，那么他们会指向相同的Blob, 文件名存储在tree里</p>
+
+<p>创建一个裸仓库
+git init &ndash;bare</p>
+
+<p>Git有三个区域 Working directory(工作区), Staging area(暂存区), History repository(历史记录区)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git rm a
+</span><span class='line'>#把工作区和暂存区的a都删掉
+</span><span class='line'>#如果还原 用git reset --hard HEAD a
+</span><span class='line'>
+</span><span class='line'>git mv a c
+</span><span class='line'>#工作区和暂存区a都会改名字为c
+</span><span class='line'>#相当于 mv a c 和 git add a c  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>vim .gitignore</p>
+
+<blockquote><p>*.[o|a]</p>
+
+<p>*.~</p>
+
+<p>!test.pyc</p>
+
+<p>foo/</p>
+
+<p>**/res</p></blockquote>
+
+<p>test.pyc不要被忽略</p>
+
+<p>顶层或res子目录</p>
+
+<p>.git/info/exclude  只针对本地仓库</p>
+
+<p>./git/config配置下</p>
+
+<blockquote><p>excludesfile = e:/gitignore.txt</p></blockquote>
+
+<h1>Git本地分支与合并</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#只对本地有效
+</span><span class='line'>git tag "v0" 3abefd
+</span><span class='line'>
+</span><span class='line'>#对全局都有效   
+</span><span class='line'>git tab -a "INITIAL_COMMIT" 3abedf
+</span><span class='line'>git tag
+</span><span class='line'>git show v0
+</span><span class='line'>git checkout -b fix -v0
+</span><span class='line'>git stash = git stash svae
+</span><span class='line'>
+</span><span class='line'>git stash save -a "stash1"  
+</span><span class='line'># -a --all 把untracked files 也stash
+</span><span class='line'>
+</span><span class='line'>git stash list
+</span><span class='line'>
+</span><span class='line'>git stash pop --index stash@{0}   
+</span><span class='line'># --index, 暂存区还原到暂存区，不然还原到工作区
+</span><span class='line'>
+</span><span class='line'>git stash apply --index stash@{0} 
+</span><span class='line'>#同时保持git stash list
+</span><span class='line'>
+</span><span class='line'>git stash drop stash@{0}
+</span><span class='line'>
+</span><span class='line'>git stash clean 
+</span><span class='line'># 清楚全部 stash</span></code></pre></td></tr></table></div></figure>
+
+
+<p>分支切换，就是HEAD引用的切换</p>
+
+<p>git merge有两种： fast-forward， non-fast-forward</p>
+
+<p>fast-forward 只合并了工作区和暂存区，不产生新的Commit对象</p>
+
+<p>non-fast-forward 产生新的Commit对象，HEAD指向</p>
+
+<h1>查看与对比历史记录</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git show + git对象
+</span><span class='line'>git log 
+</span><span class='line'>git diff
+</span><span class='line'>git show HEAD~ = git show HEAD^
+</span><span class='line'>git show --oneline master^2
+</span><span class='line'>git diff --cached   
+</span><span class='line'>#暂存区与历史记录的比较
+</span><span class='line'>git diff --cached HEAD^2
+</span><span class='line'>git diff --color-words
+</span><span class='line'>git diff --word-diff</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>撤销修改</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout + 分支名
+</span><span class='line'>#把HEAD指向分支， 还原工作区和暂存区
+</span><span class='line'>
+</span><span class='line'>git reset
+</span><span class='line'>git clean 
+</span><span class='line'>git revert</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#根据历史记录，只还原暂存区
+</span><span class='line'>git reset master.txt = git rest HEAD master.txt
+</span><span class='line'>
+</span><span class='line'>#将tag指向的commit对象里的内容还原到工作区和暂存区
+</span><span class='line'>git checkout INITIAL_COMMIT --master.txt
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>#将tag指向的commit对象里的内容还原到暂存区
+</span><span class='line'>git reset INITIAL_COMMIT --master.txt
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clean -n
+</span><span class='line'>git clean -f
+</span><span class='line'>
+</span><span class='line'>git clean -X -n  
+</span><span class='line'>#查看清除 .gitignore里的内容
+</span><span class='line'>
+</span><span class='line'>git clean -X -f
+</span><span class='line'>
+</span><span class='line'>git clean -x -n 
+</span><span class='line'>#清除所有
+</span><span class='line'>
+</span><span class='line'>git clean -x -f
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git revert HEAD</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>重写历史记录</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#修改最后一次提交
+</span><span class='line'>git commit --ammend  
+</span><span class='line'>
+</span><span class='line'>#超强的修改历史的能力，维护一个线性的历史
+</span><span class='line'>git rebase  
+</span><span class='line'>
+</span><span class='line'>#可以撤销merge
+</span><span class='line'>git reset + commit对象
+</span><span class='line'>
+</span><span class='line'>#维护HEAD引用信息，配合git reset
+</span><span class='line'>git reflog</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git rebase master
+</span><span class='line'>git rebase --abort
+</span><span class='line'>git rebase --continue</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git reset --mixed HEAD@{5}
+</span><span class='line'># --mixed为默认参数，只还原暂存区，把分支名和HEAD引用直接指定到相应的commit对象上
+</span><span class='line'>
+</span><span class='line'>git reset --hard HEAD@{5}
+</span><span class='line'>#还原暂存区和工作区
+</span><span class='line'> 
+</span><span class='line'>git reset --soft HEAD@{5}
+</span><span class='line'>#都不还原</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>touch README.md //新建说明文件
+git init //在当前项目目录中生成本地git管理,并建立一个隐藏.git目录
+git add . //添加当前目录中的所有文件到索引
+git commit -m "first commit" //提交到本地源码库，并附加提交注释
+git remote add origin https://github.com/chape/test.git //添加到远程项目，别名为origin
+git push -u origin master //把本地源码库push到github 别名为origin的远程项目中，确认提交
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/24">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/posts/22">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/04/bdd/">行为驱动开发</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/03/test-driver/">驱动式开发</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/30/performance-bottleneck/">性能瓶颈</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - HanFeng -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

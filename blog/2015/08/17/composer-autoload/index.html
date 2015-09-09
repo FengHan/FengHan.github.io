@@ -219,6 +219,45 @@ var _hmt = _hmt || [];
 <p>总结：
 1. 命名空间前缀对应相应的文件夹
 2. 类名和文件名相同，文件后缀为PHP</p>
+
+<h3>psr-4</h3>
+
+<pre><code>{
+    "psr-4" : {
+       "Foo\\": "src/"
+    },
+}
+</code></pre>
+
+<p>按照PSR-4的规则，当试图自动加载 &ldquo;Foo\Bar\Baz&rdquo; 这个class时，会去寻找 &ldquo;src/Bar/Baz.php&rdquo; 这个文件，如果它存在则进行加载。</p>
+
+<h3>prs-0</h3>
+
+<pre><code>{
+    "psr-0" : {
+       "Foo\\": "src/",
+    },
+}
+</code></pre>
+
+<p>PSR-0有此配置，那么会去寻找 &ldquo;src/Foo/Bar/Baz.php&rdquo;</p>
+
+<p>PSR-0当试图自动加载 &ldquo;Foo\A_B&rdquo; 这个class时，会去寻找 &ldquo;src/Foo/A/B.php&rdquo; 这个文件.</p>
+
+<p>参考链接<a href="http://www.tuicool.com/articles/mARrMj6">http://www.tuicool.com/articles/mARrMj6</a></p>
+
+<h3>classmap</h3>
+
+<pre><code>{
+    "autoload": {
+            "classmap": [
+                "database"
+            ],
+    }
+}
+</code></pre>
+
+<p>classmap 做的是类名和文件所在位置的映射</p>
 </div>
 
 
@@ -302,6 +341,26 @@ var duoshuoQuery = {short_name:"fenghan"};
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/04/bdd/">行为驱动开发</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/03/test-driver/">驱动式开发</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
       </li>
     
@@ -319,26 +378,6 @@ var duoshuoQuery = {short_name:"fenghan"};
     
       <li class="post">
         <a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/26/cache/">缓存</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/26/fen-biao/">水平分表</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/23/mysql-master-slave/">MySQL主从配置及读写分离</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/23/php-develop/">[转]PHP程序员的技术成长规划</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/22/vagrant-network/">Vagrant的网络设置</a>
       </li>
     
   </ul>
