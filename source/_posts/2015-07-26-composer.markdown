@@ -17,3 +17,16 @@ Composer 中国镜像
 采用
 
  [composer 的全局配置文件](http://pkg.phpcomposer.com/)
+
+
+## Windows上安装
+<https://getcomposer.org/doc/00-intro.md#installation-windows> 
+
+
+遇到的坑： php.ini 要把php_openssl打开。
+
+## 简单实用
+
+
+	composer require phpspec/phpspec
+	composer create-project laravel/laravel learning-laravel-5

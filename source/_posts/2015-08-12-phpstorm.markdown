@@ -125,3 +125,58 @@ Alt + t -> Refactor this 然后输入 up
 ### Refactoring: Extract Interface
 
 ## phpStorm的编码格式
+
+### Xdebug调试。
+homestead 已经配置好了Xdebug，可以在phpinfo();中查看到。
+
+## Code Coverage
+
+PHPUnit 的代码覆盖率
+
+## Testing in PHPStorm
+
+PHPUnit 中测试某个方法
+
+## PHPStorm's Laravel Facades Issue
+
+例如PHPUnit方法中， ROUTE, Event 没有提示
+
+## Vi-Mode With Mappings
+PHPstorm里用VIMd的快捷键
+
+搜索plugins vim
+
+快捷键
+
+光标操作
+hjkl  左下上右
+w  移动一个单词
+b  光标移动到之前的地方。
+f +（   光标定位到这一行的小括号上面。
+c + i + (   清空小括号里面的内容。 
+
+c + i + {    清楚大括号里的内容。 
+
+shift + v 选择代码块。
+
+·
+
+	
+	$ cat .ideavimrc
+	imap jj <Esc>
+
+## Splits 
+
+alt + v   纵向分屏
+alt + w   横向分屏
+
+##　多个光标
+
+keymap 搜索  Select All Occurrences
+
+### ide helper
+	{
+		"require": {
+			"barryvdh/laravel-ide-helper": "^2.1"
+		},
+	}

@@ -1,0 +1,44 @@
+---
+layout: post
+title: "缓存"
+date: 2015-08-26 16:26:59 +0800
+comments: true
+categories: 
+---
+
+
+### 缓存的类型
+
+- 局域网缓存
+- 网络缓存
+- 硬盘缓存
+- 内存缓存
+- 数据库缓存
+- Opcode缓存
+- 客户端浏览器缓存
+
+### opcode
+Opcode是一种PHP脚本编译后的中间语言
+
+- opcache php5.5 默认安装
+- xcache  php5.4
+- php 5.2 zned optimization 被淘汰了。
+- wincache windows下
+- APC  PHP5.4  （PS: 上一家公司安装了APC）
+
+
+APCU xcache wincache 支持php API调用 （默认情况下 效率高于memcache）
+
+#### 客户端浏览器缓存
+客户端缓存 （浏览器缓存） 静态资源引用公共服务器资源
+
+把图片放在多个域名下，可以多线程加载图片 例如pc1.domain.com pc2.domain.com
+
+xxx.com/abc.js?t=1234343 开发测试的时候，用这种方法防止浏览器缓存。给静态资源加时间戳带尾巴。
+
+在发行产品的时候带版本号。
+
+
+
+
+

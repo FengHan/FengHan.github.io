@@ -15,7 +15,7 @@ MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完
 
 	sudo apt-get install software-properties-common
 	sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-	sudo add-apt-repository 'deb http://mirrors.hustunique.com/mariadb/repo/5.5/ubuntu trusty main'
+	sudo add-apt-repository 'deb http://mirrors.opencas.cn/mariadb/repo/5.5/ubuntu trusty main'
 开始安装
 
 	sudo apt-get update

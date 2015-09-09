@@ -1,0 +1,51 @@
+---
+layout: post
+title: "xdebug"
+date: 2015-09-02 22:57:38 +0800
+comments: true
+categories: xdebug 
+---
+# 前言
+
+掌握Xdebug是每一个PHP程序员必备的技能。
+
+当你在使用Yii, ThinkPHP, Laravel框架的时候，你只有了解其系统架构后，才能更好的编写代码。Xdebug能够帮助你更好的调试代码。
+
+安装XDebug在[官网](http://xdebug.org/wizard.php)输入你的phpinfo()信息，然后按照它的提示进行安装。
+
+
+[远程调试](http://xdebug.org/docs/remote)
+[中文文档](http://aicode.cc/article/362.html)
+
+	[xdebug]
+	zend_extension = /usr/lib/php5/20131226/xdebug.so
+	xdebug.remote_enable=1
+	xdebug.remote_host=localhost
+	xdebug.remote_port=9000
+	xdebug.remote_connect_back=1
+	xdebug.remote_autostart=1
+	xdebug.profiler_enable=1
+	xdebug.profiler_output_dir="/tmp"
+	xdebug.idekey=PHPSTORM
+
+php -v查看是否安装成功
+
+	root@homestead:/etc/php5/fpm# php -v
+    with Xdebug v2.3.3, Copyright (c) 2002-2015, by Derick Rethans
+
+
+php --ini
+
+我在这里遇到了一个坑，因为ubuntu环境下的php配置文件被拆分成多块，要在cli 下使用 php --ini来查看配置文件的位置。
+
+PHPStrom与Xdebug的结合使用，有一系列的配置。
+
+PHPStrom配置，一个是在PHP SCRIPT, 另一个是PHP WEB APPLICATION.
+
+# 后续
+
+在上面折腾了一番后，原来我使用Laravel提供的Homestead开发环境已经提供了XDebug，已经开启了远程调试。
+
+
+	    
+

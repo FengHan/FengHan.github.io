@@ -80,3 +80,53 @@ public function loadClass($class)
     }
 }
 ```
+
+# psr-0 与psr - 4 的不同
+1. PSR-4中，在类名中使用下划线没有任何特殊含义。而PSR-0则规定类名中的下划线_会被转化成目录分隔符。
+2. composer的PSR-4带来更简洁的文件结构。
+3. 参考：[PSR-4——新鲜出炉的PHP规范](http://segmentfault.com/a/1190000000380008)
+
+总结：
+1. 命名空间前缀对应相应的文件夹
+2. 类名和文件名相同，文件后缀为PHP
+
+
+
+
+### psr-4
+
+	{
+		"psr-4" : {
+	       "Foo\\": "src/"
+	    },
+	}
+
+按照PSR-4的规则，当试图自动加载 "Foo\\Bar\\Baz" 这个class时，会去寻找 "src/Bar/Baz.php" 这个文件，如果它存在则进行加载。
+
+
+### prs-0
+
+    {
+		"psr-0" : {
+	       "Foo\\": "src/",
+	    },
+	}
+
+PSR-0有此配置，那么会去寻找 "src/Foo/Bar/Baz.php"
+
+PSR-0当试图自动加载 "Foo\\A_B" 这个class时，会去寻找 "src/Foo/A/B.php" 这个文件.
+
+参考链接<http://www.tuicool.com/articles/mARrMj6>
+
+
+### classmap
+
+	{
+		"autoload": {
+				"classmap": [
+					"database"
+				],
+		}
+	}
+
+classmap 做的是类名和文件所在位置的映射

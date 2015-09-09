@@ -1,0 +1,37 @@
+---
+layout: post
+title: "Cross Site Request Forgery"
+date: 2015-09-05 17:00:56 +0800
+comments: true
+categories: csrf
+---
+
+CSRF（Cross-site request forgery跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。
+
+
+### CSRF 攻击的防范；
+
+1. 加密令牌：web应用程序可以在网页中嵌入一个加密的令牌，所有的请求都包含这个加密令牌，由于跨站请求无法获取这个令牌，所以伪造的请求很容易就被服务器识别；
+
+
+2. Referer头途径：使用web应用程序也可以验证请求来源页面的Referer，然后由于隐私考虑，这个referer经常被客户端过滤；
+
+
+### 加密令牌
+
+1.根据 加密参数、用户的session_id(), 时间戳和存放在session中的HASH函数。
+
+把令牌token和时间戳 放到form的hidden里面。
+
+	$_SESSION[STOKEN_NAME] = gen_token(); // 随机数
+	<input type="hideen" value="session_token" value= <?=$_SESSION[STOKEN_NAME]?>
+	
+
+
+每次请求的时候，要验证session_token。
+
+
+参考链接：
+
+1. <http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html>
+2. [实验楼 - Elgg 系统 CSRF 攻击实验](https://www.shiyanlou.com/courses/303#)

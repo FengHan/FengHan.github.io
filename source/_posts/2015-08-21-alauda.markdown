@@ -1,0 +1,9 @@
+---
+layout: post
+title: "Docker灵雀云"
+date: 2015-08-21 02:24:30 +0800
+comments: true
+categories: dcoker
+---
+
+今晚把博客迁移到了[灵雀云](http://alauda.cn)
