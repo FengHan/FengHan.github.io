@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Mysql | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/mysql/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-09-09T11:54:21+08:00</updated>
+  <updated>2015-09-09T18:58:36+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -12,6 +12,325 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL Foundation]]></title>
+    <link href="http://fenghan.github.io/blog/2015/09/09/mysql-foundation/"/>
+    <updated>2015-09-09T15:25:59+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/09/09/mysql-foundation</id>
+    <content type="html"><![CDATA[<h1>认识MySQL</h1>
+
+<h4>关系与非关系型数据库</h4>
+
+<p>关系型数据库</p>
+
+<ul>
+<li>mysql</li>
+<li>oracle</li>
+<li>sql server</li>
+<li>postgresql</li>
+</ul>
+
+
+<p>非关系型数据库</p>
+
+<ul>
+<li>hadoop</li>
+<li>mongoDB</li>
+<li>redis</li>
+<li>Cassandra</li>
+</ul>
+
+
+<p>区别：</p>
+
+<p>是否使用SQL语句作为数据操作的方法和方式。</p>
+
+<p>所以关系型数据库又叫做SQL数据库。</p>
+
+<h4>为什么学习MySQL</h4>
+
+<ul>
+<li>基于GPL协议</li>
+<li>Mysql 最流行 ，开源，但不是最先进的。</li>
+<li>互联网企业中占绝对主流地位</li>
+</ul>
+
+
+<p>开发者学习MySQL：</p>
+
+<ul>
+<li>学习数据类型的正确使用</li>
+<li>学习如何利用索引优化查询效率</li>
+<li>了解分区，读写分离特性</li>
+<li>了解数据库事务相关特性</li>
+</ul>
+
+
+<p>DBA学习MySQL：</p>
+
+<ul>
+<li>学习MySQL体系结构知识</li>
+<li>学习日常运维，性能调优，故障排查</li>
+<li>虚席数据层架构设计，schema优化知识</li>
+</ul>
+
+
+<h1>轻松安装MySQL</h1>
+
+<p>5.6 <a href="http://www.mysql.com/downloads/">http://www.mysql.com/downloads/</a></p>
+
+<ul>
+<li>企业版</li>
+<li>集群版</li>
+<li>社区版 （免费）
+
+<h4>Windows上安装</h4>
+
+<p>安装包：300M+</p></li>
+</ul>
+
+
+<h4>Linux上安装</h4>
+
+<h4>Ubuntu上安装MySQL</h4>
+
+<pre><code>apt-cache search mysql-server
+apt-get install mysql-server-5.6
+#查看mysql进程
+ps -ef|grep mysqld
+#查看mysql状态：版本、运行时间、连接方式、查询统计
+sudo /etc/init.d/mysql status
+#msyql启动、停止、重启
+sudo /etc/init.d/mysql start|stop|restart
+</code></pre>
+
+<h1>连接使用MySQL</h1>
+
+<ul>
+<li>应用程序驱动</li>
+<li>MySQL命令行</li>
+<li><p>GUI工具</p>
+
+<p>  #查看mysql-client版本
+  mysql -V</p></li>
+</ul>
+
+
+<p>命令行连接MySQL</p>
+
+<ul>
+<li><p>Socket连接(本地连接)</p>
+
+<pre><code>  mysql -S/var/run/mysqld/mysqld.sock -uhomestead -p
+</code></pre></li>
+<li><p>TCP/IP连接（远程连接）</p>
+
+<pre><code>   mysql -h127.0.0.1 -P3306 -uhomestead -p
+</code></pre></li>
+</ul>
+
+
+<p>本地连接只能在MySQL服务器上创建，常作为MySQL状态检查，或程序和MySQL部署在一台机器上。</p>
+
+<pre><code>#小技巧
+Ctrl + r : 搜索之前敲过的命令
+</code></pre>
+
+<h3>两个重要的命令： status, show processlist</h3>
+
+<h4>status</h4>
+
+<p>关注的信息：</p>
+
+<ul>
+<li>Server version</li>
+<li>characterset: utf8 (Server, Db, Client, Conn)</li>
+<li>Uptime
+
+<h4>show processlist</h4></li>
+</ul>
+
+
+<p>help select;</p>
+
+<pre><code>#查看socket文件位置
+show global variables like 'socket'
+</code></pre>
+
+<ul>
+<li>socket权限为777</li>
+<li>不要把密码直接输入在命令行里面，存在安全风险。</li>
+</ul>
+
+
+<p>history -c 清楚命令行历史</p>
+
+<h4>常用的图形客户端工具</h4>
+
+<ul>
+<li>Navicat</li>
+<li><p>MySQLWenkBench</p></li>
+<li><p>操作简单，易于上手</p></li>
+<li>支出图形化的导入导出</li>
+<li>可视化的界面输出</li>
+</ul>
+
+
+<p>总结：</p>
+
+<ol>
+<li>应用程序使用API接口连接MySQL</li>
+<li>开发工程师可以使用图形工具连接MySQL</li>
+<li><strong>命令行工具才是DBA的最爱</strong></li>
+</ol>
+
+
+<h1>SQL语言入门</h1>
+
+<p>DDL :
+- CREATE TABLE
+- DROP TABLE
+- ALTER TABLE</p>
+
+<p>DML:</p>
+
+<ul>
+<li>SELECT FROM TABLE</li>
+<li>INSERT INTO TABLE</li>
+<li>UPDATE TABLE SET</li>
+<li>DELETE FROM TABLE</li>
+</ul>
+
+
+<p>DCL:</p>
+
+<ul>
+<li>GRANT</li>
+<li>REVOKE</li>
+</ul>
+
+
+<p>TCL:</p>
+
+<ul>
+<li>COMMIT</li>
+<li>ROLLBACK</li>
+</ul>
+
+
+<p><a href="http://www.w3school.com.cn/sql/">SQL教程</a></p>
+
+<h1>认识DBA</h1>
+
+<p>DBA是最后一道屏障，守门员，是业务稳定的基石。</p>
+
+<p>监控线上，保障业务的正常运行。</p>
+
+<p>做好实时性能监控,一旦有长的SQL语句，就会立刻接到报警，然后进行调优。</p>
+
+<h4>小公司</h4>
+
+<ul>
+<li>没有专职DBA</li>
+<li>但肯定有懂数据库的人</li>
+</ul>
+
+
+<p>大公司：</p>
+
+<ul>
+<li>专职DBA</li>
+<li>数据存储技术专家</li>
+</ul>
+
+
+<p>互联网业务： 高性能、高可用、可扩展、安全性。</p>
+
+<p>没有DBA就没有稳定的数据库，请求变慢，数据丢失，安全问题，用户投诉，无穷无尽。</p>
+
+<h3>DBA要做哪些工作？</h3>
+
+<ol>
+<li>基础运维
+
+<ul>
+<li>安全部署</li>
+<li>监控</li>
+<li>故障处理</li>
+</ul>
+</li>
+<li>安全运维工作
+
+<ul>
+<li>数据备份与恢复</li>
+<li>安全访问，安全漏洞</li>
+<li>审计</li>
+</ul>
+</li>
+<li>性能调优工作
+
+<ul>
+<li>数据库优化</li>
+<li>容量评估、软硬件升级</li>
+</ul>
+</li>
+<li>开发支持工作
+
+<ul>
+<li>存储方案制定(哪些数据放在memcache，减少对数据库的访问)</li>
+<li>数据库设计</li>
+<li>数据库变更 SQL Review （审核业务SQL，全表扫描的SQL会把数据库跑死）</li>
+</ul>
+</li>
+<li>流程与培训
+
+<ul>
+<li>数据库开发规范</li>
+<li>运维流程与标准化</li>
+<li>业务培训</li>
+</ul>
+</li>
+</ol>
+
+
+<p>练习：
+mysql要做的：</p>
+
+<p>分析MySQL慢日志请求，优化表索引</p>
+
+<h4>DBA需要的技能</h4>
+
+<p>专业技能：
+    - 数据库原理
+    - Linux与Shell
+    - 计算机体系结构
+    - 网络原理
+    - 数据库系统与操作
+    - 服务器硬件
+    - 业务架构设计
+软技能：</p>
+
+<pre><code>- 责任心、执行力
+- 坚韧，抗压（半夜、凌晨工作）
+- 学习与沟通能力
+- 正直，诚信
+- 耐心，注重细节
+- 分析能力
+- 团队协作
+- 
+</code></pre>
+
+<p>DBA如何发展？</p>
+
+<ul>
+<li>业务架构师（数据存储有深入研究，处理不同业务场景与需求的数据存储）</li>
+<li>运维专家（解决mysql的任何问题，帮助数据库更稳定更高效的运行）</li>
+<li>数据库研发（改进数据库系统或开发自己的数据库）</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MySQL主从配置及读写分离]]></title>

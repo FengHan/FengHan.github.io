@@ -9,7 +9,12 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 当PHP引擎试图实例化未知类的操作时，就会调用autoload(),并将类名当做字符串传递给它。但autoload()有个缺点，就是 一个进程中只能定义一次。这是就可以使用spl_autoload_register()函数。它可以把函数注册到__autoload队列中. &hellip;">
+  <meta name="description" content="前言 想要搭建一个自己的PHP框架，需要哪些功能呢？ 单一入口
+类的自动加载
+MVC
+易于配置
+有电子商务相关的接口：购物车，订单，支付 如何实现 单一入口 nginx配置 location / { try_files $uri $uri/ /index.php?/$uri;
+} &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +81,86 @@ var _hmt = _hmt || [];
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/17/buid-your-own-php-framework/">搭建自己的PHP开发框架</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-17T17:24:04+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:24 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>前言</h1>
+
+<p>想要搭建一个自己的PHP框架，需要哪些功能呢？</p>
+
+<ul>
+<li>单一入口</li>
+<li>类的自动加载</li>
+<li>MVC</li>
+<li>易于配置</li>
+<li>有电子商务相关的接口：购物车，订单，支付</li>
+</ul>
+
+
+<h1>如何实现</h1>
+
+<h3>单一入口</h3>
+
+<p>nginx配置</p>
+
+<pre><code>location / {
+    try_files $uri $uri/ /index.php?/$uri;
+}
+</code></pre>
+
+<ol>
+<li>将uri全部定向到index.php</li>
+<li>在入口文件，实现路由分发，实化例Ccontroller类，然后调用方法。</li>
+</ol>
+
+
+<h3>类的自动加载</h3>
+
+<ol>
+<li>维护命名空间与绝对路径的映射</li>
+<li>使用spl_autoload_register注册函数，当调用不存在的类时，自动加载。</li>
+</ol>
+
+
+<h3>MVC</h3>
+
+<ol>
+<li>每个Controller继承一个Controoler，在这个类中实现存储数据和include模板文件</li>
+<li>用工厂模式和注册树模式来实例化对应的Model类</li>
+</ol>
+
+
+<h3>易于配置</h3>
+
+<ol>
+<li>定义Config类实现\ArrayAccess， 然后加载config目录下的所有文件。也是用注册树和工厂模式。</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -268,55 +353,6 @@ var _hmt = _hmt || [];
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/15/php-framework-hilda/">使用Composer搭建自己的PHP框架</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-15T08:45:27+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:45 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>前言</h1>
-
-<p>今天参照<a href="http://lvwenhan.com/php/410.html">教程</a>，使用Composer来搭建自己的框架。</p>
-
-<p>我给它起了一个名字叫做Hilda PHP Framework.</p>
-
-<p>通过构建这样的微型框架，有利于我们学习框架的自动加载、单入口文件、MVC的原理，因为需要什么，就加载什么。这样，自己的框架就像搭积木一样完成了，避免了重复发明轮子的烦恼。</p>
-
-<h2>Hilda特性：</h2>
-
-<ul>
-<li>单入口文件</li>
-<li>MVC架构</li>
-<li>微型路由，基于<a href="https://packagist.org/packages/codingbean/macaw">codingbean/macaw</a></li>
-<li>数据库的ORM 采用 <a href="http://laravel-china.org/docs/5.0/eloquent">Eloquent</a></li>
-</ul>
-
-
-<h1>安装方法</h1>
-
-<p>它的Github地址为：<a href="https://github.com/FengHan/hilda">https://github.com/FengHan/hilda</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/11">&larr; Older</a>
@@ -332,6 +368,10 @@ var _hmt = _hmt || [];
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a>
@@ -367,10 +407,6 @@ var _hmt = _hmt || [];
     
       <li class="post">
         <a href="/blog/2015/08/26/cache/">缓存</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/26/fen-biao/">水平分表</a>
       </li>
     
   </ul>

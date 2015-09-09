@@ -9,7 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程及博客的迁移。 在继续看本文之前，请先确定你具有折腾的精神。 介绍 &hellip;">
+  <meta name="description" content="前言 我刚毕业那年，公司在开发软件项目的时候使用的是SVN，但总觉得有一些缺点，例如：版本库只保存在了中央服务器上，如果服务器离线或宕机，就无法进行版本管理；当时每天下班时，我们都会提交提交当天的代码，由于代码的合并是在服务器上完成的，所以偶尔会遇到合并的时候出现BUG; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,400 @@ var _hmt = _hmt || [];
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/18/git-local/">Git的本地操作</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-18T10:39:26+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:39 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>前言</h1>
+
+<p>我刚毕业那年，公司在开发软件项目的时候使用的是SVN，但总觉得有一些缺点，例如：版本库只保存在了中央服务器上，如果服务器离线或宕机，就无法进行版本管理；当时每天下班时，我们都会提交提交当天的代码，由于代码的合并是在服务器上完成的，所以偶尔会遇到合并的时候出现BUG;</p>
+
+<p>之后的工作中接触到了Git，它很好的解决了我之前遇到的问题,具体学习可参考<a href="http://git-scm.com/book/en/v2">Pro Git 第二版</a></p>
+
+<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_pro-git.jpg?imageView2/2/h/300" alt="image" /></p>
+
+<h1>Git 简介</h1>
+
+<p><strong>Git与SVN的比较</strong></p>
+
+<ol>
+<li>SVN是集中式的版本控制软件，而Git是分布式的。</li>
+<li>SVN的版本是记录文件与上一次版本的差异，每次checkout时，要迭代这些差异；而Git每个版本会记录全部内容，所以效率更高。</li>
+<li>因为Git在每台电脑上都保存了完整的Version Database， 所以Git可以离线完成大部分操作</li>
+<li>Git有着更优雅的分支和实现</li>
+<li>Git有着强大的撤销修改和修改版本的能力</li>
+<li>Git速度更快，效率更高</li>
+</ol>
+
+
+<p><strong>为什么学习Git呢</strong></p>
+
+<ol>
+<li>现在越来越多的项目放在了GitHub上;</li>
+<li>同时越来越来的公司开始使用Git;</li>
+<li>Android和Linux的版本控制用的都是Git</li>
+</ol>
+
+
+<h1>Git安装与简单配置</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#在全局上配置name和email</span>
+</span><span class='line'>git config --global user.name hanfeng 
+</span><span class='line'>git config --global user.email contact@hanfeng.name
+</span><span class='line'><span class="c">#生成秘钥和公钥，公钥放到Github或Git服务器上，私钥自己保存</span>
+</span><span class='line'>ssh-keygen -t rsa -C <span class="s1">&#39;contact@hanfeng.name&#39;</span>
+</span><span class='line'><span class="c">#常用快捷键</span>
+</span><span class='line'>git config --global alias.co checkout
+</span><span class='line'>git config --global alias.st status
+</span><span class='line'>git config --global alias.ci commit
+</span><span class='line'>git config --global alias.br branch
+</span><span class='line'>git config --global alias.lol <span class="s2">&quot;log --oneline -- decorate --graph -all&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Git config 配置有3个优先级
+local > global > system</p>
+
+<p>git config 的增删改查</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#增</span>
+</span><span class='line'>git config --global --add user.name michael
+</span><span class='line'><span class="c">#删</span>
+</span><span class='line'>git config --global --unset user.name michael
+</span><span class='line'><span class="c">#改</span>
+</span><span class='line'>git conifg --global user.name hanfeng
+</span><span class='line'>查
+</span><span class='line'>git config --list --global
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Git基本工作流程</h1>
+
+<p>Git 使用40个16进制符的SHA-1的Hash来标识对象</p>
+
+<p>Git的对象有4种：</p>
+
+<ul>
+<li>blob： 文件名，二进制文件或链接</li>
+<li>tree： 目录</li>
+<li>commit: 代表一个提交</li>
+<li>tag： 指向一个固定的历史提交</li>
+</ul>
+
+
+<p>Tag -> Commit -> Tree -> Blob</p>
+
+<p>Git只关心文件内容，如果两个文件有相同的内容，那么他们会指向相同的Blob, 文件名存储在tree里</p>
+
+<p>创建一个裸仓库
+git init &ndash;bare</p>
+
+<p>Git有三个区域 Working directory(工作区), Staging area(暂存区), History repository(历史记录区)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git rm a
+</span><span class='line'>#把工作区和暂存区的a都删掉
+</span><span class='line'>#如果还原 用git reset --hard HEAD a
+</span><span class='line'>
+</span><span class='line'>git mv a c
+</span><span class='line'>#工作区和暂存区a都会改名字为c
+</span><span class='line'>#相当于 mv a c 和 git add a c  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>vim .gitignore</p>
+
+<blockquote><p>*.[o|a]</p>
+
+<p>*.~</p>
+
+<p>!test.pyc</p>
+
+<p>foo/</p>
+
+<p>**/res</p></blockquote>
+
+<p>test.pyc不要被忽略</p>
+
+<p>顶层或res子目录</p>
+
+<p>.git/info/exclude  只针对本地仓库</p>
+
+<p>./git/config配置下</p>
+
+<blockquote><p>excludesfile = e:/gitignore.txt</p></blockquote>
+
+<h1>Git本地分支与合并</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#只对本地有效
+</span><span class='line'>git tag "v0" 3abefd
+</span><span class='line'>
+</span><span class='line'>#对全局都有效   
+</span><span class='line'>git tab -a "INITIAL_COMMIT" 3abedf
+</span><span class='line'>git tag
+</span><span class='line'>git show v0
+</span><span class='line'>git checkout -b fix -v0
+</span><span class='line'>git stash = git stash svae
+</span><span class='line'>
+</span><span class='line'>git stash save -a "stash1"  
+</span><span class='line'># -a --all 把untracked files 也stash
+</span><span class='line'>
+</span><span class='line'>git stash list
+</span><span class='line'>
+</span><span class='line'>git stash pop --index stash@{0}   
+</span><span class='line'># --index, 暂存区还原到暂存区，不然还原到工作区
+</span><span class='line'>
+</span><span class='line'>git stash apply --index stash@{0} 
+</span><span class='line'>#同时保持git stash list
+</span><span class='line'>
+</span><span class='line'>git stash drop stash@{0}
+</span><span class='line'>
+</span><span class='line'>git stash clean 
+</span><span class='line'># 清楚全部 stash</span></code></pre></td></tr></table></div></figure>
+
+
+<p>分支切换，就是HEAD引用的切换</p>
+
+<p>git merge有两种： fast-forward， non-fast-forward</p>
+
+<p>fast-forward 只合并了工作区和暂存区，不产生新的Commit对象</p>
+
+<p>non-fast-forward 产生新的Commit对象，HEAD指向</p>
+
+<h1>查看与对比历史记录</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git show + git对象
+</span><span class='line'>git log 
+</span><span class='line'>git diff
+</span><span class='line'>git show HEAD~ = git show HEAD^
+</span><span class='line'>git show --oneline master^2
+</span><span class='line'>git diff --cached   
+</span><span class='line'>#暂存区与历史记录的比较
+</span><span class='line'>git diff --cached HEAD^2
+</span><span class='line'>git diff --color-words
+</span><span class='line'>git diff --word-diff</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>撤销修改</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout + 分支名
+</span><span class='line'>#把HEAD指向分支， 还原工作区和暂存区
+</span><span class='line'>
+</span><span class='line'>git reset
+</span><span class='line'>git clean 
+</span><span class='line'>git revert</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#根据历史记录，只还原暂存区
+</span><span class='line'>git reset master.txt = git rest HEAD master.txt
+</span><span class='line'>
+</span><span class='line'>#将tag指向的commit对象里的内容还原到工作区和暂存区
+</span><span class='line'>git checkout INITIAL_COMMIT --master.txt
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>#将tag指向的commit对象里的内容还原到暂存区
+</span><span class='line'>git reset INITIAL_COMMIT --master.txt
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clean -n
+</span><span class='line'>git clean -f
+</span><span class='line'>
+</span><span class='line'>git clean -X -n  
+</span><span class='line'>#查看清除 .gitignore里的内容
+</span><span class='line'>
+</span><span class='line'>git clean -X -f
+</span><span class='line'>
+</span><span class='line'>git clean -x -n 
+</span><span class='line'>#清除所有
+</span><span class='line'>
+</span><span class='line'>git clean -x -f
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git revert HEAD</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>重写历史记录</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#修改最后一次提交
+</span><span class='line'>git commit --ammend  
+</span><span class='line'>
+</span><span class='line'>#超强的修改历史的能力，维护一个线性的历史
+</span><span class='line'>git rebase  
+</span><span class='line'>
+</span><span class='line'>#可以撤销merge
+</span><span class='line'>git reset + commit对象
+</span><span class='line'>
+</span><span class='line'>#维护HEAD引用信息，配合git reset
+</span><span class='line'>git reflog</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git rebase master
+</span><span class='line'>git rebase --abort
+</span><span class='line'>git rebase --continue</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git reset --mixed HEAD@{5}
+</span><span class='line'># --mixed为默认参数，只还原暂存区，把分支名和HEAD引用直接指定到相应的commit对象上
+</span><span class='line'>
+</span><span class='line'>git reset --hard HEAD@{5}
+</span><span class='line'>#还原暂存区和工作区
+</span><span class='line'> 
+</span><span class='line'>git reset --soft HEAD@{5}
+</span><span class='line'>#都不还原</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>touch README.md //新建说明文件
+git init //在当前项目目录中生成本地git管理,并建立一个隐藏.git目录
+git add . //添加当前目录中的所有文件到索引
+git commit -m "first commit" //提交到本地源码库，并附加提交注释
+git remote add origin https://github.com/chape/test.git //添加到远程项目，别名为origin
+git push -u origin master //把本地源码库push到github 别名为origin的远程项目中，确认提交
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -357,6 +751,10 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a>
       </li>
     
@@ -390,10 +788,6 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
     
       <li class="post">
         <a href="/blog/2015/08/26/cache/">缓存</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/26/fen-biao/">水平分表</a>
       </li>
     
   </ul>
