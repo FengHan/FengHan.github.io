@@ -9,7 +9,10 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 学习分库、分表的一记录，后期整理，添加示例。 正文 数据库分表与分库的实现方法： tb_user_0 &hellip; tb_user_1 &hellip;.tb_user_2 &hellip;. tb_user_3 当多张表具有完全相同的数据结构时，我们认为这些表示对一个实体数据的横向切分 &hellip;">
+  <meta name="description" content="慕课网Hadoop大数据平台架构与实践&ndash;基础篇 的文字记录 初识Hadoop 课程简介 介绍的内容： 大数据技术的相关概念
+Hadoop的架构和运行机制
+实战：Hadoop的安装和配置
+实战： Hadoop的开发 学习目标： 掌握大数据存储与处理技术的原理（理论知识） &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +85,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/26/fen-biao/">水平分表</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a></h1>
     
     
       <p class="meta">
@@ -91,91 +94,220 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-26T16:21:34+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:21 pm</span></time>
+<time class='entry-date' datetime='2015-08-30T16:22:21+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:22 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
+  <div class="entry-content"><p>慕课网<a href="http://www.imooc.com/learn/391">Hadoop大数据平台架构与实践&ndash;基础篇</a> 的文字记录</p>
 
-<p>学习分库、分表的一记录，后期整理，添加示例。</p>
+<h1>初识Hadoop</h1>
 
-<h1>正文</h1>
+<h2>课程简介</h2>
 
-<p>数据库分表与分库的实现方法：</p>
-
-<p>tb_user_0  &hellip; tb_user_1 &hellip;.tb_user_2 &hellip;. tb_user_3</p>
-
-<hr />
-
-<p>当多张表具有完全相同的数据结构时，我们认为这些表示对一个实体数据的横向切分。</p>
-
-<p>每张表都可以有自己的id
-但是所有切分出来的表必须具备全局uid
-分表后要按照某个元素（通常全局id）进行某种算法的计算，得到表后缀。</p>
-
-<p>id生成器。（用redis做id在断电的情况下有风险），通常用mysql</p>
-
-<p>uuid 得到一个字符串</p>
-
-<p>自建索引</p>
-
-<p>当数据库大了，分表是必然的。分表之后，建索引是必然的。</p>
-
-<p>将全局id进行一次md5将得到一个由16进制数值组成的32位字符串。 数据越多越均匀。分成15张表，</p>
-
-<p>或分成256张表。</p>
-
-<p>分成80张： FF = 255 255%80 取余数。分多少张表，就余多少。</p>
-
-<hr />
-
-<p>如果只是做简单切分的时候后，我们会遇到问题：</p>
+<h4>介绍的内容：</h4>
 
 <ol>
-<li>当我们需要将这些数据进行统计与分析的时候，不能使用聚合函数</li>
-<li><p>当我们查询某条数据时，我们必须要知道我要查询的数据在哪一张表里，否则我就需要查询所有的表来查找结果。</p></li>
-<li><p>当我插入数据的时候，我必须尽可能的让每张表的负载均匀</p></li>
-<li>当我要修改数据的时候，我必须明确我要修改的数据在哪里。</li>
+<li>大数据技术的相关概念</li>
+<li>Hadoop的架构和运行机制</li>
+<li>实战：Hadoop的安装和配置</li>
+<li>实战： Hadoop的开发</li>
 </ol>
 
 
-<p>在不同的时期分表，会产生不同的问题。</p>
+<h4>学习目标：</h4>
 
 <ol>
-<li>项目启动阶段就进行分表</li>
-<li>项目启动阶段没有分表，而是在项目进行到积累了一定数据量以后再进行分表</li>
-<li>项目之前就进行切分过表，但是被切分后的表经过长时间运行，又产生了大量数据，需要再次分表</li>
+<li>掌握大数据存储与处理技术的原理（理论知识）</li>
+<li>掌握Hadoop的使用和开发能力（实践能力）</li>
 </ol>
 
 
-<p>。</p>
+<h4>课程学习建议：</h4>
 
-<p>合理的分表不单单能解决单张表数据量过大的问题，还能优化我们的业务逻辑。</p>
+<ol>
+<li>书籍：
 
-<p>tb_product_store_sh
-tb_product_store_bj
-tb_product_store_hubei</p>
+<ol>
+<li>《Hadoop权威指南》</li>
+<li>《Hadoop技术详解》</li>
+</ol>
+</li>
+<li>实践很重要，边听边实践</li>
+</ol>
 
-<p>基于区域位置的分表，非常适合做类似库存，商户信息，工商管理等有着明显区域性的数据分表。</p>
 
-<p>基于IP地址的分表， 用于统计与分析数据。访问日志。
-（几十万的数据开始考虑分表。）
-当数据达到100多万的时候，就要考虑分表。</p>
+<h4>课程预备知识</h4>
 
-<p>按时间分表，
-日志。
-财务报表。
-绩效考核。</p>
+<ol>
+<li>Linux常用命令</li>
+<li>Java编程基础
 
-<p>工资流水、销售业绩、出纳凭证等记录，按年份来分表。</p>
+<h2>Hadoop的前世今生</h2>
 
-<p>考勤记录  销售业绩
-个人考勤记录 签单记录  按月分表比较适合</p>
+<p>单机的系统瓶颈： 存储容量，读写速率，计算效率</p></li>
+</ol>
 
-<p>季度、半年度、部门业绩 工资资产 等</p>
+
+<p>Google大数据技术：
+1. MapReduce
+2. BigTable
+3. GFS</p>
+
+<ul>
+<li>革命性的变化1：成本降低，能用PC机，就不用大型机和高端存储。</li>
+<li>革命性得变化2： 软件容错硬件故障视为常态，通过软件保证可靠性</li>
+<li>革命性的变化3： 简化并行分布式计算，无须控制节点同步和数据交换</li>
+</ul>
+
+
+<p>Google只发表了论文，没有开放源代码。</p>
+
+<p>Hadoop是一个模仿大数据技术的开源实现。</p>
+
+<h2>Hadoop的功能与优势</h2>
+
+<h4>什么是Hadoop</h4>
+
+<p>Hadoop是<strong>开源的</strong>， <strong>分布式存储</strong> + <strong>分布式计算平台</strong>。
+<a href="http://hadoop.apache.org/">http://hadoop.apache.org/</a></p>
+
+<p>它包括两个核心组成：</p>
+
+<ul>
+<li>HDFS: 分布式文件系统，存储海量的数据</li>
+<li>MapReduce: 并行处理框架，实现任务分解和调度</li>
+</ul>
+
+
+<h4>Hadoop可以用来做什么?</h4>
+
+<p>搭建大型数据仓库，PB级数据的存储、处理、分析、统计业务。</p>
+
+<ul>
+<li>搜索引擎</li>
+<li>商业智能</li>
+<li>日志分析</li>
+<li>数据挖掘</li>
+</ul>
+
+
+<h4>Hadoop的优势</h4>
+
+<ol>
+<li>高扩展</li>
+<li>低成本</li>
+<li>成熟的生态圈</li>
+</ol>
+
+
+<h4>Hadoop的应用情况</h4>
+
+<ul>
+<li>国外： facebook twitter yahoo intel hulu linkedIn</li>
+<li>国内： 百度，京东，淘宝，华为，新浪微博，小米，腾讯，网易</li>
+</ul>
+
+
+<p>Hadoop已成为业内大数据平台的首选</p>
+
+<h4>Hadoop的人才需求</h4>
+
+<ol>
+<li>Hadoop开发人才</li>
+<li>Hadoop运维人才</li>
+</ol>
+
+
+<h2>Haoop的生态系统及版本</h2>
+
+<h4>生态系统</h4>
+
+<ul>
+<li>Hive
+
+<ul>
+<li>中文：小蜜蜂，不需要Hadoop任务程序，只需要写SQL语句。降低了使用Hadoop的使用门槛</li>
+<li>它是基于Hadoop之上的一个数据仓库</li>
+</ul>
+</li>
+<li>HBase 存储结构化数据的分布式数据库。
+
+<ul>
+<li>与传动数据相比：放弃事务特性，最求更高的扩展</li>
+<li>与HDFS的区别：随机读写和实时访问，实现对表数据的读写功能</li>
+</ul>
+</li>
+<li>zookeeper
+
+<ul>
+<li>像动物管理员一样，监控Hadoop集群里面每一个节点的状态。管理配置，维护节点之前的一致性
+
+<h4>版本</h4></li>
+</ul>
+</li>
+</ul>
+
+
+<p>1.x 与 2.x （现在2.6）</p>
+
+<p>我们选择1.2的版本，因为1.x稳定，且对于新手易于理解容易上手。</p>
+
+<hr />
+
+<h1>Hadoop的核心 - HDFS简介</h1>
+
+<h2>HDFS设计架构</h2>
+
+<ul>
+<li>Blocks
+
+<ul>
+<li>HDFS的文件被分成块进行存储</li>
+<li>HDFS块的默认大小为64M</li>
+<li>块是文件存储处理的逻辑单元</li>
+</ul>
+</li>
+<li>NameNode
+
+<ul>
+<li>NameNode是管理节点，存放文件元数据</li>
+<li>文件与数据块的映射表</li>
+<li>数据块（Block）与数据节点(DataNode)的映射表</li>
+</ul>
+</li>
+<li>DataNode
+
+<ul>
+<li>用来存放数据块的。</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>数据管理策略</h2>
+
+<h4>HDFS数据管理与容错</h4>
+
+<p>每个数据块3个副本，分布在两个机架内的三个节点</p>
+
+<h4>心跳检测</h4>
+
+<ul>
+<li>DataNode定期向NameNode发送心跳信息</li>
+<li>二级NameNode定期同步元数据镜像文件和修改日志， NameNode发生故障时，备胎转正。</li>
+</ul>
+
+
+<h4>HDFS读取文件流程</h4>
+
+<h4>HDFS特点</h4>
+
+<hr />
+
+<h1>Hadoop的核心 - MapReduce简介</h1>
 </div>
   
   
@@ -188,7 +320,7 @@ tb_product_store_hubei</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/23/mysql-master-slave/">MySQL主从配置及读写分离</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/30/performance-bottleneck/">性能瓶颈</a></h1>
     
     
       <p class="meta">
@@ -197,7 +329,7 @@ tb_product_store_hubei</p>
 
 
 
-<time class='entry-date' datetime='2015-08-23T21:53:41+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:53 pm</span></time>
+<time class='entry-date' datetime='2015-08-30T00:10:51+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:10 am</span></time>
         
       </p>
     
@@ -206,120 +338,11 @@ tb_product_store_hubei</p>
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>以前在公司的时候，公司配了MySQL主从，在线上用PHPMyAdmin查看从库信息，但只给了读权限，用于查看线上信息。今天记录一下MySQL主从的搭建过程。（我使用的是MariaDb5.5）</p>
+<p>今天和一位搞运维研发的同学聊天，问如何解决300万条订单数据的分析。</p>
 
-<h2>Notice</h2>
+<p>答：看性能瓶颈在哪里，<strong>读慢加缓存，写慢加队列</strong></p>
 
-<p>在用户不多、并发不大、mysql服务器在同一个局域网内，MySQL主从是没有问题的。</p>
-
-<p>主从数据库缺点：</p>
-
-<ol>
-<li>因为开启了bin log日志，所以会有性能开销。</li>
-<li>在实时性非常高的情况下，做了读写分离就不行。因为单线程同步需要花时间，时间上不允许。</li>
-</ol>
-
-
-<h1>MySQL主从配置</h1>
-
-<ol>
-<li>mysql的版本相同， mysql主从同源，即具有相同的库、表及记录。</li>
-<li>数据迁移的时候，从库的版本高于主库。</li>
-<li><p>把主库从库都停掉。因为打包主库的时候会花很长时间，这时如果主库还有文件写入，很容易出错。</p>
-
-<p> cd /var/lib/
- tar zcvf mysql.tar.gz ./mysql</p>
-
-<p> scp mysql.tar.gz vagrant@192.168.33.10:/tmp</p></li>
-<li><p>配置/etc/mysql/my.cnf</p>
-
-<p> server-id               = 1
- log_bin                 = /var/log/mysql/mysql-bin.log
- expire_logs_days        = 10
- max_binlog_size         = 100M      每个bin log文件最大的大小</p></li>
-</ol>
-
-
-<p>开启log_bin日志，性能就会降低。没修改一条数据，就会写入文件。硬盘不大的情况下，会写满数据库</p>
-
-<p>要放到msyql有权限的目录里。</p>
-
-<p>我们的目的是用从库修复主库。
-靠从库的bin_log来恢复主机。</p>
-
-<p>写bin_log性能降低，但因为我们做了主从，我们靠读多个从库来提高并发量。</p>
-
-<p>让从库能够通过tcp 来连接主库，
-5. 为从库专门准备一个用户。</p>
-
-<pre><code>create user 'slave_1'@'%' IDENTIFIED BY 'abcd' ;
-grant replication slave  on *.* to 'slave_1'@'%';
-或者一条命令
-GRANT REPLICATION SLAVE ON *.* to 'mysync'@'%' identified by 'q123456'; 
-</code></pre>
-
-<ol>
-<li><p>通过  SHOW MASTER STATUS; 显示当前主库的binlog文件与文件位置，我们需要将这个位置记录下来</p>
-
-<p>   SHOW MASTER STATUS;</p></li>
-</ol>
-
-
-<p>连接到从库   开启主从同步</p>
-
-<pre><code>CHANGE MASTER TO MASTER_HOST = '192.168.33.12' ,MASTER_USER='slave_2' ,MASTER_PASSWORD = '1234' ,MASTER_LOG_FILE ='mysql-bin.000002', MASTER_LOG_POS=973
-</code></pre>
-
-<p> 不想同步系统库可以选择忽略系统库</p>
-
-<pre><code>binlog_ignore_db        = mysql
-</code></pre>
-
-<p>SALVE命令</p>
-
-<pre><code>START SLAVE
-STOP  SLAVE
-SHOW SLAVE STATUS\G
-</code></pre>
-
-<p>我在安装的时候遇到的错误：
-<a href="http://serverfault.com/questions/586651/mysql-refuses-to-accept-remote-connections">MySQL refuses to accept remote connections</a></p>
-
-<p>解决方法：</p>
-
-<pre><code>sudo netstat -ntlup | grep mysql
-tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      127018/mysqld
-</code></pre>
-
-<p>修改/etc/mysql/my.cnf</p>
-
-<pre><code>bind-address = 0.0.0.0
-</code></pre>
-
-<h1>读写分离</h1>
-
-<p>主库创建新用户</p>
-
-<pre><code>GRANT all privileges  ON tiny.* to 'michael'@'%' identified by '1234'; 
-flush privileges;
-</code></pre>
-
-<p>从库创建新用户，只给读的权限。</p>
-
-<pre><code>GRANT SELECT  ON tiny.* to 'michael2'@'%' identified by '1234'; 
-
-flush privileges;
-</code></pre>
-
-<h3>代码</h3>
-
-<p>代码我放到了我的GitHub上，我自己写了一个MVC的简易框架。这样，框架的任何一个部分我都了解，大大节约了我写代码示例的时间。然后学习优秀框架的思想，继续维护我的框架。</p>
-
-<p><a href="https://github.com/hildalove/tiny/blob/master/Tiny/Proxy/Proxy.php">代理模式</a></p>
-
-<p><a href="https://github.com/hildalove/tiny/blob/master/Tiny/Service/Factory.php">获取数据库实例</a></p>
-
-<p><a href="https://github.com/hildalove/tiny/blob/master/App/Controller/Mysql.php">控制器</a></p>
+<p>可以研究一下内容：hadoop、spark、分布式数据库hbase，其中Spark利用内存计算会快些。</p>
 </div>
   
   
@@ -344,6 +367,30 @@ flush privileges;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/16/mysql-storage-engine/">MySQL存储引擎</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/14/mysql-db-object/">MySQL数据库对象与应用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/12/performance-test/">高性能产品的必由之路—性能测试工具</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/10/mysql-master-slave/">MySQL主从复制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/10/mysql-index/">MySQL索引</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
       </li>
     
@@ -357,30 +404,6 @@ flush privileges;
     
       <li class="post">
         <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/30/performance-bottleneck/">性能瓶颈</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/26/cache/">缓存</a>
       </li>
     
   </ul>

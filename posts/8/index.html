@@ -9,10 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 当项目复杂度和用户数提高的时候，我们常常会遇到以下问题：卡、 挂、 数据备份、 数据分析、 安全、 24小时在线、 多平台、 多端、 跨地域、 实时性强。 总结起来就是以下4个方面： 性能问题
-交互问题
-安全问题
-可持续发展与维护 性能计算 不同语言开发解决性能问题的思想 PHP -> &hellip;">
+  <meta name="description" content="前言 高级程序员都干些什么呢？怎样才能成为高级程序员呢？其实初级或刚入行的朋友喜欢问这样的问题。可能想把作为下一个奋斗的目标吧。下面是微信账号“威哥干Java”的看法。 一个项目好比画了两个圈，内外镶嵌，高级程序员负责内圈代码，初级程序员负责外圈代码。想要成为高级程序员，你就得往内圈挤。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/21/performance/">负载计算方法及不同语言开发解决性能问题的思想等</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a></h1>
     
     
       <p class="meta">
@@ -94,7 +91,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-21T14:52:36+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>2:52 pm</span></time>
+<time class='entry-date' datetime='2015-08-28T08:00:02+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:00 am</span></time>
         
       </p>
     
@@ -103,246 +100,27 @@ var _hmt = _hmt || [];
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>当项目复杂度和用户数提高的时候，我们常常会遇到以下问题：卡、 挂、 数据备份、 数据分析、 安全、 24小时在线、 多平台、 多端、 跨地域、 实时性强。</p>
+<p>高级程序员都干些什么呢？怎样才能成为高级程序员呢？其实初级或刚入行的朋友喜欢问这样的问题。可能想把作为下一个奋斗的目标吧。下面是微信账号“威哥干Java”的看法。</p>
 
-<p>总结起来就是以下4个方面：</p>
+<p>一个项目好比画了两个圈，内外镶嵌，高级程序员负责内圈代码，初级程序员负责外圈代码。想要成为高级程序员，你就得往内圈挤。</p>
+
+<p>从专业的角度上有三点：</p>
 
 <ol>
-<li>性能问题</li>
-<li>交互问题</li>
-<li>安全问题</li>
-<li>可持续发展与维护</li>
+<li>确定开发团队、技术路线和技术架构，为关键模块设计技术实现，能够满足长期发展的业务需要。</li>
+<li>能参与系统调研，需求分析。负责概要设计、详细设计， 开发计划等编制并实施。负责核心内码通用模块功能实现，解决一些技术问题。</li>
+<li>负责提升团队技术能力，协同项目经理进行项目开发，并实现重要的功能，指导和培养团队的成员。</li>
 </ol>
 
 
-<h1>性能计算</h1>
-
-<h3>不同语言开发解决性能问题的思想</h3>
+<p>满足3个必备条件：</p>
 
 <ol>
-<li><strong>PHP -> 多进程</strong></li>
+<li>具备看官方英文文档的能力。</li>
+<li>上专业顶级的社区。</li>
+<li>成为Github重度感染者。</li>
 </ol>
 
-
-<p>PHP通常是和Apache一起来工作，将PHP作为Apache的一个模块来使用，或者采用FastCGI方式通过FPM与web容器通信。我们的每一个用户的请求都将使用一个进程来处理用户请求。</p>
-
-<ol>
-<li><strong>JAVA -> 多线程</strong></li>
-</ol>
-
-
-<p>单个进程中同时有多个函数在运行，我们就认为这个应用时多线程的。</p>
-
-<ol>
-<li><strong>NodeJs -> 单进程单线程</strong></li>
-</ol>
-
-
-<p>Nignx 与 nodejs jetty 提升效率的方法相同。</p>
-
-<p>都是 异步&amp;非阻塞。</p>
-
-<h4>阻塞</h4>
-
-<p>Apache接收到用户的请求 -> 创建php进程处理请求 -> php通过Http协议解析获取用户提交数据 -> 进行数据过滤与加工 -> (接收用户上传的文件) ->
-(对图片缩放/给图片加水印) -> 将数据插入到数据库  -> 等待数据处理完成  -> 加载模板 -> 输出页面 -> 结束进程 -> 回收资源</p>
-
-<p>PHP是单线程的，所以要等待用户上传文件、等待对图片处理、等待插入数据库的结果。一直在等待，所以耗时间。而nodejs是基于事件的编程、非阻塞，效率高。</p>
-
-<h1>高负载项目优化</h1>
-
-<h4>IO  Input/Output</h4>
-
-<ul>
-<li>磁盘IO</li>
-<li>网络IO</li>
-<li>数据库IO</li>
-</ul>
-
-
-<h4>性能测试</h4>
-
-<ul>
-<li>php 系能测试</li>
-<li>mysql读写性能测试</li>
-<li>文件 读写性能测试</li>
-</ul>
-
-
-<h4>测试工具</h4>
-
-<ul>
-<li>Apache ab</li>
-<li>Apache JMeter</li>
-</ul>
-
-
-<h2>负载的计算方法</h2>
-
-<ul>
-<li>网络连接最大并发数 B</li>
-<li>单次请求的处理时间  dt</li>
-<li>用户n秒请求一次</li>
-<li>发摩擦系数s ： 一般 0.65</li>
-<li>负载 = B/dt * n</li>
-</ul>
-
-
-<p>例子：</p>
-
-<ul>
-<li>网络连接最大并发数 B = 1000 次</li>
-<li>单次请求的处理时间  dt = 3秒</li>
-<li>用户30秒请求一次 n = 30秒</li>
-<li>发摩擦系数s ： 一般 0.65</li>
-<li>每秒能处理的请求数 = 1000次 /3秒</li>
-<li>负载 = 每秒能处理的请求数 * 30秒 * 0.65 = 6500</li>
-</ul>
-
-
-<p>总结：</p>
-
-<ol>
-<li>负载 就是ＷEB服务能够支持的最大访问人数，不卡，不Down机。它取决于3点（最重要的）：网络最大连接数、单次请求处理时间 和 用户多少秒请求一次。</li>
-<li>对网络连接最大并发数 B 起决定性作用的依次是带宽、内存、CPU、操作系统。</li>
-<li>减少单次处理请求时间，对程序员说很困难。</li>
-<li>提高用户请求一次的时间是一个有效的办法，所以一个好的网页交互师很重要。比说增加验证码、提示框等。</li>
-</ol>
-
-
-<h4>集群：</h4>
-
-<p>在同一个项目，多台服务器一起工作</p>
-
-<h1>数据库优化原理</h1>
-
-<ol>
-<li>优化第一条：针对查询建索引。where条件要匹配索引，叫做命中索引。</li>
-</ol>
-
-
-<p>问： 索引为什么会加速查询？</p>
-
-<p>答：因为添加索引，会优化搜索算法，使用了二叉树、平衡二叉树、红黑树升级的算法。建立索引，查询速度会集合倍提高。 牺牲了写入数据的效率，换来了查询的速度。但因为我们大部分都是查询，写入的少。性能不会凭空产生</p>
-
-<p>容器：内存中可以用来保存其他对象的对象，比如链表、数组、hashmap</p>
-
-<p>资源：应用程序从内存意外的地方读取或写入数据的对象成为资源，比如网络，比如磁盘文件。涉及资源IO的程序通常速度都会比较慢。</p>
-
-<p>结果集： 自己是个容器，从结果集获取数据的本质是一种资源，也是一个集合，不能有重复。（<strong>结果集是一个保存指向数据库资源指针的集合</strong>）</p>
-
-<p>当多个条件查询的时候，and条件表示左右两个条件搜索到的结果集做交集。
-如果使用or连接两个条件，左右两个条件搜索的结果做并集。</p>
-
-<p>selec &hellip; limit 0, 20;</p>
-
-<p>遍历结果集，从数据库文件里面取。</p>
-
-<p>select &hellip; where id = 1;</p>
-
-<p>   &hellip;.</p>
-
-<p>select &hellip;. where id = 20;</p>
-
-<p>分页的作用：让每一次数据查询返回的结果集可控。</p>
-
-<p>数据的查询一定要分页。</p>
-
-<p>当写入大于查询的时候，要去索引，去掉只剩下一个id。</p>
-
-<h3>读写差异定制</h3>
-
-<p>数据库主从，主库没有索引，从库加索引。数据库的主从原理是根据主库的日志，把主库的bin log日志再从新执行一遍，这叫读写差异定制。</p>
-
-<h3>自建索引</h3>
-
-<p>如果是单个数据库。</p>
-
-<p>建立索引越多-> 插入一条数据时间长->锁表时间长 -> 其他记录等待时间长
-并发的时候， 堵车撞车几率就大。就容易让数据库挂掉。</p>
-
-<p>不锁表，MySQL的连接数也会增加，满了。PHP连不上mYSQL, Nginx连不上mysql，会报502。索引越多越糟糕</p>
-
-<p>user  基本表
-user_index   保存搜索条件。</p>
-
-<p>一台机器，专门用来保存数据。另一台数据用来保存索引。
-或者一个库用来保存数据，另一个库来保存索引。</p>
-
-<p>每天固定时间建立索引。</p>
-
-<p>这叫做<strong>异步建索引</strong></p>
-
-<h4>sphinx</h4>
-
-<p>爬数据库的爬虫，为我们的数据库建立索引。</p>
-
-<p>能够大幅提升性能，对小说站，资讯站很有用。但是优缺点：不是实时索引。</p>
-
-<h4>redis索引</h4>
-
-<p>微博 把索引放到了redis里面，建立实时索引。</p>
-
-<p>插入数据的时候，把索引写到redis里面。 查询数据，从redis里把满足用户的id查询出来。再查mysql数据库。 每一条索引都命中id，效率会特别高。</p>
-
-<p>list可以保存索引，hash缓存对象，set用来交并集处理。所以，redis有建立索引和保存数据的作用。</p>
-
-<p>redis：1.数据结构支持（消息队列） 2. 缓存 3. 索引（要存储到数据库）</p>
-
-<h4>　笛卡尔集</h4>
-
-<p>Ａ　Ｂ　Ｃ　三个表</p>
-
-<p>Ａ表搜索１０条记录找到１条，Ｂ表搜索到５条记录找到１条，Ｃ表搜索５条记录。</p>
-
-<p>连表的话，会搜索１００条记录。</p>
-
-<p>根据业务逻辑做优化。</p>
-
-<h3>分表分库</h3>
-
-<ul>
-<li>横向： 横切一刀， 表的数据被分成两部分。</li>
-<li>纵向： 刷刷两刀，一个表的字段减少。</li>
-</ul>
-
-
-<p>优化最求：所有的事情可控。</p>
-
-<p>小规模分表、大规模分库。</p>
-
-<p><strong>横向切表</strong>
-tb_user</p>
-
-<p>tb_usser0</p>
-
-<p>tb_usser1</p>
-
-<p>tb_usser2</p>
-
-<p>tb_usser3</p>
-
-<p><strong>纵向且表，表重构</strong></p>
-
-<p>tb_user_login</p>
-
-<p>tb_user_info</p>
-
-<p>tb_user_account</p>
-
-<p>多主多从。
-多主一从。
-互为主从。</p>
-
-<h3>MongDb</h3>
-
-<p>支持平行扩容和分片</p>
-
-<p>高性能、高并发、海量扩容</p>
-
-<p>js + mongodb: 效率高、速度快、并发高、数据扩容方便</p>
-
-<h1>Mysql主从配置</h1>
 </div>
   
   
@@ -355,7 +133,7 @@ tb_user</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/21/alauda/">Docker灵雀云</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/26/cache/">缓存</a></h1>
     
     
       <p class="meta">
@@ -364,14 +142,50 @@ tb_user</p>
 
 
 
-<time class='entry-date' datetime='2015-08-21T02:24:30+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>2:24 am</span></time>
+<time class='entry-date' datetime='2015-08-26T16:26:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:26 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>今晚把博客迁移到了<a href="http://alauda.cn">灵雀云</a></p>
+  <div class="entry-content"><h3>缓存的类型</h3>
+
+<ul>
+<li>局域网缓存</li>
+<li>网络缓存</li>
+<li>硬盘缓存</li>
+<li>内存缓存</li>
+<li>数据库缓存</li>
+<li>Opcode缓存</li>
+<li>客户端浏览器缓存</li>
+</ul>
+
+
+<h3>opcode</h3>
+
+<p>Opcode是一种PHP脚本编译后的中间语言</p>
+
+<ul>
+<li>opcache php5.5 默认安装</li>
+<li>xcache  php5.4</li>
+<li>php 5.2 zned optimization 被淘汰了。</li>
+<li>wincache windows下</li>
+<li>APC  PHP5.4  （PS: 上一家公司安装了APC）</li>
+</ul>
+
+
+<p>APCU xcache wincache 支持php API调用 （默认情况下 效率高于memcache）</p>
+
+<h4>客户端浏览器缓存</h4>
+
+<p>客户端缓存 （浏览器缓存） 静态资源引用公共服务器资源</p>
+
+<p>把图片放在多个域名下，可以多线程加载图片 例如pc1.domain.com pc2.domain.com</p>
+
+<p>xxx.com/abc.js?t=1234343 开发测试的时候，用这种方法防止浏览器缓存。给静态资源加时间戳带尾巴。</p>
+
+<p>在发行产品的时候带版本号。</p>
 </div>
   
   
@@ -396,6 +210,30 @@ tb_user</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/16/mysql-storage-engine/">MySQL存储引擎</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/14/mysql-db-object/">MySQL数据库对象与应用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/12/performance-test/">高性能产品的必由之路—性能测试工具</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/10/mysql-master-slave/">MySQL主从复制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/10/mysql-index/">MySQL索引</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
       </li>
     
@@ -409,30 +247,6 @@ tb_user</p>
     
       <li class="post">
         <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/30/performance-bottleneck/">性能瓶颈</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/26/cache/">缓存</a>
       </li>
     
   </ul>

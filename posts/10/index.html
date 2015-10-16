@@ -9,12 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 想要搭建一个自己的PHP框架，需要哪些功能呢？ 单一入口
-类的自动加载
-MVC
-易于配置
-有电子商务相关的接口：购物车，订单，支付 如何实现 单一入口 nginx配置 location / { try_files $uri $uri/ /index.php?/$uri;
-} &hellip;">
+  <meta name="description" content="前言 按照了解的很多PHP/LNMP程序员的发展轨迹，结合个人经验体会，抽象出很多程序员对未来的迷漫，特别对技术学习的盲目和慌乱，简单梳理了这个每个阶段PHP程序员的技术要求，来帮助很多PHP程序做对照设定学习成长目标。 本文按照目前主流技术做了一个基本的梳理， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/17/buid-your-own-php-framework/">搭建自己的PHP开发框架</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/23/php-develop/">[转]PHP程序员的技术成长规划</a></h1>
     
     
       <p class="meta">
@@ -96,7 +91,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-17T17:24:04+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:24 pm</span></time>
+<time class='entry-date' datetime='2015-08-23T21:32:55+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:32 pm</span></time>
         
       </p>
     
@@ -105,56 +100,138 @@ var _hmt = _hmt || [];
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>想要搭建一个自己的PHP框架，需要哪些功能呢？</p>
+<p>按照了解的很多PHP/LNMP程序员的发展轨迹，结合个人经验体会，抽象出很多程序员对未来的迷漫，特别对技术学习的盲目和慌乱，简单梳理了这个每个阶段PHP程序员的技术要求，来帮助很多PHP程序做对照设定学习成长目标。</p>
 
-<ul>
-<li>单一入口</li>
-<li>类的自动加载</li>
-<li>MVC</li>
-<li>易于配置</li>
-<li>有电子商务相关的接口：购物车，订单，支付</li>
-</ul>
+<p>本文按照目前主流技术做了一个基本的梳理，整个是假设PHP程序员不是基础非常扎实的情况进行的设定，并且所有设定都非常具体明确清晰，可能会让人觉得不适，请理解仅代表一家之言。（未来技术变化不在讨论范围）</p>
 
+<h1>第一阶段：基础阶段（基础PHP程序员）</h1>
 
-<h1>如何实现</h1>
+<p><strong>重点</strong>：把LNMP搞熟练（核心是安装配置基本操作）</p>
 
-<h3>单一入口</h3>
+<p><strong>目标</strong>：能够完成基本的LNMP系统安装，简单配置维护；能够做基本的简单系统的PHP开发；能够在PHP中型系统中支持某个PHP功能模块的开发。
+时间：完成本阶段的时间因人而异，有的成长快半年一年就过了，成长慢的两三年也有。</p>
 
-<p>nginx配置</p>
+<h4>1.Linux：</h4>
 
-<pre><code>location / {
-    try_files $uri $uri/ /index.php?/$uri;
-}
-</code></pre>
+<p>基本命令、操作、启动、基本服务配置（包括rpm安装文件，各种服务配置等）；会写简单的shell脚本和awk/sed 脚本命令等。</p>
+
+<h4>2.Nginx：</h4>
+
+<p>做到能够安装配置nginx+php，知道基本的nginx核心配置选项，知道 server/fastcgi_pass/access_log 等基础配置，目标是能够让nginx+php_fpm顺利工作。</p>
+
+<h4>3.MySQL：</h4>
+
+<p>会自己搭建mysql，知道基本的mysql配置选项；知道innodb和myisam的区别，知道针对InnoDB和MyISAM两个引擎的不同配置选项；知道基本的两个引擎的差异和选择上面的区别；能够纯手工编译搭建一个MySQL数据库并且配置好编码等正常稳定运行；核心主旨是能够搭建一个可运行的MySQL数据库。</p>
+
+<h4>4.PHP：</h4>
+
+<p>基本语法数组、字符串、数据库、XML、Socket、GD/ImageMgk图片处理等等；熟悉各种跟MySQL操作链接的api（mysql/mysqli/PDO)，知道各种编码问题的解决；知道常规熟练使用的PHP框架（ThinkPHP、Zendframework、Yii、Yaf等）；了解基本MVC的运行机制和为什么这么做，稍微知道不同的PHP框架之间的区别；能够快速学习一个MVC框架。能够知道开发工程中的文件目录组织，有基本的良好的代码结构和风格，能够完成小系统的开发和中型系统中某个模块的开发工作。</p>
+
+<h4>5.前端：</h4>
+
+<p>如果条件时间允许，可以适当学习下 HTML/CSS/JS 等相关知识，知道什么web标准，div+css的web/wap页面模式，知道HTML5和HTML4的区别；了解一些基本的前端只是和JS框架（jQuery之类的）；了解一些基本的JavaScript编程知识；（本项不是必须项，如果有时间，稍微了解一下是可以的，不过不建议作为重点，除非个人有强烈兴趣）</p>
+
+<h4>6.系统设计：</h4>
+
+<p>能够完成小型系统的基本设计，包括简单的数据库设计，能够完成基本的：浏览器 -> Nginx+PHP -> 数据库 架构的设计开发工作；能够支撑每天几十万到数百万流量网站的开发维护工作；</p>
+
+<h1>第二阶段：提高阶段 （中级PHP程序员）</h1>
+
+<p><strong>重点</strong>：提高针对LNMP的技能，能够更全面的对LNMP有熟练的应用。</p>
+
+<p><strong>目标</strong>：能够随时随地搭建好LNMP环境，快速完成常规配置；能够追查解决大部分遇到的开发和线上环境的问题；能够独立承担中型系统的构架和开发工作；能够在大型系统中承担某个中型模块的开发工作；</p>
+
+<h4>1. Linux:</h4>
+
+<p>在第一阶段的基础上面，能够流畅的使用Shell脚本来完成很多自动化的工作；awk/sed/perl 也操作的不错，能够完成很多文本处理和数据统计等工作；基本能够安装大部分非特殊的Linux程序（包括各种库、包、第三方依赖等等，比如MongoDB/Redis/Sphinx/Luncene/SVN之类的）；了解基本的Linux服务，知道如何查看Linux的性能指标数据，知道基本的Linux下面的问题跟踪等。</p>
+
+<h4>2. Nginx:</h4>
+
+<p>在第一阶段的基础上面，了解复杂一些的Nginx配置；包括 多核配置、events、proxy_pass，sendfile/tcp_*配置，知道超时等相关配置和性能影响；知道nginx除了web server，还能够承担代理服务器、反向静态服务器等配置；知道基本的nginx配置调优；知道如何配置权限、编译一个nginx扩展到nginx；知道基本的nginx运行原理（master/worker机制，epoll），知道为什么nginx性能比apache性能好等知识；</p>
+
+<h4>3. MySQL/MongoDB：</h4>
+
+<p>在第一阶段的基础上面，在MySQL开发方面，掌握很多小技巧，包括常规SQL优化（group by/order by/rand优化等）；除了能够搭建MySQL，还能够冷热备份MySQL数据，还知道影响innodb/myisam性能的配置选项（比如key_buffer/query_cache/sort_buffer/innodb_buffer_pool_size/innodb_flush_log_at_trx_commit等），也知道这些选项配置成为多少值合适；另外也了解一些特殊的配置选项，比如  知道如何搭建mysql主从同步的环境，知道各个binlog_format的区别；知道MySQL的性能追查，包括slow_log/explain等，还能够知道基本的索引建立处理等知识；原理方面了解基本的MySQL的架构（Server+存储引擎），知道基本的InnoDB/MyISAM索引存储结构和不同（聚簇索引，B树）；知道基本的InnoDB事务处理机制；了解大部分MySQL异常情况的处理方案（或者知道哪儿找到处理方案）。条件允许的情况，建议了解一下NoSQL的代表MongoDB数据库，顺便对比跟MySQL的差别，同事能够在合适的应用场景安全谨慎的使用MongoDB，知道基本的PHP与MongoDB的结合开发。</p>
+
+<h4>4. Redis/Memcached：</h4>
+
+<p>在大部分中型系统里面一定会涉及到缓存处理，所以一定要了解基本的缓存；知道Memcached和Redis的异同和应用场景，能够独立安装 Redis/Memcached，了解Memcahed的一些基本特性和限制，比如最大的value值，知道PHP跟他们的使用结合；Redis了解基本工作原理和使用，了解常规的数据类型，知道什么场景应用什么类型，了解Redis的事务等等。原理部分，能够大概了解Memcached的内存结构（slab机制），redis就了解常用数据类型底层实现存储结构（SDS/链表/SkipList/HashTable）等等，顺便了解一下Redis的事务、RDB、AOF等机制更好</p>
+
+<h4>5. PHP：</h4>
+
+<p>除了第一阶段的能力，安装配置方面能够随意安装PHP和各种第三方扩展的编译安装配置；了解php-fpm的大部分配置选项和含义（如max_requests/max_children/request_terminate_timeout之类的影响性能的配置），知道mod_php/fastcgi的区别；在PHP方面已经能够熟练各种基础技术，还包括各种深入些的PHP，包括对PHP面向对象的深入理解/SPL/语法层面的特殊特性比如反射之类的；在框架方面已经阅读过最少一个以上常规PHP MVC框架的代码了，知道基本PHP框架内部实现机制和设计思想；在PHP开发中已经能够熟练使用常规的设计模式来应用开发（抽象工厂/单例/观察者/命令链/策略/适配器 等模式）；建议开发自己的PHP MVC框架来充分让开发自由化，让自己深入理解MVC模式，也让自己能够在业务项目开发里快速升级；熟悉PHP的各种代码优化方法，熟悉大部分PHP安全方面问题的解决处理；熟悉基本的PHP执行的机制原理（Zend引擎/扩展基本工作机制）；</p>
+
+<h4>6. C/C++：</h4>
+
+<p>开始涉猎一定的C/C++语言，能够写基本的C/C++代码，对基本的C/C++语法熟悉（指针、数组操作、字符串、常规标准API）和数据结构（链表、树、哈希、队列）有一定的熟悉下；对Linux下面的C语言开发有基本的了解概念，会简单的makefile文件编写，能够使用简单的GCC/GDB的程序编译简单调试工作；对基本的网络编程有大概了解。（本项是为了向更高层次打下基础）</p>
+
+<h4>7. 前端：</h4>
+
+<p>在第一阶段的基础上面，熟悉基本的HTTP协议（协议代码200/300/400/500，基本的HTTP交互头）；条件允许，可以在深入写出稍微优雅的HTML+CSS+JavaScript，或者能够大致简单使用某些前端框架（jQuery/YUI/ExtJS/RequireJS/BootStrap之类）；如果条件允许，可以深入学习JavaScript编程，比如闭包机制、DOM处理；再深入些可以读读jQuery源码做深入学习。（本项不做重点学习，除非对前端有兴趣）</p>
+
+<h4>8. 系统设计：</h4>
+
+<p>能够设计大部分中型系统的网站架构、数据库、基本PHP框架选型；性能测试排查处理等；能够完成类似：浏览器 -> CDN(Squid) -> Nginx+PHP -> 缓存 -> 数据库 结构网站的基本设计开发维护；能够支撑每天数百万到千万流量基本网站的开发维护工作；</p>
+
+<h1>第三阶段：高级阶段 （高级PHP程序员）</h1>
+
+<p><strong>重点</strong> ：除了基本的LNMP程序，还能够在某个方向或领域有深入学习。（纵深维度发展）</p>
+
+<p><strong>目标</strong>：除了能够完成基本的PHP业务开发，还能够解决大部分深入复杂的技术问题，并且可以独立设计完成中大型的系统设计和开发工作；自己能够独立hold深入某个技术方向，在这块比较专业。（比如在MySQL、Nginx、PHP、Redis等等任一方向深入研究）</p>
+
+<h4>1. Linux：</h4>
+
+<p>除了第二阶段的能力，在Linux下面除了常规的操作和性能监控跟踪，还能够使用很多高级复杂的命令完成工作（watch/tcpdump/starce/ldd/ar等)；在shell脚本方面，已经能够编写比较复杂的shell脚本（超过500行）来协助完成很多包括备份、自动化处理、监控等工作的shell；对awk/sed/perl 等应用已经如火纯青，能够随意操作控制处理文本统计分析各种复杂格式的数据；对Linux内部机制有一些了解，对内核模块加载，启动错误处理等等有个基本的处理；同时对一些其他相关的东西也了解，比如NFS、磁盘管理等等；</p>
+
+<h4>2. Nginx:</h4>
+
+<p>在第二阶段的基础上面，已经能够把Nginx操作的很熟练，能够对Nginx进行更深入的运维工作，比如监控、性能优化，复杂问题处理等等；看个人兴趣，更多方面可以考虑侧重在关于Nginx工作原理部分的深入学习，主要表现在阅读源码开始，比如具体的master/worker工作机制，Nginx内部的事件处理，内存管理等等；同时可以学习Nginx扩展的开发，可以定制一些自己私有的扩展；同时可以对Nginx+Lua有一定程度的了解，看看是否可以结合应用出更好模式；这个阶段的要求是对Nginx原理的深入理解，可以考虑成为Nginx方向的深入专业者。</p>
+
+<h4>3. MySQL/MongoDB：</h4>
+
+<p>在第二阶段的基础上面，在MySQL应用方面，除了之前的基本SQL优化，还能够在完成一些复杂操作，比如大批量数据的导入导出，线上大批量数据的更改表结构或者增删索引字段等等高危操作；除了安装配置，已经能够处理更多复杂的MySQL的问题，比如各种问题的追查，主从同步延迟问题的解决、跨机房同步数据方案、MySQL高可用架构等都有涉及了解；对MySQL应用层面，对MySQL的核心关键技术比较熟悉，比如事务机制（隔离级别、锁等）、对触发器、分区等技术有一定了解和应用；对MySQL性能方面，有包括磁盘优化（SAS迁移到SSD）、服务器优化（内存、服务器本身配置）、除了二阶段的其他核心性能优化选项（innodb_log_buffer_size/back_log/table_open_cache/thread_cache_size/innodb_lock_wait_timeout等）、连接池软件选择应用，对show *（show status/show profile）类的操作语句有深入了解，能够完成大部分的性能问题追查；MySQL备份技术的深入熟悉，包括灾备还原、对Binlog的深入理解，冷热备份，多IDC备份等；在MySQL原理方面，有更多了解，比如对MySQL的工作机制开始阅读部分源码，比如对主从同步（复制）技术的源码学习，或者对某个存储引擎（MyISAM/Innodb/TokuDB）等等的源码学习理解，如果条件允许，可以参考CSV引擎开发自己简单的存储引擎来保存一些数据，增强对MySQL的理解；在这个过程，如果自己有兴趣，也可以考虑往DBA方向发展。MongoDB层面，可以考虑比如说在写少读多的情况开始在线上应用MongoDB，或者是做一些线上的数据分析处理的操作，具体场景可以按照工作来，不过核心是要更好的深入理解RMDBS和NoSQL的不同场景下面的应用，如果条件或者兴趣允许，可以开始深入学习一下MongoDB的工作机制。</p>
+
+<h4>4. Redis/Memcached：</h4>
+
+<p>在第二阶段的基础上面，能够更深入的应用和学习。因为Memcached不是特别复杂，建议可以把源码进行阅读，特别是内存管理部分，方便深入理解；Redis部分，可以多做一些复杂的数据结构的应用（zset来做排行榜排序操作/事务处理用来保证原子性在秒杀类场景应用之类的使用操作）；多涉及aof等同步机制的学习应用，设计一个高可用的Redis应用架构和集群；建议可以深入的学习一下Redis的源码，把在第二阶段积累的知识都可以应用上，特别可以阅读一下包括核心事件管理、内存管理、内部核心数据结构等充分学习了解一下。如果兴趣允许，可以成为一个Redis方面非常专业的使用者。</p>
+
+<h4>5. PHP：</h4>
+
+<p>作为基础核心技能，我们在第二阶段的基础上面，需要有更深入的学习和应用。从基本代码应用上面来说，能够解决在PHP开发中遇到95%的问题，了解大部分PHP的技巧；对大部分的PHP框架能够迅速在一天内上手使用，并且了解各个主流PHP框架的优缺点，能够迅速方便项目开发中做技术选型；在配置方面，除了常规第二阶段会的知识，会了解一些比较偏门的配置选项（php auto_prepend_file/auto_append_file），包括扩展中的一些复杂高级配置和原理（比如memcached扩展配置中的memcache.hash_strategy、apc扩展配置中的apc.mmap_file_mask/apc.slam_defense/apc.file_update_protection之类的）；对php的工作机制比较了解，包括php-fpm工作机制（比如php-fpm在不同配置机器下面开启进程数量计算以及原理），对zend引擎有基本熟悉（vm/gc/stream处理），阅读过基本的PHP内核源码（或者阅读过相关文章），对PHP内部机制的大部分核心数据结构（基础类型/Array/Object）实现有了解，对于核心基础结构（zval/hashtable/gc）有深入学习了解；能够进行基本的PHP扩展开发，了解一些扩展开发的中高级知识（minit/rinit等），熟悉php跟apache/nginx不同的通信交互方式细节（mod_php/fastcgi）；除了开发PHP扩展，可以考虑学习开发Zend扩展，从更底层去了解PHP。</p>
+
+<h4>6. C/C++：</h4>
+
+<p>在第二阶段基础上面，能够在C/C++语言方面有更深入的学习了解，能够完成中小型C/C++系统的开发工作；除了基本第二阶段的基础C/C++语法和数据结构，也能够学习一些特殊数据结构（b-tree/rb-tree/skiplist/lsm-tree/trie-tree等）方便在特殊工作中需求；在系统编程方面，熟悉多进程、多线程编程；多进程情况下面了解大部分多进程之间的通信方式，能够灵活选择通信方式（共享内存/信号量/管道等）；多线程编程能够良好的解决锁冲突问题，并且能够进行多线程程序的开发调试工作；同时对网络编程比较熟悉，了解多进程模型/多线程模型/异步网络IO模型的差别和选型，熟悉不同异步网络IO模型的原理和差异（select/poll/epoll/iocp等），并且熟悉常见的异步框架（ACE/ICE/libev/libevent/libuv/Boost.ASIO等）和使用，如果闲暇也可以看看一些国产自己开发的库（比如muduo）；同时能够设计好的高并发程序架构（leader-follow/master-worker等）；了解大部分C/C++后端Server开发中的问题（内存管理、日志打印、高并发、前后端通信协议、服务监控），知道各个后端服务RPC通信问题（struct/http/thirft/protobuf等）；能够更熟络的使用GCC和GDB来开发编译调试程序，在线上程序core掉后能够迅速追查跟踪解决问题；通用模块开发方面，可以积累或者开发一些通用的工具或库（比如异步网络框架、日志库、内存池、线程池等），不过开发后是否应用要谨慎，省的埋坑去追bug；</p>
+
+<h4>7. 前端：</h4>
+
+<p>深入了解HTTP协议（包括各个细致协议特殊协议代码和背后原因，比如302静态文件缓存了，502是nginx后面php挂了之类的）；除了之前的前端方面的各种框架应用整合能力，前端方面的学习如果有兴趣可以更深入，表现形式是，可以自己开发一些类似jQuery的前端框架，或者开发一个富文本编辑器之类的比较琐碎考验JavaScript功力；</p>
+
+<h4>8. 其他领域语言学习：</h4>
+
+<p>在基础的PHP/C/C++语言方面有基本积累，建议在当前阶段可以尝试学习不同的编程语言，看个人兴趣爱好，脚本类语言可以学学 Python/Ruby 之类的，函数式编程语言可以试试 Lisp/Haskell/Scala/Erlang 之类的，静态语言可以试试 Java/Golang，数据统计分析可以了解了解R语言，如果想换个视角做后端业务，可以试试 Node.js还有前面提到的跟Nginx结合的Nginx_Lua等。学习不同的语言主要是提升自己的视野和解决问题手段的差异，比如会了解除了进程/线程，还有轻量级协程；比如在跨机器通信场景下面，Erlang的解决方案简单的惊人；比如在不想选择C/C++的情况下，还有类似高效的Erlang/Golang可用等等；主要是提升视野。</p>
+
+<h4>9. 其他专业方向学习：</h4>
+
+<p>在本阶段里面，会除了基本的LNMP技能之外，会考虑一些其他领域知识的学习，这些都是可以的，看个人兴趣和长期的目标方向。目前情况能够选择的领域比较多，比如、云计算（分布式存储、分布式计算、虚拟机等），机器学习（数据挖掘、模式识别等，应用到统计、个性化推荐），自然语言处理（中文分词等），搜索引擎技术、图形图像、语音识别等等。除了这些高大上的，也有很多偏工程方面可以学习的地方，比如高性能系统、移动开发（Android/IOS）、计算机安全、嵌入式系统、硬件等方向。</p>
 
 <ol>
-<li>将uri全部定向到index.php</li>
-<li>在入口文件，实现路由分发，实化例Ccontroller类，然后调用方法。</li>
+<li>系统设计：
+系统设计在第二阶段的基础之上，能够应用掌握的经验技能，设计出比较复杂的中大型系统，能够解决大部分线上的各种复杂系统的问题，完成类似 浏览器 -> CDN -> 负载均衡 ->接入层 -> Nginx+PHP -> 业务缓存 -> 数据库 -> 各路复杂后端RPC交互（存储后端、逻辑后端、反作弊后端、外部服务） -> 更多后端 酱紫的复杂业务；能够支撑每天数千万到数亿流量网站的正常开发维护工作。</li>
 </ol>
 
 
-<h3>类的自动加载</h3>
+<h1>第四阶段：架构阶段 （架构师）</h1>
 
-<ol>
-<li>维护命名空间与绝对路径的映射</li>
-<li>使用spl_autoload_register注册函数，当调用不存在的类时，自动加载。</li>
-</ol>
+<p>ps: 暂时不展开讨论，等下次专门撰文来描述补充本部分内容</p>
 
+<p>第五阶段：专家阶段（方向领域专家）
+ps：高大上，这块不展开讨论 ^_^</p>
 
-<h3>MVC</h3>
+<p>第六阶段：科学家阶段
+ps：高大上，这块不展开讨论 ^_^</p>
 
-<ol>
-<li>每个Controller继承一个Controoler，在这个类中实现存储数据和include模板文件</li>
-<li>用工厂模式和注册树模式来实例化对应的Model类</li>
-</ol>
-
-
-<h3>易于配置</h3>
-
-<ol>
-<li>定义Config类实现\ArrayAccess， 然后加载config目录下的所有文件。也是用注册树和工厂模式。</li>
-</ol>
-
+<p>转载：<a href="http://blog.csdn.net/heiyeshuwu">黑夜路人</a>的博客</p>
 </div>
   
   
@@ -167,7 +244,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/17/composer-autoload/">Composer自动加载的原理</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/22/vagrant-network/">Vagrant的网络设置</a></h1>
     
     
       <p class="meta">
@@ -176,7 +253,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-17T15:29:35+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:29 pm</span></time>
+<time class='entry-date' datetime='2015-08-22T14:34:46+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>2:34 pm</span></time>
         
       </p>
     
@@ -185,167 +262,34 @@ var _hmt = _hmt || [];
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>当PHP引擎试图实例化未知类的操作时，就会调用<strong>autoload(),并将类名当做字符串传递给它。但</strong>autoload()有个缺点，就是 一个进程中只能定义一次。这是就可以使用spl_autoload_register()函数。它可以把函数注册到__autoload队列中. 现在我们来看看composer是如何实现自动加载的。</p>
+<p>今天要做Mysql主从配置，就需要两台Ubuntu的服务器，所以先要研究下Vagrant的网络配置。</p>
 
-<p>composer.json 文件</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="nt">&quot;autoload&quot;</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nt">&quot;classmap&quot;</span> <span class="p">:</span> <span class="p">[</span>
-</span><span class='line'>            <span class="s2">&quot;app/controllers&quot;</span><span class="p">,</span>
-</span><span class='line'>            <span class="s2">&quot;app/models&quot;</span>
-</span><span class='line'>        <span class="p">]</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>当我们composer dump-autoload的时候，文件/vendor/composer/autoload_clasmap.php会把类名和绝对地址做个想射。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$vendorDir</span> <span class="o">=</span> <span class="nb">dirname</span><span class="p">(</span><span class="nb">dirname</span><span class="p">(</span><span class="k">__FILE__</span><span class="p">));</span>
-</span><span class='line'><span class="nv">$baseDir</span> <span class="o">=</span> <span class="nb">dirname</span><span class="p">(</span><span class="nv">$vendorDir</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>    <span class="s1">&#39;Article&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/models/Article.php&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s1">&#39;BaseController&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/controllers/BaseController.php&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s1">&#39;HomeController&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/controllers/HomeController.php&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>首页index.php调用composer的autoload文件</p>
-
-<pre><code>require '../vendor/autoload.php';
-</code></pre>
-
-<p>会调用ComposerAutoloaderInit类的静态方法getLoader(）</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class='line'><span class="k">require_once</span> <span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/composer&#39;</span> <span class="o">.</span> <span class="s1">&#39;/autoload_real.php&#39;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="nx">ComposerAutoloaderInita488c85ce5c077906f9c1829b6492f6b</span><span class="o">::</span><span class="na">getLoader</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>verdor/composer/目录下有四个配置文件：</p>
-
-<ul>
-<li>autoload_classmap.php：  要加载的class映射</li>
-<li>autoload_files.php：     要加载的文件</li>
-<li>autoload_namespaces.php：    psr-0标准</li>
-<li>psr4.php：                   psr-4标准</li>
-</ul>
-
-
-<p>getLoader(）这个方法会先把这些配置文件放到ClassLoader的私有属性中。</p>
-
-<p>然后通过$loader->register(true);来调用spl_autoload_register()</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">register</span><span class="p">(</span><span class="nv">$prepend</span> <span class="o">=</span> <span class="k">false</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="nb">spl_autoload_register</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="s1">&#39;loadClass&#39;</span><span class="p">),</span> <span class="k">true</span><span class="p">,</span> <span class="nv">$prepend</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>spl_autoload_register()把loadClass()方法注册到了autoload队列中,然后当PHP引擎试图实例化未知类的操作时，就会根据类名和命名空间加载这个类文件。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">loadClass</span><span class="p">(</span><span class="nv">$class</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$file</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">findFile</span><span class="p">(</span><span class="nv">$class</span><span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">includeFile</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>psr-0 与psr - 4 的不同</h1>
+<p>Vagrant有三种网络配置</p>
 
 <ol>
-<li>PSR-4中，在类名中使用下划线没有任何特殊含义。而PSR-0则规定类名中的下划线_会被转化成目录分隔符。</li>
-<li>composer的PSR-4带来更简洁的文件结构。</li>
-<li>参考：<a href="http://segmentfault.com/a/1190000000380008">PSR-4——新鲜出炉的PHP规范</a></li>
+<li>Forwarded port</li>
+<li>Private network</li>
+<li>Public network</li>
 </ol>
 
 
-<p>总结：
-1. 命名空间前缀对应相应的文件夹
-2. 类名和文件名相同，文件后缀为PHP</p>
+<h1>Private Network</h1>
 
-<h3>psr-4</h3>
+<p>我的需求是两台Ubutu在同一网段，并且都访问主机和外部网络。所以我选择private network。 它的缺点是外部网络无法访问。</p>
 
-<pre><code>{
-    "psr-4" : {
-       "Foo\\": "src/"
-    },
-}
+<p>设定语法为：</p>
+
+<pre><code>config.vm.network "private_network", ip: "192.168.50.4"
 </code></pre>
 
-<p>按照PSR-4的规则，当试图自动加载 &ldquo;Foo\Bar\Baz&rdquo; 这个class时，会去寻找 &ldquo;src/Bar/Baz.php&rdquo; 这个文件，如果它存在则进行加载。</p>
+<p>配置hostname</p>
 
-<h3>prs-0</h3>
-
-<pre><code>{
-    "psr-0" : {
-       "Foo\\": "src/",
-    },
-}
+<pre><code>config.vm.hostname = "master"
 </code></pre>
 
-<p>PSR-0有此配置，那么会去寻找 &ldquo;src/Foo/Bar/Baz.php&rdquo;</p>
+<h1>参考链接</h1>
 
-<p>PSR-0当试图自动加载 &ldquo;Foo\A_B&rdquo; 这个class时，会去寻找 &ldquo;src/Foo/A/B.php&rdquo; 这个文件.</p>
-
-<p>参考链接<a href="http://www.tuicool.com/articles/mARrMj6">http://www.tuicool.com/articles/mARrMj6</a></p>
-
-<h3>classmap</h3>
-
-<pre><code>{
-    "autoload": {
-            "classmap": [
-                "database"
-            ],
-    }
-}
-</code></pre>
-
-<p>classmap 做的是类名和文件所在位置的映射</p>
+<p><a href="http://www.williamsang.com/archives/2401.html?utm_source=tuicool#private">Vagrant网络配置</a></p>
 </div>
   
   
@@ -370,6 +314,30 @@ var _hmt = _hmt || [];
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/16/mysql-storage-engine/">MySQL存储引擎</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/14/mysql-db-object/">MySQL数据库对象与应用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/12/performance-test/">高性能产品的必由之路—性能测试工具</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/10/mysql-master-slave/">MySQL主从复制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/10/mysql-index/">MySQL索引</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
       </li>
     
@@ -383,30 +351,6 @@ var _hmt = _hmt || [];
     
       <li class="post">
         <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/30/performance-bottleneck/">性能瓶颈</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/26/cache/">缓存</a>
       </li>
     
   </ul>

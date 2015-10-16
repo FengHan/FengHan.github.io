@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Drupal | hanfeng.name]]></title>
+  <link href="http://fenghan.github.io/blog/categories/drupal/atom.xml" rel="self"/>
+  <link href="http://fenghan.github.io/"/>
+  <updated>2015-10-16T08:25:18+08:00</updated>
+  <id>http://fenghan.github.io/</id>
+  <author>
+    <name><![CDATA[HanFeng]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Drupal101]]></title>
+    <link href="http://fenghan.github.io/blog/2015/10/12/drupal101/"/>
+    <updated>2015-10-12T22:39:48+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/10/12/drupal101</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>入职新公司，开始学习Drupal。立志成为Drupal专家</p>
+
+<h1>Drupal101</h1>
+
+<ul>
+<li>创始人 Dries Buytaert博客 <a href="http://buytaert.net/">http://buytaert.net/</a></li>
+<li>学习资源 <a href="https://drupalize.me">drupalize.me</a></li>
+</ul>
+
+
+<h4>What is Drupal</h4>
+
+<ul>
+<li>CMS
+
+<ul>
+<li>CMF</li>
+</ul>
+</li>
+<li></li>
+</ul>
+
+
+<h4>Who uses Drupal</h4>
+
+<ul>
+<li><a href="http://drupalshowcase.com/">Drupal Showcase</a></li>
+<li><a href="https://www.drupal.org/case-studies">drupal.org</a></li>
+</ul>
+
+
+<h4>Major features with site building</h4>
+]]></content>
+  </entry>
+  
+</feed>

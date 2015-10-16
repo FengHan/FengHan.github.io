@@ -9,10 +9,11 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="慕课网Hadoop大数据平台架构与实践&ndash;基础篇 的文字记录 初识Hadoop 课程简介 介绍的内容： 大数据技术的相关概念
-Hadoop的架构和运行机制
-实战：Hadoop的安装和配置
-实战： Hadoop的开发 学习目标： 掌握大数据存储与处理技术的原理（理论知识） &hellip;">
+  <meta name="description" content="前言 之前写过一篇MySQL的主从配置，今天这篇文章涉主要涉及理论。 什么是主从复制 数据拷贝
+准实时
+源主节点； 目的-从节点 主从复制的原理 复制格式 SRB: Statement Based Replication (原生的语句)
+PBR: Row （5.7.7变为默认格式）
+MBR: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,7 +86,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/09/10/mysql-master-slave/">MySQL主从复制</a></h1>
     
     
       <p class="meta">
@@ -94,220 +95,101 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-30T16:22:21+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:22 pm</span></time>
+<time class='entry-date' datetime='2015-09-10T10:44:16+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:44 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>慕课网<a href="http://www.imooc.com/learn/391">Hadoop大数据平台架构与实践&ndash;基础篇</a> 的文字记录</p>
+  <div class="entry-content"><h1>前言</h1>
 
-<h1>初识Hadoop</h1>
+<p>之前写过一篇MySQL的主从配置，今天这篇文章涉主要涉及理论。</p>
 
-<h2>课程简介</h2>
+<h1>什么是主从复制</h1>
 
-<h4>介绍的内容：</h4>
+<ul>
+<li>数据拷贝</li>
+<li>准实时</li>
+<li>源主节点； 目的-从节点</li>
+</ul>
+
+
+<h1>主从复制的原理</h1>
+
+<h4>复制格式</h4>
+
+<ul>
+<li>SRB: Statement Based Replication (原生的语句)</li>
+<li>PBR: Row （5.7.7变为默认格式）</li>
+<li>MBR: Mixed</li>
+</ul>
+
+
+<p>查看复制格式
+        show global variables like &lsquo;binlog_format&rsquo;;</p>
+
+<p>配置文件
+    [mysqld]
+    binlog_format = ROW</p>
+
+<h1>主从复制的用途</h1>
+
+<ul>
+<li>试试灾备，用于故障切换（高可用的切换）</li>
+<li>读写分离，提供查询服务</li>
+<li>备份，避免影响业务</li>
+</ul>
+
+
+<h2>MySQL主从复制的一些模式</h2>
 
 <ol>
-<li>大数据技术的相关概念</li>
-<li>Hadoop的架构和运行机制</li>
-<li>实战：Hadoop的安装和配置</li>
-<li>实战： Hadoop的开发</li>
+<li>一主一从</li>
+<li>主主复制</li>
+<li>一主多从</li>
+<li>多主依从 （mysql5.7开始支持）</li>
+<li>联级复制</li>
 </ol>
 
 
-<h4>学习目标：</h4>
+<h1>主从复制的搭建</h1>
 
-<ol>
-<li>掌握大数据存储与处理技术的原理（理论知识）</li>
-<li>掌握Hadoop的使用和开发能力（实践能力）</li>
-</ol>
-
-
-<h4>课程学习建议：</h4>
-
-<ol>
-<li>书籍：
-
-<ol>
-<li>《Hadoop权威指南》</li>
-<li>《Hadoop技术详解》</li>
-</ol>
-</li>
-<li>实践很重要，边听边实践</li>
-</ol>
-
-
-<h4>课程预备知识</h4>
-
-<ol>
-<li>Linux常用命令</li>
-<li>Java编程基础
-
-<h2>Hadoop的前世今生</h2>
-
-<p>单机的系统瓶颈： 存储容量，读写速率，计算效率</p></li>
-</ol>
-
-
-<p>Google大数据技术：
-1. MapReduce
-2. BigTable
-3. GFS</p>
+<h3>主从部署的必要条件：</h3>
 
 <ul>
-<li>革命性的变化1：成本降低，能用PC机，就不用大型机和高端存储。</li>
-<li>革命性得变化2： 软件容错硬件故障视为常态，通过软件保证可靠性</li>
-<li>革命性的变化3： 简化并行分布式计算，无须控制节点同步和数据交换</li>
+<li>主从开启binlog日志（设置log-bin参数）</li>
+<li>主从server-id不同</li>
+<li>从库服务器能连通主库</li>
 </ul>
 
 
-<p>Google只发表了论文，没有开放源代码。</p>
-
-<p>Hadoop是一个模仿大数据技术的开源实现。</p>
-
-<h2>Hadoop的功能与优势</h2>
-
-<h4>什么是Hadoop</h4>
-
-<p>Hadoop是<strong>开源的</strong>， <strong>分布式存储</strong> + <strong>分布式计算平台</strong>。
-<a href="http://hadoop.apache.org/">http://hadoop.apache.org/</a></p>
-
-<p>它包括两个核心组成：</p>
+<h3>主从部署步骤</h3>
 
 <ul>
-<li>HDFS: 分布式文件系统，存储海量的数据</li>
-<li>MapReduce: 并行处理框架，实现任务分解和调度</li>
+<li>备份还原(mysqldump )</li>
+<li>授权 （grant replicaton slave on <em>.</em>）</li>
+<li>配置复制，并启动 (change master to)</li>
+<li><p>查看主从复制信息 (show slave status\G)</p>
+
+<h1>主从复制的问题</h1></li>
+<li><p>主库宕机，数据可能丢失</p></li>
+<li>从库只有一个sql thread, 主库写压力大，复制很可能延时。</li>
 </ul>
 
 
-<h4>Hadoop可以用来做什么?</h4>
+<h3>MySQL半同步复制</h3>
 
-<p>搭建大型数据仓库，PB级数据的存储、处理、分析、统计业务。</p>
-
-<ul>
-<li>搜索引擎</li>
-<li>商业智能</li>
-<li>日志分析</li>
-<li>数据挖掘</li>
-</ul>
-
-
-<h4>Hadoop的优势</h4>
-
-<ol>
-<li>高扩展</li>
-<li>低成本</li>
-<li>成熟的生态圈</li>
-</ol>
-
-
-<h4>Hadoop的应用情况</h4>
+<h3>MySQL并行复制</h3>
 
 <ul>
-<li>国外： facebook twitter yahoo intel hulu linkedIn</li>
-<li>国内： 百度，京东，淘宝，华为，新浪微博，小米，腾讯，网易</li>
+<li>社区版5.6新增</li>
+<li>并行是指从库多线程，</li>
+<li><p>库级别并应用binlog，同一个数据库更新还是串行的（5.7版并行复制基于事务组）</p>
+
+<p>  set global slave_parallel_workers = 10</p></li>
 </ul>
 
-
-<p>Hadoop已成为业内大数据平台的首选</p>
-
-<h4>Hadoop的人才需求</h4>
-
-<ol>
-<li>Hadoop开发人才</li>
-<li>Hadoop运维人才</li>
-</ol>
-
-
-<h2>Haoop的生态系统及版本</h2>
-
-<h4>生态系统</h4>
-
-<ul>
-<li>Hive
-
-<ul>
-<li>中文：小蜜蜂，不需要Hadoop任务程序，只需要写SQL语句。降低了使用Hadoop的使用门槛</li>
-<li>它是基于Hadoop之上的一个数据仓库</li>
-</ul>
-</li>
-<li>HBase 存储结构化数据的分布式数据库。
-
-<ul>
-<li>与传动数据相比：放弃事务特性，最求更高的扩展</li>
-<li>与HDFS的区别：随机读写和实时访问，实现对表数据的读写功能</li>
-</ul>
-</li>
-<li>zookeeper
-
-<ul>
-<li>像动物管理员一样，监控Hadoop集群里面每一个节点的状态。管理配置，维护节点之前的一致性
-
-<h4>版本</h4></li>
-</ul>
-</li>
-</ul>
-
-
-<p>1.x 与 2.x （现在2.6）</p>
-
-<p>我们选择1.2的版本，因为1.x稳定，且对于新手易于理解容易上手。</p>
-
-<hr />
-
-<h1>Hadoop的核心 - HDFS简介</h1>
-
-<h2>HDFS设计架构</h2>
-
-<ul>
-<li>Blocks
-
-<ul>
-<li>HDFS的文件被分成块进行存储</li>
-<li>HDFS块的默认大小为64M</li>
-<li>块是文件存储处理的逻辑单元</li>
-</ul>
-</li>
-<li>NameNode
-
-<ul>
-<li>NameNode是管理节点，存放文件元数据</li>
-<li>文件与数据块的映射表</li>
-<li>数据块（Block）与数据节点(DataNode)的映射表</li>
-</ul>
-</li>
-<li>DataNode
-
-<ul>
-<li>用来存放数据块的。</li>
-</ul>
-</li>
-</ul>
-
-
-<h2>数据管理策略</h2>
-
-<h4>HDFS数据管理与容错</h4>
-
-<p>每个数据块3个副本，分布在两个机架内的三个节点</p>
-
-<h4>心跳检测</h4>
-
-<ul>
-<li>DataNode定期向NameNode发送心跳信息</li>
-<li>二级NameNode定期同步元数据镜像文件和修改日志， NameNode发生故障时，备胎转正。</li>
-</ul>
-
-
-<h4>HDFS读取文件流程</h4>
-
-<h4>HDFS特点</h4>
-
-<hr />
-
-<h1>Hadoop的核心 - MapReduce简介</h1>
 </div>
   
   
@@ -320,7 +202,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/30/performance-bottleneck/">性能瓶颈</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/09/10/mysql-index/">MySQL索引</a></h1>
     
     
       <p class="meta">
@@ -329,20 +211,105 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-30T00:10:51+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:10 am</span></time>
+<time class='entry-date' datetime='2015-09-10T10:07:51+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
+  <div class="entry-content"><h4>什么是索引</h4>
 
-<p>今天和一位搞运维研发的同学聊天，问如何解决300万条订单数据的分析。</p>
+<p>索引是值到行位置的映射。索引就是一个目录。</p>
 
-<p>答：看性能瓶颈在哪里，<strong>读慢加缓存，写慢加队列</strong></p>
+<h4>索引的作用：</h4>
 
-<p>可以研究一下内容：hadoop、spark、分布式数据库hbase，其中Spark利用内存计算会快些。</p>
+<ul>
+<li>提高访问的速度。硬盘IO每秒100到150次的响应。每次10毫秒</li>
+<li>实现主键、唯一键逻辑</li>
+</ul>
+
+
+<p>IO是个宝贵的资源，</p>
+
+<h4>索引的使用场景：</h4>
+
+<p>FTS 全表索引</p>
+
+<h4>Mysql中我们可以使用的索引类型：</h4>
+
+<ul>
+<li>Btree索引：</li>
+<li>B+tree： 平衡二叉树的一种改良</li>
+<li>Hash索引 InnoDB</li>
+<li>Innodb ： 聚簇索引，</li>
+<li>二级索引： 除了主键，用户创建的索引。</li>
+</ul>
+
+
+<h4>索引的代价：</h4>
+
+<p>插入修改删除每个索引都编程一个内部事务，索引越多，事务越长。(增删改)</p>
+
+<h4>索引的优势:</h4>
+
+<ol>
+<li>减少查询IO</li>
+<li>优化等值查询、范围查询</li>
+<li><p>利用有序特性</p>
+
+<p> order by , group byh , distinct, max ,min</p></li>
+</ol>
+
+
+<h4>如何用好索引：</h4>
+
+<ul>
+<li><p>依据where查询条件来建立索引：</p>
+
+<pre><code>  select a,b from tab_a where c = ?;  #c上建立索引
+</code></pre></li>
+<li><p>使用联合索引，而不是多个单列索引。</p>
+
+<pre><code>  select * from tab_a where a = ? AND b = ? 
+  #建立a和b的索引， 把一组值作为b+tree 的索引， 在同一个树里，查询速度更高。
+</code></pre></li>
+<li><p>联合索引， 区分度大的放在前面。</p>
+
+<pre><code>  name,gender 对， 因为name的区分度很大。能够更好地使用b+ TREE来定位节点
+
+  gender,name 错
+</code></pre></li>
+<li><p>联合索引能为前缀单列，复列查询提供帮助。</p>
+
+<pre><code>  where a = ? 
+  wherer a = ? AND b =? 
+</code></pre></li>
+<li><p>合理创建联合索引，避免冗余。
+      abc 包含 a ,ab</p></li>
+<li><p>ORDER BY, GROUP BY, DISTINCT 字段添加索引</p></li>
+<li><p>用 EXPLAIN 查看语句</p>
+
+<pre><code>  possible_key 可以使用的索引
+  key 实际的索引名字  重要
+  rows  读的记录行数，才返回的结果 重要。
+  typpe   index  扫描完整的索引树， 重要   
+  key_len 如果只使用了一部分，为长度。  
+  force index  强制使用索引 
+  ignore index 
+</code></pre>
+
+<h4>其他技巧</h4></li>
+<li><p>一个表，控制百万级别。如何达到了一两百G，就可以考虑分库分表了。千万级别，取决于访问方式，left join</p></li>
+<li><p>WHERE查询时，  函数不要加在字段上。timestamp > func(1234)。</p></li>
+<li><p>外键一般用程序使用。</p></li>
+<li><p>什么事优化器： 哪个索引会更快，IO更小。生发语法数，生成一个计划。</p></li>
+<li><p>纵向分表，根据业务来拆分。</p></li>
+<li><p>等值查询 ，2个范围查询， 不能都覆盖到。联合查询。等值能用一个，范围查询也只能用一个。</p></li>
+<li><p>通过表结构设计来避免连表。</p></li>
+<li><p>触发器和存储过程不好维护，做运维手段还可以。</p></li>
+</ul>
+
 </div>
   
   
@@ -367,6 +334,30 @@ var _hmt = _hmt || [];
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/16/mysql-storage-engine/">MySQL存储引擎</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/14/mysql-db-object/">MySQL数据库对象与应用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/12/performance-test/">高性能产品的必由之路—性能测试工具</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/10/mysql-master-slave/">MySQL主从复制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/10/mysql-index/">MySQL索引</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
       </li>
     
@@ -380,30 +371,6 @@ var _hmt = _hmt || [];
     
       <li class="post">
         <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/30/performance-bottleneck/">性能瓶颈</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/26/cache/">缓存</a>
       </li>
     
   </ul>

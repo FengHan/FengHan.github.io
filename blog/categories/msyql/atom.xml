@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Msyql | hanfeng.name]]></title>
+  <link href="http://fenghan.github.io/blog/categories/msyql/atom.xml" rel="self"/>
+  <link href="http://fenghan.github.io/"/>
+  <updated>2015-10-16T08:25:18+08:00</updated>
+  <id>http://fenghan.github.io/</id>
+  <author>
+    <name><![CDATA[HanFeng]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL主从复制]]></title>
+    <link href="http://fenghan.github.io/blog/2015/09/10/mysql-master-slave/"/>
+    <updated>2015-09-10T10:44:16+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/09/10/mysql-master-slave</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>之前写过一篇MySQL的主从配置，今天这篇文章涉主要涉及理论。</p>
+
+<h1>什么是主从复制</h1>
+
+<ul>
+<li>数据拷贝</li>
+<li>准实时</li>
+<li>源主节点； 目的-从节点</li>
+</ul>
+
+
+<h1>主从复制的原理</h1>
+
+<h4>复制格式</h4>
+
+<ul>
+<li>SRB: Statement Based Replication (原生的语句)</li>
+<li>PBR: Row （5.7.7变为默认格式）</li>
+<li>MBR: Mixed</li>
+</ul>
+
+
+<p>查看复制格式
+        show global variables like &lsquo;binlog_format&rsquo;;</p>
+
+<p>配置文件
+    [mysqld]
+    binlog_format = ROW</p>
+
+<h1>主从复制的用途</h1>
+
+<ul>
+<li>试试灾备，用于故障切换（高可用的切换）</li>
+<li>读写分离，提供查询服务</li>
+<li>备份，避免影响业务</li>
+</ul>
+
+
+<h2>MySQL主从复制的一些模式</h2>
+
+<ol>
+<li>一主一从</li>
+<li>主主复制</li>
+<li>一主多从</li>
+<li>多主依从 （mysql5.7开始支持）</li>
+<li>联级复制</li>
+</ol>
+
+
+<h1>主从复制的搭建</h1>
+
+<h3>主从部署的必要条件：</h3>
+
+<ul>
+<li>主从开启binlog日志（设置log-bin参数）</li>
+<li>主从server-id不同</li>
+<li>从库服务器能连通主库</li>
+</ul>
+
+
+<h3>主从部署步骤</h3>
+
+<ul>
+<li>备份还原(mysqldump )</li>
+<li>授权 （grant replicaton slave on <em>.</em>）</li>
+<li>配置复制，并启动 (change master to)</li>
+<li><p>查看主从复制信息 (show slave status\G)</p>
+
+<h1>主从复制的问题</h1></li>
+<li><p>主库宕机，数据可能丢失</p></li>
+<li>从库只有一个sql thread, 主库写压力大，复制很可能延时。</li>
+</ul>
+
+
+<h3>MySQL半同步复制</h3>
+
+<h3>MySQL并行复制</h3>
+
+<ul>
+<li>社区版5.6新增</li>
+<li>并行是指从库多线程，</li>
+<li><p>库级别并应用binlog，同一个数据库更新还是串行的（5.7版并行复制基于事务组）</p>
+
+<p>  set global slave_parallel_workers = 10</p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

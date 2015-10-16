@@ -9,7 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 高级程序员都干些什么呢？怎样才能成为高级程序员呢？其实初级或刚入行的朋友喜欢问这样的问题。可能想把作为下一个奋斗的目标吧。下面是微信账号“威哥干Java”的看法。 一个项目好比画了两个圈，内外镶嵌，高级程序员负责内圈代码，初级程序员负责外圈代码。想要成为高级程序员，你就得往内圈挤。 &hellip;">
+  <meta name="description" content="CSRF（Cross-site request forgery跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。 CSRF 攻击的防范； 加密令牌：web应用程序可以在网页中嵌入一个加密的令牌， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a></h1>
     
     
       <p class="meta">
@@ -91,34 +91,40 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-28T08:00:02+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:00 am</span></time>
+<time class='entry-date' datetime='2015-09-05T17:00:56+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:00 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
+  <div class="entry-content"><p>CSRF（Cross-site request forgery跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。</p>
 
-<p>高级程序员都干些什么呢？怎样才能成为高级程序员呢？其实初级或刚入行的朋友喜欢问这样的问题。可能想把作为下一个奋斗的目标吧。下面是微信账号“威哥干Java”的看法。</p>
-
-<p>一个项目好比画了两个圈，内外镶嵌，高级程序员负责内圈代码，初级程序员负责外圈代码。想要成为高级程序员，你就得往内圈挤。</p>
-
-<p>从专业的角度上有三点：</p>
+<h3>CSRF 攻击的防范；</h3>
 
 <ol>
-<li>确定开发团队、技术路线和技术架构，为关键模块设计技术实现，能够满足长期发展的业务需要。</li>
-<li>能参与系统调研，需求分析。负责概要设计、详细设计， 开发计划等编制并实施。负责核心内码通用模块功能实现，解决一些技术问题。</li>
-<li>负责提升团队技术能力，协同项目经理进行项目开发，并实现重要的功能，指导和培养团队的成员。</li>
+<li><p>加密令牌：web应用程序可以在网页中嵌入一个加密的令牌，所有的请求都包含这个加密令牌，由于跨站请求无法获取这个令牌，所以伪造的请求很容易就被服务器识别；</p></li>
+<li><p>Referer头途径：使用web应用程序也可以验证请求来源页面的Referer，然后由于隐私考虑，这个referer经常被客户端过滤；</p></li>
 </ol>
 
 
-<p>满足3个必备条件：</p>
+<h3>加密令牌</h3>
+
+<p>1.根据 加密参数、用户的session_id(), 时间戳和存放在session中的HASH函数。</p>
+
+<p>把令牌token和时间戳 放到form的hidden里面。</p>
+
+<pre><code>$_SESSION[STOKEN_NAME] = gen_token(); // 随机数
+&lt;input type="hideen" value="session_token" value= &lt;?=$_SESSION[STOKEN_NAME]?&gt;
+</code></pre>
+
+<p>每次请求的时候，要验证session_token。</p>
+
+<p>参考链接：</p>
 
 <ol>
-<li>具备看官方英文文档的能力。</li>
-<li>上专业顶级的社区。</li>
-<li>成为Github重度感染者。</li>
+<li><a href="http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html">http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html</a></li>
+<li><a href="https://www.shiyanlou.com/courses/303#">实验楼 - Elgg 系统 CSRF 攻击实验</a></li>
 </ol>
 
 </div>
@@ -133,7 +139,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/26/cache/">缓存</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/09/02/xdebug/">Xdebug</a></h1>
     
     
       <p class="meta">
@@ -142,50 +148,53 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-26T16:26:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:26 pm</span></time>
+<time class='entry-date' datetime='2015-09-02T22:57:38+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:57 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h3>缓存的类型</h3>
+  <div class="entry-content"><h1>前言</h1>
 
-<ul>
-<li>局域网缓存</li>
-<li>网络缓存</li>
-<li>硬盘缓存</li>
-<li>内存缓存</li>
-<li>数据库缓存</li>
-<li>Opcode缓存</li>
-<li>客户端浏览器缓存</li>
-</ul>
+<p>掌握Xdebug是每一个PHP程序员必备的技能。</p>
 
+<p>当你在使用Yii, ThinkPHP, Laravel框架的时候，你只有了解其系统架构后，才能更好的编写代码。Xdebug能够帮助你更好的调试代码。</p>
 
-<h3>opcode</h3>
+<p>安装XDebug在<a href="http://xdebug.org/wizard.php">官网</a>输入你的phpinfo()信息，然后按照它的提示进行安装。</p>
 
-<p>Opcode是一种PHP脚本编译后的中间语言</p>
+<p><a href="http://xdebug.org/docs/remote">远程调试</a>
+<a href="http://aicode.cc/article/362.html">中文文档</a></p>
 
-<ul>
-<li>opcache php5.5 默认安装</li>
-<li>xcache  php5.4</li>
-<li>php 5.2 zned optimization 被淘汰了。</li>
-<li>wincache windows下</li>
-<li>APC  PHP5.4  （PS: 上一家公司安装了APC）</li>
-</ul>
+<pre><code>[xdebug]
+zend_extension = /usr/lib/php5/20131226/xdebug.so
+xdebug.remote_enable=1
+xdebug.remote_host=localhost
+xdebug.remote_port=9000
+xdebug.remote_connect_back=1
+xdebug.remote_autostart=1
+xdebug.profiler_enable=1
+xdebug.profiler_output_dir="/tmp"
+xdebug.idekey=PHPSTORM
+</code></pre>
 
+<p>php -v查看是否安装成功</p>
 
-<p>APCU xcache wincache 支持php API调用 （默认情况下 效率高于memcache）</p>
+<pre><code>root@homestead:/etc/php5/fpm# php -v
+with Xdebug v2.3.3, Copyright (c) 2002-2015, by Derick Rethans
+</code></pre>
 
-<h4>客户端浏览器缓存</h4>
+<p>php &ndash;ini</p>
 
-<p>客户端缓存 （浏览器缓存） 静态资源引用公共服务器资源</p>
+<p>我在这里遇到了一个坑，因为ubuntu环境下的php配置文件被拆分成多块，要在cli 下使用 php &ndash;ini来查看配置文件的位置。</p>
 
-<p>把图片放在多个域名下，可以多线程加载图片 例如pc1.domain.com pc2.domain.com</p>
+<p>PHPStrom与Xdebug的结合使用，有一系列的配置。</p>
 
-<p>xxx.com/abc.js?t=1234343 开发测试的时候，用这种方法防止浏览器缓存。给静态资源加时间戳带尾巴。</p>
+<p>PHPStrom配置，一个是在PHP SCRIPT, 另一个是PHP WEB APPLICATION.</p>
 
-<p>在发行产品的时候带版本号。</p>
+<h1>后续</h1>
+
+<p>在上面折腾了一番后，原来我使用Laravel提供的Homestead开发环境已经提供了XDebug，已经开启了远程调试。</p>
 </div>
   
   
@@ -210,6 +219,30 @@ var _hmt = _hmt || [];
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/16/mysql-storage-engine/">MySQL存储引擎</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/14/mysql-db-object/">MySQL数据库对象与应用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/12/performance-test/">高性能产品的必由之路—性能测试工具</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/10/mysql-master-slave/">MySQL主从复制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/10/mysql-index/">MySQL索引</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
       </li>
     
@@ -223,30 +256,6 @@ var _hmt = _hmt || [];
     
       <li class="post">
         <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/30/performance-bottleneck/">性能瓶颈</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/26/cache/">缓存</a>
       </li>
     
   </ul>

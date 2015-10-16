@@ -9,7 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 PHP 作为一种广泛用于 Web 服务器端的脚本语言，在敏捷 Web 开发方面有独特的优势，成功案例多、社区活跃、资源丰富，框架也非常多。ThinkPHP 作为一款起步较早、相对成熟的国产 PHP 框架，在国内有相当的用户量，借这个机会向大家介绍 ThinkPHP 基础知识， &hellip;">
+  <meta name="description" content="成为一名PHP开发者要学习哪些内容？ 活到老，学到老，作为开发者，要不断地学习，那应该怎样学习呢？ ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/23/thinkphp/">Thinkphp</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/26/learn-php/">PHP开发工程师</a></h1>
     
     
       <p class="meta">
@@ -91,16 +91,20 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-23T11:55:43+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:55 am</span></time>
+<time class='entry-date' datetime='2015-07-26T22:22:29+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:22 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
+  <div class="entry-content"><p>成为一名PHP开发者要学习哪些内容？</p>
 
-<p>PHP 作为一种广泛用于 Web 服务器端的脚本语言，在敏捷 Web 开发方面有独特的优势，成功案例多、社区活跃、资源丰富，框架也非常多。ThinkPHP 作为一款起步较早、相对成熟的国产 PHP 框架，在国内有相当的用户量，借这个机会向大家介绍 ThinkPHP 基础知识，为后续的项目实战做好准备。</p>
+<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/what_shoud_learn_for_phper.jpg" alt="" /></p>
+
+<p>活到老，学到老，作为开发者，要不断地学习，那应该怎样学习呢？</p>
+
+<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/how_to_learn_php.jpg" alt="" /></p>
 </div>
   
   
@@ -113,7 +117,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/26/composer/">Composer</a></h1>
     
     
       <p class="meta">
@@ -122,35 +126,38 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-23T10:50:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:50 am</span></time>
+<time class='entry-date' datetime='2015-07-26T19:45:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:45 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
+  <div class="entry-content"><p><a href="http://www.phpcomposer.com/composer-the-new-age-of-dependency-manager-for-php/">参考链接</a></p>
 
-<p>MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做<a href="https://mariadb.org/">MariDB</a></p>
+<p>全局安装：</p>
 
-<h1>安装</h1>
-
-<p>首先从 <a href="http://downloads.mariadb.org/mariadb/repositories/">MariaDB 下载页面</a> 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令</p>
-
-<pre><code>sudo apt-get install software-properties-common
-sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-sudo add-apt-repository 'deb http://mirrors.opencas.cn/mariadb/repo/5.5/ubuntu trusty main'
+<pre><code>$ curl -sS https://getcomposer.org/installer | php
+$ mv composer.phar /usr/local/bin/composer
 </code></pre>
 
-<p>开始安装</p>
+<p>Composer 中国镜像</p>
 
-<pre><code>sudo apt-get update
-sudo apt-get install mariadb-server
+<p>采用</p>
+
+<p> <a href="http://pkg.phpcomposer.com/">composer 的全局配置文件</a></p>
+
+<h2>Windows上安装</h2>
+
+<p><a href="https://getcomposer.org/doc/00-intro.md#installation-windows">https://getcomposer.org/doc/00-intro.md#installation-windows</a></p>
+
+<p>遇到的坑： php.ini 要把php_openssl打开。</p>
+
+<h2>简单实用</h2>
+
+<pre><code>composer require phpspec/phpspec
+composer create-project laravel/laravel learning-laravel-5
 </code></pre>
-
-<p>这样 MariaDB 5.5 就已经安装成功，你就可以像使用 MySQL 那样对它进行配置和使用了。</p>
-
-<p>使用mysql -h -uroot -p1234测试。</p>
 </div>
   
   
@@ -175,6 +182,30 @@ sudo apt-get install mariadb-server
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/16/mysql-storage-engine/">MySQL存储引擎</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/14/mysql-db-object/">MySQL数据库对象与应用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/12/performance-test/">高性能产品的必由之路—性能测试工具</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/10/mysql-master-slave/">MySQL主从复制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/10/mysql-index/">MySQL索引</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
       </li>
     
@@ -188,30 +219,6 @@ sudo apt-get install mariadb-server
     
       <li class="post">
         <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/30/performance-bottleneck/">性能瓶颈</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/26/cache/">缓存</a>
       </li>
     
   </ul>

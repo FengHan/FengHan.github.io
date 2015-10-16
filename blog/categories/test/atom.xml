@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Test | hanfeng.name]]></title>
+  <link href="http://fenghan.github.io/blog/categories/test/atom.xml" rel="self"/>
+  <link href="http://fenghan.github.io/"/>
+  <updated>2015-10-16T08:25:18+08:00</updated>
+  <id>http://fenghan.github.io/</id>
+  <author>
+    <name><![CDATA[HanFeng]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[高性能产品的必由之路—性能测试工具]]></title>
+    <link href="http://fenghan.github.io/blog/2015/09/12/performance-test/"/>
+    <updated>2015-09-12T10:32:58+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/09/12/performance-test</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>课程笔记：<a href="http://www.imooc.com/learn/278">IMOOC:高性能产品的必由之路—性能测试工具</a>。
+昨天面试，问我LNAMP能够承载多少用户，答不知道，所以学习。</p>
+
+<h1>引言</h1>
+
+<ul>
+<li>搭建一个网站容易</li>
+<li>搭建一个千万用户级的网站没有那么容易
+
+<ul>
+<li>横向扩展的能力</li>
+<li>数据库的优化</li>
+<li>尽量让一台机器能够承载更多的用户请求
+
+<h1>性能测试的指标</h1>
+
+<h4>什么是系统测试</h4></li>
+</ul>
+</li>
+</ul>
+
+
+<p>性能测试就是通过<strong>技术的手段</strong>模拟大量用户<strong>同时</strong>访问被测应用，观察、记录和分析系统的<strong>各项性能指标</strong>的过程。</p>
+
+<p>性能测试的目标是评估系统的性能瓶颈，预测系统的最大用户负载能力。</p>
+
+<h3>两个关键点</h3>
+
+<ul>
+<li>模拟大量并发用户</li>
+<li>监控系统负载参数分析系统瓶颈
+
+<h4>性能指标</h4></li>
+<li>平均响应时间（TTLB, Time to laster byte）
+
+<ul>
+<li>平均每个请求从发送到接收响应的时间</li>
+<li>合理的平均响应时间
+
+<ul>
+<li>2/5/10原则</li>
+<li>非常有吸引力/比较不错/糟糕失败的</li>
+</ul>
+</li>
+<li>平均响应时间的业务影响
+
+<ul>
+<li>1秒延迟减少了11%的PV，降低了16%的客户满意度</li>
+<li>2秒增加到10秒，会导致38%的页面浏览放弃率</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>CPU
+
+<ul>
+<li> CPU的占用率</li>
+</ul>
+</li>
+<li>内存
+
+<ul>
+<li>内存的占用率， 换页数</li>
+</ul>
+</li>
+<li>I/O
+
+<ul>
+<li>读写请求数，读写量</li>
+</ul>
+</li>
+<li>带宽
+
+<ul>
+<li> 进站出站带宽占用率
+
+<h4>为什么要进行性能测试</h4></li>
+</ul>
+</li>
+<li>能够有效评估系统的性能指标，用于系统的系能评估</li>
+<li>能够识别系统的性能瓶颈，协助性能调优</li>
+<li>能够指导突发流量承载方案的制定</li>
+<li>能够用于系统运维成本的预算
+
+<h4>性能的事的一般分类</h4></li>
+<li>负载测试(Load Test)
+
+<ul>
+<li>为了验证系统设计符合正常业务负载情况下系统性能表现的测试</li>
+<li>开发人员找到内存泄露、连接泄露和系统瓶颈</li>
+</ul>
+</li>
+<li>压力测试（Stress Test）
+
+<ul>
+<li>为了验证系统在极端负载情况下的性能表现的测试</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>性能测试工具</h3>
+
+<ul>
+<li>top
+
+<ul>
+<li>F 显示字段与排序</li>
+<li>h 帮助</li>
+<li>VIRT 虚拟内存大小</li>
+<li>RES   真实内存大小</li>
+<li>SHA 共享内存大小</li>
+<li>TIME+ 运行这个进程的时间</li>
+<li>查看cpu排序也可以用  SHIFT键+p 或者  大写状态下 P</li>
+<li>查看内存排序也可以用  SHIFT键+m 或者  大写状态下 M</li>
+</ul>
+</li>
+<li>top -b -n 1
+
+<ul>
+<li>b 所有的都列出来</li>
+<li>n 1  ， 只执行一次</li>
+</ul>
+</li>
+<li>sysstat
+
+<ul>
+<li>统计系统的各种占用资源</li>
+<li>cd /etc/cron.d; cat sysstat</li>
+<li>CPU监控</li>
+<li>查看是否是内存瓶颈</li>
+<li>swap的监控</li>
+<li>IO的监控</li>
+<li>网络监控
+
+<h3>评估磁盘读写性能极限</h3></li>
+</ul>
+
+
+<p>  fio -filename=/tmp/test -direct=1 -iodepth 1 -thread -rw=randrw -ioengine=psync -bs=16k -size 2G -numjobs=10 -runtime=30 -group_reporting -name=mytest13
+查看IOPS,我的ssd硬盘，在虚拟机中的ubuntu， read：1348 write：1345</p></li>
+</ul>
+
+
+<h1>Jmeter</h1>
+
+<p>Apache组织开发的开源性能测试工具</p>
+
+<h4>ECSHOP</h4>
+
+<ul>
+<li>开源，但商业应用需要付费，功能齐全。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

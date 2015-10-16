@@ -4,7 +4,7 @@
   <title><![CDATA[hanfeng.name]]></title>
   <link href="http://fenghan.github.io/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-09-09T18:58:36+08:00</updated>
+  <updated>2015-10-16T08:25:18+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -12,6 +12,609 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Drupal101]]></title>
+    <link href="http://fenghan.github.io/blog/2015/10/12/drupal101/"/>
+    <updated>2015-10-12T22:39:48+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/10/12/drupal101</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>入职新公司，开始学习Drupal。立志成为Drupal专家</p>
+
+<h1>Drupal101</h1>
+
+<ul>
+<li>创始人 Dries Buytaert博客 <a href="http://buytaert.net/">http://buytaert.net/</a></li>
+<li>学习资源 <a href="https://drupalize.me">drupalize.me</a></li>
+</ul>
+
+
+<h4>What is Drupal</h4>
+
+<ul>
+<li>CMS
+
+<ul>
+<li>CMF</li>
+</ul>
+</li>
+<li></li>
+</ul>
+
+
+<h4>Who uses Drupal</h4>
+
+<ul>
+<li><a href="http://drupalshowcase.com/">Drupal Showcase</a></li>
+<li><a href="https://www.drupal.org/case-studies">drupal.org</a></li>
+</ul>
+
+
+<h4>Major features with site building</h4>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL存储引擎]]></title>
+    <link href="http://fenghan.github.io/blog/2015/09/16/mysql-storage-engine/"/>
+    <updated>2015-09-16T20:01:29+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/09/16/mysql-storage-engine</id>
+    <content type="html"><![CDATA[<h3>什么是MySQL存储引擎</h3>
+
+<p>服务层 - 存储引擎 - 文件系统层</p>
+
+<p>MySQL5.5 以后默认为InnoDB,推荐。</p>
+
+<p>Memory存储引擎，临时表</p>
+
+<h4>MyISAM</h4>
+
+<ul>
+<li>堆表（插入性能好）</li>
+<li>不支持事务</li>
+<li>只维护索引缓存池，表数据缓存交给操作系统（表若很大，浪费内存）</li>
+<li>锁粒度较大（表级锁，读写锁，读的时候不允许写，写的时候不允许读）</li>
+<li>数据文件可以直接拷贝，备份数据用得上</li>
+</ul>
+
+
+<p>不推荐的原因：1. 不支持事务 2. 锁的颗粒度比较大 3. 表数据缓存交给操作系统，表若很大，浪费内存</p>
+
+<h4>TokuDB</h4>
+
+<p>社区版备份比较麻烦</p>
+
+<h4>MySQL Cluster</h4>
+
+<ul>
+<li>多主分布式集群</li>
+<li>数据节点间冗余，高可用</li>
+<li>支持事务</li>
+<li>设计上易于扩展</li>
+<li>面向未来，线上慎用</li>
+</ul>
+
+
+<h4>InnoDB</h4>
+
+<ul>
+<li>缓存池 +　各种后台线程　＋ 数据文件</li>
+</ul>
+
+
+<p>事务ACID:</p>
+
+<ul>
+<li>回滚段失败回滚（A）</li>
+<li>支持主外键（C）</li>
+<li>事务版本 + 回滚段 = MVCC(I)</li>
+<li>事务日志持久化（D）</li>
+</ul>
+
+
+<p>行级别锁：</p>
+
+<ul>
+<li>写不阻塞读</li>
+<li>不同行间的写相互不阻塞</li>
+<li>并发性能好</li>
+<li>锁是加在索引上的</li>
+</ul>
+
+
+<p>InnoDB数据块缓存池</p>
+
+<ul>
+<li>数据的读写经过缓存</li>
+<li>IO效率高，性能好。</li>
+</ul>
+
+
+<p>InnoDB数据文件存储结构：</p>
+
+<ul>
+<li>根据主键寻址速度很快</li>
+<li>主键值递增的insert插入效率较好</li>
+<li>主键随机insert插入效率较好</li>
+<li><strong>因此，InnoDB表必须指定主键，建议使用自增数字</strong></li>
+</ul>
+
+
+<p>数据持久化与事务日志</p>
+
+<ul>
+<li>事务日志实时持久化</li>
+</ul>
+
+
+<h3>介绍MySQL主要存储引擎的特点及试用场景</h3>
+
+<h3>Innodb存储引擎</h3>
+
+<pre><code>show global variables like "%increment%";
+
++-----------------------------+-------+
+| Variable_name               | Value |
++-----------------------------+-------+
+| auto_increment_increment    | 1     |
+| auto_increment_offset       | 1     |
+| div_precision_increment     | 4     |
+| innodb_autoextend_increment | 64    |
++-----------------------------+-------+
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL数据库对象与应用]]></title>
+    <link href="http://fenghan.github.io/blog/2015/09/14/mysql-db-object/"/>
+    <updated>2015-09-14T11:16:22+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/09/14/mysql-db-object</id>
+    <content type="html"><![CDATA[<h1>MySQL数据类型</h1>
+
+<h4>经验之谈</h4>
+
+<ul>
+<li>存储性别、省份、类型等分类信息时，选择TINYINT或者ENUM</li>
+<li>BIGINT存储空间更大，INT和BIGINT之间通常选择BIGINT</li>
+<li>交易等高精度数据时选择使用DECIMAL</li>
+</ul>
+
+
+<h1>MySQL数据对象</h1>
+
+<p>help create index</p>
+
+<h1>MySQL权限管理</h1>
+
+<ul>
+<li><p>Data Privileges</p>
+
+<pre><code>  DATA: SELECT, INSERT, UPDATE, DELETE
+</code></pre></li>
+<li>Define</li>
+<li>Administrator Privileges
+
+<ul>
+<li>Shutdown Database</li>
+<li>Replication</li>
+</ul>
+</li>
+</ul>
+
+
+<p>创建一个用户并赋权：</p>
+
+<ul>
+<li>使用原生的SQL</li>
+<li>更改数据库记录</li>
+<li>更简单的方法
+
+<h4>查看用户权限</h4>
+
+show grants;
+
+<h4>如何更改用户的权限</h4></li>
+</ul>
+
+
+<h4>如何更改用户的密码</h4>
+
+<h4>删除用户</h4>
+
+<h4>With Grant Option</h4>
+
+<h4>与权限相关的表</h4>
+
+<ul>
+<li>user</li>
+<li>db</li>
+<li>tables_priv</li>
+<li>clomuns_priv
+
+<h5>Mysql 权限验证的过程</h5></li>
+</ul>
+
+
+<h4>MySQL权限上有哪些问题</h4>
+
+<ul>
+<li>默认的test库不受权限控制，存在安全风险</li>
+<li>mysql_secure_installation</li>
+</ul>
+
+
+<h4>小结</h4>
+
+<ul>
+<li>权限相关的操作不要直接操作表，统一使用MySQL命令</li>
+<li>使用二进制安装MySQL后，需要重置管理用户（root）的密码</li>
+<li>线上数据库不要留test库</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[高性能产品的必由之路—性能测试工具]]></title>
+    <link href="http://fenghan.github.io/blog/2015/09/12/performance-test/"/>
+    <updated>2015-09-12T10:32:58+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/09/12/performance-test</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>课程笔记：<a href="http://www.imooc.com/learn/278">IMOOC:高性能产品的必由之路—性能测试工具</a>。
+昨天面试，问我LNAMP能够承载多少用户，答不知道，所以学习。</p>
+
+<h1>引言</h1>
+
+<ul>
+<li>搭建一个网站容易</li>
+<li>搭建一个千万用户级的网站没有那么容易
+
+<ul>
+<li>横向扩展的能力</li>
+<li>数据库的优化</li>
+<li>尽量让一台机器能够承载更多的用户请求
+
+<h1>性能测试的指标</h1>
+
+<h4>什么是系统测试</h4></li>
+</ul>
+</li>
+</ul>
+
+
+<p>性能测试就是通过<strong>技术的手段</strong>模拟大量用户<strong>同时</strong>访问被测应用，观察、记录和分析系统的<strong>各项性能指标</strong>的过程。</p>
+
+<p>性能测试的目标是评估系统的性能瓶颈，预测系统的最大用户负载能力。</p>
+
+<h3>两个关键点</h3>
+
+<ul>
+<li>模拟大量并发用户</li>
+<li>监控系统负载参数分析系统瓶颈
+
+<h4>性能指标</h4></li>
+<li>平均响应时间（TTLB, Time to laster byte）
+
+<ul>
+<li>平均每个请求从发送到接收响应的时间</li>
+<li>合理的平均响应时间
+
+<ul>
+<li>2/5/10原则</li>
+<li>非常有吸引力/比较不错/糟糕失败的</li>
+</ul>
+</li>
+<li>平均响应时间的业务影响
+
+<ul>
+<li>1秒延迟减少了11%的PV，降低了16%的客户满意度</li>
+<li>2秒增加到10秒，会导致38%的页面浏览放弃率</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>CPU
+
+<ul>
+<li> CPU的占用率</li>
+</ul>
+</li>
+<li>内存
+
+<ul>
+<li>内存的占用率， 换页数</li>
+</ul>
+</li>
+<li>I/O
+
+<ul>
+<li>读写请求数，读写量</li>
+</ul>
+</li>
+<li>带宽
+
+<ul>
+<li> 进站出站带宽占用率
+
+<h4>为什么要进行性能测试</h4></li>
+</ul>
+</li>
+<li>能够有效评估系统的性能指标，用于系统的系能评估</li>
+<li>能够识别系统的性能瓶颈，协助性能调优</li>
+<li>能够指导突发流量承载方案的制定</li>
+<li>能够用于系统运维成本的预算
+
+<h4>性能的事的一般分类</h4></li>
+<li>负载测试(Load Test)
+
+<ul>
+<li>为了验证系统设计符合正常业务负载情况下系统性能表现的测试</li>
+<li>开发人员找到内存泄露、连接泄露和系统瓶颈</li>
+</ul>
+</li>
+<li>压力测试（Stress Test）
+
+<ul>
+<li>为了验证系统在极端负载情况下的性能表现的测试</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>性能测试工具</h3>
+
+<ul>
+<li>top
+
+<ul>
+<li>F 显示字段与排序</li>
+<li>h 帮助</li>
+<li>VIRT 虚拟内存大小</li>
+<li>RES   真实内存大小</li>
+<li>SHA 共享内存大小</li>
+<li>TIME+ 运行这个进程的时间</li>
+<li>查看cpu排序也可以用  SHIFT键+p 或者  大写状态下 P</li>
+<li>查看内存排序也可以用  SHIFT键+m 或者  大写状态下 M</li>
+</ul>
+</li>
+<li>top -b -n 1
+
+<ul>
+<li>b 所有的都列出来</li>
+<li>n 1  ， 只执行一次</li>
+</ul>
+</li>
+<li>sysstat
+
+<ul>
+<li>统计系统的各种占用资源</li>
+<li>cd /etc/cron.d; cat sysstat</li>
+<li>CPU监控</li>
+<li>查看是否是内存瓶颈</li>
+<li>swap的监控</li>
+<li>IO的监控</li>
+<li>网络监控
+
+<h3>评估磁盘读写性能极限</h3></li>
+</ul>
+
+
+<p>  fio -filename=/tmp/test -direct=1 -iodepth 1 -thread -rw=randrw -ioengine=psync -bs=16k -size 2G -numjobs=10 -runtime=30 -group_reporting -name=mytest13
+查看IOPS,我的ssd硬盘，在虚拟机中的ubuntu， read：1348 write：1345</p></li>
+</ul>
+
+
+<h1>Jmeter</h1>
+
+<p>Apache组织开发的开源性能测试工具</p>
+
+<h4>ECSHOP</h4>
+
+<ul>
+<li>开源，但商业应用需要付费，功能齐全。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL主从复制]]></title>
+    <link href="http://fenghan.github.io/blog/2015/09/10/mysql-master-slave/"/>
+    <updated>2015-09-10T10:44:16+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/09/10/mysql-master-slave</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>之前写过一篇MySQL的主从配置，今天这篇文章涉主要涉及理论。</p>
+
+<h1>什么是主从复制</h1>
+
+<ul>
+<li>数据拷贝</li>
+<li>准实时</li>
+<li>源主节点； 目的-从节点</li>
+</ul>
+
+
+<h1>主从复制的原理</h1>
+
+<h4>复制格式</h4>
+
+<ul>
+<li>SRB: Statement Based Replication (原生的语句)</li>
+<li>PBR: Row （5.7.7变为默认格式）</li>
+<li>MBR: Mixed</li>
+</ul>
+
+
+<p>查看复制格式
+        show global variables like &lsquo;binlog_format&rsquo;;</p>
+
+<p>配置文件
+    [mysqld]
+    binlog_format = ROW</p>
+
+<h1>主从复制的用途</h1>
+
+<ul>
+<li>试试灾备，用于故障切换（高可用的切换）</li>
+<li>读写分离，提供查询服务</li>
+<li>备份，避免影响业务</li>
+</ul>
+
+
+<h2>MySQL主从复制的一些模式</h2>
+
+<ol>
+<li>一主一从</li>
+<li>主主复制</li>
+<li>一主多从</li>
+<li>多主依从 （mysql5.7开始支持）</li>
+<li>联级复制</li>
+</ol>
+
+
+<h1>主从复制的搭建</h1>
+
+<h3>主从部署的必要条件：</h3>
+
+<ul>
+<li>主从开启binlog日志（设置log-bin参数）</li>
+<li>主从server-id不同</li>
+<li>从库服务器能连通主库</li>
+</ul>
+
+
+<h3>主从部署步骤</h3>
+
+<ul>
+<li>备份还原(mysqldump )</li>
+<li>授权 （grant replicaton slave on <em>.</em>）</li>
+<li>配置复制，并启动 (change master to)</li>
+<li><p>查看主从复制信息 (show slave status\G)</p>
+
+<h1>主从复制的问题</h1></li>
+<li><p>主库宕机，数据可能丢失</p></li>
+<li>从库只有一个sql thread, 主库写压力大，复制很可能延时。</li>
+</ul>
+
+
+<h3>MySQL半同步复制</h3>
+
+<h3>MySQL并行复制</h3>
+
+<ul>
+<li>社区版5.6新增</li>
+<li>并行是指从库多线程，</li>
+<li><p>库级别并应用binlog，同一个数据库更新还是串行的（5.7版并行复制基于事务组）</p>
+
+<p>  set global slave_parallel_workers = 10</p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL索引]]></title>
+    <link href="http://fenghan.github.io/blog/2015/09/10/mysql-index/"/>
+    <updated>2015-09-10T10:07:51+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/09/10/mysql-index</id>
+    <content type="html"><![CDATA[<h4>什么是索引</h4>
+
+<p>索引是值到行位置的映射。索引就是一个目录。</p>
+
+<h4>索引的作用：</h4>
+
+<ul>
+<li>提高访问的速度。硬盘IO每秒100到150次的响应。每次10毫秒</li>
+<li>实现主键、唯一键逻辑</li>
+</ul>
+
+
+<p>IO是个宝贵的资源，</p>
+
+<h4>索引的使用场景：</h4>
+
+<p>FTS 全表索引</p>
+
+<h4>Mysql中我们可以使用的索引类型：</h4>
+
+<ul>
+<li>Btree索引：</li>
+<li>B+tree： 平衡二叉树的一种改良</li>
+<li>Hash索引 InnoDB</li>
+<li>Innodb ： 聚簇索引，</li>
+<li>二级索引： 除了主键，用户创建的索引。</li>
+</ul>
+
+
+<h4>索引的代价：</h4>
+
+<p>插入修改删除每个索引都编程一个内部事务，索引越多，事务越长。(增删改)</p>
+
+<h4>索引的优势:</h4>
+
+<ol>
+<li>减少查询IO</li>
+<li>优化等值查询、范围查询</li>
+<li><p>利用有序特性</p>
+
+<p> order by , group byh , distinct, max ,min</p></li>
+</ol>
+
+
+<h4>如何用好索引：</h4>
+
+<ul>
+<li><p>依据where查询条件来建立索引：</p>
+
+<pre><code>  select a,b from tab_a where c = ?;  #c上建立索引
+</code></pre></li>
+<li><p>使用联合索引，而不是多个单列索引。</p>
+
+<pre><code>  select * from tab_a where a = ? AND b = ? 
+  #建立a和b的索引， 把一组值作为b+tree 的索引， 在同一个树里，查询速度更高。
+</code></pre></li>
+<li><p>联合索引， 区分度大的放在前面。</p>
+
+<pre><code>  name,gender 对， 因为name的区分度很大。能够更好地使用b+ TREE来定位节点
+
+  gender,name 错
+</code></pre></li>
+<li><p>联合索引能为前缀单列，复列查询提供帮助。</p>
+
+<pre><code>  where a = ? 
+  wherer a = ? AND b =? 
+</code></pre></li>
+<li><p>合理创建联合索引，避免冗余。
+      abc 包含 a ,ab</p></li>
+<li><p>ORDER BY, GROUP BY, DISTINCT 字段添加索引</p></li>
+<li><p>用 EXPLAIN 查看语句</p>
+
+<pre><code>  possible_key 可以使用的索引
+  key 实际的索引名字  重要
+  rows  读的记录行数，才返回的结果 重要。
+  typpe   index  扫描完整的索引树， 重要   
+  key_len 如果只使用了一部分，为长度。  
+  force index  强制使用索引 
+  ignore index 
+</code></pre>
+
+<h4>其他技巧</h4></li>
+<li><p>一个表，控制百万级别。如何达到了一两百G，就可以考虑分库分表了。千万级别，取决于访问方式，left join</p></li>
+<li><p>WHERE查询时，  函数不要加在字段上。timestamp > func(1234)。</p></li>
+<li><p>外键一般用程序使用。</p></li>
+<li><p>什么事优化器： 哪个索引会更快，IO更小。生发语法数，生成一个计划。</p></li>
+<li><p>纵向分表，根据业务来拆分。</p></li>
+<li><p>等值查询 ，2个范围查询， 不能都覆盖到。联合查询。等值能用一个，范围查询也只能用一个。</p></li>
+<li><p>通过表结构设计来避免连表。</p></li>
+<li><p>触发器和存储过程不好维护，做运维手段还可以。</p></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MySQL Foundation]]></title>
@@ -1324,606 +1927,6 @@ ps：高大上，这块不展开讨论 ^_^</p>
 <h1>参考链接</h1>
 
 <p><a href="http://www.williamsang.com/archives/2401.html?utm_source=tuicool#private">Vagrant网络配置</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[负载计算方法及不同语言开发解决性能问题的思想等]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/21/performance/"/>
-    <updated>2015-08-21T14:52:36+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/21/performance</id>
-    <content type="html"><![CDATA[<h1>前言</h1>
-
-<p>当项目复杂度和用户数提高的时候，我们常常会遇到以下问题：卡、 挂、 数据备份、 数据分析、 安全、 24小时在线、 多平台、 多端、 跨地域、 实时性强。</p>
-
-<p>总结起来就是以下4个方面：</p>
-
-<ol>
-<li>性能问题</li>
-<li>交互问题</li>
-<li>安全问题</li>
-<li>可持续发展与维护</li>
-</ol>
-
-
-<h1>性能计算</h1>
-
-<h3>不同语言开发解决性能问题的思想</h3>
-
-<ol>
-<li><strong>PHP -> 多进程</strong></li>
-</ol>
-
-
-<p>PHP通常是和Apache一起来工作，将PHP作为Apache的一个模块来使用，或者采用FastCGI方式通过FPM与web容器通信。我们的每一个用户的请求都将使用一个进程来处理用户请求。</p>
-
-<ol>
-<li><strong>JAVA -> 多线程</strong></li>
-</ol>
-
-
-<p>单个进程中同时有多个函数在运行，我们就认为这个应用时多线程的。</p>
-
-<ol>
-<li><strong>NodeJs -> 单进程单线程</strong></li>
-</ol>
-
-
-<p>Nignx 与 nodejs jetty 提升效率的方法相同。</p>
-
-<p>都是 异步&amp;非阻塞。</p>
-
-<h4>阻塞</h4>
-
-<p>Apache接收到用户的请求 -> 创建php进程处理请求 -> php通过Http协议解析获取用户提交数据 -> 进行数据过滤与加工 -> (接收用户上传的文件) ->
-(对图片缩放/给图片加水印) -> 将数据插入到数据库  -> 等待数据处理完成  -> 加载模板 -> 输出页面 -> 结束进程 -> 回收资源</p>
-
-<p>PHP是单线程的，所以要等待用户上传文件、等待对图片处理、等待插入数据库的结果。一直在等待，所以耗时间。而nodejs是基于事件的编程、非阻塞，效率高。</p>
-
-<h1>高负载项目优化</h1>
-
-<h4>IO  Input/Output</h4>
-
-<ul>
-<li>磁盘IO</li>
-<li>网络IO</li>
-<li>数据库IO</li>
-</ul>
-
-
-<h4>性能测试</h4>
-
-<ul>
-<li>php 系能测试</li>
-<li>mysql读写性能测试</li>
-<li>文件 读写性能测试</li>
-</ul>
-
-
-<h4>测试工具</h4>
-
-<ul>
-<li>Apache ab</li>
-<li>Apache JMeter</li>
-</ul>
-
-
-<h2>负载的计算方法</h2>
-
-<ul>
-<li>网络连接最大并发数 B</li>
-<li>单次请求的处理时间  dt</li>
-<li>用户n秒请求一次</li>
-<li>发摩擦系数s ： 一般 0.65</li>
-<li>负载 = B/dt * n</li>
-</ul>
-
-
-<p>例子：</p>
-
-<ul>
-<li>网络连接最大并发数 B = 1000 次</li>
-<li>单次请求的处理时间  dt = 3秒</li>
-<li>用户30秒请求一次 n = 30秒</li>
-<li>发摩擦系数s ： 一般 0.65</li>
-<li>每秒能处理的请求数 = 1000次 /3秒</li>
-<li>负载 = 每秒能处理的请求数 * 30秒 * 0.65 = 6500</li>
-</ul>
-
-
-<p>总结：</p>
-
-<ol>
-<li>负载 就是ＷEB服务能够支持的最大访问人数，不卡，不Down机。它取决于3点（最重要的）：网络最大连接数、单次请求处理时间 和 用户多少秒请求一次。</li>
-<li>对网络连接最大并发数 B 起决定性作用的依次是带宽、内存、CPU、操作系统。</li>
-<li>减少单次处理请求时间，对程序员说很困难。</li>
-<li>提高用户请求一次的时间是一个有效的办法，所以一个好的网页交互师很重要。比说增加验证码、提示框等。</li>
-</ol>
-
-
-<h4>集群：</h4>
-
-<p>在同一个项目，多台服务器一起工作</p>
-
-<h1>数据库优化原理</h1>
-
-<ol>
-<li>优化第一条：针对查询建索引。where条件要匹配索引，叫做命中索引。</li>
-</ol>
-
-
-<p>问： 索引为什么会加速查询？</p>
-
-<p>答：因为添加索引，会优化搜索算法，使用了二叉树、平衡二叉树、红黑树升级的算法。建立索引，查询速度会集合倍提高。 牺牲了写入数据的效率，换来了查询的速度。但因为我们大部分都是查询，写入的少。性能不会凭空产生</p>
-
-<p>容器：内存中可以用来保存其他对象的对象，比如链表、数组、hashmap</p>
-
-<p>资源：应用程序从内存意外的地方读取或写入数据的对象成为资源，比如网络，比如磁盘文件。涉及资源IO的程序通常速度都会比较慢。</p>
-
-<p>结果集： 自己是个容器，从结果集获取数据的本质是一种资源，也是一个集合，不能有重复。（<strong>结果集是一个保存指向数据库资源指针的集合</strong>）</p>
-
-<p>当多个条件查询的时候，and条件表示左右两个条件搜索到的结果集做交集。
-如果使用or连接两个条件，左右两个条件搜索的结果做并集。</p>
-
-<p>selec &hellip; limit 0, 20;</p>
-
-<p>遍历结果集，从数据库文件里面取。</p>
-
-<p>select &hellip; where id = 1;</p>
-
-<p>   &hellip;.</p>
-
-<p>select &hellip;. where id = 20;</p>
-
-<p>分页的作用：让每一次数据查询返回的结果集可控。</p>
-
-<p>数据的查询一定要分页。</p>
-
-<p>当写入大于查询的时候，要去索引，去掉只剩下一个id。</p>
-
-<h3>读写差异定制</h3>
-
-<p>数据库主从，主库没有索引，从库加索引。数据库的主从原理是根据主库的日志，把主库的bin log日志再从新执行一遍，这叫读写差异定制。</p>
-
-<h3>自建索引</h3>
-
-<p>如果是单个数据库。</p>
-
-<p>建立索引越多-> 插入一条数据时间长->锁表时间长 -> 其他记录等待时间长
-并发的时候， 堵车撞车几率就大。就容易让数据库挂掉。</p>
-
-<p>不锁表，MySQL的连接数也会增加，满了。PHP连不上mYSQL, Nginx连不上mysql，会报502。索引越多越糟糕</p>
-
-<p>user  基本表
-user_index   保存搜索条件。</p>
-
-<p>一台机器，专门用来保存数据。另一台数据用来保存索引。
-或者一个库用来保存数据，另一个库来保存索引。</p>
-
-<p>每天固定时间建立索引。</p>
-
-<p>这叫做<strong>异步建索引</strong></p>
-
-<h4>sphinx</h4>
-
-<p>爬数据库的爬虫，为我们的数据库建立索引。</p>
-
-<p>能够大幅提升性能，对小说站，资讯站很有用。但是优缺点：不是实时索引。</p>
-
-<h4>redis索引</h4>
-
-<p>微博 把索引放到了redis里面，建立实时索引。</p>
-
-<p>插入数据的时候，把索引写到redis里面。 查询数据，从redis里把满足用户的id查询出来。再查mysql数据库。 每一条索引都命中id，效率会特别高。</p>
-
-<p>list可以保存索引，hash缓存对象，set用来交并集处理。所以，redis有建立索引和保存数据的作用。</p>
-
-<p>redis：1.数据结构支持（消息队列） 2. 缓存 3. 索引（要存储到数据库）</p>
-
-<h4>　笛卡尔集</h4>
-
-<p>Ａ　Ｂ　Ｃ　三个表</p>
-
-<p>Ａ表搜索１０条记录找到１条，Ｂ表搜索到５条记录找到１条，Ｃ表搜索５条记录。</p>
-
-<p>连表的话，会搜索１００条记录。</p>
-
-<p>根据业务逻辑做优化。</p>
-
-<h3>分表分库</h3>
-
-<ul>
-<li>横向： 横切一刀， 表的数据被分成两部分。</li>
-<li>纵向： 刷刷两刀，一个表的字段减少。</li>
-</ul>
-
-
-<p>优化最求：所有的事情可控。</p>
-
-<p>小规模分表、大规模分库。</p>
-
-<p><strong>横向切表</strong>
-tb_user</p>
-
-<p>tb_usser0</p>
-
-<p>tb_usser1</p>
-
-<p>tb_usser2</p>
-
-<p>tb_usser3</p>
-
-<p><strong>纵向且表，表重构</strong></p>
-
-<p>tb_user_login</p>
-
-<p>tb_user_info</p>
-
-<p>tb_user_account</p>
-
-<p>多主多从。
-多主一从。
-互为主从。</p>
-
-<h3>MongDb</h3>
-
-<p>支持平行扩容和分片</p>
-
-<p>高性能、高并发、海量扩容</p>
-
-<p>js + mongodb: 效率高、速度快、并发高、数据扩容方便</p>
-
-<h1>Mysql主从配置</h1>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Docker灵雀云]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/21/alauda/"/>
-    <updated>2015-08-21T02:24:30+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/21/alauda</id>
-    <content type="html"><![CDATA[<p>今晚把博客迁移到了<a href="http://alauda.cn">灵雀云</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[用Redis实现消息队列]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/20/redis-message-queue/"/>
-    <updated>2015-08-20T22:40:48+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/20/redis-message-queue</id>
-    <content type="html"><![CDATA[<h1>目标</h1>
-
-<ol>
-<li>用户注册时，将注册信息（例如用户名、密码、邮箱等）Push到Redis的List里。</li>
-<li>用PHP-CLI脚本，读取队列的消息，存取到数据库。</li>
-</ol>
-
-
-<p>代码如下：</p>
-
-<ul>
-<li><a href="https://github.com/hildalove/tiny/blob/master/Tiny/MessageQueue/PHPMQ.php">PHPMQ CLASS</a></li>
-<li><a href="https://github.com/hildalove/tiny/blob/master/Tiny/MessageQueue/UserMQ.php">UserMQ CLASS</a></li>
-<li><a href="https://github.com/hildalove/tiny/blob/master/App/Controller/MQ.php">user reg Controller</a></li>
-<li><a href="https://github.com/hildalove/tiny/blob/master/cron/user_mq.php">PHP-CLI CRON</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Phpredis小结]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/19/phpredis/"/>
-    <updated>2015-08-19T15:28:13+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/19/phpredis</id>
-    <content type="html"><![CDATA[<h1>前言</h1>
-
-<p>PHP 安装redis有两种方法，这篇文章所阐述的内容是以扩展的方式安装phpredis</p>
-
-<h1>Redis</h1>
-
-<pre><code>apt-get install redis-server
-apt-get install php5-redis
-</code></pre>
-
-<p>我们通过 apt-get安装的扩展配置将出现在  /etc/php5/mods-available</p>
-
-<p>把将要启用的模块的配置文件做一个软连接到
-/etc/php5/apache2/conf.d  (LAMP/LNAMP) <br/>
-/etc/php5/fpm/conf.d (LNMP )</p>
-
-<p>通常情况系统会帮我们做好软连接.</p>
-
-<p>redis的应用场景：
-1. 用户访问量
-2. 用户活跃度，每日的访问量 setbit
-3. 存储Session</p>
-
-<p>提供内存缓存
-数据结构</p>
-
-<p>postgress 做集群和横向扩容的时候比较麻烦</p>
-
-<p>用redis的hash和list做索引，用mysql做数据存储
-自建索引（hash list）</p>
-
-<p>用list记录用户访问页面，堆栈</p>
-
-<p>首页做缓存，放到redis里面</p>
-
-<h2>redis高级数据结构 bitmaps 和 HyperLogLogs</h2>
-
-<p>php单进程的
-请求结束后，进程回收。
-只能够保证每次请求连接一次redis</p>
-
-<h2>新的数据结构</h2>
-
-<p>bitmaps,
-HyperLogLogs: 占用少量内容，</p>
-
-<p>计算内存消耗，计算CPU消耗</p>
-
-<p><strong>性能和开销</strong></p>
-
-<p>一天人均15次，每天100万用户访问。
-每次用户访问都写入日志。
-用户的每一次会话都产生一次id</p>
-
-<p>目标：搭建每日访问100万用户的网站架构。</p>
-
-<p>Redis的Pub/Sub</p>
-
-<h3>redis3.0</h3>
-
-<p>系统必须装有gcc</p>
-
-<p>redis 3.0安装
-wget <a href="http://download.redis.io/releases/redis-3.0.0.tar.gz">http://download.redis.io/releases/redis-3.0.0.tar.gz</a></p>
-
-<p>tar -zxvf redis-3.0.0.tar.gz
-cd redis-3.0.0
-make
-make install</p>
-
-<p>编译好的文件默认在src目录中</p>
-
-<h1>Todo</h1>
-
-<p>写一个phpredis的类，有以下要求：
-1. 单例模式，只实例化一次Redis
-2. 封装connect, auth, 选择哪个库</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[搭建自己的PHP开发框架]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/17/buid-your-own-php-framework/"/>
-    <updated>2015-08-17T17:24:04+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/17/buid-your-own-php-framework</id>
-    <content type="html"><![CDATA[<h1>前言</h1>
-
-<p>想要搭建一个自己的PHP框架，需要哪些功能呢？</p>
-
-<ul>
-<li>单一入口</li>
-<li>类的自动加载</li>
-<li>MVC</li>
-<li>易于配置</li>
-<li>有电子商务相关的接口：购物车，订单，支付</li>
-</ul>
-
-
-<h1>如何实现</h1>
-
-<h3>单一入口</h3>
-
-<p>nginx配置</p>
-
-<pre><code>location / {
-    try_files $uri $uri/ /index.php?/$uri;
-}
-</code></pre>
-
-<ol>
-<li>将uri全部定向到index.php</li>
-<li>在入口文件，实现路由分发，实化例Ccontroller类，然后调用方法。</li>
-</ol>
-
-
-<h3>类的自动加载</h3>
-
-<ol>
-<li>维护命名空间与绝对路径的映射</li>
-<li>使用spl_autoload_register注册函数，当调用不存在的类时，自动加载。</li>
-</ol>
-
-
-<h3>MVC</h3>
-
-<ol>
-<li>每个Controller继承一个Controoler，在这个类中实现存储数据和include模板文件</li>
-<li>用工厂模式和注册树模式来实例化对应的Model类</li>
-</ol>
-
-
-<h3>易于配置</h3>
-
-<ol>
-<li>定义Config类实现\ArrayAccess， 然后加载config目录下的所有文件。也是用注册树和工厂模式。</li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Composer自动加载的原理]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/17/composer-autoload/"/>
-    <updated>2015-08-17T15:29:35+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/17/composer-autoload</id>
-    <content type="html"><![CDATA[<h1>前言</h1>
-
-<p>当PHP引擎试图实例化未知类的操作时，就会调用<strong>autoload(),并将类名当做字符串传递给它。但</strong>autoload()有个缺点，就是 一个进程中只能定义一次。这是就可以使用spl_autoload_register()函数。它可以把函数注册到__autoload队列中. 现在我们来看看composer是如何实现自动加载的。</p>
-
-<p>composer.json 文件</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="nt">&quot;autoload&quot;</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nt">&quot;classmap&quot;</span> <span class="p">:</span> <span class="p">[</span>
-</span><span class='line'>            <span class="s2">&quot;app/controllers&quot;</span><span class="p">,</span>
-</span><span class='line'>            <span class="s2">&quot;app/models&quot;</span>
-</span><span class='line'>        <span class="p">]</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>当我们composer dump-autoload的时候，文件/vendor/composer/autoload_clasmap.php会把类名和绝对地址做个想射。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$vendorDir</span> <span class="o">=</span> <span class="nb">dirname</span><span class="p">(</span><span class="nb">dirname</span><span class="p">(</span><span class="k">__FILE__</span><span class="p">));</span>
-</span><span class='line'><span class="nv">$baseDir</span> <span class="o">=</span> <span class="nb">dirname</span><span class="p">(</span><span class="nv">$vendorDir</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>    <span class="s1">&#39;Article&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/models/Article.php&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s1">&#39;BaseController&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/controllers/BaseController.php&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s1">&#39;HomeController&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/controllers/HomeController.php&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>首页index.php调用composer的autoload文件</p>
-
-<pre><code>require '../vendor/autoload.php';
-</code></pre>
-
-<p>会调用ComposerAutoloaderInit类的静态方法getLoader(）</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class='line'><span class="k">require_once</span> <span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/composer&#39;</span> <span class="o">.</span> <span class="s1">&#39;/autoload_real.php&#39;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">return</span> <span class="nx">ComposerAutoloaderInita488c85ce5c077906f9c1829b6492f6b</span><span class="o">::</span><span class="na">getLoader</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>verdor/composer/目录下有四个配置文件：</p>
-
-<ul>
-<li>autoload_classmap.php：  要加载的class映射</li>
-<li>autoload_files.php：     要加载的文件</li>
-<li>autoload_namespaces.php：    psr-0标准</li>
-<li>psr4.php：                   psr-4标准</li>
-</ul>
-
-
-<p>getLoader(）这个方法会先把这些配置文件放到ClassLoader的私有属性中。</p>
-
-<p>然后通过$loader->register(true);来调用spl_autoload_register()</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">register</span><span class="p">(</span><span class="nv">$prepend</span> <span class="o">=</span> <span class="k">false</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="nb">spl_autoload_register</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="s1">&#39;loadClass&#39;</span><span class="p">),</span> <span class="k">true</span><span class="p">,</span> <span class="nv">$prepend</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>spl_autoload_register()把loadClass()方法注册到了autoload队列中,然后当PHP引擎试图实例化未知类的操作时，就会根据类名和命名空间加载这个类文件。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">loadClass</span><span class="p">(</span><span class="nv">$class</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$file</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">findFile</span><span class="p">(</span><span class="nv">$class</span><span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">includeFile</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>psr-0 与psr - 4 的不同</h1>
-
-<ol>
-<li>PSR-4中，在类名中使用下划线没有任何特殊含义。而PSR-0则规定类名中的下划线_会被转化成目录分隔符。</li>
-<li>composer的PSR-4带来更简洁的文件结构。</li>
-<li>参考：<a href="http://segmentfault.com/a/1190000000380008">PSR-4——新鲜出炉的PHP规范</a></li>
-</ol>
-
-
-<p>总结：
-1. 命名空间前缀对应相应的文件夹
-2. 类名和文件名相同，文件后缀为PHP</p>
-
-<h3>psr-4</h3>
-
-<pre><code>{
-    "psr-4" : {
-       "Foo\\": "src/"
-    },
-}
-</code></pre>
-
-<p>按照PSR-4的规则，当试图自动加载 &ldquo;Foo\Bar\Baz&rdquo; 这个class时，会去寻找 &ldquo;src/Bar/Baz.php&rdquo; 这个文件，如果它存在则进行加载。</p>
-
-<h3>prs-0</h3>
-
-<pre><code>{
-    "psr-0" : {
-       "Foo\\": "src/",
-    },
-}
-</code></pre>
-
-<p>PSR-0有此配置，那么会去寻找 &ldquo;src/Foo/Bar/Baz.php&rdquo;</p>
-
-<p>PSR-0当试图自动加载 &ldquo;Foo\A_B&rdquo; 这个class时，会去寻找 &ldquo;src/Foo/A/B.php&rdquo; 这个文件.</p>
-
-<p>参考链接<a href="http://www.tuicool.com/articles/mARrMj6">http://www.tuicool.com/articles/mARrMj6</a></p>
-
-<h3>classmap</h3>
-
-<pre><code>{
-    "autoload": {
-            "classmap": [
-                "database"
-            ],
-    }
-}
-</code></pre>
-
-<p>classmap 做的是类名和文件所在位置的映射</p>
 ]]></content>
   </entry>
   

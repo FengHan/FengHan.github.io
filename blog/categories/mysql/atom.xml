@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Mysql | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/mysql/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-09-09T18:58:36+08:00</updated>
+  <updated>2015-10-16T08:25:18+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -12,6 +12,307 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL存储引擎]]></title>
+    <link href="http://fenghan.github.io/blog/2015/09/16/mysql-storage-engine/"/>
+    <updated>2015-09-16T20:01:29+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/09/16/mysql-storage-engine</id>
+    <content type="html"><![CDATA[<h3>什么是MySQL存储引擎</h3>
+
+<p>服务层 - 存储引擎 - 文件系统层</p>
+
+<p>MySQL5.5 以后默认为InnoDB,推荐。</p>
+
+<p>Memory存储引擎，临时表</p>
+
+<h4>MyISAM</h4>
+
+<ul>
+<li>堆表（插入性能好）</li>
+<li>不支持事务</li>
+<li>只维护索引缓存池，表数据缓存交给操作系统（表若很大，浪费内存）</li>
+<li>锁粒度较大（表级锁，读写锁，读的时候不允许写，写的时候不允许读）</li>
+<li>数据文件可以直接拷贝，备份数据用得上</li>
+</ul>
+
+
+<p>不推荐的原因：1. 不支持事务 2. 锁的颗粒度比较大 3. 表数据缓存交给操作系统，表若很大，浪费内存</p>
+
+<h4>TokuDB</h4>
+
+<p>社区版备份比较麻烦</p>
+
+<h4>MySQL Cluster</h4>
+
+<ul>
+<li>多主分布式集群</li>
+<li>数据节点间冗余，高可用</li>
+<li>支持事务</li>
+<li>设计上易于扩展</li>
+<li>面向未来，线上慎用</li>
+</ul>
+
+
+<h4>InnoDB</h4>
+
+<ul>
+<li>缓存池 +　各种后台线程　＋ 数据文件</li>
+</ul>
+
+
+<p>事务ACID:</p>
+
+<ul>
+<li>回滚段失败回滚（A）</li>
+<li>支持主外键（C）</li>
+<li>事务版本 + 回滚段 = MVCC(I)</li>
+<li>事务日志持久化（D）</li>
+</ul>
+
+
+<p>行级别锁：</p>
+
+<ul>
+<li>写不阻塞读</li>
+<li>不同行间的写相互不阻塞</li>
+<li>并发性能好</li>
+<li>锁是加在索引上的</li>
+</ul>
+
+
+<p>InnoDB数据块缓存池</p>
+
+<ul>
+<li>数据的读写经过缓存</li>
+<li>IO效率高，性能好。</li>
+</ul>
+
+
+<p>InnoDB数据文件存储结构：</p>
+
+<ul>
+<li>根据主键寻址速度很快</li>
+<li>主键值递增的insert插入效率较好</li>
+<li>主键随机insert插入效率较好</li>
+<li><strong>因此，InnoDB表必须指定主键，建议使用自增数字</strong></li>
+</ul>
+
+
+<p>数据持久化与事务日志</p>
+
+<ul>
+<li>事务日志实时持久化</li>
+</ul>
+
+
+<h3>介绍MySQL主要存储引擎的特点及试用场景</h3>
+
+<h3>Innodb存储引擎</h3>
+
+<pre><code>show global variables like "%increment%";
+
++-----------------------------+-------+
+| Variable_name               | Value |
++-----------------------------+-------+
+| auto_increment_increment    | 1     |
+| auto_increment_offset       | 1     |
+| div_precision_increment     | 4     |
+| innodb_autoextend_increment | 64    |
++-----------------------------+-------+
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL数据库对象与应用]]></title>
+    <link href="http://fenghan.github.io/blog/2015/09/14/mysql-db-object/"/>
+    <updated>2015-09-14T11:16:22+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/09/14/mysql-db-object</id>
+    <content type="html"><![CDATA[<h1>MySQL数据类型</h1>
+
+<h4>经验之谈</h4>
+
+<ul>
+<li>存储性别、省份、类型等分类信息时，选择TINYINT或者ENUM</li>
+<li>BIGINT存储空间更大，INT和BIGINT之间通常选择BIGINT</li>
+<li>交易等高精度数据时选择使用DECIMAL</li>
+</ul>
+
+
+<h1>MySQL数据对象</h1>
+
+<p>help create index</p>
+
+<h1>MySQL权限管理</h1>
+
+<ul>
+<li><p>Data Privileges</p>
+
+<pre><code>  DATA: SELECT, INSERT, UPDATE, DELETE
+</code></pre></li>
+<li>Define</li>
+<li>Administrator Privileges
+
+<ul>
+<li>Shutdown Database</li>
+<li>Replication</li>
+</ul>
+</li>
+</ul>
+
+
+<p>创建一个用户并赋权：</p>
+
+<ul>
+<li>使用原生的SQL</li>
+<li>更改数据库记录</li>
+<li>更简单的方法
+
+<h4>查看用户权限</h4>
+
+show grants;
+
+<h4>如何更改用户的权限</h4></li>
+</ul>
+
+
+<h4>如何更改用户的密码</h4>
+
+<h4>删除用户</h4>
+
+<h4>With Grant Option</h4>
+
+<h4>与权限相关的表</h4>
+
+<ul>
+<li>user</li>
+<li>db</li>
+<li>tables_priv</li>
+<li>clomuns_priv
+
+<h5>Mysql 权限验证的过程</h5></li>
+</ul>
+
+
+<h4>MySQL权限上有哪些问题</h4>
+
+<ul>
+<li>默认的test库不受权限控制，存在安全风险</li>
+<li>mysql_secure_installation</li>
+</ul>
+
+
+<h4>小结</h4>
+
+<ul>
+<li>权限相关的操作不要直接操作表，统一使用MySQL命令</li>
+<li>使用二进制安装MySQL后，需要重置管理用户（root）的密码</li>
+<li>线上数据库不要留test库</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL索引]]></title>
+    <link href="http://fenghan.github.io/blog/2015/09/10/mysql-index/"/>
+    <updated>2015-09-10T10:07:51+08:00</updated>
+    <id>http://fenghan.github.io/blog/2015/09/10/mysql-index</id>
+    <content type="html"><![CDATA[<h4>什么是索引</h4>
+
+<p>索引是值到行位置的映射。索引就是一个目录。</p>
+
+<h4>索引的作用：</h4>
+
+<ul>
+<li>提高访问的速度。硬盘IO每秒100到150次的响应。每次10毫秒</li>
+<li>实现主键、唯一键逻辑</li>
+</ul>
+
+
+<p>IO是个宝贵的资源，</p>
+
+<h4>索引的使用场景：</h4>
+
+<p>FTS 全表索引</p>
+
+<h4>Mysql中我们可以使用的索引类型：</h4>
+
+<ul>
+<li>Btree索引：</li>
+<li>B+tree： 平衡二叉树的一种改良</li>
+<li>Hash索引 InnoDB</li>
+<li>Innodb ： 聚簇索引，</li>
+<li>二级索引： 除了主键，用户创建的索引。</li>
+</ul>
+
+
+<h4>索引的代价：</h4>
+
+<p>插入修改删除每个索引都编程一个内部事务，索引越多，事务越长。(增删改)</p>
+
+<h4>索引的优势:</h4>
+
+<ol>
+<li>减少查询IO</li>
+<li>优化等值查询、范围查询</li>
+<li><p>利用有序特性</p>
+
+<p> order by , group byh , distinct, max ,min</p></li>
+</ol>
+
+
+<h4>如何用好索引：</h4>
+
+<ul>
+<li><p>依据where查询条件来建立索引：</p>
+
+<pre><code>  select a,b from tab_a where c = ?;  #c上建立索引
+</code></pre></li>
+<li><p>使用联合索引，而不是多个单列索引。</p>
+
+<pre><code>  select * from tab_a where a = ? AND b = ? 
+  #建立a和b的索引， 把一组值作为b+tree 的索引， 在同一个树里，查询速度更高。
+</code></pre></li>
+<li><p>联合索引， 区分度大的放在前面。</p>
+
+<pre><code>  name,gender 对， 因为name的区分度很大。能够更好地使用b+ TREE来定位节点
+
+  gender,name 错
+</code></pre></li>
+<li><p>联合索引能为前缀单列，复列查询提供帮助。</p>
+
+<pre><code>  where a = ? 
+  wherer a = ? AND b =? 
+</code></pre></li>
+<li><p>合理创建联合索引，避免冗余。
+      abc 包含 a ,ab</p></li>
+<li><p>ORDER BY, GROUP BY, DISTINCT 字段添加索引</p></li>
+<li><p>用 EXPLAIN 查看语句</p>
+
+<pre><code>  possible_key 可以使用的索引
+  key 实际的索引名字  重要
+  rows  读的记录行数，才返回的结果 重要。
+  typpe   index  扫描完整的索引树， 重要   
+  key_len 如果只使用了一部分，为长度。  
+  force index  强制使用索引 
+  ignore index 
+</code></pre>
+
+<h4>其他技巧</h4></li>
+<li><p>一个表，控制百万级别。如何达到了一两百G，就可以考虑分库分表了。千万级别，取决于访问方式，left join</p></li>
+<li><p>WHERE查询时，  函数不要加在字段上。timestamp > func(1234)。</p></li>
+<li><p>外键一般用程序使用。</p></li>
+<li><p>什么事优化器： 哪个索引会更快，IO更小。生发语法数，生成一个计划。</p></li>
+<li><p>纵向分表，根据业务来拆分。</p></li>
+<li><p>等值查询 ，2个范围查询， 不能都覆盖到。联合查询。等值能用一个，范围查询也只能用一个。</p></li>
+<li><p>通过表结构设计来避免连表。</p></li>
+<li><p>触发器和存储过程不好维护，做运维手段还可以。</p></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MySQL Foundation]]></title>
@@ -453,56 +754,6 @@ flush privileges;
 <p><a href="https://github.com/hildalove/tiny/blob/master/Tiny/Service/Factory.php">获取数据库实例</a></p>
 
 <p><a href="https://github.com/hildalove/tiny/blob/master/App/Controller/Mysql.php">控制器</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MySQL数据库管理]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/23/mysql-study/"/>
-    <updated>2015-07-23T17:26:01+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/23/mysql-study</id>
-    <content type="html"><![CDATA[<h3>MySQL权限</h3>
-
-<pre><code>mysql&gt; grant all privileges on laravel5.* to laravel@localhost identified by 'secret' with grant option;
-flush privileges;
-</code></pre>
-
-<ul>
-<li>用户名：laravel</li>
-<li>密码： secret</li>
-<li>授权：数据库laravel5的所有表的所有权限</li>
-</ul>
-
-
-<p>创建用户</p>
-
-<pre><code>grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
-grant select on jikedb.* to webuser@localhost identified by '123';
-</code></pre>
-
-<p>刷新权限</p>
-
-<pre><code>flush privileges;
-</code></pre>
-
-<p>回收权限</p>
-
-<pre><code>revoke select on jikedb.* from webuser@localhost;
-</code></pre>
-
-<p>删除用户</p>
-
-<pre><code>drop user webuser@localhost;
-</code></pre>
-
-<p>查看用户权限</p>
-
-<pre><code>show grants for root@localhost;
-</code></pre>
-
-<h3>参考链接</h3>
-
-<p><a href="http://blog.csdn.net/wengyupeng/article/details/3290415">分配权限</a></p>
 ]]></content>
   </entry>
   
