@@ -9,10 +9,8 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="网易云课堂-大数据简介 大数据的定义 大数据可以定义为一个巨大的数据集，
-在可接受的时间范围内，它可以用来获取、存储、搜索、转换、分析以及可视化相关的信息或数据。 大数据的三个特性 Volume 容量巨大
-Velocity 产生速度快 处理速度快
-Variety 种类繁多 例子： &hellip;">
+  <meta name="description" content="前言 今天和一位搞运维研发的同学聊天，问如何解决300万条订单数据的分析。 答：看性能瓶颈在哪里，读慢加缓存，写慢加队列 可以研究一下内容：hadoop、spark、分布式数据库hbase，其中Spark利用内存计算会快些。
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,6 +83,41 @@ var _hmt = _hmt || [];
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/08/30/performance-bottleneck/">性能瓶颈</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-30T00:10:51+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:10 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>前言</h1>
+
+<p>今天和一位搞运维研发的同学聊天，问如何解决300万条订单数据的分析。</p>
+
+<p>答：看性能瓶颈在哪里，<strong>读慢加缓存，写慢加队列</strong></p>
+
+<p>可以研究一下内容：hadoop、spark、分布式数据库hbase，其中Spark利用内存计算会快些。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/08/29/big-data-intro/">大数据简介</a></h1>
     
     
@@ -141,105 +174,6 @@ var _hmt = _hmt || [];
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-29T12:33:45+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:33 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>前言</h1>
-
-<p>今天看到朋友圈里关于<a href="www.teambition.com">teambition</a>团队协作工具的介绍。</p>
-
-<p>由此联想到了以前公司的SCRUM敏捷式开发。这里整理一下敏捷式团队开发的一些思绪。</p>
-
-<h1>SCRUM</h1>
-
-<p><img src="http://images.cnblogs.com/cnblogs_com/taven/201010/2010-10-17_202832.png" alt="" /></p>
-
-<p>就如上图(图片为网络搜寻)所看到的，一个超大的白板上规矩的排满了各种纸条。每个纸条上写着各种任务。如果谁对这个任务感兴趣，就在这个纸条上写上自己的名字。为了便于说明，我假设了一个场景进行阐述。</p>
-
-<h4>周一上午</h4>
-
-<p>IT经理已经和总经理进行了讨论。IT 经理说：</p>
-
-<ol>
-<li><p>上周，市场部门已经提前跟我说过，国庆节来了，我们是一个电商网站，要做出一些活动，所以们这周会给3个月内未购买过产品的用户发电子邮件。这个任务包含了前端HTML和后端PHP的一些逻辑。</p></li>
-<li><p>我们的网站要有一个法语的版本，所以我们在接下来的这两个星期会考虑我们的数据库设计。</p></li>
-</ol>
-
-
-<p>&hellip;（省略若干任务）</p>
-
-<h4>周一下午</h4>
-
-<p>IT部门的10个人聚集在会议室。打算做两件事情：</p>
-
-<ol>
-<li><p>讨论上周的任务完成情况，当然在一般的情况下，这些任务是都完成了的。Review一下成果。</p></li>
-<li><p>讨论IT经理上午和总经理谈得任务，把每条任务进行逐行分解。并把任务平均分配到2个team上。接下来把任务打印出来。贴到白板上。正如上图所见，左面第一列的每一个方格子内是一系列相关的任务，这是打算是打算要这两个星期要做的事情。</p></li>
-</ol>
-
-
-<h3>周二上午10点</h3>
-
-<p>每天上午，IT部门的10个人站在这块白班前面，把自己今天打算要做的任务纸条上写下自己的名字，然后挪动到中间的格子里。叙说一下我对这个任务的看法，打算怎么做，预估多长时间能够昨晚。</p>
-
-<h3>周三上午</h3>
-
-<p>每天早上10点，IT部的人都会站在这块白板前面，对写下名字的任务叙说3件事情：</p>
-
-<ol>
-<li>我昨天做了什么</li>
-<li>我遇到了哪些困难</li>
-<li>我今天打算做些什么</li>
-</ol>
-
-
-<h3>周四上午</h3>
-
-<p>这里叙说一下为什么站在白板前面，而不是坐在会议室里，因为这样站着效率跟高效，10分钟就能够讨论结束。其实每天早上的这个会议叫做Sprint会议。</p>
-
-<p>今天有人已经完成了任务，他会把任务纸条放在最右边的那栏里，表示任务已经完成。</p>
-
-<h2>总结：</h2>
-
-<p>OK, 这就是我执行了2年的SCRUM敏捷式开发的流程。我是一个执行者的流程来看待这件事件。它的优点：</p>
-
-<ol>
-<li>任务清楚，明确，一切围绕着目标。</li>
-<li>中途加入的临时任务如果不是特别紧急、重要会安排到下周。</li>
-</ol>
-
-
-<p>缺点：
-1. 每天时间满满的一个任务接着一个任务，时间久了会有些疲惫。</p>
-
-<p>每一段工作任务都会会学到很多东西，把它记录下来，总结下来，为下一家公司发光发热。</p>
-
-<p>这有一个网上的SCRUM可以看看<a href="http://home.leangoo.com/">leangoo</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/8">&larr; Older</a>
@@ -255,6 +189,10 @@ var _hmt = _hmt || [];
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
@@ -290,10 +228,6 @@ var _hmt = _hmt || [];
     
       <li class="post">
         <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
       </li>
     
   </ul>

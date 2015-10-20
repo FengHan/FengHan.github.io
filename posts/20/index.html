@@ -9,7 +9,10 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="成为一名PHP开发者要学习哪些内容？ 活到老，学到老，作为开发者，要不断地学习，那应该怎样学习呢？ ">
+  <meta name="description" content="sudo apt-get update
+sudo apt-get install openssh-server
+sudo ps -e |grep ssh #没有启动，输入
+service ssh start vi /etc/ssh/sshd_config 把配置文件中的" &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +85,45 @@ var _hmt = _hmt || [];
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/27/ssh-server/">Ubuntu 14.04远程登录服务器--ssh的安装和配置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-27T15:22:47+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:22 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><pre><code>sudo apt-get update
+sudo apt-get install openssh-server
+sudo ps -e |grep ssh
+
+#没有启动，输入
+service ssh start
+</code></pre>
+
+<p>vi /etc/ssh/sshd_config</p>
+
+<p>把配置文件中的"PermitRootLogin without-password"加一个"#&ldquo;号,把它注释掉&ndash;>再增加一句"PermitRootLogin yes&rdquo;&ndash;>保存，修改成功。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/26/learn-php/">PHP开发工程师</a></h1>
     
     
@@ -112,59 +154,6 @@ var _hmt = _hmt || [];
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/26/composer/">Composer</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-26T19:45:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:45 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.phpcomposer.com/composer-the-new-age-of-dependency-manager-for-php/">参考链接</a></p>
-
-<p>全局安装：</p>
-
-<pre><code>$ curl -sS https://getcomposer.org/installer | php
-$ mv composer.phar /usr/local/bin/composer
-</code></pre>
-
-<p>Composer 中国镜像</p>
-
-<p>采用</p>
-
-<p> <a href="http://pkg.phpcomposer.com/">composer 的全局配置文件</a></p>
-
-<h2>Windows上安装</h2>
-
-<p><a href="https://getcomposer.org/doc/00-intro.md#installation-windows">https://getcomposer.org/doc/00-intro.md#installation-windows</a></p>
-
-<p>遇到的坑： php.ini 要把php_openssl打开。</p>
-
-<h2>简单实用</h2>
-
-<pre><code>composer require phpspec/phpspec
-composer create-project laravel/laravel learning-laravel-5
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/21">&larr; Older</a>
@@ -180,6 +169,10 @@ composer create-project laravel/laravel learning-laravel-5
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
@@ -215,10 +208,6 @@ composer create-project laravel/laravel learning-laravel-5
     
       <li class="post">
         <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
       </li>
     
   </ul>

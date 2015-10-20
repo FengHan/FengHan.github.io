@@ -9,8 +9,14 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="今天免费申请了腾讯云主机的免费试用15天。
-50元的代金券买了两台数据库，并使用了负载均衡。 记录主要操作如下： 修改 /etc/hostname 和 /etc/hosts 配置openssh-server 安装nginx php5-fpm php5-mysql php5-cli &hellip;">
+  <meta name="description" content="运算符: 自增、自减运算符
+进制： 各种进制转换、原码、反码、补码
+数组： 一维数组、二维数组、多维数组
+循环： 多重循环的嵌套、排序、查找
+函数：递归函数、递归调用
+指针：一级指针、多级指针、指针和数组、函数、结构体之间的关系
+内存管理： C语言内存管理问题、内存泄露、野指针
+有参宏及条件编译 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +89,46 @@ var _hmt = _hmt || [];
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/29/c-difficult/">C语言学习中的难重点</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-29T23:18:44+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:18 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ol>
+<li>运算符: 自增、自减运算符</li>
+<li>进制： 各种进制转换、原码、反码、补码</li>
+<li>数组： 一维数组、二维数组、多维数组</li>
+<li>循环： 多重循环的嵌套、排序、查找</li>
+<li>函数：递归函数、递归调用</li>
+<li>指针：一级指针、多级指针、指针和数组、函数、结构体之间的关系</li>
+<li>内存管理： C语言内存管理问题、内存泄露、野指针</li>
+<li>有参宏及条件编译</li>
+<li>多文件开发： 多文件编译、多文件开发</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/27/qcloud/">腾讯云主机免费试用</a></h1>
     
     
@@ -126,45 +172,6 @@ var _hmt = _hmt || [];
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/27/ssh-server/">Ubuntu 14.04远程登录服务器--ssh的安装和配置</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-27T15:22:47+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:22 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><pre><code>sudo apt-get update
-sudo apt-get install openssh-server
-sudo ps -e |grep ssh
-
-#没有启动，输入
-service ssh start
-</code></pre>
-
-<p>vi /etc/ssh/sshd_config</p>
-
-<p>把配置文件中的"PermitRootLogin without-password"加一个"#&ldquo;号,把它注释掉&ndash;>再增加一句"PermitRootLogin yes&rdquo;&ndash;>保存，修改成功。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/20">&larr; Older</a>
@@ -180,6 +187,10 @@ service ssh start
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
@@ -215,10 +226,6 @@ service ssh start
     
       <li class="post">
         <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
       </li>
     
   </ul>

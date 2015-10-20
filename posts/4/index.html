@@ -9,13 +9,9 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="认识MySQL 关系与非关系型数据库 关系型数据库 mysql
-oracle
-sql server
-postgresql 非关系型数据库 hadoop
-mongoDB
-redis
-Cassandra 区别： 是否使用SQL语句作为数据操作的方法和方式。 所以关系型数据库又叫做SQL数据库。 &hellip;">
+  <meta name="description" content="什么是索引 索引是值到行位置的映射。索引就是一个目录。 索引的作用： 提高访问的速度。硬盘IO每秒100到150次的响应。每次10毫秒
+实现主键、唯一键逻辑 IO是个宝贵的资源， 索引的使用场景： FTS 全表索引 Mysql中我们可以使用的索引类型： Btree索引：
+B+tree： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +78,126 @@ var _hmt = _hmt || [];
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/09/10/mysql-index/">MySQL索引</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-10T10:07:51+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>什么是索引</h4>
+
+<p>索引是值到行位置的映射。索引就是一个目录。</p>
+
+<h4>索引的作用：</h4>
+
+<ul>
+<li>提高访问的速度。硬盘IO每秒100到150次的响应。每次10毫秒</li>
+<li>实现主键、唯一键逻辑</li>
+</ul>
+
+
+<p>IO是个宝贵的资源，</p>
+
+<h4>索引的使用场景：</h4>
+
+<p>FTS 全表索引</p>
+
+<h4>Mysql中我们可以使用的索引类型：</h4>
+
+<ul>
+<li>Btree索引：</li>
+<li>B+tree： 平衡二叉树的一种改良</li>
+<li>Hash索引 InnoDB</li>
+<li>Innodb ： 聚簇索引，</li>
+<li>二级索引： 除了主键，用户创建的索引。</li>
+</ul>
+
+
+<h4>索引的代价：</h4>
+
+<p>插入修改删除每个索引都编程一个内部事务，索引越多，事务越长。(增删改)</p>
+
+<h4>索引的优势:</h4>
+
+<ol>
+<li>减少查询IO</li>
+<li>优化等值查询、范围查询</li>
+<li><p>利用有序特性</p>
+
+<p> order by , group byh , distinct, max ,min</p></li>
+</ol>
+
+
+<h4>如何用好索引：</h4>
+
+<ul>
+<li><p>依据where查询条件来建立索引：</p>
+
+<pre><code>  select a,b from tab_a where c = ?;  #c上建立索引
+</code></pre></li>
+<li><p>使用联合索引，而不是多个单列索引。</p>
+
+<pre><code>  select * from tab_a where a = ? AND b = ? 
+  #建立a和b的索引， 把一组值作为b+tree 的索引， 在同一个树里，查询速度更高。
+</code></pre></li>
+<li><p>联合索引， 区分度大的放在前面。</p>
+
+<pre><code>  name,gender 对， 因为name的区分度很大。能够更好地使用b+ TREE来定位节点
+
+  gender,name 错
+</code></pre></li>
+<li><p>联合索引能为前缀单列，复列查询提供帮助。</p>
+
+<pre><code>  where a = ? 
+  wherer a = ? AND b =? 
+</code></pre></li>
+<li><p>合理创建联合索引，避免冗余。
+      abc 包含 a ,ab</p></li>
+<li><p>ORDER BY, GROUP BY, DISTINCT 字段添加索引</p></li>
+<li><p>用 EXPLAIN 查看语句</p>
+
+<pre><code>  possible_key 可以使用的索引
+  key 实际的索引名字  重要
+  rows  读的记录行数，才返回的结果 重要。
+  typpe   index  扫描完整的索引树， 重要   
+  key_len 如果只使用了一部分，为长度。  
+  force index  强制使用索引 
+  ignore index 
+</code></pre>
+
+<h4>其他技巧</h4></li>
+<li><p>一个表，控制百万级别。如何达到了一两百G，就可以考虑分库分表了。千万级别，取决于访问方式，left join</p></li>
+<li><p>WHERE查询时，  函数不要加在字段上。timestamp > func(1234)。</p></li>
+<li><p>外键一般用程序使用。</p></li>
+<li><p>什么事优化器： 哪个索引会更快，IO更小。生发语法数，生成一个计划。</p></li>
+<li><p>纵向分表，根据业务来拆分。</p></li>
+<li><p>等值查询 ，2个范围查询， 不能都覆盖到。联合查询。等值能用一个，范围查询也只能用一个。</p></li>
+<li><p>通过表结构设计来避免连表。</p></li>
+<li><p>触发器和存储过程不好维护，做运维手段还可以。</p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -422,120 +538,6 @@ mysql要做的：</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-09-09T11:09:29+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:09 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>前言</h1>
-
-<p>Laravel 5 的很多新功能是来自 Jeffrey Way的 idea,</p>
-
-<p>如: Form Requests, Laravel Elixir, Command bus etc..</p>
-
-<p>所以, 他的这套视频就很有观看的必要
- <a href="https://laracasts.com/series/laravel-5-fundamentals">https://laracasts.com/series/laravel-5-fundamentals</a></p>
-
-<p>现已看完，做下记录</p>
-
-<h2>Laravel5 Foundation</h2>
-
-<h4>需求分析：</h4>
-
-<ol>
-<li>Article模块
-
-<ul>
-<li>Articles List</li>
-<li>Create Article :title , body, published_at, tag</li>
-<li>Edit Article</li>
-</ul>
-</li>
-<li>用户登录模块</li>
-</ol>
-
-
-<h4>细节：</h4>
-
-<ol>
-<li>Create Article的输入内容，要进行validate，使用Request进行验证。</li>
-<li>Create Article成功时，用Flash Message提示。</li>
-</ol>
-
-
-<h4>学习的内容</h4>
-
-<ul>
-<li>Composer 的安装与使用</li>
-<li>Virtual Box, Vagrant, Homestead安装与使用</li>
-<li>Route 路由的使用</li>
-<li>Blade  模板文件</li>
-<li>.env 开发环境的设置</li>
-<li>migration 创建和修改数据库的结构</li>
-<li>MVC在Laravel中的工作流</li>
-<li>Form表单</li>
-<li>Model 中的 Dates : Carbon\Carbon</li>
-<li>Model 中的 Scopes : 封装判断条件（例如： article是否发布）</li>
-<li>Model 中的 set Attributes : 插入记录时，自动插入（例如时间）</li>
-<li>View Partials 视图文件的局部选软</li>
-<li>Eloquent  这个很强大，但感觉复杂查询会很麻烦，// todo 继续深入学习</li>
-<li>Auth  Laravel5.0 提供了简单的注册、登录和找回密码</li>
-<li>Middleware （用处：例如验证是否用户登录）</li>
-<li>Many to Many Relation (A article has many tags, and a tag has many articles.)</li>
-<li>Tag 选择地时候用了Select2插件</li>
-<li>View Partial Always Receive Data (例如首页导航条)</li>
-<li>Service Container (又叫 Ioc Container,是Laravel框架的核心所在)</li>
-</ul>
-
-
-<h3>用到的第三方包</h3>
-
-<pre><code>{
-    “require” : {
-        "barryvdh/laravel-ide-helper": "^2.1",
-        "illuminate/html": "^5.0",
-        "laracasts/flash": "~1.3",
-    }
-}
-</code></pre>
-
-<ul>
-<li>barryvdh/laravel-ide-helper  用来提示Laravel的Facade</li>
-<li>illuminate/html Html Form封装了form表单</li>
-<li>laracasts/flash Jeffrey Way写的 flash message</li>
-</ul>
-
-
-<p>以上文件放在composer.json中，第二步是在config/app.php配置 provider 和 alias.</p>
-
-<h3>经常用到的命令</h3>
-
-<pre><code>php artisan make:controller --plain
-php artisan dump-autoload 
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/5">&larr; Older</a>
@@ -551,6 +553,10 @@ php artisan dump-autoload
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
@@ -586,10 +592,6 @@ php artisan dump-autoload
     
       <li class="post">
         <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
       </li>
     
   </ul>

@@ -9,7 +9,9 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 PHP 作为一种广泛用于 Web 服务器端的脚本语言，在敏捷 Web 开发方面有独特的优势，成功案例多、社区活跃、资源丰富，框架也非常多。ThinkPHP 作为一款起步较早、相对成熟的国产 PHP 框架，在国内有相当的用户量，借这个机会向大家介绍 ThinkPHP 基础知识， &hellip;">
+  <meta name="description" content="MySQL权限 mysql&gt; grant all privileges on laravel5.* to laravel@localhost identified by 'secret' with grant option;
+flush privileges; 用户名：laravel
+密码 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +84,76 @@ var _hmt = _hmt || [];
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/07/23/mysql-study/">MySQL数据库管理</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-23T17:26:01+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>5:26 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>MySQL权限</h3>
+
+<pre><code>mysql&gt; grant all privileges on laravel5.* to laravel@localhost identified by 'secret' with grant option;
+flush privileges;
+</code></pre>
+
+<ul>
+<li>用户名：laravel</li>
+<li>密码： secret</li>
+<li>授权：数据库laravel5的所有表的所有权限</li>
+</ul>
+
+
+<p>创建用户</p>
+
+<pre><code>grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
+grant select on jikedb.* to webuser@localhost identified by '123';
+</code></pre>
+
+<p>刷新权限</p>
+
+<pre><code>flush privileges;
+</code></pre>
+
+<p>回收权限</p>
+
+<pre><code>revoke select on jikedb.* from webuser@localhost;
+</code></pre>
+
+<p>删除用户</p>
+
+<pre><code>drop user webuser@localhost;
+</code></pre>
+
+<p>查看用户权限</p>
+
+<pre><code>show grants for root@localhost;
+</code></pre>
+
+<h3>参考链接</h3>
+
+<p><a href="http://blog.csdn.net/wengyupeng/article/details/3290415">分配权限</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/07/23/thinkphp/">Thinkphp</a></h1>
     
     
@@ -108,56 +180,6 @@ var _hmt = _hmt || [];
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-23T10:50:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:50 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>前言</h1>
-
-<p>MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做<a href="https://mariadb.org/">MariDB</a></p>
-
-<h1>安装</h1>
-
-<p>首先从 <a href="http://downloads.mariadb.org/mariadb/repositories/">MariaDB 下载页面</a> 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令</p>
-
-<pre><code>sudo apt-get install software-properties-common
-sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-sudo add-apt-repository 'deb http://mirrors.opencas.cn/mariadb/repo/5.5/ubuntu trusty main'
-</code></pre>
-
-<p>开始安装</p>
-
-<pre><code>sudo apt-get update
-sudo apt-get install mariadb-server
-</code></pre>
-
-<p>这样 MariaDB 5.5 就已经安装成功，你就可以像使用 MySQL 那样对它进行配置和使用了。</p>
-
-<p>使用mysql -h -uroot -p1234测试。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/24">&larr; Older</a>
@@ -173,6 +195,10 @@ sudo apt-get install mariadb-server
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
@@ -208,10 +234,6 @@ sudo apt-get install mariadb-server
     
       <li class="post">
         <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
       </li>
     
   </ul>

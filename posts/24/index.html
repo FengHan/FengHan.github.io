@@ -9,8 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 使用PHP做Web开发已有4年，4年间只有第二年是在Ubuntu下开发，其它都是在Windows下开发，但Win下开发有如下缺点： Windows 不区分大小写，在Win下OK, 上传到服务器上有了Bug。
-Windows 不能测试cron是否写得正确，执行php-cli麻烦 &hellip;">
+  <meta name="description" content="前言 MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做MariDB 安装 首先从 MariaDB 下载页面 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +76,56 @@ var _hmt = _hmt || [];
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-23T10:50:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:50 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>前言</h1>
+
+<p>MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做<a href="https://mariadb.org/">MariDB</a></p>
+
+<h1>安装</h1>
+
+<p>首先从 <a href="http://downloads.mariadb.org/mariadb/repositories/">MariaDB 下载页面</a> 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令</p>
+
+<pre><code>sudo apt-get install software-properties-common
+sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+sudo add-apt-repository 'deb http://mirrors.opencas.cn/mariadb/repo/5.5/ubuntu trusty main'
+</code></pre>
+
+<p>开始安装</p>
+
+<pre><code>sudo apt-get update
+sudo apt-get install mariadb-server
+</code></pre>
+
+<p>这样 MariaDB 5.5 就已经安装成功，你就可以像使用 MySQL 那样对它进行配置和使用了。</p>
+
+<p>使用mysql -h -uroot -p1234测试。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -245,288 +294,6 @@ sendfile off;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/21/docker-summary/">Docker小结</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-21T21:07:41+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:07 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>前言</h1>
-
-<p>这2天里，我了解Docker的初步使用, 并对本博客在<a href="http://www.daocloud.io">Daocloud</a>上的自动同步做了设置，<a href="http://hanfeng.daoapp.io">http://hanfeng.daoapp.io</a>, Daocloud正在搞活动，<a href="https://github.com/FengHan/fenghan.github.io/blob/master/Dockerfile">写Dockerfile</a>，生成镜像，部署Github代码，<a href="http://blog.daocloud.io/build-dockerfile-campaign/">免费送T-shirt！</a>。 本文主要记录两天所学，记录Docker的学习过程。</p>
-
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_Tshirt.jpg" alt="" /></p>
-
-<h1>构建镜像</h1>
-
-<p>构建镜像的目的：</p>
-
-<ul>
-<li>保存对容器的修改， 并在此使用</li>
-<li>自定义镜像的能力</li>
-<li>以软件的形式打包并分发服务器及其运行环境。</li>
-</ul>
-
-
-<p>构建镜像的两种方法：</p>
-
-<ol>
-<li><p>docker build 通过Dockfile文件构建</p></li>
-<li><p>docker commit 通过容器构建</p></li>
-</ol>
-
-
-<h3>Dockerfile的制作</h3>
-
-<p>对于开发人员来说，主要是使用Dockerfile来构建镜像，现在简单讲一下Dockerfile的语法</p>
-
-<pre><code>FROM &lt;image&gt; 已经存在的镜像（基础镜像）
-FROM &lt;image:tag&gt;
-</code></pre>
-
-<p>必须是第一条</p>
-
-<pre><code>MAINTAIER hanfeng "contact@hanfeng.name"
-</code></pre>
-
-<p>指定镜像所有者信息</p>
-
-<pre><code>RUN
-</code></pre>
-
-<p>指定当前镜像中运行得命令</p>
-
-<pre><code>RUN echo hello  (shell模式)
-
-RUN ["executable", "param1", "param2"] (exec模式)
-
-RUN["/bin/bash", "-c", "echo hello"]
-</code></pre>
-
-<p>每个RUN指令都会在当前的RUN指令上新创建一个镜像，是分层的。</p>
-
-<pre><code>EXPOSE &lt;port&gt;[&lt;port&gt;]
-EXPOSE 80
-EXPOSE 80:80
-EXPOSE 0.0.0.0:80:80
-</code></pre>
-
-<p>指定运行该镜像的容器使用的端口</p>
-
-<p>只是告诉容器应该打开哪个端口，Dokcer不会自动打开。还是需要启动的时候指定端口</p>
-
-<pre><code>CMD
-CMD["executable",'param1','['param2'](exec模式)
-</code></pre>
-
-<p>能够被Docker run 后面的命令覆盖掉</p>
-
-<pre><code>ENTRYPOINT
-ENTRYPOINT COMMAND P1 P1
-</code></pre>
-
-<p>不会被docker run覆盖</p>
-
-<p>容器运行时的指令</p>
-
-<pre><code>ADD
-</code></pre>
-
-<p>适用于文件路径中有空格的情况</p>
-
-<p>ADD 包含类似tar的解压功能</p>
-
-<p>如果单独复制文件，建议使用COpy</p>
-
-<pre><code>COPY
-
-VOLUME
-VOLUME["/data"]
-</code></pre>
-
-<p>镜像的目录和文件</p>
-
-<pre><code>WORKDIR
-WORKDIR /path/to/workdir
-WORKDIR 使用绝对路径
-
-ENV&lt;key&gt;&lt;value&gt;
-
-USER daemon
-USER nginx
-USER root:root
-</code></pre>
-
-<p>环境设置</p>
-
-<pre><code>ONBUILD
-</code></pre>
-
-<p>镜像触发器</p>
-
-<p>当一个镜像被其他镜像作为基础镜像时执行。</p>
-
-<p>会在构建过程中插入指令</p>
-
-<p>简单的例子：</p>
-
-<pre><code># First dockerfile for test
-FROM ubuntu:14.04
-MAINTAINER hanfeng "contact.hanfeng.name"
-RUN apt-get update
-RUN apt-get install -y nginx
-EXPOSE 80
-</code></pre>
-
-<p>Dockerfile的构建过程</p>
-
-<pre><code>docker build -t ="hanfeng/nginx"
-
-docker run  --name=web01 -p 80 -d hanfeng/nginx -g "daemon off;"
-</code></pre>
-
-<p>执行Dockerfile的每一条指令，执行相当于执行了docker commit一次，每条命令都会产生一个新的镜像层
-执行Dockerfile的下一条命令</p>
-
-<pre><code>docker history image
-#查看构建镜像的历史命令
-</code></pre>
-
-<h3>镜像的发布</h3>
-
-<pre><code>docker push qthhanfeng/nginx    
-</code></pre>
-
-<h1>常用命令</h1>
-
-<pre><code>docker run  --name=web01 -it ubuntu /bin/bash
-</code></pre>
-
-<p>为容器制定一个名字</p>
-
-<pre><code>docker start [-i] 容器名
-</code></pre>
-
-<p>重新启动停止的容器：</p>
-
-<p>参数 -i 以参数的方式</p>
-
-<p>在交互式时，Ctrl + P ，然后 Ctrl + Q</p>
-
-<p>docker attach + 容器ID</p>
-
-<hr />
-
-<p>查看容器日志</p>
-
-<pre><code>docker logs -f -t --tail 容器名
-</code></pre>
-
-<p>-f 更新</p>
-
-<p>-t 时间戳</p>
-
-<p>&ndash;tail  显示最新的</p>
-
-<hr />
-
-<pre><code>docker top 容器
-#查看容器内进程
-docker exec -d -i -t 容器名字
-#在运行中的容器启动新进程
-docker stop
-#发送信号给容器，等待停止
-
-docker kill 容器
-#直接停止容器
-</code></pre>
-
-<p>设置容器的端口映射</p>
-
-<pre><code>docker run -P -it ubuntu /bin/bash
-</code></pre>
-
-<p>-P &ndash;publish-all=true|false默认为fale，所有端口映射</p>
-
-<p>-p &ndash;publish=[]</p>
-
-<pre><code>docker run -p 80 -it ubuntu /bin/bash
-#容器端口
-docker run -p 8080:80 -it ubuntu /bin/bash
-#宿主机端口：容器端口
-docker run -p 0.0.0.0:80 -it ubuntu /bin/bash
-#IP:容器端口
-docker run -p 0.0.0.0:8080:80 -it ubuntu /bin/bash
-#IP:宿主机端口：容器端口
-
-docker run -p 80 --name web -it ubuntu /bina/bash
-
-docker port web
-docker top web
-</code></pre>
-
-<p>重启后，容器没有启动nginx, IP地址和端口映射都会发生改变</p>
-
-<pre><code>docker exec web nginx
-docker top web
-</code></pre>
-
-<h1>DaoCloud提供的加速</h1>
-
-<pre><code>vim /etc/default/docker
-DOCKER_OPTS="$DOCKER_OPTS --registry-mirror=http://字符串.m.daocloud.io"
-#文件末尾添加
-</code></pre>
-
-<p>常用命令：</p>
-
-<pre><code>docker inspect +仓库名:TAG名
-#查看镜像
-
-docker rmi +仓库名:TAG名
-#删除TAG
-
-docker rmi + 镜像ID
-#删除这个镜像对应的所有TAG
-
-docker rmi $(docker images ubuntu -q)
-</code></pre>
-
-<h1>Docker Hub</h1>
-
-<p><a href="https://registry.hub.docker.com">https://registry.hub.docker.com</a></p>
-
-<p>搜索镜像</p>
-
-<pre><code>docker serach
-</code></pre>
-
-<p>下载镜像</p>
-
-<pre><code>docker pull
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/25">&larr; Older</a>
@@ -542,6 +309,10 @@ docker rmi $(docker images ubuntu -q)
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
@@ -577,10 +348,6 @@ docker rmi $(docker images ubuntu -q)
     
       <li class="post">
         <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
       </li>
     
   </ul>

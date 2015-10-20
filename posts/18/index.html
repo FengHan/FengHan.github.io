@@ -9,11 +9,8 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="环境说明 64bit Win7系统
-Git Bash
-Vagrant
-Virtual Box 约定 我们要创建一个项目blog，放在/d/sites/blog/目录下面 安装 创建项目目录 cd /d/sites
-mkdir blog 下载laravel的box和homestead vagrant &hellip;">
+  <meta name="description" content="两年前，公司由PHP5.2 升级到了PHP5.3,此后在PHP5.3上开发了有一年的时间，此后不断的升级，现在记录一些我用到的特性。 PHP5.3 PHP5.3一方面在面向对象开发等方面有所加强, 另一方面也增加了不少实用的语法特性和新扩展。 支持命名空间
+新增两个魔术方法invoke &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +77,92 @@ var _hmt = _hmt || [];
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/11/php_version/">PHP各个版本的新特性</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-11T14:19:23+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:19 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>两年前，公司由PHP5.2 升级到了PHP5.3,此后在PHP5.3上开发了有一年的时间，此后不断的升级，现在记录一些我用到的特性。</p>
+
+<h1>PHP5.3</h1>
+
+<p> PHP5.3一方面在面向对象开发等方面有所加强, 另一方面也增加了不少实用的语法特性和新扩展。</p>
+
+<ol>
+<li>支持命名空间</li>
+<li>新增两个魔术方法<strong>invoke 和</strong>callStatic</li>
+<li>三元符增加了一个快捷方式来书写。</li>
+<li>支持闭包</li>
+</ol>
+
+
+<p>命名空间的分隔符为反斜杠\</p>
+
+<p>以函数形式来调用对象时，__invoke()方法将被自动调用。</p>
+
+<p>当尝试调用类中不存在的静态方法时，__callStatic()魔术方法将被自动调用。</p>
+
+<h1>PHP 5.4</h1>
+
+<p>当升级到PHP5.4版本的时候，我们的开发环境有XP全部升级到了WIN7</p>
+
+<ul>
+<li>数组简写形式  [1,2,3]  [&lsquo;foo&rsquo; => &lsquo;banana&rsquo;, &lsquo;bar&rsquo; => &lsquo;apple&rsquo;]</li>
+<li>内置Web服务器  php -S localhost:8000 -t public</li>
+<li>&lt;?=（精简回显语法）现在始终可用，无论 short_tags ini 设置的值为何。</li>
+<li><p>PHP 5.4版本将是最后一个支持Windows XP 和 Windows 2003的版本，今后将不再提供针对这些操作系统的二进制包。</p></li>
+<li><p>返回数组的函数调用现在可以直接解除引用：</p>
+
+<p>  function fruits() {<br/>
+      return [&lsquo;apple&rsquo;, &lsquo;banana&rsquo;, &lsquo;orange&rsquo;];<br/>
+  }</p>
+
+<p>  echo fruits()[0]; // Outputs: apple</p></li>
+</ul>
+
+
+<h1>PHP 5.5</h1>
+
+<p>Laravel 框架对PHP的版本要求是大于等于PHP5.5.9</p>
+
+<ul>
+<li>不推荐使用 mysql 函数，推荐使用 PDO 或 MySQL</li>
+</ul>
+
+
+<h1>PHP 5.6</h1>
+
+<ul>
+<li>命名空间支持常量和函数：</li>
+</ul>
+
+
+<h1>PHP 7</h1>
+
+<p>2015年11月发布</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -235,46 +318,6 @@ Postgres: 54320 -&gt; Forwards To 5432
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/29/c-difficult/">C语言学习中的难重点</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-29T23:18:44+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:18 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ol>
-<li>运算符: 自增、自减运算符</li>
-<li>进制： 各种进制转换、原码、反码、补码</li>
-<li>数组： 一维数组、二维数组、多维数组</li>
-<li>循环： 多重循环的嵌套、排序、查找</li>
-<li>函数：递归函数、递归调用</li>
-<li>指针：一级指针、多级指针、指针和数组、函数、结构体之间的关系</li>
-<li>内存管理： C语言内存管理问题、内存泄露、野指针</li>
-<li>有参宏及条件编译</li>
-<li>多文件开发： 多文件编译、多文件开发</li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/19">&larr; Older</a>
@@ -290,6 +333,10 @@ Postgres: 54320 -&gt; Forwards To 5432
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
@@ -325,10 +372,6 @@ Postgres: 54320 -&gt; Forwards To 5432
     
       <li class="post">
         <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
       </li>
     
   </ul>

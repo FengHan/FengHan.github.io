@@ -9,10 +9,9 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 当项目复杂度和用户数提高的时候，我们常常会遇到以下问题：卡、 挂、 数据备份、 数据分析、 安全、 24小时在线、 多平台、 多端、 跨地域、 实时性强。 总结起来就是以下4个方面： 性能问题
-交互问题
-安全问题
-可持续发展与维护 性能计算 不同语言开发解决性能问题的思想 PHP -> &hellip;">
+  <meta name="description" content="前言 今天要做Mysql主从配置，就需要两台Ubuntu的服务器，所以先要研究下Vagrant的网络配置。 Vagrant有三种网络配置 Forwarded port
+Private network
+Public network Private Network 我的需求是两台Ubutu在同一网段， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,6 +78,64 @@ var _hmt = _hmt || [];
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/22/vagrant-network/">Vagrant的网络设置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-22T14:34:46+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>2:34 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>前言</h1>
+
+<p>今天要做Mysql主从配置，就需要两台Ubuntu的服务器，所以先要研究下Vagrant的网络配置。</p>
+
+<p>Vagrant有三种网络配置</p>
+
+<ol>
+<li>Forwarded port</li>
+<li>Private network</li>
+<li>Public network</li>
+</ol>
+
+
+<h1>Private Network</h1>
+
+<p>我的需求是两台Ubutu在同一网段，并且都访问主机和外部网络。所以我选择private network。 它的缺点是外部网络无法访问。</p>
+
+<p>设定语法为：</p>
+
+<pre><code>config.vm.network "private_network", ip: "192.168.50.4"
+</code></pre>
+
+<p>配置hostname</p>
+
+<pre><code>config.vm.hostname = "master"
+</code></pre>
+
+<h1>参考链接</h1>
+
+<p><a href="http://www.williamsang.com/archives/2401.html?utm_source=tuicool#private">Vagrant网络配置</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -350,35 +407,6 @@ tb_user</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/21/alauda/">Docker灵雀云</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-21T02:24:30+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>2:24 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今晚把博客迁移到了<a href="http://alauda.cn">灵雀云</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/12">&larr; Older</a>
@@ -394,6 +422,10 @@ tb_user</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
@@ -429,10 +461,6 @@ tb_user</p>
     
       <li class="post">
         <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
       </li>
     
   </ul>
