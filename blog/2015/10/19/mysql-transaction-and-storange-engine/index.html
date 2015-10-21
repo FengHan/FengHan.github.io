@@ -112,6 +112,62 @@ var _hmt = _hmt || [];
 
 <h1>数据库事务</h1>
 
+<h3>什么是事务？</h3>
+
+<p>老张给老王转账100元。要分为两个update语句，一个语句给老张减去100元，另外一个语句给老王加上一百元。而计算系统总是不能持续稳定的运行，线上会有各种各样的故障，而这个故障恰好发生在两个SQL之间，那么这100元就废了。事务就是为了避免这样的事情发生。</p>
+
+<ul>
+<li>一系列有序的数据库操作
+
+<ul>
+<li>要么全部成功</li>
+<li>要么全部回退到操作状态</li>
+<li>中间状态对其它连接不可见</li>
+</ul>
+</li>
+<li>事务的基本操作
+
+<ul>
+<li>start transaction; 开始事务  （begin）</li>
+<li>commit; 提交（全部完成）</li>
+<li>rollback; 回滚（回到初始状态）</li>
+</ul>
+</li>
+</ul>
+
+
+<p>宕机后，没有成功的数据都会回滚。</p>
+
+<p>事务的中继点 savepoint</p>
+
+<p>允许事务开启后，在事务的中段进行多次保存点的保存，在回滚的时候可以回滚到任意一个保存点，而不是选择将整个事务全部回滚。而我们提交的时候，只能将我们事务中的所有操作提交，而不能提交到任意一个保存点。</p>
+
+<p>savepoint a1;
+rollback to a1;</p>
+
+<p>线上不经常使用savepoint</p>
+
+<h3>自动提交</h3>
+
+<ul>
+<li>autocommit 可以在session级别设置</li>
+<li>每个DML操作都自动提交(就是update, delete,insert 操作)</li>
+<li>DDL永远都是自动提交，无法通过rollback回滚。(就是修改表结构的那些语句，DDL之前的DML语句， 也都会随着DDL的提交而永久持续化到数据库上。)  简单来说DDL没有后悔药吃。</li>
+</ul>
+
+
+<p>因为在每个insert语句后，自动加了一个commit;</p>
+
+<pre><code>mysql&gt; show global variables like '%autocommit%';
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| autocommit    | ON    |
++---------------+-------+
+</code></pre>
+
+<p>mysql> set session autocommit = 0;</p>
+
 <h3>事务的四个基本属性（ACID）</h3>
 
 <ul>
@@ -157,7 +213,7 @@ var _hmt = _hmt || [];
 
 <h4>事务的持久化的实现</h4>
 
-<p>挑战： 数据库的高性能。并不是修改一个数据，就在磁盘上马上改掉。因为数据库里的数据散步在各地。而机械磁盘的随机写是相当缓慢的过程。为保证较高效率。修改数据，先被保存在事务日志中（顺序同步刷新，磁盘对顺序写是相当优秀的，然后异步的慢慢的刷新到磁盘上。宕机时，通过事务日志回放来保证数据持久化。</p>
+<p>挑战： 数据库的高性能。并不是修改一个数据，就在磁盘上马上改掉。因为数据库里的数据散步在各地。而机械磁盘的随机写是相当缓慢的过程。为保证较高效率。修改数据，不会马上记录在磁盘上，先被保存在事务日志中（顺序同步刷新，磁盘对顺序写是相当优秀的，然后异步的慢慢的刷新到磁盘上。宕机时，通过事务日志回放来保证数据持久化。</p>
 
 <h4>事务的隔离性</h4>
 
@@ -169,9 +225,9 @@ var _hmt = _hmt || [];
 <h4>数据库隔离现象</h4>
 
 <ul>
-<li>Dirty Read 事务B读到事务A尚未提交的数据变更</li>
-<li>NonRepeatable Read  （delete，update操作）B事务由于A事务的提交，查询数据时，看到2种不同的结果</li>
-<li>Phantom Read 幻读 （insert 操作）（不可重复读和幻读都针对事务B能否读到事务A已经提交的变更）</li>
+<li>脏读 Dirty Read 事务B读到事务A尚未提交的数据变更</li>
+<li>不可重复读 NonRepeatable Read  B事务由于A事务的提交，查询数据时，看到2种不同的结果</li>
+<li>幻读 Phantom Read 幻读 （不可重复读和幻读都针对事务B能否读到事务A已经提交的变更）</li>
 </ul>
 
 
@@ -192,19 +248,49 @@ show global variables like &lsquo;%iso%&rsquo;;</p>
 <h4>MySQL的事务隔离级别</h4></li>
 <li><p>InnoDB默认标记为可重复读（Repeatable read）</p></li>
 <li>InnoDB并不是标准意义上的可重复读</li>
-<li><p>InnoDB默认在可重复读的基础上避免幻读
-实验：</p></li>
-<li><p>脏读
-  set global tx_isolation = &lsquo;READ-UNCOMMITTED&rsquo;;</p></li>
-<li>没有脏读， 存在幻读和不可重复读
-  set global tx_isolation = &lsquo;READ-COMMITTED&rsquo;;</li>
+<li>InnoDB默认在可重复读的基础上避免幻读</li>
 </ul>
 
 
-<h3>事务与并发</h3>
+<p>set global tx_isolation = &lsquo;REPEATABLE-READ&rsquo;;</p>
+
+<p>set global tx_isolation = &lsquo;SERIALIZABLE&rsquo;;
+实验：</p>
+
+<ul>
+<li>未提交读: 有脏读
+  set global tx_isolation = &lsquo;READ-UNCOMMITTED&rsquo;;</li>
+<li>已提交读：没有脏读， 存在幻读和不可重复读
+  set global tx_isolation = &lsquo;READ-COMMITTED&rsquo;;</li>
+<li>可重复读
+  set global tx_isolation = &lsquo;REPEATABLE-READ&rsquo;;</li>
+</ul>
+
+
+<p>不可重复读: B事务由于A事务update的提交，B事务看到两种不同的数据。
+幻读: 事务B由于事务A insert 的提交，B   事务看到了之前不存在的数据。</p>
+
+<ol>
+<li>不可重复读针对（delete，update操作）</li>
+<li>幻读针对insert操作</li>
+</ol>
+
+
+<h4>MySQL的事务隔离级别的设置</h4>
+
+<ul>
+<li>可在global/session 下分别设置事务的隔离级别</li>
+<li>建议使用Read committed(同Oracle)</li>
+<li>或者建议使用默认的MySQL设置Repeatable read
+  -隔离级别Serializable   可串行化对线上的并发性能有影响，不会在线上设置</li>
+</ul>
+
+
+<h3>事务与并发写</h3>
 
 <ul>
 <li>某个正在更新的记录在提交或回滚前不能被其他事务同时更新(? update 前加排它锁X?)</li>
+<li>事务修改某个记录时，会先获得这条记录的锁，其它事务会进行等待。A修改完成，会将锁释放。然后B和C会获得这把锁</li>
 <li>btw,所有对数据库记录的修改都是串行的，不存在并发的概念</li>
 </ul>
 
