@@ -9,7 +9,9 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 Laravel 5 的很多新功能是来自 Jeffrey Way的 idea, 如: Form Requests, Laravel Elixir, Command bus etc.. 所以, 他的这套视频就很有观看的必要 https://laracasts.com/series/laravel &hellip;">
+  <meta name="description" content="什么是索引 索引是值到行位置的映射。索引就是一个目录。 索引的作用： 提高访问的速度。硬盘IO每秒100到150次的响应。每次10毫秒
+实现主键、唯一键逻辑 IO是个宝贵的资源， 索引的使用场景： FTS 全表索引 Mysql中我们可以使用的索引类型： Btree索引：
+B+tree： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +84,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/09/10/mysql-index/">MySQL索引</a></h1>
     
     
       <p class="meta">
@@ -91,99 +93,105 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-09-09T11:09:29+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:09 am</span></time>
+<time class='entry-date' datetime='2015-09-10T10:07:51+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
+  <div class="entry-content"><h4>什么是索引</h4>
 
-<p>Laravel 5 的很多新功能是来自 Jeffrey Way的 idea,</p>
+<p>索引是值到行位置的映射。索引就是一个目录。</p>
 
-<p>如: Form Requests, Laravel Elixir, Command bus etc..</p>
-
-<p>所以, 他的这套视频就很有观看的必要
- <a href="https://laracasts.com/series/laravel-5-fundamentals">https://laracasts.com/series/laravel-5-fundamentals</a></p>
-
-<p>现已看完，做下记录</p>
-
-<h2>Laravel5 Foundation</h2>
-
-<h4>需求分析：</h4>
-
-<ol>
-<li>Article模块
+<h4>索引的作用：</h4>
 
 <ul>
-<li>Articles List</li>
-<li>Create Article :title , body, published_at, tag</li>
-<li>Edit Article</li>
+<li>提高访问的速度。硬盘IO每秒100到150次的响应。每次10毫秒</li>
+<li>实现主键、唯一键逻辑</li>
 </ul>
-</li>
-<li>用户登录模块</li>
+
+
+<p>IO是个宝贵的资源，</p>
+
+<h4>索引的使用场景：</h4>
+
+<p>FTS 全表索引</p>
+
+<h4>Mysql中我们可以使用的索引类型：</h4>
+
+<ul>
+<li>Btree索引：</li>
+<li>B+tree： 平衡二叉树的一种改良</li>
+<li>Hash索引 InnoDB</li>
+<li>Innodb ： 聚簇索引，</li>
+<li>二级索引： 除了主键，用户创建的索引。</li>
+</ul>
+
+
+<h4>索引的代价：</h4>
+
+<p>插入修改删除每个索引都编程一个内部事务，索引越多，事务越长。(增删改)</p>
+
+<h4>索引的优势:</h4>
+
+<ol>
+<li>减少查询IO</li>
+<li>优化等值查询、范围查询</li>
+<li><p>利用有序特性</p>
+
+<p> order by , group byh , distinct, max ,min</p></li>
 </ol>
 
 
-<h4>细节：</h4>
-
-<ol>
-<li>Create Article的输入内容，要进行validate，使用Request进行验证。</li>
-<li>Create Article成功时，用Flash Message提示。</li>
-</ol>
-
-
-<h4>学习的内容</h4>
+<h4>如何用好索引：</h4>
 
 <ul>
-<li>Composer 的安装与使用</li>
-<li>Virtual Box, Vagrant, Homestead安装与使用</li>
-<li>Route 路由的使用</li>
-<li>Blade  模板文件</li>
-<li>.env 开发环境的设置</li>
-<li>migration 创建和修改数据库的结构</li>
-<li>MVC在Laravel中的工作流</li>
-<li>Form表单</li>
-<li>Model 中的 Dates : Carbon\Carbon</li>
-<li>Model 中的 Scopes : 封装判断条件（例如： article是否发布）</li>
-<li>Model 中的 set Attributes : 插入记录时，自动插入（例如时间）</li>
-<li>View Partials 视图文件的局部选软</li>
-<li>Eloquent  这个很强大，但感觉复杂查询会很麻烦，// todo 继续深入学习</li>
-<li>Auth  Laravel5.0 提供了简单的注册、登录和找回密码</li>
-<li>Middleware （用处：例如验证是否用户登录）</li>
-<li>Many to Many Relation (A article has many tags, and a tag has many articles.)</li>
-<li>Tag 选择地时候用了Select2插件</li>
-<li>View Partial Always Receive Data (例如首页导航条)</li>
-<li>Service Container (又叫 Ioc Container,是Laravel框架的核心所在)</li>
-</ul>
+<li><p>依据where查询条件来建立索引：</p>
 
+<pre><code>  select a,b from tab_a where c = ?;  #c上建立索引
+</code></pre></li>
+<li><p>使用联合索引，而不是多个单列索引。</p>
 
-<h3>用到的第三方包</h3>
+<pre><code>  select * from tab_a where a = ? AND b = ? 
+  #建立a和b的索引， 把一组值作为b+tree 的索引， 在同一个树里，查询速度更高。
+</code></pre></li>
+<li><p>联合索引， 区分度大的放在前面。</p>
 
-<pre><code>{
-    “require” : {
-        "barryvdh/laravel-ide-helper": "^2.1",
-        "illuminate/html": "^5.0",
-        "laracasts/flash": "~1.3",
-    }
-}
+<pre><code>  name,gender 对， 因为name的区分度很大。能够更好地使用b+ TREE来定位节点
+
+  gender,name 错
+</code></pre></li>
+<li><p>联合索引能为前缀单列，复列查询提供帮助。</p>
+
+<pre><code>  where a = ? 
+  wherer a = ? AND b =? 
+</code></pre></li>
+<li><p>合理创建联合索引，避免冗余。
+      abc 包含 a ,ab</p></li>
+<li><p>ORDER BY, GROUP BY, DISTINCT 字段添加索引</p></li>
+<li><p>用 EXPLAIN 查看语句</p>
+
+<pre><code>  possible_key 可以使用的索引
+  key 实际的索引名字  重要
+  rows  读的记录行数，才返回的结果 重要。
+  typpe   index  扫描完整的索引树， 重要   
+  key_len 如果只使用了一部分，为长度。  
+  force index  强制使用索引 
+  ignore index 
 </code></pre>
 
-<ul>
-<li>barryvdh/laravel-ide-helper  用来提示Laravel的Facade</li>
-<li>illuminate/html Html Form封装了form表单</li>
-<li>laracasts/flash Jeffrey Way写的 flash message</li>
+<h4>其他技巧</h4></li>
+<li><p>一个表，控制百万级别。如何达到了一两百G，就可以考虑分库分表了。千万级别，取决于访问方式，left join</p></li>
+<li><p>WHERE查询时，  函数不要加在字段上。timestamp > func(1234)。</p></li>
+<li><p>外键一般用程序使用。</p></li>
+<li><p>什么事优化器： 哪个索引会更快，IO更小。生发语法数，生成一个计划。</p></li>
+<li><p>纵向分表，根据业务来拆分。</p></li>
+<li><p>等值查询 ，2个范围查询， 不能都覆盖到。联合查询。等值能用一个，范围查询也只能用一个。</p></li>
+<li><p>通过表结构设计来避免连表。</p></li>
+<li><p>触发器和存储过程不好维护，做运维手段还可以。</p></li>
 </ul>
 
-
-<p>以上文件放在composer.json中，第二步是在config/app.php配置 provider 和 alias.</p>
-
-<h3>经常用到的命令</h3>
-
-<pre><code>php artisan make:controller --plain
-php artisan dump-autoload 
-</code></pre>
 </div>
   
   
@@ -196,7 +204,7 @@ php artisan dump-autoload
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a></h1>
     
     
       <p class="meta">
@@ -205,41 +213,323 @@ php artisan dump-autoload
 
 
 
-<time class='entry-date' datetime='2015-09-05T17:00:56+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:00 pm</span></time>
+<time class='entry-date' datetime='2015-09-09T15:25:59+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:25 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>CSRF（Cross-site request forgery跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。</p>
+  <div class="entry-content"><h1>认识MySQL</h1>
 
-<h3>CSRF 攻击的防范；</h3>
+<h4>关系与非关系型数据库</h4>
 
-<ol>
-<li><p>加密令牌：web应用程序可以在网页中嵌入一个加密的令牌，所有的请求都包含这个加密令牌，由于跨站请求无法获取这个令牌，所以伪造的请求很容易就被服务器识别；</p></li>
-<li><p>Referer头途径：使用web应用程序也可以验证请求来源页面的Referer，然后由于隐私考虑，这个referer经常被客户端过滤；</p></li>
-</ol>
+<p>关系型数据库</p>
+
+<ul>
+<li>mysql</li>
+<li>oracle</li>
+<li>sql server</li>
+<li>postgresql</li>
+</ul>
 
 
-<h3>加密令牌</h3>
+<p>非关系型数据库</p>
 
-<p>1.根据 加密参数、用户的session_id(), 时间戳和存放在session中的HASH函数。</p>
+<ul>
+<li>hadoop</li>
+<li>mongoDB</li>
+<li>redis</li>
+<li>Cassandra</li>
+</ul>
 
-<p>把令牌token和时间戳 放到form的hidden里面。</p>
 
-<pre><code>$_SESSION[STOKEN_NAME] = gen_token(); // 随机数
-&lt;input type="hideen" value="session_token" value= &lt;?=$_SESSION[STOKEN_NAME]?&gt;
+<p>区别：</p>
+
+<p>是否使用SQL语句作为数据操作的方法和方式。</p>
+
+<p>所以关系型数据库又叫做SQL数据库。</p>
+
+<h4>为什么学习MySQL</h4>
+
+<ul>
+<li>基于GPL协议</li>
+<li>Mysql 最流行 ，开源，但不是最先进的。</li>
+<li>互联网企业中占绝对主流地位</li>
+</ul>
+
+
+<p>开发者学习MySQL：</p>
+
+<ul>
+<li>学习数据类型的正确使用</li>
+<li>学习如何利用索引优化查询效率</li>
+<li>了解分区，读写分离特性</li>
+<li>了解数据库事务相关特性</li>
+</ul>
+
+
+<p>DBA学习MySQL：</p>
+
+<ul>
+<li>学习MySQL体系结构知识</li>
+<li>学习日常运维，性能调优，故障排查</li>
+<li>虚席数据层架构设计，schema优化知识</li>
+</ul>
+
+
+<h1>轻松安装MySQL</h1>
+
+<p>5.6 <a href="http://www.mysql.com/downloads/">http://www.mysql.com/downloads/</a></p>
+
+<ul>
+<li>企业版</li>
+<li>集群版</li>
+<li>社区版 （免费）
+
+<h4>Windows上安装</h4>
+
+<p>安装包：300M+</p></li>
+</ul>
+
+
+<h4>Linux上安装</h4>
+
+<h4>Ubuntu上安装MySQL</h4>
+
+<pre><code>apt-cache search mysql-server
+apt-get install mysql-server-5.6
+#查看mysql进程
+ps -ef|grep mysqld
+#查看mysql状态：版本、运行时间、连接方式、查询统计
+sudo /etc/init.d/mysql status
+#msyql启动、停止、重启
+sudo /etc/init.d/mysql start|stop|restart
 </code></pre>
 
-<p>每次请求的时候，要验证session_token。</p>
+<h1>连接使用MySQL</h1>
 
-<p>参考链接：</p>
+<ul>
+<li>应用程序驱动</li>
+<li>MySQL命令行</li>
+<li><p>GUI工具</p>
+
+<p>  #查看mysql-client版本
+  mysql -V</p></li>
+</ul>
+
+
+<p>命令行连接MySQL</p>
+
+<ul>
+<li><p>Socket连接(本地连接)</p>
+
+<pre><code>  mysql -S/var/run/mysqld/mysqld.sock -uhomestead -p
+</code></pre></li>
+<li><p>TCP/IP连接（远程连接）</p>
+
+<pre><code>   mysql -h127.0.0.1 -P3306 -uhomestead -p
+</code></pre></li>
+</ul>
+
+
+<p>本地连接只能在MySQL服务器上创建，常作为MySQL状态检查，或程序和MySQL部署在一台机器上。</p>
+
+<pre><code>#小技巧
+Ctrl + r : 搜索之前敲过的命令
+</code></pre>
+
+<h3>两个重要的命令： status, show processlist</h3>
+
+<h4>status</h4>
+
+<p>关注的信息：</p>
+
+<ul>
+<li>Server version</li>
+<li>characterset: utf8 (Server, Db, Client, Conn)</li>
+<li>Uptime
+
+<h4>show processlist</h4></li>
+</ul>
+
+
+<p>help select;</p>
+
+<pre><code>#查看socket文件位置
+show global variables like 'socket'
+</code></pre>
+
+<ul>
+<li>socket权限为777</li>
+<li>不要把密码直接输入在命令行里面，存在安全风险。</li>
+</ul>
+
+
+<p>history -c 清楚命令行历史</p>
+
+<h4>常用的图形客户端工具</h4>
+
+<ul>
+<li>Navicat</li>
+<li><p>MySQLWenkBench</p></li>
+<li><p>操作简单，易于上手</p></li>
+<li>支出图形化的导入导出</li>
+<li>可视化的界面输出</li>
+</ul>
+
+
+<p>总结：</p>
 
 <ol>
-<li><a href="http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html">http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html</a></li>
-<li><a href="https://www.shiyanlou.com/courses/303#">实验楼 - Elgg 系统 CSRF 攻击实验</a></li>
+<li>应用程序使用API接口连接MySQL</li>
+<li>开发工程师可以使用图形工具连接MySQL</li>
+<li><strong>命令行工具才是DBA的最爱</strong></li>
 </ol>
+
+
+<h1>SQL语言入门</h1>
+
+<p>DDL :
+- CREATE TABLE
+- DROP TABLE
+- ALTER TABLE</p>
+
+<p>DML:</p>
+
+<ul>
+<li>SELECT FROM TABLE</li>
+<li>INSERT INTO TABLE</li>
+<li>UPDATE TABLE SET</li>
+<li>DELETE FROM TABLE</li>
+</ul>
+
+
+<p>DCL:</p>
+
+<ul>
+<li>GRANT</li>
+<li>REVOKE</li>
+</ul>
+
+
+<p>TCL:</p>
+
+<ul>
+<li>COMMIT</li>
+<li>ROLLBACK</li>
+</ul>
+
+
+<p><a href="http://www.w3school.com.cn/sql/">SQL教程</a></p>
+
+<h1>认识DBA</h1>
+
+<p>DBA是最后一道屏障，守门员，是业务稳定的基石。</p>
+
+<p>监控线上，保障业务的正常运行。</p>
+
+<p>做好实时性能监控,一旦有长的SQL语句，就会立刻接到报警，然后进行调优。</p>
+
+<h4>小公司</h4>
+
+<ul>
+<li>没有专职DBA</li>
+<li>但肯定有懂数据库的人</li>
+</ul>
+
+
+<p>大公司：</p>
+
+<ul>
+<li>专职DBA</li>
+<li>数据存储技术专家</li>
+</ul>
+
+
+<p>互联网业务： 高性能、高可用、可扩展、安全性。</p>
+
+<p>没有DBA就没有稳定的数据库，请求变慢，数据丢失，安全问题，用户投诉，无穷无尽。</p>
+
+<h3>DBA要做哪些工作？</h3>
+
+<ol>
+<li>基础运维
+
+<ul>
+<li>安全部署</li>
+<li>监控</li>
+<li>故障处理</li>
+</ul>
+</li>
+<li>安全运维工作
+
+<ul>
+<li>数据备份与恢复</li>
+<li>安全访问，安全漏洞</li>
+<li>审计</li>
+</ul>
+</li>
+<li>性能调优工作
+
+<ul>
+<li>数据库优化</li>
+<li>容量评估、软硬件升级</li>
+</ul>
+</li>
+<li>开发支持工作
+
+<ul>
+<li>存储方案制定(哪些数据放在memcache，减少对数据库的访问)</li>
+<li>数据库设计</li>
+<li>数据库变更 SQL Review （审核业务SQL，全表扫描的SQL会把数据库跑死）</li>
+</ul>
+</li>
+<li>流程与培训
+
+<ul>
+<li>数据库开发规范</li>
+<li>运维流程与标准化</li>
+<li>业务培训</li>
+</ul>
+</li>
+</ol>
+
+
+<p>练习：
+mysql要做的：</p>
+
+<p>分析MySQL慢日志请求，优化表索引</p>
+
+<h4>DBA需要的技能</h4>
+
+<p>专业技能：
+    - 数据库原理
+    - Linux与Shell
+    - 计算机体系结构
+    - 网络原理
+    - 数据库系统与操作
+    - 服务器硬件
+    - 业务架构设计
+软技能：</p>
+
+<pre><code>- 责任心、执行力
+- 坚韧，抗压（半夜、凌晨工作）
+- 学习与沟通能力
+- 正直，诚信
+- 耐心，注重细节
+- 分析能力
+- 团队协作
+- 
+</code></pre>
+
+<p>DBA如何发展？</p>
+
+<ul>
+<li>业务架构师（数据存储有深入研究，处理不同业务场景与需求的数据存储）</li>
+<li>运维专家（解决mysql的任何问题，帮助数据库更稳定更高效的运行）</li>
+<li>数据库研发（改进数据库系统或开发自己的数据库）</li>
+</ul>
 
 </div>
   
@@ -263,6 +553,14 @@ php artisan dump-autoload
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/10/26/mysql-optimization-and-design/">MySQL业务优化与设计</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/21/mysql-programe-development/">MySQL程序开发</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
@@ -294,14 +592,6 @@ php artisan dump-autoload
     
       <li class="post">
         <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
       </li>
     
   </ul>

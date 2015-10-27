@@ -9,7 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 这2天里，我了解Docker的初步使用, 并对本博客在Daocloud上的自动同步做了设置，http://hanfeng.daoapp.io, Daocloud正在搞活动，写Dockerfile，生成镜像，部署Github代码，免费送T-shirt！。 本文主要记录两天所学， &hellip;">
+  <meta name="description" content="前言 MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做MariDB 安装 首先从 MariaDB 下载页面 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/21/docker-summary/">Docker小结</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a></h1>
     
     
       <p class="meta">
@@ -91,7 +91,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-21T21:07:41+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:07 pm</span></time>
+<time class='entry-date' datetime='2015-07-23T10:50:50+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:50 am</span></time>
         
       </p>
     
@@ -100,258 +100,26 @@ var _hmt = _hmt || [];
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>这2天里，我了解Docker的初步使用, 并对本博客在<a href="http://www.daocloud.io">Daocloud</a>上的自动同步做了设置，<a href="http://hanfeng.daoapp.io">http://hanfeng.daoapp.io</a>, Daocloud正在搞活动，<a href="https://github.com/FengHan/fenghan.github.io/blob/master/Dockerfile">写Dockerfile</a>，生成镜像，部署Github代码，<a href="http://blog.daocloud.io/build-dockerfile-campaign/">免费送T-shirt！</a>。 本文主要记录两天所学，记录Docker的学习过程。</p>
+<p>MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做<a href="https://mariadb.org/">MariDB</a></p>
 
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_Tshirt.jpg" alt="" /></p>
+<h1>安装</h1>
 
-<h1>构建镜像</h1>
+<p>首先从 <a href="http://downloads.mariadb.org/mariadb/repositories/">MariaDB 下载页面</a> 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令</p>
 
-<p>构建镜像的目的：</p>
-
-<ul>
-<li>保存对容器的修改， 并在此使用</li>
-<li>自定义镜像的能力</li>
-<li>以软件的形式打包并分发服务器及其运行环境。</li>
-</ul>
-
-
-<p>构建镜像的两种方法：</p>
-
-<ol>
-<li><p>docker build 通过Dockfile文件构建</p></li>
-<li><p>docker commit 通过容器构建</p></li>
-</ol>
-
-
-<h3>Dockerfile的制作</h3>
-
-<p>对于开发人员来说，主要是使用Dockerfile来构建镜像，现在简单讲一下Dockerfile的语法</p>
-
-<pre><code>FROM &lt;image&gt; 已经存在的镜像（基础镜像）
-FROM &lt;image:tag&gt;
+<pre><code>sudo apt-get install software-properties-common
+sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+sudo add-apt-repository 'deb http://mirrors.opencas.cn/mariadb/repo/5.5/ubuntu trusty main'
 </code></pre>
 
-<p>必须是第一条</p>
+<p>开始安装</p>
 
-<pre><code>MAINTAIER hanfeng "contact@hanfeng.name"
+<pre><code>sudo apt-get update
+sudo apt-get install mariadb-server
 </code></pre>
 
-<p>指定镜像所有者信息</p>
+<p>这样 MariaDB 5.5 就已经安装成功，你就可以像使用 MySQL 那样对它进行配置和使用了。</p>
 
-<pre><code>RUN
-</code></pre>
-
-<p>指定当前镜像中运行得命令</p>
-
-<pre><code>RUN echo hello  (shell模式)
-
-RUN ["executable", "param1", "param2"] (exec模式)
-
-RUN["/bin/bash", "-c", "echo hello"]
-</code></pre>
-
-<p>每个RUN指令都会在当前的RUN指令上新创建一个镜像，是分层的。</p>
-
-<pre><code>EXPOSE &lt;port&gt;[&lt;port&gt;]
-EXPOSE 80
-EXPOSE 80:80
-EXPOSE 0.0.0.0:80:80
-</code></pre>
-
-<p>指定运行该镜像的容器使用的端口</p>
-
-<p>只是告诉容器应该打开哪个端口，Dokcer不会自动打开。还是需要启动的时候指定端口</p>
-
-<pre><code>CMD
-CMD["executable",'param1','['param2'](exec模式)
-</code></pre>
-
-<p>能够被Docker run 后面的命令覆盖掉</p>
-
-<pre><code>ENTRYPOINT
-ENTRYPOINT COMMAND P1 P1
-</code></pre>
-
-<p>不会被docker run覆盖</p>
-
-<p>容器运行时的指令</p>
-
-<pre><code>ADD
-</code></pre>
-
-<p>适用于文件路径中有空格的情况</p>
-
-<p>ADD 包含类似tar的解压功能</p>
-
-<p>如果单独复制文件，建议使用COpy</p>
-
-<pre><code>COPY
-
-VOLUME
-VOLUME["/data"]
-</code></pre>
-
-<p>镜像的目录和文件</p>
-
-<pre><code>WORKDIR
-WORKDIR /path/to/workdir
-WORKDIR 使用绝对路径
-
-ENV&lt;key&gt;&lt;value&gt;
-
-USER daemon
-USER nginx
-USER root:root
-</code></pre>
-
-<p>环境设置</p>
-
-<pre><code>ONBUILD
-</code></pre>
-
-<p>镜像触发器</p>
-
-<p>当一个镜像被其他镜像作为基础镜像时执行。</p>
-
-<p>会在构建过程中插入指令</p>
-
-<p>简单的例子：</p>
-
-<pre><code># First dockerfile for test
-FROM ubuntu:14.04
-MAINTAINER hanfeng "contact.hanfeng.name"
-RUN apt-get update
-RUN apt-get install -y nginx
-EXPOSE 80
-</code></pre>
-
-<p>Dockerfile的构建过程</p>
-
-<pre><code>docker build -t ="hanfeng/nginx"
-
-docker run  --name=web01 -p 80 -d hanfeng/nginx -g "daemon off;"
-</code></pre>
-
-<p>执行Dockerfile的每一条指令，执行相当于执行了docker commit一次，每条命令都会产生一个新的镜像层
-执行Dockerfile的下一条命令</p>
-
-<pre><code>docker history image
-#查看构建镜像的历史命令
-</code></pre>
-
-<h3>镜像的发布</h3>
-
-<pre><code>docker push qthhanfeng/nginx    
-</code></pre>
-
-<h1>常用命令</h1>
-
-<pre><code>docker run  --name=web01 -it ubuntu /bin/bash
-</code></pre>
-
-<p>为容器制定一个名字</p>
-
-<pre><code>docker start [-i] 容器名
-</code></pre>
-
-<p>重新启动停止的容器：</p>
-
-<p>参数 -i 以参数的方式</p>
-
-<p>在交互式时，Ctrl + P ，然后 Ctrl + Q</p>
-
-<p>docker attach + 容器ID</p>
-
-<hr />
-
-<p>查看容器日志</p>
-
-<pre><code>docker logs -f -t --tail 容器名
-</code></pre>
-
-<p>-f 更新</p>
-
-<p>-t 时间戳</p>
-
-<p>&ndash;tail  显示最新的</p>
-
-<hr />
-
-<pre><code>docker top 容器
-#查看容器内进程
-docker exec -d -i -t 容器名字
-#在运行中的容器启动新进程
-docker stop
-#发送信号给容器，等待停止
-
-docker kill 容器
-#直接停止容器
-</code></pre>
-
-<p>设置容器的端口映射</p>
-
-<pre><code>docker run -P -it ubuntu /bin/bash
-</code></pre>
-
-<p>-P &ndash;publish-all=true|false默认为fale，所有端口映射</p>
-
-<p>-p &ndash;publish=[]</p>
-
-<pre><code>docker run -p 80 -it ubuntu /bin/bash
-#容器端口
-docker run -p 8080:80 -it ubuntu /bin/bash
-#宿主机端口：容器端口
-docker run -p 0.0.0.0:80 -it ubuntu /bin/bash
-#IP:容器端口
-docker run -p 0.0.0.0:8080:80 -it ubuntu /bin/bash
-#IP:宿主机端口：容器端口
-
-docker run -p 80 --name web -it ubuntu /bina/bash
-
-docker port web
-docker top web
-</code></pre>
-
-<p>重启后，容器没有启动nginx, IP地址和端口映射都会发生改变</p>
-
-<pre><code>docker exec web nginx
-docker top web
-</code></pre>
-
-<h1>DaoCloud提供的加速</h1>
-
-<pre><code>vim /etc/default/docker
-DOCKER_OPTS="$DOCKER_OPTS --registry-mirror=http://字符串.m.daocloud.io"
-#文件末尾添加
-</code></pre>
-
-<p>常用命令：</p>
-
-<pre><code>docker inspect +仓库名:TAG名
-#查看镜像
-
-docker rmi +仓库名:TAG名
-#删除TAG
-
-docker rmi + 镜像ID
-#删除这个镜像对应的所有TAG
-
-docker rmi $(docker images ubuntu -q)
-</code></pre>
-
-<h1>Docker Hub</h1>
-
-<p><a href="https://registry.hub.docker.com">https://registry.hub.docker.com</a></p>
-
-<p>搜索镜像</p>
-
-<pre><code>docker serach
-</code></pre>
-
-<p>下载镜像</p>
-
-<pre><code>docker pull
-</code></pre>
+<p>使用mysql -h -uroot -p1234测试。</p>
 </div>
   
   
@@ -364,7 +132,7 @@ docker rmi $(docker images ubuntu -q)
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/19/docker/">认识Docker</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/22/vagrant-lnmp/">使用Vagrant搭建本地Ubuntu开发环境</a></h1>
     
     
       <p class="meta">
@@ -373,7 +141,7 @@ docker rmi $(docker images ubuntu -q)
 
 
 
-<time class='entry-date' datetime='2015-07-19T22:09:25+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:09 pm</span></time>
+<time class='entry-date' datetime='2015-07-22T14:13:27+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>2:13 pm</span></time>
         
       </p>
     
@@ -382,208 +150,143 @@ docker rmi $(docker images ubuntu -q)
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>有了Docker以后，那些需要多台机器才能完成的实验就变得非常简单了。</p>
+<p>使用PHP做Web开发已有4年，4年间只有第二年是在Ubuntu下开发，其它都是在Windows下开发，但Win下开发有如下缺点：</p>
 
-<p>以容器的方式交付软件， 是每一个程序员都需要掌握的新技能。</p>
+<ol>
+<li>Windows 不区分大小写，在Win下OK, 上传到服务器上有了Bug。</li>
+<li>Windows 不能测试cron是否写得正确，执行php-cli麻烦</li>
+<li>开发环境与生产环境不同，莫名的产生了一些Bug</li>
+<li>自己的Linux水平下降，对服务器的一些配置慢慢感到了生疏。</li>
+</ol>
 
-<h1>什么是Docker，</h1>
 
-<p><a href="http://docker.com">Docker</a>是一个<strong>容器</strong>引擎,提供了一套完整的容器解决方案。</p>
+<p>但在Ubuntu下开发，也有问题：</p>
 
-<p>Docker是2014年最火的开源项目，由Docker公司领导开发，基于Apache2.0开源授权协议发行。</p>
+<ol>
+<li>不习惯的编辑器，那时使用IDEA作为编辑器，真心不好用。</li>
+<li>当初用Word写文档，Ubuntu里没有。（现在用Markdown了）</li>
+<li>团队开发使用QQ作为通讯工具，还要装一个QQ。（QQ真不适合作为沟通工具，其它无关内容总分心）</li>
+</ol>
 
-<p>Docker是用Go语言开发的，其源码在<a href="https://github.com/docker/docker">https://github.com/docker/docker</a>
-<img src="http://7xkc1x.com1.z0.glb.clouddn.com/docker.jpg?imageView2/2/w/300/" alt="" /></p>
 
-<h1>什么是容器</h1>
+<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_vagrant.png" alt="" /></p>
 
-<p><strong>容器</strong>是一种历史悠久的<strong>虚拟化技术</strong>，如OpenVZ，Solaris上的Zones，Linux上的LXC等，都是容器的不同实现方式。</p>
+<h1>Vagrant优点</h1>
 
-<p>一个容器实质上就是运行在宿主机器上的一个进程。只不过在启动这个进程之前，进行了一些特殊处理，让这个进程进入了一个全新的虚拟环境，与宿主机环境分开。所以这个进程及它的子进程认为自己运行在一个独立的世界里面。</p>
+<p><a href="http://docs.vagrantup.com/">Vagrant</a>是用来管理虚拟机的，它有如下好处：</p>
 
-<p>容器的优势：
-<em>创建容器速度快</em>，速度在1秒左右，而传统虚拟机需要15s左右</p>
+<ol>
+<li>对于开发人员来说，Vagrant可以帮你统一团队成员的开发环境。</li>
+<li>对于运维人员来说，Vagrant可以给你提供一个与线上一致的测试环境。</li>
+<li>对于设计人员来说，Vagrant可以让你只需要专注在设计上。</li>
+</ol>
 
-<p>容器运行<strong>占用的额外开销非常小</strong></p>
 
-<p>Docker的优势：</p>
+<p>Vagrant适合用来管理虚拟机，而Docker适合用来管理应用环境。</p>
 
-<p>Docker让容器的管理变得极其方便，不需要掌握高深的技术就能使用。</p>
-
-<p>为什么学习Docker：</p>
-
-<p>Docker很可能改变传统的软件“交付”方式和“运行”方式；也可能在绝大多数场合取代传统虚拟机的地位。因此整个IT界都在积极探索如何运用Docker来进行技术变革。</p>
-
-<h1>如何安装Docker</h1>
-
-<p>Docker可以安装到绝大多数的Linux发型版上，包括Ubuntu、CentOS、Redhat等,也可安装到Mac OS上。</p>
-
-<p><a href="https://docs.docker.com/installation">https://docs.docker.com/installation</a>介绍了在各种操作系统上安装Docker的详细步骤。虽然Docker可以安装在Windows上，但是不推荐。</p>
-
-<p>需要注意的是，<strong>目前Docker只支持64位操作系统</strong></p>
-
-<h3>Ubuntu上安装稳定版</h3>
-
-<p>本文在Ubuntu Trusty 14.04 (LTS)上安装</p>
-
-<pre><code>uname -i   
-</code></pre>
-
-<p>x86_64则为64位系统</p>
-
-<pre><code>uname -r 
-</code></pre>
-
-<p>内核版本要大于3.10</p>
-
-<pre><code>sudo apt-get update
-sudo apt-get install docker.io
-ps axf | grep docker
-docker version 
-#查看docker版本
-</code></pre>
-
-<h3>安装最新版本</h3>
-
-<pre><code>sudo apt-get remove --purge docker.io
-</code></pre>
-
-<p>先卸载稳定版的docker</p>
-
-<pre><code>which wget
-</code></pre>
-
-<p>确保安装wget</p>
-
-<pre><code>wget -qO- https://get.docker.com/ | sh
-</code></pre>
-
-<p>获取最新的Docker Packer</p>
-
-<pre><code>ps axf | grep docker
-docker version 
-#查看docker版本
-
-service docker stop
-service docker start
-service docker restart
-</code></pre>
-
-<p>Docker是一个经典的CS架构：
-Docker Server：它是一个<strong>守护进程（Daemon）</strong>,一直运行在后台。
-它其中嵌入了一个Web Server。</p>
-
-<p>Docker的发展速度太快，目前最新版本到1.7.1，推荐安装到最新版</p>
-
-<p>Docker Client： 它是一个命令行工具，通过HTTP协议与Docker Server交互</p>
-
-<p>巧妙的是，<strong>Docker Server与Docker Client共用同一个可执行文件</strong>,通过</p>
-
-<pre><code>which docker
-</code></pre>
-
-<p>来查看它安装后的路径</p>
-
-<pre><code>sudo docker run hello-world
-</code></pre>
-
-<p>验证docker是否安装正确，它会下载一个测试镜像，并在容器里运行它。</p>
-
-<h1>Docker镜像和镜像仓库</h1>
-
-<p>每个Docker容器运行在独立的虚拟环境中，虚拟环境包括多个方面，其中最重要的就是独立的<strong>文件系统</strong>；在这个文件系统中的读写操作，既不影响宿主机的文件系统，也不影响其它容器的文件系统。</p>
-
-<p>Docker镜像是一个比较复杂的概念。现阶段，我们可以把简单的把<strong>Docker镜像理解成一个目录</strong> Docker Server在启动容器的时候，先根据这个镜像目录，复制出一个<strong>新的目录</strong> ,然后在容器进程启动时，让这个进程chroot到这个新的目录下。这样，这个目录就成了这个容器的根文件系统（<strong>rootfs</strong>）。</p>
-
-<pre><code>docker images
-</code></pre>
-
-<p>查看本地的images镜像</p>
-
-<p><strong>镜像ID</strong>: 每个镜像有一个唯一的一个ID;长度为64个字符。通常只使用前12个字符就可以了。</p>
-
-<p>镜像TAG: 每个镜像可以打上一个或多个TAG</p>
-
-<p>镜像 Repository: 每个镜像存储在一个仓库中</p>
-
-<p><strong>Repository:TAG</strong>: 唯一标识一个镜像</p>
-
-<p>镜像和镜像仓库都存储在Registry中
-本地Registry： 通过docker images查看的就是本地Registry
-官方Registry: Docker官方维护了一个Registry,里面存储了各种各样的镜像。</p>
-
-<p>如果从Docker官方Registry拉取镜像速度很慢，可以舱室<strong>daocloud</strong>提供的加速器服务，<a href="https://dashboard.daocloud.io/mirror">https://dashboard.daocloud.io/mirror</a>有详细的使用方法介绍</p>
-
-<h1>Docker容器的创建、删除、停止、查看等基本命令</h1>
-
-<pre><code>docker run
-</code></pre>
-
-<p>运行容器命令。</p>
-
-<p>docker run是最常用也是最复杂的命令，通过docker help run  我们可以看到该命令有很多选项。</p>
+<h3>需要安装的软件：</h3>
 
 <ul>
-<li>-i -t 缩写为 -it,用于创建交互式容器</li>
-<li>-d  让容器运行在后台，用于创建守护式容器</li>
-<li>-name 为容器指定一个名称
-容器运行成功后，会返回一个64字符的<strong>容器ID</strong>, 作为容器的唯一标识。类似于镜像的ID, 容器ID也可以采用简写形式。</li>
+<li>Vagrant</li>
+<li>Virtual Box</li>
+<li>putty</li>
+<li>box <a href="https://atlas.hashicorp.com/boxes/search">虚拟机镜像查看</a></li>
 </ul>
 
 
-<p>通过如下命令来运行一个<strong>交互式容器</strong></p>
+<p>添加box ubuntu/trusty64</p>
 
-<pre><code>sudo docker run -it ubuntu:latest /bin/bash
+<pre><code>vagrant version
+#查看版本
+
+vagrant add box ubuntu/trusty64
+# download the box named "ubuntu/trusty64" from Internet
+#下载ubuntu14.04 lts(long term supporting)
 </code></pre>
 
-<p>说明</p>
+<p>添加的boxes会被多个项目重复利用。每个项目都会克隆它，而不会修改它。两个项目之间不会相互影响</p>
 
-<ul>
-<li>it 指定要创建交互式容器</li>
-<li>ubuntu:latest   以仓库：TAG的形式指定了镜像名称</li>
-<li>/bin/bash 容器对应的进程，会启动一个新的shell</li>
-</ul>
+<pre><code>vagrant box list
+#查看box列表
 
+vagrant init ubuntu/trusty64; 
+vagrant init
 
-<p>通过如上命令，我们启动了新的shell，并运行在容器环境中。由于是一个交互式容器，所以我们会离开当前的shell，被这个新的shell带入到容器的虚拟世界中，此后我们在这个shell里面执行的任何命令，都是相对于这个虚拟世界的。</p>
+vagrant up --provider virtualbox
+vagrant up
 
-<pre><code>/cat/etc/issue.net
+vagrant ssh
 </code></pre>
 
-<p>exit 回到现实世界</p>
+<p>bootstrap.sh 文件</p>
 
-<p>交互式容器适合一些临时性的任务，当退出bash的时候，交互式容器的生命也就结束了。大多数场合下，我们需要的是<strong>守护式容器</strong>。通过如下方式运行守护式容器：</p>
+<pre><code>#!/usr/bin/env bash
 
-<pre><code>sudo docker run -d redis
+apt-get update
+apt-get install -y apache2
+if ! [ -L /var/www ]; then
+  rm -rf /var/www
+  ln -fs /vagrant /var/www
+fi
 </code></pre>
 
-<p>说明</p>
+<p>Vagrantfile文件 配置文件</p>
 
-<ul>
-<li>d 创建守护式容器</li>
-<li><p>redis镜像名称 这里只有仓库名称，没有指定TAG,那么久使用默认TAG <strong>&lsquo;latest&rsquo;</strong></p></li>
-<li><p><strong>没有指定命令</strong> 那么会使用镜像所提供的<strong>默认命令</strong>。redis镜像的默认命令是 /entrypoint.sh redis-server</p></li>
-</ul>
-
-
-<p><strong>守护式容器运行在后台</strong>， 这样我们就可以继续留在当前shell中进行其它操作</p>
-
-<pre><code>sudo docker ps
+<pre><code>Vagrant.configure("2") do |config|
+   config.vm.box = "hashicorp/precise32"
+   config.vm.provision :shell, path: "bootstrap.sh"
+   config.vm.network :forwarded_port, guest: 80, host: 4567
+   config.vm.network :private_network, ip: "192.168.33.10"
+   #重启虚拟机，这样我们就能用 192.168.33.10 访问这台机器了，你可以把 IP 改成其他地址，只要不产生冲突就行。
+end
 </code></pre>
 
-<p>查看容器的基本信息，包括容器ID、命令、状态等；</p>
+<p>vagrant load &ndash;provision</p>
 
-<pre><code>sudo docker ps -a 
+<p>vagrant login
+输入用户名和密码</p>
+
+<p>vagrant share</p>
+
+<p>将产生一个网址，互联网上的其他人能够访问</p>
+
+<h3>停止工作</h3>
+
+<pre><code>vagrant suspend
+vagrant halt
+vagrant destroy
 </code></pre>
 
-<p>查看之前创建的容器</p>
+<h3>打包分发</h3>
 
-<pre><code>docker inspect + 镜像ID
+<pre><code>vagrant package
+vagrant package --output NAME 导出box (NAME.box)
 </code></pre>
 
-<p>查看更具体的信息
-    docker rm + 镜像ID
-容器停止后并不会被删除，用这个命令删除</p>
+<p>打包完成后会在当前目录生成一个 package.box 的文件，将这个文件传给其他用户，其他用户只要添加这个 box 并用其初始化自己的开发目录就能得到一个一模一样的开发环境了。</p>
+
+<h3>注意事项</h3>
+
+<p>使用 Apache/Nginx 时会出现诸如图片修改后但页面刷新仍然是旧文件的情况，是由于静态文件缓存造成的。需要对虚拟机里的 Apache/Nginx 配置文件进行修改：</p>
+
+<pre><code># Apache 配置添加:
+EnableSendfile off
+
+# Nginx 配置添加:
+sendfile off;
+</code></pre>
+
+<h3>补充</h3>
+
+<p>Putty工具连接：</p>
+
+<p>注：虚拟机的默认IP|Port：127.0.0.1:2222   用户：vagrant | root   密码：vagrant</p>
+
+<h3>参考链接</h3>
+
+<p><a href="http://www.ciandt.com.cn/blog/how-to-use-vagrant-build-drupal-development-environment-windows">CI&amp;T: 使用VAGRANT构建DRUPAL本地开发环境 - WINDOWS</a></p>
+
+<p><a href="http://segmentfault.com/a/1190000000264347">使用 Vagrant 打造跨平台开发环境</a></p>
 </div>
   
   
@@ -606,6 +309,14 @@ Docker Server：它是一个<strong>守护进程（Daemon）</strong>,一直运�
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/10/26/mysql-optimization-and-design/">MySQL业务优化与设计</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/21/mysql-programe-development/">MySQL程序开发</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
@@ -637,14 +348,6 @@ Docker Server：它是一个<strong>守护进程（Daemon）</strong>,一直运�
     
       <li class="post">
         <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
       </li>
     
   </ul>

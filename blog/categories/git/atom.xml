@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | hanfeng.name]]></title>
   <link href="http://fenghan.github.io/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://fenghan.github.io/"/>
-  <updated>2015-10-21T08:27:41+08:00</updated>
+  <updated>2015-10-27T22:06:34+08:00</updated>
   <id>http://fenghan.github.io/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -74,11 +74,11 @@
 </span><span class='line'>&lt;h1&gt;在全局上配置name和email&lt;/h1&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;p&gt;git config <span class="p">&amp;</span>ndash<span class="p">;</span>global user.name hanfeng &lt;br/&gt;
-</span><span class='line'>git config <span class="p">&amp;</span>ndash<span class="p">;</span>global user.email &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#105;&amp;#108;&amp;#x74;&amp;#111;&amp;#x3a;&amp;#99;&amp;#111;&amp;#x6e;&amp;#x74;&amp;#97;&amp;#x63;&amp;#116;&amp;#x40;&amp;#104;&amp;#x61;&amp;#x6e;&amp;#x66;&amp;#x65;&amp;#x6e;&amp;#103;&amp;#x2e;&amp;#110;&amp;#x61;&amp;#109;&amp;#x65;&quot;</span>&gt;<span class="p">&amp;</span><span class="c">#x63;&amp;#x6f;&amp;#x6e;&amp;#x74;&amp;#x61;&amp;#99;&amp;#116;&amp;#x40;&amp;#x68;&amp;#x61;&amp;#x6e;&amp;#102;&amp;#x65;&amp;#110;&amp;#103;&amp;#x2e;&amp;#110;&amp;#x61;&amp;#109;&amp;#x65;&lt;/a&gt;&lt;/p&gt;</span>
+</span><span class='line'>git config <span class="p">&amp;</span>ndash<span class="p">;</span>global user.email &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#x74;&amp;#x6f;&amp;#58;&amp;#x63;&amp;#111;&amp;#110;&amp;#x74;&amp;#x61;&amp;#x63;&amp;#x74;&amp;#x40;&amp;#x68;&amp;#x61;&amp;#110;&amp;#x66;&amp;#101;&amp;#x6e;&amp;#103;&amp;#x2e;&amp;#x6e;&amp;#97;&amp;#x6d;&amp;#101;&quot;</span>&gt;<span class="p">&amp;</span><span class="c">#x63;&amp;#x6f;&amp;#110;&amp;#116;&amp;#x61;&amp;#99;&amp;#x74;&amp;#64;&amp;#x68;&amp;#97;&amp;#x6e;&amp;#x66;&amp;#x65;&amp;#110;&amp;#103;&amp;#x2e;&amp;#x6e;&amp;#97;&amp;#109;&amp;#101;&lt;/a&gt;&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;生成秘钥和公钥，公钥放到Github或Git服务器上，私钥自己保存&lt;/h1&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;p&gt;ssh-keygen -t rsa -C <span class="p">&amp;</span>lsquo<span class="p">;</span>&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#x74;&amp;#111;&amp;#58;&amp;#99;&amp;#x6f;&amp;#x6e;&amp;#116;&amp;#x61;&amp;#x63;&amp;#116;&amp;#64;&amp;#x68;&amp;#x61;&amp;#x6e;&amp;#x66;&amp;#x65;&amp;#x6e;&amp;#x67;&amp;#46;&amp;#110;&amp;#x61;&amp;#x6d;&amp;#x65;&quot;</span>&gt;<span class="p">&amp;</span><span class="c">#99;&amp;#x6f;&amp;#110;&amp;#116;&amp;#x61;&amp;#x63;&amp;#x74;&amp;#x40;&amp;#x68;&amp;#x61;&amp;#x6e;&amp;#102;&amp;#x65;&amp;#x6e;&amp;#103;&amp;#46;&amp;#x6e;&amp;#x61;&amp;#x6d;&amp;#101;&lt;/a&gt;&amp;rsquo;&lt;/p&gt;</span>
+</span><span class='line'>&lt;p&gt;ssh-keygen -t rsa -C <span class="p">&amp;</span>lsquo<span class="p">;</span>&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#x61;&amp;#105;&amp;#108;&amp;#x74;&amp;#111;&amp;#58;&amp;#x63;&amp;#x6f;&amp;#x6e;&amp;#116;&amp;#x61;&amp;#99;&amp;#x74;&amp;#64;&amp;#104;&amp;#97;&amp;#x6e;&amp;#x66;&amp;#101;&amp;#x6e;&amp;#103;&amp;#46;&amp;#x6e;&amp;#x61;&amp;#x6d;&amp;#101;&quot;</span>&gt;<span class="p">&amp;</span><span class="c">#x63;&amp;#x6f;&amp;#110;&amp;#x74;&amp;#97;&amp;#x63;&amp;#116;&amp;#x40;&amp;#104;&amp;#x61;&amp;#x6e;&amp;#102;&amp;#x65;&amp;#110;&amp;#103;&amp;#46;&amp;#110;&amp;#x61;&amp;#x6d;&amp;#101;&lt;/a&gt;&amp;rsquo;&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;常用快捷键&lt;/h1&gt;
 </span><span class='line'>

@@ -9,8 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 本文记录是极客学院 Redis系列课程的文字记录 文档
-Redis Desktop Manager 集合类型与有序集合类型 集合类型概述 Set， string类型的无序集合，不允许有重复元素。通过hash table实现，可以取并集、交集、差集， &hellip;">
+  <meta name="description" content="前言 当PHP引擎试图实例化未知类的操作时，就会调用autoload(),并将类名当做字符串传递给它。但autoload()有个缺点，就是 一个进程中只能定义一次。这是就可以使用spl_autoload_register()函数。它可以把函数注册到__autoload队列中. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/14/redis-datastructure2/">Redis数据结构类型2</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/17/composer-autoload/">Composer自动加载的原理</a></h1>
     
     
       <p class="meta">
@@ -92,7 +91,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-14T14:02:41+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:02 pm</span></time>
+<time class='entry-date' datetime='2015-08-17T15:29:35+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:29 pm</span></time>
         
       </p>
     
@@ -101,74 +100,167 @@ var _hmt = _hmt || [];
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>本文记录是极客学院 <a href="http://www.jikexueyuan.com/course/1693_1.html?ss=2">Redis系列课程</a>的文字记录</p>
+<p>当PHP引擎试图实例化未知类的操作时，就会调用<strong>autoload(),并将类名当做字符串传递给它。但</strong>autoload()有个缺点，就是 一个进程中只能定义一次。这是就可以使用spl_autoload_register()函数。它可以把函数注册到__autoload队列中. 现在我们来看看composer是如何实现自动加载的。</p>
 
-<p><a href="http://redisdoc.com/">文档</a>
-<a href="http://redisdesktop.com/download">Redis Desktop Manager</a></p>
+<p>composer.json 文件</p>
 
-<h1>集合类型与有序集合类型</h1>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;autoload&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;classmap&quot;</span> <span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="s2">&quot;app/controllers&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s2">&quot;app/models&quot;</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<h3>集合类型概述</h3>
 
-<p>Set， string类型的无序集合，不允许有重复元素。通过hash table实现，可以取并集、交集、差集，可以实现sns中好友推荐和blog的tag功能。</p>
+<p>当我们composer dump-autoload的时候，文件/vendor/composer/autoload_clasmap.php会把类名和绝对地址做个想射。</p>
 
-<p>底层实现： 整数集合（都是整数值，数量不超过512），字典。</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$vendorDir</span> <span class="o">=</span> <span class="nb">dirname</span><span class="p">(</span><span class="nb">dirname</span><span class="p">(</span><span class="k">__FILE__</span><span class="p">));</span>
+</span><span class='line'><span class="nv">$baseDir</span> <span class="o">=</span> <span class="nb">dirname</span><span class="p">(</span><span class="nv">$vendorDir</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>    <span class="s1">&#39;Article&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/models/Article.php&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;BaseController&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/controllers/BaseController.php&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;HomeController&#39;</span> <span class="o">=&gt;</span> <span class="nv">$baseDir</span> <span class="o">.</span> <span class="s1">&#39;/app/controllers/HomeController.php&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>存储一个列表数据，又不希望出现重复数据时，set是一个很好的选择。</p>
 
-<p>集合还提供了判断某个成员是否在一个set集合内的接口。</p>
+<p>首页index.php调用composer的autoload文件</p>
 
-<p>sadd srem spop
-- sadd key member 返回值，成功的数量
-- srem key member 返回值，删除的的数量， 可删除多个
-- spop key 随机弹出一个元素，返回弹出的元素</p>
+<pre><code>require '../vendor/autoload.php';
+</code></pre>
 
-<h2>获取</h2>
+<p>会调用ComposerAutoloaderInit类的静态方法getLoader(）</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">require_once</span> <span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/composer&#39;</span> <span class="o">.</span> <span class="s1">&#39;/autoload_real.php&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">return</span> <span class="nx">ComposerAutoloaderInita488c85ce5c077906f9c1829b6492f6b</span><span class="o">::</span><span class="na">getLoader</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>verdor/composer/目录下有四个配置文件：</p>
 
 <ul>
-<li>smembers key  查看元素</li>
-<li>srandmember key count  count>0 返回不重复， count &lt; 0,可能重复</li>
-<li>SISMEMBER key member  集合中是否存在key</li>
-<li>SCARD member  统计集合个数</li>
+<li>autoload_classmap.php：  要加载的class映射</li>
+<li>autoload_files.php：     要加载的文件</li>
+<li>autoload_namespaces.php：    psr-0标准</li>
+<li>psr4.php：                   psr-4标准</li>
 </ul>
 
 
-<p>运算命令
-- SDIFF A B 差集， 所有属于A，不属于B; 1 2 3， 2 3 4 => 1
-- SINTER A B  交集  所有属于A, 且属于B
-- SUNION A B  并集
-- SDIFFSTORE  不会返回结果，而是会存储在dest结果中</p>
+<p>getLoader(）这个方法会先把这些配置文件放到ClassLoader的私有属性中。</p>
 
-<h2>Redis 有序集合类型概述</h2>
+<p>然后通过$loader->register(true);来调用spl_autoload_register()</p>
 
-<p>Sorted Sort
-底层实现：</p>
-
-<ul>
-<li>压缩列表（数量不超过128，且小于64字节）、</li>
-<li>跳跃表（skiplist）</li>
-</ul>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">register</span><span class="p">(</span><span class="nv">$prepend</span> <span class="o">=</span> <span class="k">false</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nb">spl_autoload_register</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="s1">&#39;loadClass&#39;</span><span class="p">),</span> <span class="k">true</span><span class="p">,</span> <span class="nv">$prepend</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>需要有序的，不重复的，可以选择它。 可以构建优先级的队列。</p>
+<p>spl_autoload_register()把loadClass()方法注册到了autoload队列中,然后当PHP引擎试图实例化未知类的操作时，就会根据类名和命名空间加载这个类文件。</p>
 
-<p>有序集合类型与列表的比较，相同点：</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">loadClass</span><span class="p">(</span><span class="nv">$class</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$file</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">findFile</span><span class="p">(</span><span class="nv">$class</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">includeFile</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<ul>
-<li>二者都是有序的。</li>
-<li>二者都可以获得某一范围的元素。</li>
-</ul>
+
+<h1>psr-0 与psr - 4 的不同</h1>
+
+<ol>
+<li>PSR-4中，在类名中使用下划线没有任何特殊含义。而PSR-0则规定类名中的下划线_会被转化成目录分隔符。</li>
+<li>composer的PSR-4带来更简洁的文件结构。</li>
+<li>参考：<a href="http://segmentfault.com/a/1190000000380008">PSR-4——新鲜出炉的PHP规范</a></li>
+</ol>
 
 
-<p>不同点：</p>
+<p>总结：
+1. 命名空间前缀对应相应的文件夹
+2. 类名和文件名相同，文件后缀为PHP</p>
 
-<ul>
-<li>列表通过链表实现，获取靠近两端的数据速度快，适合“新鲜事”和“日志”。</li>
-<li>有序集合使用散列表和跳跃表实现，读取中间数据速度也快。</li>
-<li>列表不能简单的调整元素的位置，而有序集可以。</li>
-<li>有序集合比列表类型更耗内存。</li>
-</ul>
+<h3>psr-4</h3>
 
+<pre><code>{
+    "psr-4" : {
+       "Foo\\": "src/"
+    },
+}
+</code></pre>
+
+<p>按照PSR-4的规则，当试图自动加载 &ldquo;Foo\Bar\Baz&rdquo; 这个class时，会去寻找 &ldquo;src/Bar/Baz.php&rdquo; 这个文件，如果它存在则进行加载。</p>
+
+<h3>prs-0</h3>
+
+<pre><code>{
+    "psr-0" : {
+       "Foo\\": "src/",
+    },
+}
+</code></pre>
+
+<p>PSR-0有此配置，那么会去寻找 &ldquo;src/Foo/Bar/Baz.php&rdquo;</p>
+
+<p>PSR-0当试图自动加载 &ldquo;Foo\A_B&rdquo; 这个class时，会去寻找 &ldquo;src/Foo/A/B.php&rdquo; 这个文件.</p>
+
+<p>参考链接<a href="http://www.tuicool.com/articles/mARrMj6">http://www.tuicool.com/articles/mARrMj6</a></p>
+
+<h3>classmap</h3>
+
+<pre><code>{
+    "autoload": {
+            "classmap": [
+                "database"
+            ],
+    }
+}
+</code></pre>
+
+<p>classmap 做的是类名和文件所在位置的映射</p>
 </div>
   
   
@@ -181,7 +273,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/14/nginx-error-msg/">Nginx错误信息汇总</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/15/php-framework-hilda/">使用Composer搭建自己的PHP框架</a></h1>
     
     
       <p class="meta">
@@ -190,16 +282,34 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-14T12:18:19+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:18 pm</span></time>
+<time class='entry-date' datetime='2015-08-15T08:45:27+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:45 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h3>Nginx服务器返回403</h3>
+  <div class="entry-content"><h1>前言</h1>
 
-<p>开了Astrill VPN, 关闭Astrill，即可</p>
+<p>今天参照<a href="http://lvwenhan.com/php/410.html">教程</a>，使用Composer来搭建自己的框架。</p>
+
+<p>我给它起了一个名字叫做Hilda PHP Framework.</p>
+
+<p>通过构建这样的微型框架，有利于我们学习框架的自动加载、单入口文件、MVC的原理，因为需要什么，就加载什么。这样，自己的框架就像搭积木一样完成了，避免了重复发明轮子的烦恼。</p>
+
+<h2>Hilda特性：</h2>
+
+<ul>
+<li>单入口文件</li>
+<li>MVC架构</li>
+<li>微型路由，基于<a href="https://packagist.org/packages/codingbean/macaw">codingbean/macaw</a></li>
+<li>数据库的ORM 采用 <a href="http://laravel-china.org/docs/5.0/eloquent">Eloquent</a></li>
+</ul>
+
+
+<h1>安装方法</h1>
+
+<p>它的Github地址为：<a href="https://github.com/FengHan/hilda">https://github.com/FengHan/hilda</a></p>
 </div>
   
   
@@ -222,6 +332,14 @@ var _hmt = _hmt || [];
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/10/26/mysql-optimization-and-design/">MySQL业务优化与设计</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/21/mysql-programe-development/">MySQL程序开发</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
@@ -253,14 +371,6 @@ var _hmt = _hmt || [];
     
       <li class="post">
         <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
       </li>
     
   </ul>

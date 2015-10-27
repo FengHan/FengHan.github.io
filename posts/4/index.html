@@ -9,9 +9,11 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="什么是索引 索引是值到行位置的映射。索引就是一个目录。 索引的作用： 提高访问的速度。硬盘IO每秒100到150次的响应。每次10毫秒
-实现主键、唯一键逻辑 IO是个宝贵的资源， 索引的使用场景： FTS 全表索引 Mysql中我们可以使用的索引类型： Btree索引：
-B+tree： &hellip;">
+  <meta name="description" content="前言 课程笔记：IMOOC:高性能产品的必由之路—性能测试工具。
+昨天面试，问我LNAMP能够承载多少用户，答不知道，所以学习。 引言 搭建一个网站容易
+搭建一个千万用户级的网站没有那么容易 横向扩展的能力
+数据库的优化
+尽量让一台机器能够承载更多的用户请求 性能测试的指标 什么是系统测试 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,7 +86,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/09/10/mysql-index/">MySQL索引</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/09/12/performance-test/">高性能产品的必由之路—性能测试工具</a></h1>
     
     
       <p class="meta">
@@ -93,103 +95,167 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-09-10T10:07:51+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 am</span></time>
+<time class='entry-date' datetime='2015-09-12T10:32:58+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:32 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h4>什么是索引</h4>
+  <div class="entry-content"><h1>前言</h1>
 
-<p>索引是值到行位置的映射。索引就是一个目录。</p>
+<p>课程笔记：<a href="http://www.imooc.com/learn/278">IMOOC:高性能产品的必由之路—性能测试工具</a>。
+昨天面试，问我LNAMP能够承载多少用户，答不知道，所以学习。</p>
 
-<h4>索引的作用：</h4>
+<h1>引言</h1>
 
 <ul>
-<li>提高访问的速度。硬盘IO每秒100到150次的响应。每次10毫秒</li>
-<li>实现主键、唯一键逻辑</li>
+<li>搭建一个网站容易</li>
+<li>搭建一个千万用户级的网站没有那么容易
+
+<ul>
+<li>横向扩展的能力</li>
+<li>数据库的优化</li>
+<li>尽量让一台机器能够承载更多的用户请求
+
+<h1>性能测试的指标</h1>
+
+<h4>什么是系统测试</h4></li>
+</ul>
+</li>
 </ul>
 
 
-<p>IO是个宝贵的资源，</p>
+<p>性能测试就是通过<strong>技术的手段</strong>模拟大量用户<strong>同时</strong>访问被测应用，观察、记录和分析系统的<strong>各项性能指标</strong>的过程。</p>
 
-<h4>索引的使用场景：</h4>
+<p>性能测试的目标是评估系统的性能瓶颈，预测系统的最大用户负载能力。</p>
 
-<p>FTS 全表索引</p>
-
-<h4>Mysql中我们可以使用的索引类型：</h4>
+<h3>两个关键点</h3>
 
 <ul>
-<li>Btree索引：</li>
-<li>B+tree： 平衡二叉树的一种改良</li>
-<li>Hash索引 InnoDB</li>
-<li>Innodb ： 聚簇索引，</li>
-<li>二级索引： 除了主键，用户创建的索引。</li>
+<li>模拟大量并发用户</li>
+<li>监控系统负载参数分析系统瓶颈
+
+<h4>性能指标</h4></li>
+<li>平均响应时间（TTLB, Time to laster byte）
+
+<ul>
+<li>平均每个请求从发送到接收响应的时间</li>
+<li>合理的平均响应时间
+
+<ul>
+<li>2/5/10原则</li>
+<li>非常有吸引力/比较不错/糟糕失败的</li>
+</ul>
+</li>
+<li>平均响应时间的业务影响
+
+<ul>
+<li>1秒延迟减少了11%的PV，降低了16%的客户满意度</li>
+<li>2秒增加到10秒，会导致38%的页面浏览放弃率</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>CPU
+
+<ul>
+<li> CPU的占用率</li>
+</ul>
+</li>
+<li>内存
+
+<ul>
+<li>内存的占用率， 换页数</li>
+</ul>
+</li>
+<li>I/O
+
+<ul>
+<li>读写请求数，读写量</li>
+</ul>
+</li>
+<li>带宽
+
+<ul>
+<li> 进站出站带宽占用率
+
+<h4>为什么要进行性能测试</h4></li>
+</ul>
+</li>
+<li>能够有效评估系统的性能指标，用于系统的系能评估</li>
+<li>能够识别系统的性能瓶颈，协助性能调优</li>
+<li>能够指导突发流量承载方案的制定</li>
+<li>能够用于系统运维成本的预算
+
+<h4>性能的事的一般分类</h4></li>
+<li>负载测试(Load Test)
+
+<ul>
+<li>为了验证系统设计符合正常业务负载情况下系统性能表现的测试</li>
+<li>开发人员找到内存泄露、连接泄露和系统瓶颈</li>
+</ul>
+</li>
+<li>压力测试（Stress Test）
+
+<ul>
+<li>为了验证系统在极端负载情况下的性能表现的测试</li>
+</ul>
+</li>
 </ul>
 
 
-<h4>索引的代价：</h4>
-
-<p>插入修改删除每个索引都编程一个内部事务，索引越多，事务越长。(增删改)</p>
-
-<h4>索引的优势:</h4>
-
-<ol>
-<li>减少查询IO</li>
-<li>优化等值查询、范围查询</li>
-<li><p>利用有序特性</p>
-
-<p> order by , group byh , distinct, max ,min</p></li>
-</ol>
-
-
-<h4>如何用好索引：</h4>
+<h3>性能测试工具</h3>
 
 <ul>
-<li><p>依据where查询条件来建立索引：</p>
+<li>top
 
-<pre><code>  select a,b from tab_a where c = ?;  #c上建立索引
-</code></pre></li>
-<li><p>使用联合索引，而不是多个单列索引。</p>
+<ul>
+<li>F 显示字段与排序</li>
+<li>h 帮助</li>
+<li>VIRT 虚拟内存大小</li>
+<li>RES   真实内存大小</li>
+<li>SHA 共享内存大小</li>
+<li>TIME+ 运行这个进程的时间</li>
+<li>查看cpu排序也可以用  SHIFT键+p 或者  大写状态下 P</li>
+<li>查看内存排序也可以用  SHIFT键+m 或者  大写状态下 M</li>
+</ul>
+</li>
+<li>top -b -n 1
 
-<pre><code>  select * from tab_a where a = ? AND b = ? 
-  #建立a和b的索引， 把一组值作为b+tree 的索引， 在同一个树里，查询速度更高。
-</code></pre></li>
-<li><p>联合索引， 区分度大的放在前面。</p>
+<ul>
+<li>b 所有的都列出来</li>
+<li>n 1  ， 只执行一次</li>
+</ul>
+</li>
+<li>sysstat
 
-<pre><code>  name,gender 对， 因为name的区分度很大。能够更好地使用b+ TREE来定位节点
+<ul>
+<li>统计系统的各种占用资源</li>
+<li>cd /etc/cron.d; cat sysstat</li>
+<li>CPU监控</li>
+<li>查看是否是内存瓶颈</li>
+<li>swap的监控</li>
+<li>IO的监控</li>
+<li>网络监控
 
-  gender,name 错
-</code></pre></li>
-<li><p>联合索引能为前缀单列，复列查询提供帮助。</p>
+<h3>评估磁盘读写性能极限</h3></li>
+</ul>
 
-<pre><code>  where a = ? 
-  wherer a = ? AND b =? 
-</code></pre></li>
-<li><p>合理创建联合索引，避免冗余。
-      abc 包含 a ,ab</p></li>
-<li><p>ORDER BY, GROUP BY, DISTINCT 字段添加索引</p></li>
-<li><p>用 EXPLAIN 查看语句</p>
 
-<pre><code>  possible_key 可以使用的索引
-  key 实际的索引名字  重要
-  rows  读的记录行数，才返回的结果 重要。
-  typpe   index  扫描完整的索引树， 重要   
-  key_len 如果只使用了一部分，为长度。  
-  force index  强制使用索引 
-  ignore index 
-</code></pre>
+<p>  fio -filename=/tmp/test -direct=1 -iodepth 1 -thread -rw=randrw -ioengine=psync -bs=16k -size 2G -numjobs=10 -runtime=30 -group_reporting -name=mytest13
+查看IOPS,我的ssd硬盘，在虚拟机中的ubuntu， read：1348 write：1345</p></li>
+</ul>
 
-<h4>其他技巧</h4></li>
-<li><p>一个表，控制百万级别。如何达到了一两百G，就可以考虑分库分表了。千万级别，取决于访问方式，left join</p></li>
-<li><p>WHERE查询时，  函数不要加在字段上。timestamp > func(1234)。</p></li>
-<li><p>外键一般用程序使用。</p></li>
-<li><p>什么事优化器： 哪个索引会更快，IO更小。生发语法数，生成一个计划。</p></li>
-<li><p>纵向分表，根据业务来拆分。</p></li>
-<li><p>等值查询 ，2个范围查询， 不能都覆盖到。联合查询。等值能用一个，范围查询也只能用一个。</p></li>
-<li><p>通过表结构设计来避免连表。</p></li>
-<li><p>触发器和存储过程不好维护，做运维手段还可以。</p></li>
+
+<h1>Jmeter</h1>
+
+<p>Apache组织开发的开源性能测试工具</p>
+
+<h4>ECSHOP</h4>
+
+<ul>
+<li>开源，但商业应用需要付费，功能齐全。</li>
 </ul>
 
 </div>
@@ -204,7 +270,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/09/10/mysql-master-slave/">MySQL主从复制</a></h1>
     
     
       <p class="meta">
@@ -213,322 +279,99 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-09-09T15:25:59+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:25 pm</span></time>
+<time class='entry-date' datetime='2015-09-10T10:44:16+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:44 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>认识MySQL</h1>
+  <div class="entry-content"><h1>前言</h1>
 
-<h4>关系与非关系型数据库</h4>
+<p>之前写过一篇MySQL的主从配置，今天这篇文章涉主要涉及理论。</p>
 
-<p>关系型数据库</p>
+<h1>什么是主从复制</h1>
 
 <ul>
-<li>mysql</li>
-<li>oracle</li>
-<li>sql server</li>
-<li>postgresql</li>
+<li>数据拷贝</li>
+<li>准实时</li>
+<li>源主节点； 目的-从节点</li>
 </ul>
 
 
-<p>非关系型数据库</p>
+<h1>主从复制的原理</h1>
+
+<h4>复制格式</h4>
 
 <ul>
-<li>hadoop</li>
-<li>mongoDB</li>
-<li>redis</li>
-<li>Cassandra</li>
+<li>SRB: Statement Based Replication (原生的语句)</li>
+<li>PBR: Row （5.7.7变为默认格式）</li>
+<li>MBR: Mixed</li>
 </ul>
 
 
-<p>区别：</p>
+<p>查看复制格式
+        show global variables like &lsquo;binlog_format&rsquo;;</p>
 
-<p>是否使用SQL语句作为数据操作的方法和方式。</p>
+<p>配置文件
+    [mysqld]
+    binlog_format = ROW</p>
 
-<p>所以关系型数据库又叫做SQL数据库。</p>
-
-<h4>为什么学习MySQL</h4>
+<h1>主从复制的用途</h1>
 
 <ul>
-<li>基于GPL协议</li>
-<li>Mysql 最流行 ，开源，但不是最先进的。</li>
-<li>互联网企业中占绝对主流地位</li>
+<li>试试灾备，用于故障切换（高可用的切换）</li>
+<li>读写分离，提供查询服务</li>
+<li>备份，避免影响业务</li>
 </ul>
 
 
-<p>开发者学习MySQL：</p>
-
-<ul>
-<li>学习数据类型的正确使用</li>
-<li>学习如何利用索引优化查询效率</li>
-<li>了解分区，读写分离特性</li>
-<li>了解数据库事务相关特性</li>
-</ul>
-
-
-<p>DBA学习MySQL：</p>
-
-<ul>
-<li>学习MySQL体系结构知识</li>
-<li>学习日常运维，性能调优，故障排查</li>
-<li>虚席数据层架构设计，schema优化知识</li>
-</ul>
-
-
-<h1>轻松安装MySQL</h1>
-
-<p>5.6 <a href="http://www.mysql.com/downloads/">http://www.mysql.com/downloads/</a></p>
-
-<ul>
-<li>企业版</li>
-<li>集群版</li>
-<li>社区版 （免费）
-
-<h4>Windows上安装</h4>
-
-<p>安装包：300M+</p></li>
-</ul>
-
-
-<h4>Linux上安装</h4>
-
-<h4>Ubuntu上安装MySQL</h4>
-
-<pre><code>apt-cache search mysql-server
-apt-get install mysql-server-5.6
-#查看mysql进程
-ps -ef|grep mysqld
-#查看mysql状态：版本、运行时间、连接方式、查询统计
-sudo /etc/init.d/mysql status
-#msyql启动、停止、重启
-sudo /etc/init.d/mysql start|stop|restart
-</code></pre>
-
-<h1>连接使用MySQL</h1>
-
-<ul>
-<li>应用程序驱动</li>
-<li>MySQL命令行</li>
-<li><p>GUI工具</p>
-
-<p>  #查看mysql-client版本
-  mysql -V</p></li>
-</ul>
-
-
-<p>命令行连接MySQL</p>
-
-<ul>
-<li><p>Socket连接(本地连接)</p>
-
-<pre><code>  mysql -S/var/run/mysqld/mysqld.sock -uhomestead -p
-</code></pre></li>
-<li><p>TCP/IP连接（远程连接）</p>
-
-<pre><code>   mysql -h127.0.0.1 -P3306 -uhomestead -p
-</code></pre></li>
-</ul>
-
-
-<p>本地连接只能在MySQL服务器上创建，常作为MySQL状态检查，或程序和MySQL部署在一台机器上。</p>
-
-<pre><code>#小技巧
-Ctrl + r : 搜索之前敲过的命令
-</code></pre>
-
-<h3>两个重要的命令： status, show processlist</h3>
-
-<h4>status</h4>
-
-<p>关注的信息：</p>
-
-<ul>
-<li>Server version</li>
-<li>characterset: utf8 (Server, Db, Client, Conn)</li>
-<li>Uptime
-
-<h4>show processlist</h4></li>
-</ul>
-
-
-<p>help select;</p>
-
-<pre><code>#查看socket文件位置
-show global variables like 'socket'
-</code></pre>
-
-<ul>
-<li>socket权限为777</li>
-<li>不要把密码直接输入在命令行里面，存在安全风险。</li>
-</ul>
-
-
-<p>history -c 清楚命令行历史</p>
-
-<h4>常用的图形客户端工具</h4>
-
-<ul>
-<li>Navicat</li>
-<li><p>MySQLWenkBench</p></li>
-<li><p>操作简单，易于上手</p></li>
-<li>支出图形化的导入导出</li>
-<li>可视化的界面输出</li>
-</ul>
-
-
-<p>总结：</p>
+<h2>MySQL主从复制的一些模式</h2>
 
 <ol>
-<li>应用程序使用API接口连接MySQL</li>
-<li>开发工程师可以使用图形工具连接MySQL</li>
-<li><strong>命令行工具才是DBA的最爱</strong></li>
+<li>一主一从</li>
+<li>主主复制</li>
+<li>一主多从</li>
+<li>多主依从 （mysql5.7开始支持）</li>
+<li>联级复制</li>
 </ol>
 
 
-<h1>SQL语言入门</h1>
+<h1>主从复制的搭建</h1>
 
-<p>DDL :
-- CREATE TABLE
-- DROP TABLE
-- ALTER TABLE</p>
-
-<p>DML:</p>
+<h3>主从部署的必要条件：</h3>
 
 <ul>
-<li>SELECT FROM TABLE</li>
-<li>INSERT INTO TABLE</li>
-<li>UPDATE TABLE SET</li>
-<li>DELETE FROM TABLE</li>
+<li>主从开启binlog日志（设置log-bin参数）</li>
+<li>主从server-id不同</li>
+<li>从库服务器能连通主库</li>
 </ul>
 
 
-<p>DCL:</p>
+<h3>主从部署步骤</h3>
 
 <ul>
-<li>GRANT</li>
-<li>REVOKE</li>
+<li>备份还原(mysqldump )</li>
+<li>授权 （grant replicaton slave on <em>.</em>）</li>
+<li>配置复制，并启动 (change master to)</li>
+<li><p>查看主从复制信息 (show slave status\G)</p>
+
+<h1>主从复制的问题</h1></li>
+<li><p>主库宕机，数据可能丢失</p></li>
+<li>从库只有一个sql thread, 主库写压力大，复制很可能延时。</li>
 </ul>
 
 
-<p>TCL:</p>
+<h3>MySQL半同步复制</h3>
+
+<h3>MySQL并行复制</h3>
 
 <ul>
-<li>COMMIT</li>
-<li>ROLLBACK</li>
-</ul>
+<li>社区版5.6新增</li>
+<li>并行是指从库多线程，</li>
+<li><p>库级别并应用binlog，同一个数据库更新还是串行的（5.7版并行复制基于事务组）</p>
 
-
-<p><a href="http://www.w3school.com.cn/sql/">SQL教程</a></p>
-
-<h1>认识DBA</h1>
-
-<p>DBA是最后一道屏障，守门员，是业务稳定的基石。</p>
-
-<p>监控线上，保障业务的正常运行。</p>
-
-<p>做好实时性能监控,一旦有长的SQL语句，就会立刻接到报警，然后进行调优。</p>
-
-<h4>小公司</h4>
-
-<ul>
-<li>没有专职DBA</li>
-<li>但肯定有懂数据库的人</li>
-</ul>
-
-
-<p>大公司：</p>
-
-<ul>
-<li>专职DBA</li>
-<li>数据存储技术专家</li>
-</ul>
-
-
-<p>互联网业务： 高性能、高可用、可扩展、安全性。</p>
-
-<p>没有DBA就没有稳定的数据库，请求变慢，数据丢失，安全问题，用户投诉，无穷无尽。</p>
-
-<h3>DBA要做哪些工作？</h3>
-
-<ol>
-<li>基础运维
-
-<ul>
-<li>安全部署</li>
-<li>监控</li>
-<li>故障处理</li>
-</ul>
-</li>
-<li>安全运维工作
-
-<ul>
-<li>数据备份与恢复</li>
-<li>安全访问，安全漏洞</li>
-<li>审计</li>
-</ul>
-</li>
-<li>性能调优工作
-
-<ul>
-<li>数据库优化</li>
-<li>容量评估、软硬件升级</li>
-</ul>
-</li>
-<li>开发支持工作
-
-<ul>
-<li>存储方案制定(哪些数据放在memcache，减少对数据库的访问)</li>
-<li>数据库设计</li>
-<li>数据库变更 SQL Review （审核业务SQL，全表扫描的SQL会把数据库跑死）</li>
-</ul>
-</li>
-<li>流程与培训
-
-<ul>
-<li>数据库开发规范</li>
-<li>运维流程与标准化</li>
-<li>业务培训</li>
-</ul>
-</li>
-</ol>
-
-
-<p>练习：
-mysql要做的：</p>
-
-<p>分析MySQL慢日志请求，优化表索引</p>
-
-<h4>DBA需要的技能</h4>
-
-<p>专业技能：
-    - 数据库原理
-    - Linux与Shell
-    - 计算机体系结构
-    - 网络原理
-    - 数据库系统与操作
-    - 服务器硬件
-    - 业务架构设计
-软技能：</p>
-
-<pre><code>- 责任心、执行力
-- 坚韧，抗压（半夜、凌晨工作）
-- 学习与沟通能力
-- 正直，诚信
-- 耐心，注重细节
-- 分析能力
-- 团队协作
-- 
-</code></pre>
-
-<p>DBA如何发展？</p>
-
-<ul>
-<li>业务架构师（数据存储有深入研究，处理不同业务场景与需求的数据存储）</li>
-<li>运维专家（解决mysql的任何问题，帮助数据库更稳定更高效的运行）</li>
-<li>数据库研发（改进数据库系统或开发自己的数据库）</li>
+<p>  set global slave_parallel_workers = 10</p></li>
 </ul>
 
 </div>
@@ -553,6 +396,14 @@ mysql要做的：</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/10/26/mysql-optimization-and-design/">MySQL业务优化与设计</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/10/21/mysql-programe-development/">MySQL程序开发</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
@@ -584,14 +435,6 @@ mysql要做的：</p>
     
       <li class="post">
         <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
       </li>
     
   </ul>
