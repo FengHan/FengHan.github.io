@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://hanfeng.name/blog/2015/12/17/docke-compose/</loc>
+    <lastmod>2015-12-17T10:06:10+00:00</lastmod>
+  </url>
+  <url>
+    <loc>http://hanfeng.name/blog/2015/12/17/ubuntu-octopress/</loc>
+    <lastmod>2015-12-17T09:55:39+00:00</lastmod>
+  </url>
+  <url>
     <loc>http://hanfeng.name/blog/2015/12/17/docker-drupal8/</loc>
     <lastmod>2015-12-17T08:45:49+00:00</lastmod>
   </url>

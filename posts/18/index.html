@@ -9,7 +9,8 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="成为一名PHP开发者要学习哪些内容？ 活到老，学到老，作为开发者，要不断地学习，那应该怎样学习呢？ ">
+  <meta name="description" content="今天免费申请了腾讯云主机的免费试用15天。
+50元的代金券买了两台数据库，并使用了负载均衡。 记录主要操作如下： 修改 /etc/hostname 和 /etc/hosts 配置openssh-server 安装nginx php5-fpm php5-mysql php5-cli &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +83,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/26/learn-php/">PHP开发工程师</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/27/qcloud/">腾讯云主机免费试用</a></h1>
     
     
       <p class="meta">
@@ -91,20 +92,33 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-26T14:22:29+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:22 pm</span></time>
+<time class='entry-date' datetime='2015-07-27T08:19:32+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:19 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>成为一名PHP开发者要学习哪些内容？</p>
+  <div class="entry-content"><p>今天免费申请了<a href="http://qcloud.com">腾讯云</a>主机的免费试用15天。
+50元的代金券买了两台数据库，并使用了负载均衡。</p>
 
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/what_shoud_learn_for_phper.jpg" alt="" /></p>
+<p>记录主要操作如下：</p>
 
-<p>活到老，学到老，作为开发者，要不断地学习，那应该怎样学习呢？</p>
+<p>修改 /etc/hostname 和 /etc/hosts</p>
 
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/how_to_learn_php.jpg" alt="" /></p>
+<p>配置openssh-server</p>
+
+<p>安装nginx php5-fpm php5-mysql php5-cli</p>
+
+<p>域名A记录和CNAME指向</p>
+
+<p>配置nginx虚拟主机</p>
+
+<p>安装mariadb</p>
+
+<p>安装redis</p>
+
+<p>购买了两台mysql服务器</p>
 </div>
   
   
@@ -117,7 +131,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/26/composer/">Composer</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/27/ssh-server/">Ubuntu 14.04远程登录服务器--ssh的安装和配置</a></h1>
     
     
       <p class="meta">
@@ -126,38 +140,24 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-26T11:45:50+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:45 am</span></time>
+<time class='entry-date' datetime='2015-07-27T07:22:47+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:22 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><a href="http://www.phpcomposer.com/composer-the-new-age-of-dependency-manager-for-php/">参考链接</a></p>
+  <div class="entry-content"><pre><code>sudo apt-get update
+sudo apt-get install openssh-server
+sudo ps -e |grep ssh
 
-<p>全局安装：</p>
-
-<pre><code>$ curl -sS https://getcomposer.org/installer | php
-$ mv composer.phar /usr/local/bin/composer
+#没有启动，输入
+service ssh start
 </code></pre>
 
-<p>Composer 中国镜像</p>
+<p>vi /etc/ssh/sshd_config</p>
 
-<p>采用</p>
-
-<p> <a href="http://pkg.phpcomposer.com/">composer 的全局配置文件</a></p>
-
-<h2>Windows上安装</h2>
-
-<p><a href="https://getcomposer.org/doc/00-intro.md#installation-windows">https://getcomposer.org/doc/00-intro.md#installation-windows</a></p>
-
-<p>遇到的坑： php.ini 要把php_openssl打开。</p>
-
-<h2>简单实用</h2>
-
-<pre><code>composer require phpspec/phpspec
-composer create-project laravel/laravel learning-laravel-5
-</code></pre>
+<p>把配置文件中的"PermitRootLogin without-password"加一个"#&ldquo;号,把它注释掉&ndash;>再增加一句"PermitRootLogin yes&rdquo;&ndash;>保存，修改成功。</p>
 </div>
   
   
@@ -180,6 +180,14 @@ composer create-project laravel/laravel learning-laravel-5
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/docke-compose/">Docke Compose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/ubuntu-octopress/">Ubuntu Octopress</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/12/17/docker-drupal8/">Docker Drupal8</a>
@@ -211,14 +219,6 @@ composer create-project laravel/laravel learning-laravel-5
     
       <li class="post">
         <a href="/blog/2015/08/29/performance-bottleneck/">性能瓶颈</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
       </li>
     
   </ul>

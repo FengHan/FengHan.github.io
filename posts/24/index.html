@@ -9,7 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 我刚毕业那年，公司在开发软件项目的时候使用的是SVN，但总觉得有一些缺点，例如：版本库只保存在了中央服务器上，如果服务器离线或宕机，就无法进行版本管理；当时每天下班时，我们都会提交提交当天的代码，由于代码的合并是在服务器上完成的，所以偶尔会遇到合并的时候出现BUG; &hellip;">
+  <meta name="description" content="前言 有了Docker以后，那些需要多台机器才能完成的实验就变得非常简单了。 以容器的方式交付软件， 是每一个程序员都需要掌握的新技能。 什么是Docker， Docker是一个容器引擎,提供了一套完整的容器解决方案。 Docker是2014年最火的开源项目，由Docker公司领导开发， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/18/git-local/">Git的本地操作</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/19/docker/">认识Docker</a></h1>
     
     
       <p class="meta">
@@ -91,7 +91,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-18T02:39:26+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:39 am</span></time>
+<time class='entry-date' datetime='2015-07-19T14:09:25+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:09 pm</span></time>
         
       </p>
     
@@ -100,148 +100,393 @@ var _hmt = _hmt || [];
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>我刚毕业那年，公司在开发软件项目的时候使用的是SVN，但总觉得有一些缺点，例如：版本库只保存在了中央服务器上，如果服务器离线或宕机，就无法进行版本管理；当时每天下班时，我们都会提交提交当天的代码，由于代码的合并是在服务器上完成的，所以偶尔会遇到合并的时候出现BUG;</p>
+<p>有了Docker以后，那些需要多台机器才能完成的实验就变得非常简单了。</p>
 
-<p>之后的工作中接触到了Git，它很好的解决了我之前遇到的问题,具体学习可参考<a href="http://git-scm.com/book/en/v2">Pro Git 第二版</a></p>
+<p>以容器的方式交付软件， 是每一个程序员都需要掌握的新技能。</p>
 
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_pro-git.jpg?imageView2/2/h/300" alt="image" /></p>
+<h1>什么是Docker，</h1>
 
-<h1>Git 简介</h1>
+<p><a href="http://docker.com">Docker</a>是一个<strong>容器</strong>引擎,提供了一套完整的容器解决方案。</p>
 
-<p><strong>Git与SVN的比较</strong></p>
+<p>Docker是2014年最火的开源项目，由Docker公司领导开发，基于Apache2.0开源授权协议发行。</p>
 
-<ol>
-<li>SVN是集中式的版本控制软件，而Git是分布式的。</li>
-<li>SVN的版本是记录文件与上一次版本的差异，每次checkout时，要迭代这些差异；而Git每个版本会记录全部内容，所以效率更高。</li>
-<li>因为Git在每台电脑上都保存了完整的Version Database， 所以Git可以离线完成大部分操作</li>
-<li>Git有着更优雅的分支和实现</li>
-<li>Git有着强大的撤销修改和修改版本的能力</li>
-<li>Git速度更快，效率更高</li>
-</ol>
+<p>Docker是用Go语言开发的，其源码在<a href="https://github.com/docker/docker">https://github.com/docker/docker</a>
+<img src="http://7xkc1x.com1.z0.glb.clouddn.com/docker.jpg?imageView2/2/w/300/" alt="" /></p>
 
+<h1>什么是容器</h1>
 
-<p><strong>为什么学习Git呢</strong></p>
+<p><strong>容器</strong>是一种历史悠久的<strong>虚拟化技术</strong>，如OpenVZ，Solaris上的Zones，Linux上的LXC等，都是容器的不同实现方式。</p>
 
-<ol>
-<li>现在越来越多的项目放在了GitHub上;</li>
-<li>同时越来越来的公司开始使用Git;</li>
-<li>Android和Linux的版本控制用的都是Git</li>
-</ol>
+<p>一个容器实质上就是运行在宿主机器上的一个进程。只不过在启动这个进程之前，进行了一些特殊处理，让这个进程进入了一个全新的虚拟环境，与宿主机环境分开。所以这个进程及它的子进程认为自己运行在一个独立的世界里面。</p>
 
+<p>容器的优势：
+<em>创建容器速度快</em>，速度在1秒左右，而传统虚拟机需要15s左右</p>
 
-<h1>Git安装与简单配置</h1>
+<p>容器运行<strong>占用的额外开销非常小</strong></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#在全局上配置name和email</span>
-</span><span class='line'>git config --global user.name hanfeng 
-</span><span class='line'>git config --global user.email contact@hanfeng.name
-</span><span class='line'><span class="c">#生成秘钥和公钥，公钥放到Github或Git服务器上，私钥自己保存</span>
-</span><span class='line'>ssh-keygen -t rsa -C <span class="s1">&#39;contact@hanfeng.name&#39;</span>
-</span><span class='line'><span class="c">#常用快捷键</span>
-</span><span class='line'>git config --global alias.co checkout
-</span><span class='line'>git config --global alias.st status
-</span><span class='line'>git config --global alias.ci commit
-</span><span class='line'>git config --global alias.br branch
-</span><span class='line'>git config --global alias.lol <span class="s2">&quot;log --oneline -- decorate --graph -all&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Docker的优势：</p>
 
+<p>Docker让容器的管理变得极其方便，不需要掌握高深的技术就能使用。</p>
 
-<p>Git config 配置有3个优先级
-local > global > system</p>
+<p>为什么学习Docker：</p>
 
-<p>git config 的增删改查</p>
+<p>Docker很可能改变传统的软件“交付”方式和“运行”方式；也可能在绝大多数场合取代传统虚拟机的地位。因此整个IT界都在积极探索如何运用Docker来进行技术变革。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#增</span>
-</span><span class='line'>git config --global --add user.name michael
-</span><span class='line'><span class="c">#删</span>
-</span><span class='line'>git config --global --unset user.name michael
-</span><span class='line'><span class="c">#改</span>
-</span><span class='line'>git conifg --global user.name hanfeng
-</span><span class='line'>查
-</span><span class='line'>git config --list --global
-</span></code></pre></td></tr></table></div></figure>
+<h1>如何安装Docker</h1>
 
+<p>Docker可以安装到绝大多数的Linux发型版上，包括Ubuntu、CentOS、Redhat等,也可安装到Mac OS上。</p>
 
-<h1>Git基本工作流程</h1>
+<p><a href="https://docs.docker.com/installation">https://docs.docker.com/installation</a>介绍了在各种操作系统上安装Docker的详细步骤。虽然Docker可以安装在Windows上，但是不推荐。</p>
 
-<p>Git 使用40个16进制符的SHA-1的Hash来标识对象</p>
+<p>需要注意的是，<strong>目前Docker只支持64位操作系统</strong></p>
 
-<p>Git的对象有4种：</p>
+<h3>Ubuntu上安装稳定版</h3>
+
+<p>本文在Ubuntu Trusty 14.04 (LTS)上安装</p>
+
+<pre><code>uname -i   
+</code></pre>
+
+<p>x86_64则为64位系统</p>
+
+<pre><code>uname -r 
+</code></pre>
+
+<p>内核版本要大于3.10</p>
+
+<pre><code>sudo apt-get update
+sudo apt-get install docker.io
+ps axf | grep docker
+docker version 
+#查看docker版本
+</code></pre>
+
+<h3>安装最新版本</h3>
+
+<pre><code>sudo apt-get remove --purge docker.io
+</code></pre>
+
+<p>先卸载稳定版的docker</p>
+
+<pre><code>which wget
+</code></pre>
+
+<p>确保安装wget</p>
+
+<pre><code>wget -qO- https://get.docker.com/ | sh
+</code></pre>
+
+<p>获取最新的Docker Packer</p>
+
+<pre><code>ps axf | grep docker
+docker version 
+#查看docker版本
+
+service docker stop
+service docker start
+service docker restart
+</code></pre>
+
+<p>Docker是一个经典的CS架构：
+Docker Server：它是一个<strong>守护进程（Daemon）</strong>,一直运行在后台。
+它其中嵌入了一个Web Server。</p>
+
+<p>Docker的发展速度太快，目前最新版本到1.7.1，推荐安装到最新版</p>
+
+<p>Docker Client： 它是一个命令行工具，通过HTTP协议与Docker Server交互</p>
+
+<p>巧妙的是，<strong>Docker Server与Docker Client共用同一个可执行文件</strong>,通过</p>
+
+<pre><code>which docker
+</code></pre>
+
+<p>来查看它安装后的路径</p>
+
+<pre><code>sudo docker run hello-world
+</code></pre>
+
+<p>验证docker是否安装正确，它会下载一个测试镜像，并在容器里运行它。</p>
+
+<h1>Docker镜像和镜像仓库</h1>
+
+<p>每个Docker容器运行在独立的虚拟环境中，虚拟环境包括多个方面，其中最重要的就是独立的<strong>文件系统</strong>；在这个文件系统中的读写操作，既不影响宿主机的文件系统，也不影响其它容器的文件系统。</p>
+
+<p>Docker镜像是一个比较复杂的概念。现阶段，我们可以把简单的把<strong>Docker镜像理解成一个目录</strong> Docker Server在启动容器的时候，先根据这个镜像目录，复制出一个<strong>新的目录</strong> ,然后在容器进程启动时，让这个进程chroot到这个新的目录下。这样，这个目录就成了这个容器的根文件系统（<strong>rootfs</strong>）。</p>
+
+<pre><code>docker images
+</code></pre>
+
+<p>查看本地的images镜像</p>
+
+<p><strong>镜像ID</strong>: 每个镜像有一个唯一的一个ID;长度为64个字符。通常只使用前12个字符就可以了。</p>
+
+<p>镜像TAG: 每个镜像可以打上一个或多个TAG</p>
+
+<p>镜像 Repository: 每个镜像存储在一个仓库中</p>
+
+<p><strong>Repository:TAG</strong>: 唯一标识一个镜像</p>
+
+<p>镜像和镜像仓库都存储在Registry中
+本地Registry： 通过docker images查看的就是本地Registry
+官方Registry: Docker官方维护了一个Registry,里面存储了各种各样的镜像。</p>
+
+<p>如果从Docker官方Registry拉取镜像速度很慢，可以舱室<strong>daocloud</strong>提供的加速器服务，<a href="https://dashboard.daocloud.io/mirror">https://dashboard.daocloud.io/mirror</a>有详细的使用方法介绍</p>
+
+<h1>Docker容器的创建、删除、停止、查看等基本命令</h1>
+
+<pre><code>docker run
+</code></pre>
+
+<p>运行容器命令。</p>
+
+<p>docker run是最常用也是最复杂的命令，通过docker help run  我们可以看到该命令有很多选项。</p>
 
 <ul>
-<li>blob： 文件名，二进制文件或链接</li>
-<li>tree： 目录</li>
-<li>commit: 代表一个提交</li>
-<li>tag： 指向一个固定的历史提交</li>
+<li>-i -t 缩写为 -it,用于创建交互式容器</li>
+<li>-d  让容器运行在后台，用于创建守护式容器</li>
+<li>-name 为容器指定一个名称
+容器运行成功后，会返回一个64字符的<strong>容器ID</strong>, 作为容器的唯一标识。类似于镜像的ID, 容器ID也可以采用简写形式。</li>
 </ul>
 
 
-<p>Tag -> Commit -> Tree -> Blob</p>
+<p>通过如下命令来运行一个<strong>交互式容器</strong></p>
 
-<p>Git只关心文件内容，如果两个文件有相同的内容，那么他们会指向相同的Blob, 文件名存储在tree里</p>
+<pre><code>sudo docker run -it ubuntu:latest /bin/bash
+</code></pre>
 
-<p>创建一个裸仓库
-git init &ndash;bare</p>
+<p>说明</p>
 
-<p>Git有三个区域 Working directory(工作区), Staging area(暂存区), History repository(历史记录区)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git rm a
-</span><span class='line'>#把工作区和暂存区的a都删掉
-</span><span class='line'>#如果还原 用git reset --hard HEAD a
-</span><span class='line'>
-</span><span class='line'>git mv a c
-</span><span class='line'>#工作区和暂存区a都会改名字为c
-</span><span class='line'>#相当于 mv a c 和 git add a c  </span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>it 指定要创建交互式容器</li>
+<li>ubuntu:latest   以仓库：TAG的形式指定了镜像名称</li>
+<li>/bin/bash 容器对应的进程，会启动一个新的shell</li>
+</ul>
 
 
-<p>vim .gitignore</p>
+<p>通过如上命令，我们启动了新的shell，并运行在容器环境中。由于是一个交互式容器，所以我们会离开当前的shell，被这个新的shell带入到容器的虚拟世界中，此后我们在这个shell里面执行的任何命令，都是相对于这个虚拟世界的。</p>
 
-<blockquote><p>*.[o|a]</p>
+<pre><code>/cat/etc/issue.net
+</code></pre>
 
-<p>*.~</p>
+<p>exit 回到现实世界</p>
 
-<p>!test.pyc</p>
+<p>交互式容器适合一些临时性的任务，当退出bash的时候，交互式容器的生命也就结束了。大多数场合下，我们需要的是<strong>守护式容器</strong>。通过如下方式运行守护式容器：</p>
 
-<p>foo/</p>
+<pre><code>sudo docker run -d redis
+</code></pre>
 
-<p>**/res</p></blockquote>
+<p>说明</p>
 
-<p>test.pyc不要被忽略</p>
+<ul>
+<li>d 创建守护式容器</li>
+<li><p>redis镜像名称 这里只有仓库名称，没有指定TAG,那么久使用默认TAG <strong>&lsquo;latest&rsquo;</strong></p></li>
+<li><p><strong>没有指定命令</strong> 那么会使用镜像所提供的<strong>默认命令</strong>。redis镜像的默认命令是 /entrypoint.sh redis-server</p></li>
+</ul>
 
-<p>顶层或res子目录</p>
 
-<p>.git/info/exclude  只针对本地仓库</p>
+<p><strong>守护式容器运行在后台</strong>， 这样我们就可以继续留在当前shell中进行其它操作</p>
 
-<p>./git/config配置下</p>
+<pre><code>sudo docker ps
+</code></pre>
 
-<blockquote><p>excludesfile = e:/gitignore.txt</p></blockquote>
+<p>查看容器的基本信息，包括容器ID、命令、状态等；</p>
 
-<h1>Git本地分支与合并</h1>
+<pre><code>sudo docker ps -a 
+</code></pre>
+
+<p>查看之前创建的容器</p>
+
+<pre><code>docker inspect + 镜像ID
+</code></pre>
+
+<p>查看更具体的信息
+    docker rm + 镜像ID
+容器停止后并不会被删除，用这个命令删除</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/19/nginx_php5-fpm/">在Ubuntu上搭建Nginx + Php5-fpm</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-19T03:25:56+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:25 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://nginx.org/nginx.png" alt="" /></p>
+
+<h1>前言</h1>
+
+<p>大学开发网站的时候，大部分的时候使用的是Apache服务器，但进入工作后，服务器都使用Nginx，因为它能承载的并发数是Apache2.2的10倍。</p>
+
+<p>Nginx只负责静态文件，通过php5-fpm调用php-cgi来解析php。</p>
+
+<p>那CGI是干嘛的？CGI是为了保证web server传递过来的数据是标准格式的，方便CGI程序的编写者的协议。</p>
+
+<p>Fastcgi是用来提高CGI程序性能的，也是一个协议。</p>
+
+<p>那PHP-FPM又是什么呢？是一个实现了Fastcgi的程序，被PHP官方收了。</p>
+
+<p>可以<a href="http://nginx.org/en/docs/">Nginx官方文档</a>深入学习，下面这些必看</p>
+
+<ul>
+<li>Installing nginx</li>
+<li>Beginner’s Guide</li>
+<li>Converting rewrite rules</li>
+<li>ngx_http_rewrite_module</li>
+<li>ngx_http_proxy_module</li>
+<li>ngx_http_log_module</li>
+</ul>
+
+
+<h1>安装Nginx</h1>
+
+<p><strong>安装Nginx</strong></p>
+
+<pre><code>apt-get update
+apt-get install nginx
+</code></pre>
+
+<p><strong>配置Nginx</strong></p>
+
+<p>nginx配置文件</p>
+
+<blockquote><p>/etc/nginx/nginx.conf中</p></blockquote>
+
+<p>nginx.conf配置里面包括了</p>
+
+<blockquote><p>include /etc/nginx/conf.d/*.conf;</p>
+
+<p>include /etc/nginx/sites-enabled/*;</p></blockquote>
+
+<p>错误日志</p>
+
+<blockquote><p>error_log /var/log/nginx/error.log;</p></blockquote>
+
+<p>网页的默认目录</p>
+
+<blockquote><p>root /usr/share/nginx/html;</p></blockquote>
+
+<p>配置目录</p>
+
+<blockquote><p>/etc/nginx/sites-available/default</p></blockquote>
+
+<h3>fastcgi配置</h3>
+
+<pre><code>location ~ \.php$ {
+
+  　　  try_files $uri =404;
+
+  　　  fastcgi_pass 127.0.0.1:9000;
+
+  　　  fastcgi_index index.php;
+
+  　　  include fastcgi_params;
+}
+  　
+</code></pre>
+
+<p><strong>配置生效</strong></p>
+
+<pre><code>/etc/init.d/nginx reload
+</code></pre>
+
+<p><strong>启动Nginx</strong></p>
+
+<pre><code>/etc/init.d/nginx start
+</code></pre>
+
+<p><strong>测试Nginx</strong></p>
+
+<p>再配置好php5-fpm后，再测试
+在 /usr/share/nginx/html下新建index.php</p>
+
+<pre><code>&lt;? php
+phpinfo();
+</code></pre>
+
+<p>　　　　
+nginx -t</p>
+
+<h1>虚拟主机管理</h1>
+
+<p>创建 tech.hanfeng.name</p>
+
+<pre><code>cd /usr/share/nginx
+
+mkdir tech.hanfeng.name
+
+cd tech.hanfeng.name
+
+echo '&lt;?php phpinfo();' &gt; index.php
+
+cd /etc/nginx/sites-available/ 
+
+cp default tech.hanfeng.name
+#Apache需要以.conf结尾，Nginx不用
+
+grep -v "#" tech.hanfeng.name
+</code></pre>
+
+<p>tech.hanfeng.name 虚拟主机配置：</p>
+
+<pre><code>server {
+        listen 80;
+        listen [::]:80;
+
+        root /usr/share/nginx/tech.hanfeng.name;
+        index index.php index.html;
+
+        server_name tech.hanfeng.name;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+
+
+
+        location ~ \.php$ {
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+
+                fastcgi_pass 127.0.0.1:9000;
+                fastcgi_index index.php;
+                include fastcgi_params;
+        }
+
+}
+</code></pre>
+
+<h3>生成软连接</h3>
+
+<pre><code>ln -s /etc/nginx/sites-available/tech.hanfeng.name  /etc/nginx/sites-enabled/tech.hanfeng.name
+</code></pre>
+
+<h3>测试并且加载nginx配置</h3>
+
+<pre><code>nginx -t
+
+/etc/init.d/nginx reload
+</code></pre>
+
+<h1>安装PHP</h1>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -262,473 +507,58 @@ git init &ndash;bare</p>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#只对本地有效
-</span><span class='line'>git tag "v0" 3abefd
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install php5-fpm
 </span><span class='line'>
-</span><span class='line'>#对全局都有效   
-</span><span class='line'>git tab -a "INITIAL_COMMIT" 3abedf
-</span><span class='line'>git tag
-</span><span class='line'>git show v0
-</span><span class='line'>git checkout -b fix -v0
-</span><span class='line'>git stash = git stash svae
+</span><span class='line'>sudo apt-get install php5-gd  
+</span><span class='line'># Popular image manipulation library; used extensively by Wordpress and it's plugins.
 </span><span class='line'>
-</span><span class='line'>git stash save -a "stash1"  
-</span><span class='line'># -a --all 把untracked files 也stash
+</span><span class='line'>sudo apt-get install php5-cli   
+</span><span class='line'># Makes the php5 command available to the terminal for php5 scripting
 </span><span class='line'>
-</span><span class='line'>git stash list
+</span><span class='line'>sudo apt-get install php5-curl    
+</span><span class='line'># Allows curl (file downloading tool) to be called from PHP5
 </span><span class='line'>
-</span><span class='line'>git stash pop --index stash@{0}   
-</span><span class='line'># --index, 暂存区还原到暂存区，不然还原到工作区
+</span><span class='line'>sudo apt-get install php5-mcrypt   
+</span><span class='line'># Provides encryption algorithms to PHP scripts
 </span><span class='line'>
-</span><span class='line'>git stash apply --index stash@{0} 
-</span><span class='line'>#同时保持git stash list
+</span><span class='line'>sudo apt-get install php5-mysql   
+</span><span class='line'># Allows PHP5 scripts to talk to a MySQL Database
 </span><span class='line'>
-</span><span class='line'>git stash drop stash@{0}
-</span><span class='line'>
-</span><span class='line'>git stash clean 
-</span><span class='line'># 清楚全部 stash</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>sudo apt-get install php5-readline  
+</span><span class='line'># Allows PHP5 scripts to use the readline function</span></code></pre></td></tr></table></div></figure>
 
 
-<p>分支切换，就是HEAD引用的切换</p>
+<p>查看php5运行进程</p>
 
-<p>git merge有两种： fast-forward， non-fast-forward</p>
-
-<p>fast-forward 只合并了工作区和暂存区，不产生新的Commit对象</p>
-
-<p>non-fast-forward 产生新的Commit对象，HEAD指向</p>
-
-<h1>查看与对比历史记录</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git show + git对象
-</span><span class='line'>git log 
-</span><span class='line'>git diff
-</span><span class='line'>git show HEAD~ = git show HEAD^
-</span><span class='line'>git show --oneline master^2
-</span><span class='line'>git diff --cached   
-</span><span class='line'>#暂存区与历史记录的比较
-</span><span class='line'>git diff --cached HEAD^2
-</span><span class='line'>git diff --color-words
-</span><span class='line'>git diff --word-diff</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>撤销修改</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout + 分支名
-</span><span class='line'>#把HEAD指向分支， 还原工作区和暂存区
-</span><span class='line'>
-</span><span class='line'>git reset
-</span><span class='line'>git clean 
-</span><span class='line'>git revert</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#根据历史记录，只还原暂存区
-</span><span class='line'>git reset master.txt = git rest HEAD master.txt
-</span><span class='line'>
-</span><span class='line'>#将tag指向的commit对象里的内容还原到工作区和暂存区
-</span><span class='line'>git checkout INITIAL_COMMIT --master.txt
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>#将tag指向的commit对象里的内容还原到暂存区
-</span><span class='line'>git reset INITIAL_COMMIT --master.txt
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git clean -n
-</span><span class='line'>git clean -f
-</span><span class='line'>
-</span><span class='line'>git clean -X -n  
-</span><span class='line'>#查看清除 .gitignore里的内容
-</span><span class='line'>
-</span><span class='line'>git clean -X -f
-</span><span class='line'>
-</span><span class='line'>git clean -x -n 
-</span><span class='line'>#清除所有
-</span><span class='line'>
-</span><span class='line'>git clean -x -f
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git revert HEAD</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>重写历史记录</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#修改最后一次提交
-</span><span class='line'>git commit --ammend  
-</span><span class='line'>
-</span><span class='line'>#超强的修改历史的能力，维护一个线性的历史
-</span><span class='line'>git rebase  
-</span><span class='line'>
-</span><span class='line'>#可以撤销merge
-</span><span class='line'>git reset + commit对象
-</span><span class='line'>
-</span><span class='line'>#维护HEAD引用信息，配合git reset
-</span><span class='line'>git reflog</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git rebase master
-</span><span class='line'>git rebase --abort
-</span><span class='line'>git rebase --continue</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git reset --mixed HEAD@{5}
-</span><span class='line'># --mixed为默认参数，只还原暂存区，把分支名和HEAD引用直接指定到相应的commit对象上
-</span><span class='line'>
-</span><span class='line'>git reset --hard HEAD@{5}
-</span><span class='line'>#还原暂存区和工作区
-</span><span class='line'> 
-</span><span class='line'>git reset --soft HEAD@{5}
-</span><span class='line'>#都不还原</span></code></pre></td></tr></table></div></figure>
-
-
-<pre><code>touch README.md //新建说明文件
-git init //在当前项目目录中生成本地git管理,并建立一个隐藏.git目录
-git add . //添加当前目录中的所有文件到索引
-git commit -m "first commit" //提交到本地源码库，并附加提交注释
-git remote add origin https://github.com/chape/test.git //添加到远程项目，别名为origin
-git push -u origin master //把本地源码库push到github 别名为origin的远程项目中，确认提交
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/17/octopress-blog/">使用Octopress在GitHub上搭建静态博客</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-17T04:52:50+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:52 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>前言</h1>
-
-<p>本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程及博客的迁移。 在继续看本文之前，请先确定你具有折腾的精神。</p>
-
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/ctooctopress.jpg" alt="image" /></p>
-
-<h1>介绍</h1>
-
-<p><a href="https://github.com/imathis/octopress">Octopress</a>是一个基于Ruby语言的开源静态网站框架， 所谓静态，是指网站的所有内容都是生成好的静态HTML，不含任何后台处理程序，也没有数据库。 这样的好处是不会读取数据库，也不会有脚本编译，所以网站的加载速度会非常快，整体程序规模也非常轻量级。</p>
-
-<p><a href="https://pages.github.com/">Github Pages</a>是Github上的一项服务， 注册用户可以申请一个和自己账号关联的二级域名， 在上面可以托管一个静态网站，网站内容本身就是Github的一个repository也就是项目， 维护这个项目的代码就是在维护自己的网站。
-此外，用户撰写日志使用的是Markdown语法。这是一种极简化的语法， 它的好处在于可以以纯文本形式表现文章，用户不用关心排版的问题。 基本上来说它相当于HTML标签的最小子集做了一个转义。</p>
-
-<p>综上所述，你将获得一个这样的博客</p>
-
-<ul>
-<li>命令行操作</li>
-<li>纯文本写博客</li>
-<li>定制性高</li>
-<li>纯静态</li>
-<li>尤其适合程序员</li>
-<li>版本化管理</li>
-<li>迁移成本低</li>
-<li>简洁的 Ruby 框架</li>
-<li><a href="http://www.appinn.com/markdown/">Markdown</a> 语法</li>
-</ul>
-
-
-<h1>安装</h1>
-
-<ul>
-<li>Git：版本管理工具，将代码托管到 GitHub</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ruby</span> <span class="o">-</span><span class="n">v</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Ruby + DevKit：生成静态网页</li>
-<li>MarkdownPad：Windows 下 Markdown 语法编辑器</li>
-<li><strong>安装 Octopress</strong></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#1.克隆 Octopress 至本地</span>
-</span><span class='line'><span class="n">git</span> <span class="nb">clone</span> <span class="ss">git</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">imathis</span><span class="o">/</span><span class="n">octopress</span><span class="o">.</span><span class="n">git</span> <span class="n">octopress</span>
-</span><span class='line'><span class="c1">#2.参考 ruby.taobao.org, 配置RubyGems 镜像</span>
-</span><span class='line'><span class="c1">#3.安装依赖项</span>
-</span><span class='line'><span class="n">gem</span> <span class="n">install</span> <span class="n">bundler</span>
-</span><span class='line'><span class="n">bundle</span> <span class="n">install</span>
-</span><span class='line'><span class="c1">#4.安装并使用默认主题</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">install</span>
-</span><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">rails</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Pygments: Jekyll 里默认的语法高亮插件是 Pygments
-
-<ul>
-<li>安装 Python</li>
-<li>安装 ‘Easy Install’</li>
-<li>安装 Pygments</li>
-</ul>
-</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">python</span> <span class="o">-</span><span class="n">V</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>部署博客至 GitHub</h1>
-
-<p>1.新建仓库
-    username.github.io</p>
-
-<p>2.与本地 Octopress 目录绑定</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">setup_github_pages</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>托管源码至 GitHub</h2>
-
-<p>将 source 目录更新到远程仓库</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
-</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s1">&#39;your message&#39;</span>
-</span><span class='line'><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">source</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>相关配置</h1>
-
-<p><strong>多说评论</strong></p>
-
-<p><strong>JiaThis分享</strong></p>
-
-<p><strong>自定义 404 页面</strong></p>
-
-<p><strong>自定义导航</strong></p>
-
-<p><strong>主配置文件</strong></p>
-
-<p>在 _config.yml 文件中，设置 url、title、author 等基本信息</p>
-
-<h2>GitHub 上找主题文件</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">install</span><span class="o">[</span><span class="s1">&#39;themename&#39;</span><span class="o">]</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">generate</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>在 GitHub 上绑定自定义域名</h2>
-
-<p>创建 source/CNAME 文件并指定域名</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s1">&#39;hanfeng.com&#39;</span> &gt;&gt; <span class="nb">source</span>/CNAME
-</span><span class='line'><span class="c"># OR</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s1">&#39;tech.hanfeng.name&#39;</span> &gt;&gt; <span class="nb">source</span>/CNAME
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>解析域名至 GitHub</p>
-
-<ul>
-<li><p>使用子域名
-对于子域名(www.hanfeng.name)，创建 CNAME 记录指向 fenghan.github.io</p></li>
-<li><p>使用顶级域名
-对于顶级域名(hanfeng.name)，使用 A 记录指向 192.30.252.153(154)</p></li>
-</ul>
-
-
-<h1>常用目录</h1>
-
-<p>source  存放程序、博客源码
-public  存放生成的静态网站</p>
-
-<h1>国内访问加速</h1>
-
-<p><strong>修改字体</strong>：</p>
-
-<p>source/_includes/custom/head.html,</p>
-
-<p>将其中的<a href="https://fonts.googleapis.com">https://fonts.googleapis.com</a> 改为 <a href="http://fonts.useso.com">http://fonts.useso.com</a> 即可。</p>
-
-<p><strong>jquery库</strong>:</p>
-
-<p>/source/_includes/head.html,把google的jQuery库改为libs.baidu.com的</p>
-
-<p><strong>关闭twitter</strong>:</p>
-
-<p>_config.yml中twitter_tweet_butto改为false即可</p>
-
-<h1>SEO</h1>
-
-<p>使用百度统计工具进行统计</p>
-
-<h1>常用命令</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">new_page</span><span class="o">[</span><span class="s1">&#39;about&#39;</span><span class="o">]</span>           
-</span><span class='line'><span class="c1">#creates /source/about/index.markdown</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">new_post</span><span class="o">[</span><span class="s1">&#39;octopress-blog&#39;</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">generate</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">preview</span>
-</span><span class='line'><span class="c1">#本地localhost:4000</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>
-</span><span class='line'><span class="c1">#发布代码到Git Pages上</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>博客迁移</h1>
-
-<p>如果本地已经配置过octopress，只是把octopress删掉重装
-将source和master分支下的内容clone到本地即可(不需要再到官网上去clone全新的octopress)，具体作法：</p>
-
-<p>1）首先将博客源文件clone到本地的octopress文件夹内。</p>
-
-<pre><code>$ git clone -b source git@github.com:FengHan/fenghan.github.io.git octopress
+<pre><code>ps -waux | grep php5
 </code></pre>
 
-<p>2）将博客源文件clone到octopress的——deploy文件夹内。</p>
+<h1>配置PHP5-FPM</h1>
 
-<pre><code>$ cd octopress
-$ git clone git@github.com:FengHan/fenghan.github.io.git _deploy 
+<p>配置php5监听端口</p>
+
+<blockquote><p>/etc/php5/fpm/pool.d/www.conf</p></blockquote>
+
+<pre><code>把
+listen = /var/run/php5-fpm.sock  改为
+listen = 127.0.0.1:9000
 </code></pre>
 
-<p>执行完这两步就OK了。</p>
+<p>配置好后，重新启动php5-fpm</p>
 
-<h1>参考链接</h1>
+<h3>php5-fpm命令</h3>
 
-<p>软件安装： <a href="http://blog.csdn.net/kong5090041/article/details/38408211">oukongli的专栏</a></p>
+<pre><code>sudo service php5-fpm stop
+sudo service php5-fpm start
+sudo service php5-fpm restart
+sudo service php5-fpm status
+</code></pre>
 
-<p>SEO参考： <a href="http://yidao620c.github.io/blog/20150318/octopress-blog.html">笨跑的一刀</a></p>
+<p>一台机器安装nginx，另一台安装php，用上面的修改</p>
 
-<p> <a href="http://pan.baidu.com/s/1bndNlTl">软件下载</a>   密码: e3p3</p>
+<p>重新运行php进程</p>
+
+<p>在浏览器中输入 localhost就可以看到了</p>
 </div>
   
   
@@ -737,6 +567,8 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
     </article>
   
   <div class="pagination">
+    
+      <a class="prev" href="/posts/25">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -749,6 +581,14 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/docke-compose/">Docke Compose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/ubuntu-octopress/">Ubuntu Octopress</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/12/17/docker-drupal8/">Docker Drupal8</a>
@@ -780,14 +620,6 @@ $ git clone git@github.com:FengHan/fenghan.github.io.git _deploy
     
       <li class="post">
         <a href="/blog/2015/08/29/performance-bottleneck/">性能瓶颈</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
       </li>
     
   </ul>

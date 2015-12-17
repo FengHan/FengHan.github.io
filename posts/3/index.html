@@ -9,10 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 中国外包软件的成功率只有5%。 成功的定义是以下3点。 按期交付 （在客户规定的工期内）
-正常运营
-不超预算 PHPUnit 安装： 按照官网步骤进行安装
-">
+  <meta name="description" content="CSRF（Cross-site request forgery跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。 CSRF 攻击的防范； 加密令牌：web应用程序可以在网页中嵌入一个加密的令牌， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/09/03/test-driver/">驱动式开发</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a></h1>
     
     
       <p class="meta">
@@ -94,31 +91,42 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-09-03T09:11:29+00:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:11 am</span></time>
+<time class='entry-date' datetime='2015-09-05T09:00:56+00:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:00 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
+  <div class="entry-content"><p>CSRF（Cross-site request forgery跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。</p>
 
-<p>中国外包软件的成功率只有5%。</p>
-
-<p>成功的定义是以下3点。</p>
+<h3>CSRF 攻击的防范；</h3>
 
 <ol>
-<li>按期交付 （在客户规定的工期内）</li>
-<li>正常运营</li>
-<li>不超预算</li>
+<li><p>加密令牌：web应用程序可以在网页中嵌入一个加密的令牌，所有的请求都包含这个加密令牌，由于跨站请求无法获取这个令牌，所以伪造的请求很容易就被服务器识别；</p></li>
+<li><p>Referer头途径：使用web应用程序也可以验证请求来源页面的Referer，然后由于隐私考虑，这个referer经常被客户端过滤；</p></li>
 </ol>
 
 
-<h1>PHPUnit</h1>
+<h3>加密令牌</h3>
 
-<p>安装：</p>
+<p>1.根据 加密参数、用户的session_id(), 时间戳和存放在session中的HASH函数。</p>
 
-<p>按照官网步骤进行安装</p>
+<p>把令牌token和时间戳 放到form的hidden里面。</p>
+
+<pre><code>$_SESSION[STOKEN_NAME] = gen_token(); // 随机数
+&lt;input type="hideen" value="session_token" value= &lt;?=$_SESSION[STOKEN_NAME]?&gt;
+</code></pre>
+
+<p>每次请求的时候，要验证session_token。</p>
+
+<p>参考链接：</p>
+
+<ol>
+<li><a href="http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html">http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html</a></li>
+<li><a href="https://www.shiyanlou.com/courses/303#">实验楼 - Elgg 系统 CSRF 攻击实验</a></li>
+</ol>
+
 </div>
   
   
@@ -131,7 +139,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/09/02/xdebug/">Xdebug</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/09/04/bdd/">行为驱动开发</a></h1>
     
     
       <p class="meta">
@@ -140,53 +148,14 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-09-02T14:57:38+00:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>2:57 pm</span></time>
+<time class='entry-date' datetime='2015-09-04T02:53:53+00:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:53 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
-
-<p>掌握Xdebug是每一个PHP程序员必备的技能。</p>
-
-<p>当你在使用Yii, ThinkPHP, Laravel框架的时候，你只有了解其系统架构后，才能更好的编写代码。Xdebug能够帮助你更好的调试代码。</p>
-
-<p>安装XDebug在<a href="http://xdebug.org/wizard.php">官网</a>输入你的phpinfo()信息，然后按照它的提示进行安装。</p>
-
-<p><a href="http://xdebug.org/docs/remote">远程调试</a>
-<a href="http://aicode.cc/article/362.html">中文文档</a></p>
-
-<pre><code>[xdebug]
-zend_extension = /usr/lib/php5/20131226/xdebug.so
-xdebug.remote_enable=1
-xdebug.remote_host=localhost
-xdebug.remote_port=9000
-xdebug.remote_connect_back=1
-xdebug.remote_autostart=1
-xdebug.profiler_enable=1
-xdebug.profiler_output_dir="/tmp"
-xdebug.idekey=PHPSTORM
-</code></pre>
-
-<p>php -v查看是否安装成功</p>
-
-<pre><code>root@homestead:/etc/php5/fpm# php -v
-with Xdebug v2.3.3, Copyright (c) 2002-2015, by Derick Rethans
-</code></pre>
-
-<p>php &ndash;ini</p>
-
-<p>我在这里遇到了一个坑，因为ubuntu环境下的php配置文件被拆分成多块，要在cli 下使用 php &ndash;ini来查看配置文件的位置。</p>
-
-<p>PHPStrom与Xdebug的结合使用，有一系列的配置。</p>
-
-<p>PHPStrom配置，一个是在PHP SCRIPT, 另一个是PHP WEB APPLICATION.</p>
-
-<h1>后续</h1>
-
-<p>在上面折腾了一番后，原来我使用Laravel提供的Homestead开发环境已经提供了XDebug，已经开启了远程调试。</p>
+  <div class="entry-content"><p>prophecy</p>
 </div>
   
   
@@ -209,6 +178,14 @@ with Xdebug v2.3.3, Copyright (c) 2002-2015, by Derick Rethans
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/docke-compose/">Docke Compose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/ubuntu-octopress/">Ubuntu Octopress</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/12/17/docker-drupal8/">Docker Drupal8</a>
@@ -240,14 +217,6 @@ with Xdebug v2.3.3, Copyright (c) 2002-2015, by Derick Rethans
     
       <li class="post">
         <a href="/blog/2015/08/29/performance-bottleneck/">性能瓶颈</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
       </li>
     
   </ul>

@@ -9,8 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 使用PHP做Web开发已有4年，4年间只有第二年是在Ubuntu下开发，其它都是在Windows下开发，但Win下开发有如下缺点： Windows 不区分大小写，在Win下OK, 上传到服务器上有了Bug。
-Windows 不能测试cron是否写得正确，执行php-cli麻烦 &hellip;">
+  <meta name="description" content="前言 PHP 作为一种广泛用于 Web 服务器端的脚本语言，在敏捷 Web 开发方面有独特的优势，成功案例多、社区活跃、资源丰富，框架也非常多。ThinkPHP 作为一款起步较早、相对成熟的国产 PHP 框架，在国内有相当的用户量，借这个机会向大家介绍 ThinkPHP 基础知识， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/22/vagrant-lnmp/">使用Vagrant搭建本地Ubuntu开发环境</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/23/thinkphp/">Thinkphp</a></h1>
     
     
       <p class="meta">
@@ -92,7 +91,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-22T06:13:27+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>6:13 am</span></time>
+<time class='entry-date' datetime='2015-07-23T03:55:43+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>3:55 am</span></time>
         
       </p>
     
@@ -101,143 +100,7 @@ var _hmt = _hmt || [];
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>使用PHP做Web开发已有4年，4年间只有第二年是在Ubuntu下开发，其它都是在Windows下开发，但Win下开发有如下缺点：</p>
-
-<ol>
-<li>Windows 不区分大小写，在Win下OK, 上传到服务器上有了Bug。</li>
-<li>Windows 不能测试cron是否写得正确，执行php-cli麻烦</li>
-<li>开发环境与生产环境不同，莫名的产生了一些Bug</li>
-<li>自己的Linux水平下降，对服务器的一些配置慢慢感到了生疏。</li>
-</ol>
-
-
-<p>但在Ubuntu下开发，也有问题：</p>
-
-<ol>
-<li>不习惯的编辑器，那时使用IDEA作为编辑器，真心不好用。</li>
-<li>当初用Word写文档，Ubuntu里没有。（现在用Markdown了）</li>
-<li>团队开发使用QQ作为通讯工具，还要装一个QQ。（QQ真不适合作为沟通工具，其它无关内容总分心）</li>
-</ol>
-
-
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_vagrant.png" alt="" /></p>
-
-<h1>Vagrant优点</h1>
-
-<p><a href="http://docs.vagrantup.com/">Vagrant</a>是用来管理虚拟机的，它有如下好处：</p>
-
-<ol>
-<li>对于开发人员来说，Vagrant可以帮你统一团队成员的开发环境。</li>
-<li>对于运维人员来说，Vagrant可以给你提供一个与线上一致的测试环境。</li>
-<li>对于设计人员来说，Vagrant可以让你只需要专注在设计上。</li>
-</ol>
-
-
-<p>Vagrant适合用来管理虚拟机，而Docker适合用来管理应用环境。</p>
-
-<h3>需要安装的软件：</h3>
-
-<ul>
-<li>Vagrant</li>
-<li>Virtual Box</li>
-<li>putty</li>
-<li>box <a href="https://atlas.hashicorp.com/boxes/search">虚拟机镜像查看</a></li>
-</ul>
-
-
-<p>添加box ubuntu/trusty64</p>
-
-<pre><code>vagrant version
-#查看版本
-
-vagrant add box ubuntu/trusty64
-# download the box named "ubuntu/trusty64" from Internet
-#下载ubuntu14.04 lts(long term supporting)
-</code></pre>
-
-<p>添加的boxes会被多个项目重复利用。每个项目都会克隆它，而不会修改它。两个项目之间不会相互影响</p>
-
-<pre><code>vagrant box list
-#查看box列表
-
-vagrant init ubuntu/trusty64; 
-vagrant init
-
-vagrant up --provider virtualbox
-vagrant up
-
-vagrant ssh
-</code></pre>
-
-<p>bootstrap.sh 文件</p>
-
-<pre><code>#!/usr/bin/env bash
-
-apt-get update
-apt-get install -y apache2
-if ! [ -L /var/www ]; then
-  rm -rf /var/www
-  ln -fs /vagrant /var/www
-fi
-</code></pre>
-
-<p>Vagrantfile文件 配置文件</p>
-
-<pre><code>Vagrant.configure("2") do |config|
-   config.vm.box = "hashicorp/precise32"
-   config.vm.provision :shell, path: "bootstrap.sh"
-   config.vm.network :forwarded_port, guest: 80, host: 4567
-   config.vm.network :private_network, ip: "192.168.33.10"
-   #重启虚拟机，这样我们就能用 192.168.33.10 访问这台机器了，你可以把 IP 改成其他地址，只要不产生冲突就行。
-end
-</code></pre>
-
-<p>vagrant load &ndash;provision</p>
-
-<p>vagrant login
-输入用户名和密码</p>
-
-<p>vagrant share</p>
-
-<p>将产生一个网址，互联网上的其他人能够访问</p>
-
-<h3>停止工作</h3>
-
-<pre><code>vagrant suspend
-vagrant halt
-vagrant destroy
-</code></pre>
-
-<h3>打包分发</h3>
-
-<pre><code>vagrant package
-vagrant package --output NAME 导出box (NAME.box)
-</code></pre>
-
-<p>打包完成后会在当前目录生成一个 package.box 的文件，将这个文件传给其他用户，其他用户只要添加这个 box 并用其初始化自己的开发目录就能得到一个一模一样的开发环境了。</p>
-
-<h3>注意事项</h3>
-
-<p>使用 Apache/Nginx 时会出现诸如图片修改后但页面刷新仍然是旧文件的情况，是由于静态文件缓存造成的。需要对虚拟机里的 Apache/Nginx 配置文件进行修改：</p>
-
-<pre><code># Apache 配置添加:
-EnableSendfile off
-
-# Nginx 配置添加:
-sendfile off;
-</code></pre>
-
-<h3>补充</h3>
-
-<p>Putty工具连接：</p>
-
-<p>注：虚拟机的默认IP|Port：127.0.0.1:2222   用户：vagrant | root   密码：vagrant</p>
-
-<h3>参考链接</h3>
-
-<p><a href="http://www.ciandt.com.cn/blog/how-to-use-vagrant-build-drupal-development-environment-windows">CI&amp;T: 使用VAGRANT构建DRUPAL本地开发环境 - WINDOWS</a></p>
-
-<p><a href="http://segmentfault.com/a/1190000000264347">使用 Vagrant 打造跨平台开发环境</a></p>
+<p>PHP 作为一种广泛用于 Web 服务器端的脚本语言，在敏捷 Web 开发方面有独特的优势，成功案例多、社区活跃、资源丰富，框架也非常多。ThinkPHP 作为一款起步较早、相对成熟的国产 PHP 框架，在国内有相当的用户量，借这个机会向大家介绍 ThinkPHP 基础知识，为后续的项目实战做好准备。</p>
 </div>
   
   
@@ -250,7 +113,7 @@ sendfile off;
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/21/docker-summary/">Docker小结</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/23/mariadb-setup/">在ubuntu上安装mariadb</a></h1>
     
     
       <p class="meta">
@@ -259,7 +122,7 @@ sendfile off;
 
 
 
-<time class='entry-date' datetime='2015-07-21T13:07:41+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>1:07 pm</span></time>
+<time class='entry-date' datetime='2015-07-23T02:50:50+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>2:50 am</span></time>
         
       </p>
     
@@ -268,258 +131,26 @@ sendfile off;
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>这2天里，我了解Docker的初步使用, 并对本博客在<a href="http://www.daocloud.io">Daocloud</a>上的自动同步做了设置，<a href="http://hanfeng.daoapp.io">http://hanfeng.daoapp.io</a>, Daocloud正在搞活动，<a href="https://github.com/FengHan/fenghan.github.io/blob/master/Dockerfile">写Dockerfile</a>，生成镜像，部署Github代码，<a href="http://blog.daocloud.io/build-dockerfile-campaign/">免费送T-shirt！</a>。 本文主要记录两天所学，记录Docker的学习过程。</p>
+<p>MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做<a href="https://mariadb.org/">MariDB</a></p>
 
-<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/cto_Tshirt.jpg" alt="" /></p>
+<h1>安装</h1>
 
-<h1>构建镜像</h1>
+<p>首先从 <a href="http://downloads.mariadb.org/mariadb/repositories/">MariaDB 下载页面</a> 选择贴近你的 Ubuntu 版本的资料库镜像，然后下载页面会在底部显示镜像信息（如下所示），然后执行这些命令</p>
 
-<p>构建镜像的目的：</p>
-
-<ul>
-<li>保存对容器的修改， 并在此使用</li>
-<li>自定义镜像的能力</li>
-<li>以软件的形式打包并分发服务器及其运行环境。</li>
-</ul>
-
-
-<p>构建镜像的两种方法：</p>
-
-<ol>
-<li><p>docker build 通过Dockfile文件构建</p></li>
-<li><p>docker commit 通过容器构建</p></li>
-</ol>
-
-
-<h3>Dockerfile的制作</h3>
-
-<p>对于开发人员来说，主要是使用Dockerfile来构建镜像，现在简单讲一下Dockerfile的语法</p>
-
-<pre><code>FROM &lt;image&gt; 已经存在的镜像（基础镜像）
-FROM &lt;image:tag&gt;
+<pre><code>sudo apt-get install software-properties-common
+sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+sudo add-apt-repository 'deb http://mirrors.opencas.cn/mariadb/repo/5.5/ubuntu trusty main'
 </code></pre>
 
-<p>必须是第一条</p>
+<p>开始安装</p>
 
-<pre><code>MAINTAIER hanfeng "contact@hanfeng.name"
+<pre><code>sudo apt-get update
+sudo apt-get install mariadb-server
 </code></pre>
 
-<p>指定镜像所有者信息</p>
+<p>这样 MariaDB 5.5 就已经安装成功，你就可以像使用 MySQL 那样对它进行配置和使用了。</p>
 
-<pre><code>RUN
-</code></pre>
-
-<p>指定当前镜像中运行得命令</p>
-
-<pre><code>RUN echo hello  (shell模式)
-
-RUN ["executable", "param1", "param2"] (exec模式)
-
-RUN["/bin/bash", "-c", "echo hello"]
-</code></pre>
-
-<p>每个RUN指令都会在当前的RUN指令上新创建一个镜像，是分层的。</p>
-
-<pre><code>EXPOSE &lt;port&gt;[&lt;port&gt;]
-EXPOSE 80
-EXPOSE 80:80
-EXPOSE 0.0.0.0:80:80
-</code></pre>
-
-<p>指定运行该镜像的容器使用的端口</p>
-
-<p>只是告诉容器应该打开哪个端口，Dokcer不会自动打开。还是需要启动的时候指定端口</p>
-
-<pre><code>CMD
-CMD["executable",'param1','['param2'](exec模式)
-</code></pre>
-
-<p>能够被Docker run 后面的命令覆盖掉</p>
-
-<pre><code>ENTRYPOINT
-ENTRYPOINT COMMAND P1 P1
-</code></pre>
-
-<p>不会被docker run覆盖</p>
-
-<p>容器运行时的指令</p>
-
-<pre><code>ADD
-</code></pre>
-
-<p>适用于文件路径中有空格的情况</p>
-
-<p>ADD 包含类似tar的解压功能</p>
-
-<p>如果单独复制文件，建议使用COpy</p>
-
-<pre><code>COPY
-
-VOLUME
-VOLUME["/data"]
-</code></pre>
-
-<p>镜像的目录和文件</p>
-
-<pre><code>WORKDIR
-WORKDIR /path/to/workdir
-WORKDIR 使用绝对路径
-
-ENV&lt;key&gt;&lt;value&gt;
-
-USER daemon
-USER nginx
-USER root:root
-</code></pre>
-
-<p>环境设置</p>
-
-<pre><code>ONBUILD
-</code></pre>
-
-<p>镜像触发器</p>
-
-<p>当一个镜像被其他镜像作为基础镜像时执行。</p>
-
-<p>会在构建过程中插入指令</p>
-
-<p>简单的例子：</p>
-
-<pre><code># First dockerfile for test
-FROM ubuntu:14.04
-MAINTAINER hanfeng "contact.hanfeng.name"
-RUN apt-get update
-RUN apt-get install -y nginx
-EXPOSE 80
-</code></pre>
-
-<p>Dockerfile的构建过程</p>
-
-<pre><code>docker build -t ="hanfeng/nginx"
-
-docker run  --name=web01 -p 80 -d hanfeng/nginx -g "daemon off;"
-</code></pre>
-
-<p>执行Dockerfile的每一条指令，执行相当于执行了docker commit一次，每条命令都会产生一个新的镜像层
-执行Dockerfile的下一条命令</p>
-
-<pre><code>docker history image
-#查看构建镜像的历史命令
-</code></pre>
-
-<h3>镜像的发布</h3>
-
-<pre><code>docker push qthhanfeng/nginx    
-</code></pre>
-
-<h1>常用命令</h1>
-
-<pre><code>docker run  --name=web01 -it ubuntu /bin/bash
-</code></pre>
-
-<p>为容器制定一个名字</p>
-
-<pre><code>docker start [-i] 容器名
-</code></pre>
-
-<p>重新启动停止的容器：</p>
-
-<p>参数 -i 以参数的方式</p>
-
-<p>在交互式时，Ctrl + P ，然后 Ctrl + Q</p>
-
-<p>docker attach + 容器ID</p>
-
-<hr />
-
-<p>查看容器日志</p>
-
-<pre><code>docker logs -f -t --tail 容器名
-</code></pre>
-
-<p>-f 更新</p>
-
-<p>-t 时间戳</p>
-
-<p>&ndash;tail  显示最新的</p>
-
-<hr />
-
-<pre><code>docker top 容器
-#查看容器内进程
-docker exec -d -i -t 容器名字
-#在运行中的容器启动新进程
-docker stop
-#发送信号给容器，等待停止
-
-docker kill 容器
-#直接停止容器
-</code></pre>
-
-<p>设置容器的端口映射</p>
-
-<pre><code>docker run -P -it ubuntu /bin/bash
-</code></pre>
-
-<p>-P &ndash;publish-all=true|false默认为fale，所有端口映射</p>
-
-<p>-p &ndash;publish=[]</p>
-
-<pre><code>docker run -p 80 -it ubuntu /bin/bash
-#容器端口
-docker run -p 8080:80 -it ubuntu /bin/bash
-#宿主机端口：容器端口
-docker run -p 0.0.0.0:80 -it ubuntu /bin/bash
-#IP:容器端口
-docker run -p 0.0.0.0:8080:80 -it ubuntu /bin/bash
-#IP:宿主机端口：容器端口
-
-docker run -p 80 --name web -it ubuntu /bina/bash
-
-docker port web
-docker top web
-</code></pre>
-
-<p>重启后，容器没有启动nginx, IP地址和端口映射都会发生改变</p>
-
-<pre><code>docker exec web nginx
-docker top web
-</code></pre>
-
-<h1>DaoCloud提供的加速</h1>
-
-<pre><code>vim /etc/default/docker
-DOCKER_OPTS="$DOCKER_OPTS --registry-mirror=http://字符串.m.daocloud.io"
-#文件末尾添加
-</code></pre>
-
-<p>常用命令：</p>
-
-<pre><code>docker inspect +仓库名:TAG名
-#查看镜像
-
-docker rmi +仓库名:TAG名
-#删除TAG
-
-docker rmi + 镜像ID
-#删除这个镜像对应的所有TAG
-
-docker rmi $(docker images ubuntu -q)
-</code></pre>
-
-<h1>Docker Hub</h1>
-
-<p><a href="https://registry.hub.docker.com">https://registry.hub.docker.com</a></p>
-
-<p>搜索镜像</p>
-
-<pre><code>docker serach
-</code></pre>
-
-<p>下载镜像</p>
-
-<pre><code>docker pull
-</code></pre>
+<p>使用mysql -h -uroot -p1234测试。</p>
 </div>
   
   
@@ -542,6 +173,14 @@ docker rmi $(docker images ubuntu -q)
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/docke-compose/">Docke Compose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/ubuntu-octopress/">Ubuntu Octopress</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/12/17/docker-drupal8/">Docker Drupal8</a>
@@ -573,14 +212,6 @@ docker rmi $(docker images ubuntu -q)
     
       <li class="post">
         <a href="/blog/2015/08/29/performance-bottleneck/">性能瓶颈</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
       </li>
     
   </ul>

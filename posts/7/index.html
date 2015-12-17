@@ -9,7 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 学习分库、分表的一记录，后期整理，添加示例。 正文 数据库分表与分库的实现方法： tb_user_0 &hellip; tb_user_1 &hellip;.tb_user_2 &hellip;. tb_user_3 当多张表具有完全相同的数据结构时，我们认为这些表示对一个实体数据的横向切分 &hellip;">
+  <meta name="description" content="前言 高级程序员都干些什么呢？怎样才能成为高级程序员呢？其实初级或刚入行的朋友喜欢问这样的问题。可能想把作为下一个奋斗的目标吧。下面是微信账号“威哥干Java”的看法。 一个项目好比画了两个圈，内外镶嵌，高级程序员负责内圈代码，初级程序员负责外圈代码。想要成为高级程序员，你就得往内圈挤。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/26/fen-biao/">水平分表</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/28/senior-programmer/">如何成为高级程序员</a></h1>
     
     
       <p class="meta">
@@ -91,7 +91,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-26T08:21:34+00:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:21 am</span></time>
+<time class='entry-date' datetime='2015-08-28T00:00:02+00:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
         
       </p>
     
@@ -100,82 +100,27 @@ var _hmt = _hmt || [];
 
   <div class="entry-content"><h1>前言</h1>
 
-<p>学习分库、分表的一记录，后期整理，添加示例。</p>
+<p>高级程序员都干些什么呢？怎样才能成为高级程序员呢？其实初级或刚入行的朋友喜欢问这样的问题。可能想把作为下一个奋斗的目标吧。下面是微信账号“威哥干Java”的看法。</p>
 
-<h1>正文</h1>
+<p>一个项目好比画了两个圈，内外镶嵌，高级程序员负责内圈代码，初级程序员负责外圈代码。想要成为高级程序员，你就得往内圈挤。</p>
 
-<p>数据库分表与分库的实现方法：</p>
-
-<p>tb_user_0  &hellip; tb_user_1 &hellip;.tb_user_2 &hellip;. tb_user_3</p>
-
-<hr />
-
-<p>当多张表具有完全相同的数据结构时，我们认为这些表示对一个实体数据的横向切分。</p>
-
-<p>每张表都可以有自己的id
-但是所有切分出来的表必须具备全局uid
-分表后要按照某个元素（通常全局id）进行某种算法的计算，得到表后缀。</p>
-
-<p>id生成器。（用redis做id在断电的情况下有风险），通常用mysql</p>
-
-<p>uuid 得到一个字符串</p>
-
-<p>自建索引</p>
-
-<p>当数据库大了，分表是必然的。分表之后，建索引是必然的。</p>
-
-<p>将全局id进行一次md5将得到一个由16进制数值组成的32位字符串。 数据越多越均匀。分成15张表，</p>
-
-<p>或分成256张表。</p>
-
-<p>分成80张： FF = 255 255%80 取余数。分多少张表，就余多少。</p>
-
-<hr />
-
-<p>如果只是做简单切分的时候后，我们会遇到问题：</p>
+<p>从专业的角度上有三点：</p>
 
 <ol>
-<li>当我们需要将这些数据进行统计与分析的时候，不能使用聚合函数</li>
-<li><p>当我们查询某条数据时，我们必须要知道我要查询的数据在哪一张表里，否则我就需要查询所有的表来查找结果。</p></li>
-<li><p>当我插入数据的时候，我必须尽可能的让每张表的负载均匀</p></li>
-<li>当我要修改数据的时候，我必须明确我要修改的数据在哪里。</li>
+<li>确定开发团队、技术路线和技术架构，为关键模块设计技术实现，能够满足长期发展的业务需要。</li>
+<li>能参与系统调研，需求分析。负责概要设计、详细设计， 开发计划等编制并实施。负责核心内码通用模块功能实现，解决一些技术问题。</li>
+<li>负责提升团队技术能力，协同项目经理进行项目开发，并实现重要的功能，指导和培养团队的成员。</li>
 </ol>
 
 
-<p>在不同的时期分表，会产生不同的问题。</p>
+<p>满足3个必备条件：</p>
 
 <ol>
-<li>项目启动阶段就进行分表</li>
-<li>项目启动阶段没有分表，而是在项目进行到积累了一定数据量以后再进行分表</li>
-<li>项目之前就进行切分过表，但是被切分后的表经过长时间运行，又产生了大量数据，需要再次分表</li>
+<li>具备看官方英文文档的能力。</li>
+<li>上专业顶级的社区。</li>
+<li>成为Github重度感染者。</li>
 </ol>
 
-
-<p>。</p>
-
-<p>合理的分表不单单能解决单张表数据量过大的问题，还能优化我们的业务逻辑。</p>
-
-<p>tb_product_store_sh
-tb_product_store_bj
-tb_product_store_hubei</p>
-
-<p>基于区域位置的分表，非常适合做类似库存，商户信息，工商管理等有着明显区域性的数据分表。</p>
-
-<p>基于IP地址的分表， 用于统计与分析数据。访问日志。
-（几十万的数据开始考虑分表。）
-当数据达到100多万的时候，就要考虑分表。</p>
-
-<p>按时间分表，
-日志。
-财务报表。
-绩效考核。</p>
-
-<p>工资流水、销售业绩、出纳凭证等记录，按年份来分表。</p>
-
-<p>考勤记录  销售业绩
-个人考勤记录 签单记录  按月分表比较适合</p>
-
-<p>季度、半年度、部门业绩 工资资产 等</p>
 </div>
   
   
@@ -188,7 +133,7 @@ tb_product_store_hubei</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/23/mysql-master-slave/">MySQL主从配置及读写分离</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/26/cache/">缓存</a></h1>
     
     
       <p class="meta">
@@ -197,129 +142,50 @@ tb_product_store_hubei</p>
 
 
 
-<time class='entry-date' datetime='2015-08-23T13:53:41+00:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>1:53 pm</span></time>
+<time class='entry-date' datetime='2015-08-26T08:26:59+00:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:26 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
+  <div class="entry-content"><h3>缓存的类型</h3>
 
-<p>以前在公司的时候，公司配了MySQL主从，在线上用PHPMyAdmin查看从库信息，但只给了读权限，用于查看线上信息。今天记录一下MySQL主从的搭建过程。（我使用的是MariaDb5.5）</p>
-
-<h2>Notice</h2>
-
-<p>在用户不多、并发不大、mysql服务器在同一个局域网内，MySQL主从是没有问题的。</p>
-
-<p>主从数据库缺点：</p>
-
-<ol>
-<li>因为开启了bin log日志，所以会有性能开销。</li>
-<li>在实时性非常高的情况下，做了读写分离就不行。因为单线程同步需要花时间，时间上不允许。</li>
-</ol>
+<ul>
+<li>局域网缓存</li>
+<li>网络缓存</li>
+<li>硬盘缓存</li>
+<li>内存缓存</li>
+<li>数据库缓存</li>
+<li>Opcode缓存</li>
+<li>客户端浏览器缓存</li>
+</ul>
 
 
-<h1>MySQL主从配置</h1>
+<h3>opcode</h3>
 
-<ol>
-<li>mysql的版本相同， mysql主从同源，即具有相同的库、表及记录。</li>
-<li>数据迁移的时候，从库的版本高于主库。</li>
-<li><p>把主库从库都停掉。因为打包主库的时候会花很长时间，这时如果主库还有文件写入，很容易出错。</p>
+<p>Opcode是一种PHP脚本编译后的中间语言</p>
 
-<p> cd /var/lib/
- tar zcvf mysql.tar.gz ./mysql</p>
-
-<p> scp mysql.tar.gz vagrant@192.168.33.10:/tmp</p></li>
-<li><p>配置/etc/mysql/my.cnf</p>
-
-<p> server-id               = 1
- log_bin                 = /var/log/mysql/mysql-bin.log
- expire_logs_days        = 10
- max_binlog_size         = 100M      每个bin log文件最大的大小</p></li>
-</ol>
+<ul>
+<li>opcache php5.5 默认安装</li>
+<li>xcache  php5.4</li>
+<li>php 5.2 zned optimization 被淘汰了。</li>
+<li>wincache windows下</li>
+<li>APC  PHP5.4  （PS: 上一家公司安装了APC）</li>
+</ul>
 
 
-<p>开启log_bin日志，性能就会降低。没修改一条数据，就会写入文件。硬盘不大的情况下，会写满数据库</p>
+<p>APCU xcache wincache 支持php API调用 （默认情况下 效率高于memcache）</p>
 
-<p>要放到msyql有权限的目录里。</p>
+<h4>客户端浏览器缓存</h4>
 
-<p>我们的目的是用从库修复主库。
-靠从库的bin_log来恢复主机。</p>
+<p>客户端缓存 （浏览器缓存） 静态资源引用公共服务器资源</p>
 
-<p>写bin_log性能降低，但因为我们做了主从，我们靠读多个从库来提高并发量。</p>
+<p>把图片放在多个域名下，可以多线程加载图片 例如pc1.domain.com pc2.domain.com</p>
 
-<p>让从库能够通过tcp 来连接主库，
-5. 为从库专门准备一个用户。</p>
+<p>xxx.com/abc.js?t=1234343 开发测试的时候，用这种方法防止浏览器缓存。给静态资源加时间戳带尾巴。</p>
 
-<pre><code>create user 'slave_1'@'%' IDENTIFIED BY 'abcd' ;
-grant replication slave  on *.* to 'slave_1'@'%';
-或者一条命令
-GRANT REPLICATION SLAVE ON *.* to 'mysync'@'%' identified by 'q123456'; 
-</code></pre>
-
-<ol>
-<li><p>通过  SHOW MASTER STATUS; 显示当前主库的binlog文件与文件位置，我们需要将这个位置记录下来</p>
-
-<p>   SHOW MASTER STATUS;</p></li>
-</ol>
-
-
-<p>连接到从库   开启主从同步</p>
-
-<pre><code>CHANGE MASTER TO MASTER_HOST = '192.168.33.12' ,MASTER_USER='slave_2' ,MASTER_PASSWORD = '1234' ,MASTER_LOG_FILE ='mysql-bin.000002', MASTER_LOG_POS=973
-</code></pre>
-
-<p> 不想同步系统库可以选择忽略系统库</p>
-
-<pre><code>binlog_ignore_db        = mysql
-</code></pre>
-
-<p>SALVE命令</p>
-
-<pre><code>START SLAVE
-STOP  SLAVE
-SHOW SLAVE STATUS\G
-</code></pre>
-
-<p>我在安装的时候遇到的错误：
-<a href="http://serverfault.com/questions/586651/mysql-refuses-to-accept-remote-connections">MySQL refuses to accept remote connections</a></p>
-
-<p>解决方法：</p>
-
-<pre><code>sudo netstat -ntlup | grep mysql
-tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      127018/mysqld
-</code></pre>
-
-<p>修改/etc/mysql/my.cnf</p>
-
-<pre><code>bind-address = 0.0.0.0
-</code></pre>
-
-<h1>读写分离</h1>
-
-<p>主库创建新用户</p>
-
-<pre><code>GRANT all privileges  ON tiny.* to 'michael'@'%' identified by '1234'; 
-flush privileges;
-</code></pre>
-
-<p>从库创建新用户，只给读的权限。</p>
-
-<pre><code>GRANT SELECT  ON tiny.* to 'michael2'@'%' identified by '1234'; 
-
-flush privileges;
-</code></pre>
-
-<h3>代码</h3>
-
-<p>代码我放到了我的GitHub上，我自己写了一个MVC的简易框架。这样，框架的任何一个部分我都了解，大大节约了我写代码示例的时间。然后学习优秀框架的思想，继续维护我的框架。</p>
-
-<p><a href="https://github.com/hildalove/tiny/blob/master/Tiny/Proxy/Proxy.php">代理模式</a></p>
-
-<p><a href="https://github.com/hildalove/tiny/blob/master/Tiny/Service/Factory.php">获取数据库实例</a></p>
-
-<p><a href="https://github.com/hildalove/tiny/blob/master/App/Controller/Mysql.php">控制器</a></p>
+<p>在发行产品的时候带版本号。</p>
 </div>
   
   
@@ -342,6 +208,14 @@ flush privileges;
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/docke-compose/">Docke Compose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/ubuntu-octopress/">Ubuntu Octopress</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/12/17/docker-drupal8/">Docker Drupal8</a>
@@ -373,14 +247,6 @@ flush privileges;
     
       <li class="post">
         <a href="/blog/2015/08/29/performance-bottleneck/">性能瓶颈</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
       </li>
     
   </ul>

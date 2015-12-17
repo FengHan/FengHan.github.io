@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | hanfeng.name]]></title>
   <link href="http://hanfeng.name/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://hanfeng.name/"/>
-  <updated>2015-12-17T09:49:52+00:00</updated>
+  <updated>2015-12-17T10:08:40+00:00</updated>
   <id>http://hanfeng.name/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu Octopress]]></title>
+    <link href="http://hanfeng.name/blog/2015/12/17/ubuntu-octopress/"/>
+    <updated>2015-12-17T09:55:39+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/12/17/ubuntu-octopress</id>
+    <content type="html"><![CDATA[<p>root 用户权限
+- 添加ssh-key到github上</p>
+
+<ul>
+<li><p>apt-get install git ruby ruby-dev nodejs</p></li>
+<li><p>git clone -b source <a href="https://github.com/FengHan/fenghan.github.io">https://github.com/FengHan/fenghan.github.io</a> octo</p></li>
+<li>gem install bundler</li>
+<li>bundle install</li>
+<li>rake setup_github_pages</li>
+<li><p>输入<a href="https://github.com/FengHan/fenghan.github.io">https://github.com/FengHan/fenghan.github.io</a></p></li>
+<li><p>rm -rf _deploy</p></li>
+<li><p>git clone  <a href="https://github.com/FengHan/fenghan.github.io">https://github.com/FengHan/fenghan.github.io</a> _deploy</p></li>
+<li><p>rake deploy</p></li>
+<li>输入github的用户名和密码</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用Octopress在GitHub上搭建静态博客]]></title>

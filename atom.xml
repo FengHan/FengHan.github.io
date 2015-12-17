@@ -4,7 +4,7 @@
   <title><![CDATA[hanfeng.name]]></title>
   <link href="http://hanfeng.name/atom.xml" rel="self"/>
   <link href="http://hanfeng.name/"/>
-  <updated>2015-12-17T09:49:52+00:00</updated>
+  <updated>2015-12-17T10:08:40+00:00</updated>
   <id>http://hanfeng.name/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Docke Compose]]></title>
+    <link href="http://hanfeng.name/blog/2015/12/17/docke-compose/"/>
+    <updated>2015-12-17T10:06:10+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/12/17/docke-compose</id>
+    <content type="html"><![CDATA[<p> apt-get install python-pip</p>
+
+<p> pip install docker-compose</p>
+
+<p> docker-compose &ndash;version</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu Octopress]]></title>
+    <link href="http://hanfeng.name/blog/2015/12/17/ubuntu-octopress/"/>
+    <updated>2015-12-17T09:55:39+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/12/17/ubuntu-octopress</id>
+    <content type="html"><![CDATA[<p>root 用户权限
+- 添加ssh-key到github上</p>
+
+<ul>
+<li><p>apt-get install git ruby ruby-dev nodejs</p></li>
+<li><p>git clone -b source <a href="https://github.com/FengHan/fenghan.github.io">https://github.com/FengHan/fenghan.github.io</a> octo</p></li>
+<li>gem install bundler</li>
+<li>bundle install</li>
+<li>rake setup_github_pages</li>
+<li><p>输入<a href="https://github.com/FengHan/fenghan.github.io">https://github.com/FengHan/fenghan.github.io</a></p></li>
+<li><p>rm -rf _deploy</p></li>
+<li><p>git clone  <a href="https://github.com/FengHan/fenghan.github.io">https://github.com/FengHan/fenghan.github.io</a> _deploy</p></li>
+<li><p>rake deploy</p></li>
+<li>输入github的用户名和密码</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Docker Drupal8]]></title>
@@ -1315,116 +1352,6 @@ tb_user</p>
     <updated>2015-08-20T18:24:30+00:00</updated>
     <id>http://hanfeng.name/blog/2015/08/20/alauda</id>
     <content type="html"><![CDATA[<p>今晚把博客迁移到了<a href="http://alauda.cn">灵雀云</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[用Redis实现消息队列]]></title>
-    <link href="http://hanfeng.name/blog/2015/08/20/redis-message-queue/"/>
-    <updated>2015-08-20T14:40:48+00:00</updated>
-    <id>http://hanfeng.name/blog/2015/08/20/redis-message-queue</id>
-    <content type="html"><![CDATA[<h1>目标</h1>
-
-<ol>
-<li>用户注册时，将注册信息（例如用户名、密码、邮箱等）Push到Redis的List里。</li>
-<li>用PHP-CLI脚本，读取队列的消息，存取到数据库。</li>
-</ol>
-
-
-<p>代码如下：</p>
-
-<ul>
-<li><a href="https://github.com/hildalove/tiny/blob/master/Tiny/MessageQueue/PHPMQ.php">PHPMQ CLASS</a></li>
-<li><a href="https://github.com/hildalove/tiny/blob/master/Tiny/MessageQueue/UserMQ.php">UserMQ CLASS</a></li>
-<li><a href="https://github.com/hildalove/tiny/blob/master/App/Controller/MQ.php">user reg Controller</a></li>
-<li><a href="https://github.com/hildalove/tiny/blob/master/cron/user_mq.php">PHP-CLI CRON</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Phpredis小结]]></title>
-    <link href="http://hanfeng.name/blog/2015/08/19/phpredis/"/>
-    <updated>2015-08-19T07:28:13+00:00</updated>
-    <id>http://hanfeng.name/blog/2015/08/19/phpredis</id>
-    <content type="html"><![CDATA[<h1>前言</h1>
-
-<p>PHP 安装redis有两种方法，这篇文章所阐述的内容是以扩展的方式安装phpredis</p>
-
-<h1>Redis</h1>
-
-<pre><code>apt-get install redis-server
-apt-get install php5-redis
-</code></pre>
-
-<p>我们通过 apt-get安装的扩展配置将出现在  /etc/php5/mods-available</p>
-
-<p>把将要启用的模块的配置文件做一个软连接到
-/etc/php5/apache2/conf.d  (LAMP/LNAMP) <br/>
-/etc/php5/fpm/conf.d (LNMP )</p>
-
-<p>通常情况系统会帮我们做好软连接.</p>
-
-<p>redis的应用场景：
-1. 用户访问量
-2. 用户活跃度，每日的访问量 setbit
-3. 存储Session</p>
-
-<p>提供内存缓存
-数据结构</p>
-
-<p>postgress 做集群和横向扩容的时候比较麻烦</p>
-
-<p>用redis的hash和list做索引，用mysql做数据存储
-自建索引（hash list）</p>
-
-<p>用list记录用户访问页面，堆栈</p>
-
-<p>首页做缓存，放到redis里面</p>
-
-<h2>redis高级数据结构 bitmaps 和 HyperLogLogs</h2>
-
-<p>php单进程的
-请求结束后，进程回收。
-只能够保证每次请求连接一次redis</p>
-
-<h2>新的数据结构</h2>
-
-<p>bitmaps,
-HyperLogLogs: 占用少量内容，</p>
-
-<p>计算内存消耗，计算CPU消耗</p>
-
-<p><strong>性能和开销</strong></p>
-
-<p>一天人均15次，每天100万用户访问。
-每次用户访问都写入日志。
-用户的每一次会话都产生一次id</p>
-
-<p>目标：搭建每日访问100万用户的网站架构。</p>
-
-<p>Redis的Pub/Sub</p>
-
-<h3>redis3.0</h3>
-
-<p>系统必须装有gcc</p>
-
-<p>redis 3.0安装
-wget <a href="http://download.redis.io/releases/redis-3.0.0.tar.gz">http://download.redis.io/releases/redis-3.0.0.tar.gz</a></p>
-
-<p>tar -zxvf redis-3.0.0.tar.gz
-cd redis-3.0.0
-make
-make install</p>
-
-<p>编译好的文件默认在src目录中</p>
-
-<h1>Todo</h1>
-
-<p>写一个phpredis的类，有以下要求：
-1. 单例模式，只实例化一次Redis
-2. 封装connect, auth, 选择哪个库</p>
 ]]></content>
   </entry>
   

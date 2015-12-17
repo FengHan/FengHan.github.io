@@ -9,7 +9,9 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="CSRF（Cross-site request forgery跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。 CSRF 攻击的防范； 加密令牌：web应用程序可以在网页中嵌入一个加密的令牌， &hellip;">
+  <meta name="description" content="Docker Drupal8 好久没有写Blog了，继续开始写。多总结，要有所积累。
+最近学习了Docker和Drupal8， 所以写了一个Drupal8 的Docker。
+Github地址 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +84,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/12/17/docker-drupal8/">Docker Drupal8</a></h1>
     
     
       <p class="meta">
@@ -91,41 +93,20 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-09-05T09:00:56+00:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:00 am</span></time>
+<time class='entry-date' datetime='2015-12-17T08:45:49+00:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:45 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>CSRF（Cross-site request forgery跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。</p>
+  <div class="entry-content"><h1>Docker Drupal8</h1>
 
-<h3>CSRF 攻击的防范；</h3>
-
-<ol>
-<li><p>加密令牌：web应用程序可以在网页中嵌入一个加密的令牌，所有的请求都包含这个加密令牌，由于跨站请求无法获取这个令牌，所以伪造的请求很容易就被服务器识别；</p></li>
-<li><p>Referer头途径：使用web应用程序也可以验证请求来源页面的Referer，然后由于隐私考虑，这个referer经常被客户端过滤；</p></li>
-</ol>
-
-
-<h3>加密令牌</h3>
-
-<p>1.根据 加密参数、用户的session_id(), 时间戳和存放在session中的HASH函数。</p>
-
-<p>把令牌token和时间戳 放到form的hidden里面。</p>
-
-<pre><code>$_SESSION[STOKEN_NAME] = gen_token(); // 随机数
-&lt;input type="hideen" value="session_token" value= &lt;?=$_SESSION[STOKEN_NAME]?&gt;
-</code></pre>
-
-<p>每次请求的时候，要验证session_token。</p>
-
-<p>参考链接：</p>
-
-<ol>
-<li><a href="http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html">http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html</a></li>
-<li><a href="https://www.shiyanlou.com/courses/303#">实验楼 - Elgg 系统 CSRF 攻击实验</a></li>
-</ol>
+<ul>
+<li><p>好久没有写Blog了，继续开始写。多总结，要有所积累。</p></li>
+<li><p>最近学习了Docker和Drupal8， 所以写了一个Drupal8 的Docker。</p></li>
+<li><p><a href="https://github.com/FengHan/docker-drupal8">Github地址</a></p></li>
+</ul>
 
 </div>
   
@@ -139,7 +120,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/09/04/bdd/">行为驱动开发</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a></h1>
     
     
       <p class="meta">
@@ -148,14 +129,99 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-09-04T02:53:53+00:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:53 am</span></time>
+<time class='entry-date' datetime='2015-09-09T03:09:29+00:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:09 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>prophecy</p>
+  <div class="entry-content"><h1>前言</h1>
+
+<p>Laravel 5 的很多新功能是来自 Jeffrey Way的 idea,</p>
+
+<p>如: Form Requests, Laravel Elixir, Command bus etc..</p>
+
+<p>所以, 他的这套视频就很有观看的必要
+ <a href="https://laracasts.com/series/laravel-5-fundamentals">https://laracasts.com/series/laravel-5-fundamentals</a></p>
+
+<p>现已看完，做下记录</p>
+
+<h2>Laravel5 Foundation</h2>
+
+<h4>需求分析：</h4>
+
+<ol>
+<li>Article模块
+
+<ul>
+<li>Articles List</li>
+<li>Create Article :title , body, published_at, tag</li>
+<li>Edit Article</li>
+</ul>
+</li>
+<li>用户登录模块</li>
+</ol>
+
+
+<h4>细节：</h4>
+
+<ol>
+<li>Create Article的输入内容，要进行validate，使用Request进行验证。</li>
+<li>Create Article成功时，用Flash Message提示。</li>
+</ol>
+
+
+<h4>学习的内容</h4>
+
+<ul>
+<li>Composer 的安装与使用</li>
+<li>Virtual Box, Vagrant, Homestead安装与使用</li>
+<li>Route 路由的使用</li>
+<li>Blade  模板文件</li>
+<li>.env 开发环境的设置</li>
+<li>migration 创建和修改数据库的结构</li>
+<li>MVC在Laravel中的工作流</li>
+<li>Form表单</li>
+<li>Model 中的 Dates : Carbon\Carbon</li>
+<li>Model 中的 Scopes : 封装判断条件（例如： article是否发布）</li>
+<li>Model 中的 set Attributes : 插入记录时，自动插入（例如时间）</li>
+<li>View Partials 视图文件的局部选软</li>
+<li>Eloquent  这个很强大，但感觉复杂查询会很麻烦，// todo 继续深入学习</li>
+<li>Auth  Laravel5.0 提供了简单的注册、登录和找回密码</li>
+<li>Middleware （用处：例如验证是否用户登录）</li>
+<li>Many to Many Relation (A article has many tags, and a tag has many articles.)</li>
+<li>Tag 选择地时候用了Select2插件</li>
+<li>View Partial Always Receive Data (例如首页导航条)</li>
+<li>Service Container (又叫 Ioc Container,是Laravel框架的核心所在)</li>
+</ul>
+
+
+<h3>用到的第三方包</h3>
+
+<pre><code>{
+    “require” : {
+        "barryvdh/laravel-ide-helper": "^2.1",
+        "illuminate/html": "^5.0",
+        "laracasts/flash": "~1.3",
+    }
+}
+</code></pre>
+
+<ul>
+<li>barryvdh/laravel-ide-helper  用来提示Laravel的Facade</li>
+<li>illuminate/html Html Form封装了form表单</li>
+<li>laracasts/flash Jeffrey Way写的 flash message</li>
+</ul>
+
+
+<p>以上文件放在composer.json中，第二步是在config/app.php配置 provider 和 alias.</p>
+
+<h3>经常用到的命令</h3>
+
+<pre><code>php artisan make:controller --plain
+php artisan dump-autoload 
+</code></pre>
 </div>
   
   
@@ -178,6 +244,14 @@ var _hmt = _hmt || [];
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/docke-compose/">Docke Compose</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/ubuntu-octopress/">Ubuntu Octopress</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/12/17/docker-drupal8/">Docker Drupal8</a>
@@ -209,14 +283,6 @@ var _hmt = _hmt || [];
     
       <li class="post">
         <a href="/blog/2015/08/29/performance-bottleneck/">性能瓶颈</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
       </li>
     
   </ul>
