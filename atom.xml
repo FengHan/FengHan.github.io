@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[hanfeng.name]]></title>
-  <link href="http://fenghan.github.io/atom.xml" rel="self"/>
-  <link href="http://fenghan.github.io/"/>
-  <updated>2015-10-27T22:06:34+08:00</updated>
-  <id>http://fenghan.github.io/</id>
+  <link href="http://hanfeng.name/atom.xml" rel="self"/>
+  <link href="http://hanfeng.name/"/>
+  <updated>2015-12-17T09:49:52+00:00</updated>
+  <id>http://hanfeng.name/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
     
@@ -14,1899 +14,16 @@
 
   
   <entry>
-    <title type="html"><![CDATA[MySQL业务优化与设计]]></title>
-    <link href="http://fenghan.github.io/blog/2015/10/26/mysql-optimization-and-design/"/>
-    <updated>2015-10-26T21:04:13+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/10/26/mysql-optimization-and-design</id>
-    <content type="html"><![CDATA[<h1>MySQL索引查询优化</h1>
-
-<h4>什么是索引</h4>
-
-<p>快速定位要查早的数据 （意义）</p>
-
-<h4>数据库索引查找</h4>
-
-<ul>
-<li>全表扫描 vs 索引查找</li>
-</ul>
-
-
-<h4>如何根据首字母找到所在行</h4>
-
-<ul>
-<li>二分查找</li>
-<li>B+ tree</li>
-</ul>
-
-
-<p>B+tree:  拥有自己的根节点，枝节点和存放数据的页节点，并且整棵树分层存储，上一层数据会存放下一层数据的管理范围，直到最后一层页节点。</p>
-
-<h4>InnoDB表聚簇索引</h4>
-
-<ul>
-<li>Clustered Index</li>
-<li>Secondary Index</li>
-</ul>
-
-
-<h4>创建索引</h4>
-
-<ul>
-<li>单列索引</li>
-<li><p>联合索引</p>
-
-<p>  create index idx_test1 on tb_student(name);
-  create index idx_test2 on tb_student(name,age);
-  （索引中先根据name排序，name相同的情况下，根据age排序）</p>
-
-<h4>索引维护</h4></li>
-</ul>
-
-
-<h4>字段选择性</h4>
-
-<p>某个字段其值得重复程度</p>
-
-<h4>联合索引与前缀查询</h4>
-
-<p>联合索引能为前缀单列，复列查询提供帮助</p>
-
-<h4>长字段上的索引</h4>
-
-<p>InnoDB索引字段UTF8只能渠道767bytes</p>
-
-<ul>
-<li>Email类 (idx_mailadd(Mail_addr(30))</li>
-<li>住宅类，分拆字段（省，城，区，街道分别存储）
-
-<h4>索引覆盖扫描</h4></li>
-<li>最核心SQL考虑索引覆盖</li>
-<li>SELECT name FROM tb_user WHERE user_id = ?</li>
-<li>KEY idx_uid_name(user_id, name);</li>
-<li>不需要回表获取name字段，IO最小，效率最高</li>
-<li>线上usernmae, password
-
-<h4>无法使用索引的情况</h4></li>
-<li>索引列进行数学运算和函数运算</li>
-<li>未含符合索引的前缀字段</li>
-<li>前缀通配% 通配符 不能使用索引</li>
-<li>where跳进使用not ！=</li>
-<li>字段类型匹配</li>
-</ul>
-
-
-<h4>利用索引排序</h4>
-
-<h4>如何确定一个查询走没走索引，走了哪个索引</h4>
-
-<h1>MySQL Schema设计</h1>
-
-<ul>
-<li><p>设计数据库的表，索引，以及表和表的关系</p>
-
-<ul>
-<li>在数据建模的基础上将关系模型转化为数据库表</li>
-<li>满足业务模型需要基础上根据数据库和应用特点优化表结构
-（合适的数据类型，约束，索引，增加减少字段，改变关系）</li>
-</ul>
-</li>
-<li><p>满足业务功能需要</p></li>
-<li>同性能密切相关</li>
-<li>数据库扩展性</li>
-<li><p>满足周边需求（统计，迁移等）</p></li>
-<li><p>前瞻性</p>
-
-<h4>基于性能的表设计</h4></li>
-<li><p>根据查询需要设计好索引</p></li>
-<li>根据核心查询需求，适当跳帧光标结构</li>
-<li>基于一些特殊业务需求，调整实现方式
-
-<h4>索引</h4></li>
-<li>正确使用索引</li>
-<li>更新尽可能使用主键或唯一索引</li>
-<li>主键尽可能使用自增id字段</li>
-<li>核心查询<strong>覆盖扫描</strong>
-
-<h4>反范式，冗余必要字段</h4></li>
-</ul>
-
-
-<h4>拆分大字段</h4>
-
-<h4>分页查询</h4>
-
-<h4>准实时统计</h4>
-
-<h4>分区表与数据淘汰</h4>
-
-<ul>
-<li>range分区</li>
-<li>适合数据需要定期过期的大表</li>
-<li>单个分区扫描迁移数据到历史库避免全表扫描IO开销</li>
-<li><p>删除单个分区非常高效</p>
-
-<p>  CREATE TABLE tb_order(
-      order_id INT NOT NULL,
-      order_date DATE NOT NULL,
-  )</p>
-
-<p>  PARTITION BY RANGE (YEAR（order_date)) {
-      PARTITION p0 VALUES LESS THAN(2014),
-      PARTITION p1 VALUES LESS THAN(2015),
-      PARTITION p2 VALUES LESS THAN(2016),
-      PARTITION p3 VALUES LESS THAN MAXVALUE,
-  }</p></li>
-<li><p>list 分区</p>
-
-<ul>
-<li>适合将来可能要基于地区，类目等方式垂直拆分数据的方式</li>
-<li>清理节点上不要的数据非常高效</li>
-</ul>
-
-
-<p>  CREATE TABLE tb_store(
-      id INT NOT NULL,
-      store_id varchar(120)
-  )
-  PARTITION BY LIST(store_id)
-  PARTION p_north VALUES IN(3,5,6,9,17)
-  PARTION p_east VALUES IN(1,2,10,11,19,20)
-  PARTION p_west VALUES IN(4,12,13,14,18)
-  PARTION p_central VALUES IN(7,8,15,16)</p></li>
-<li>hash 分区
-
-<ul>
-<li>适合将来需要做水平拆分的表</li>
-<li>清理节点上不要的数据非常高效</li>
-</ul>
-
-
-<p>  CREATE TABLE tb_user_account(
-      id INT NOT NULL,
-      account_id varchar(120)
-  )
-  PARTITION BY HASH(id)
-  PARTITIONS 24;</p></li>
-</ul>
-
-
-<h4>MySQL分区表的局限</h4>
-
-<ul>
-<li>主键和唯一键必须包含在分区字段内</li>
-<li>分区字段必须是整数类型，或者加上返回整数的函数</li>
-</ul>
-
-
-<h4>为周边需求额外增加表设计</h4>
-
-<ul>
-<li>为后台统计任务增加特殊索引</li>
-<li>为数据迁移或统计需求增加时间戳</li>
-</ul>
-
-
-<h4>统计和后台需求</h4>
-
-<ul>
-<li>统计运行SQL往往和线上有很大不同
-
-<ul>
-<li>利用MySQL一主多从，主从可以建不同的索引的特性将统计分流到特定从库</li>
-<li>包括一些特殊用户批量查询等，所有对线上有IO的查询都要读写分离</li>
-</ul>
-</li>
-</ul>
-
-
-<h4>自动更新时间戳</h4>
-
-<ul>
-<li>统计需求经常要求从线上读走增量数据</li>
-<li>表的第一个timestamp类型字段在写入时，如果不填值，会自动写入系统时间戳</li>
-<li>标的第一个timestamp类型字段每次记录发生更新后都会自动更新</li>
-<li>在update_time字段上建索引用于定时导出增量数据</li>
-</ul>
-
-
-<h4>Schema设计与前瞻性</h4>
-
-<ul>
-<li>基于历史经验教训，预防和解决同类问题</li>
-<li>把折腾DBA够呛的所有Schema改造的原因记录并分析总结</li>
-</ul>
-
-
-<p>例：
-- 业务为了用户信息加密做了大改造</p>
-
-<ul>
-<li><p>不再删除数据,加入is_deleted标记位，经常给各种表加</p>
-
-<ul>
-<li>哪个表具有删除的逻辑</li>
-</ul>
-</li>
-<li><h2>支付类应用后期做了风控改造</h2></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MySQL程序开发]]></title>
-    <link href="http://fenghan.github.io/blog/2015/10/21/mysql-programe-development/"/>
-    <updated>2015-10-21T20:30:56+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/10/21/mysql-programe-development</id>
-    <content type="html"><![CDATA[<h1>目标</h1>
-
-<p>理解掌握字符集的基础知识和使用方法，具备处理常见字符集合的能力</p>
-
-<h1>MySQL字符集</h1>
-
-<h3>字符集基础</h3>
-
-<p>字符集： 数据库中的字符集包含两层含义</p>
-
-<ol>
-<li>各种文字和符合的集合，包括各国家文字、标点符号、图形符号、数字等。</li>
-<li>字符的编码方式，即二进制数据与字符的映射规则。</li>
-</ol>
-
-
-<h3>字符集 - 分类</h3>
-
-<p>UTF -8 ： 包含世界上数十种的文字系统，使用一至四个字节为每个字符编码。</p>
-
-<p>latin1 ： 不支持汉字。</p>
-
-<p>show character set;</p>
-
-<p>新增字符集
-&ndash;with-charset (编译时)</p>
-
-<h3>字符集与字符序</h3>
-
-<p>charset 和collation</p>
-
-<p>collation： 字符序，字符的排序与比较规则，每个字符集都对应的多套字符序。</p>
-
-<p>不同的字符序决定了字符串在比较排序中的精度和性能不同。</p>
-
-<p>show collation;</p>
-
-<ul>
-<li>utf8_general_ci 能够排序普通的英文字符，但是德语就不能够排序</li>
-<li>utf8_unicode_ci 能够对德语排序，精度更高了，但是性能下降了。</li>
-<li>mysql默认 utf8_general_ci</li>
-</ul>
-
-
-<p>mysql的字符序遵从命名惯例：</p>
-
-<ul>
-<li>以_ci表示大小写不敏感</li>
-<li>以_cs表示大小写敏感</li>
-<li>以_bin表示用编码值进行比较
-
-<h3>字符集设置级别</h3></li>
-<li>charset 和collation的设置级别
-  服务器级别 >> 数据库级 >> 表级 >> 列级</li>
-<li><p>服务器
- 系统变量(可动态设置)</p>
-
-<pre><code> - character_set_server  :默认的内部操作字符集
- - character_set_system: 系统元数据（字段名）字符集， 就是字段名，表明也可以用中文
-</code></pre>
-
-<p> [mysqld]
- character_set_server=utf8
- character_set_system=utf8_general_ci</p></li>
-<li><p>数据库级
-  CREATE DATABASE db_name CHARACTER_SET latin1 COLLATE latin1_swedish_ci;</p></li>
-<li><p>character_set_database: 当前选中数据库的默认集合</p></li>
-<li><p>主要影响load data等语句的默认字符集， CREATE DATABASE 的字符集如果不设置，默认使用character_set_server的字符集。</p></li>
-<li><p>表级</p></li>
-<li><p>CREATE TABLE TB11() DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_bin;</p></li>
-<li><p>列级
-  能设置，不推荐</p>
-
-<h3>数据存储字符集使用规则：</h3></li>
-<li>使用列级的CHARACTER SET 设定值；</li>
-<li>若列级字符集不存在，则使用对应表级的DEFAULT CHARACTER SET 设定值；</li>
-<li>若表级字符集不存在，则使用数据库级的DEFAULT CHARACTER SET 设定值；</li>
-<li>若数据库级字符集不存在，则使用服务器级character_set_server设定值。</li>
-</ul>
-
-
-<h4>查看字符集</h4>
-
-<pre><code> show global variables like 'character%';
- show global variables like 'collation%';
-</code></pre>
-
-<p>修改字符集</p>
-
-<pre><code>set global character_set_server=utf8; (全局)
-alter table xxx convert to character set xxx;(表)
-</code></pre>
-
-<p>show  variables like &lsquo;character%&rsquo;; （当前session的）</p>
-
-<h4>客户端连接与字符集</h4>
-
-<ul>
-<li>character_set_client:客户端来源数据使用的字符集(这是通知mysql要连接的字符集)</li>
-<li>character_set_connection: 连接层字符集（是一个中间层）</li>
-<li>character_set_results: 查询结果字符集（返回的数据）</li>
-</ul>
-
-
-<p>set names utf8;
-    [mysql]
-    default-character-set = utf8</p>
-
-<h4>客户端连接与字符集</h4>
-
-<p>字符集的转换？</p>
-
-<p>问gbk怎么转utf8；</p>
-
-<p>常见乱码原因：
-1. 数据存储字符集不能正确编码（不支持）client发来的数据
-    client (utf8) -> storage(latin1)
-    例如表的字符集为latin1, 你直接插入中文为报错。
-2.程序连接使用的字符集与通知mysql的character_set_client等不一致或兼容。
-例子：
- alter table stu convert to character set utf8;
- set names utf8;
- 使用navicat 设置连接字符为65001 (UTF-8)</p>
-
-<p>要理解乱码的真正原因</p>
-
-<p>即使传过来的是gbk，存储是utf8，也不会乱码；因为msyql内部会做一个转换。但是连接的字符集合和告诉mysql要连接的字符集要一致。</p>
-
-<p>select length(course) from stu;</p>
-
-<p>你好utf8的lengh为6</p>
-
-<ol>
-<li>表存储支持中文</li>
-<li>连接客户端的字符集合告知mysql要连接的字符集一致。</li>
-</ol>
-
-
-<p>DBA遇到的字符集</p>
-
-<p>load data 用的是character_set_database</p>
-
-<p>文件utf8,character_set_database 是gbk，就会乱码（即文件编码和告诉mysql要连接的编码不一致，就会乱码）</p>
-
-<h4>客户端连接与字符集</h4>
-
-<p>使用建议：</p>
-
-<ol>
-<li>创建数据库/表时显示的指定字符集，不使用默认。</li>
-<li>连接字符集与数据存储字符集设置一致，推荐使用utf8。(1.减少了一次转换过程 2.便于管理 )</li>
-<li>驱动程序连接时，显示指定字符集（set names xxx）</li>
-</ol>
-
-
-<h4>客户端连接与字符集</h4>
-
-<p>mysql PHP API: 连接到数据库以后显示用SET NAMES 语句设置一次连接字符集.</p>
-
-<h4>小结</h4>
-
-<ul>
-<li>字符集：表示字符集合字符编码方式</li>
-<li>字符的设置级别： server，database，table，coloumn</li>
-<li>客户端字符集：乱码产生的原因与解决方式
-（字符集设置有三个要素：1.程序连接驱动或客户端的字符集 2，告知mysql连接的字符集 3.数据存储的字符集。 前两个必须设置一致。）</li>
-</ul>
-
-
-<h1>程序连接MySQL</h1>
-
-<h4>程序连接ＭySQL的基本原理</h4>
-
-<pre><code>JDBC 客户端应用
-java.sql.* javax.sql.*
-驱动程序1 驱动程序2
-
-Oracle MySQL SqlServer 
-</code></pre>
-
-<p>首先应用程序调用 标准的JDBC接口，将SQL语句发送给驱动程序，也就是说应用程序是和JDBC的标准接口打交道的。JDBC是由驱动程序提供的类库，用户可以直接引用调用。驱动程序接到SQL语句后，会将之转换成符合数据库通信协议的TCP协议发送给数据库。还能接受数据库的返回结果，然后封装成TCP对象，返回上层程序。</p>
-
-<h3>Java代码示例</h3>
-
-<p>Driver Manager</p>
-
-<p>Driver = DriverManager.getDriver(String URL)</p>
-
-<p>Connection=(Drivermanager.getConnection(String Url))</p>
-
-<p>Statement(执行静态SQL语句接口 = Connection.CreateStatement())</p>
-
-<p>ResultSet(是指向结果集对象的接口= Statement.executeXXX())</p>
-
-<h4>JDBC的使用技巧</h4>
-
-<ol>
-<li>Statement 与PreparedStatement的区别
-在数据库端<strong>预编译</strong>，效率高，可以防止SQL注入。
-效率高：在DB端<strong>生成一个SQL的执行计划</strong>，生成的计划要<strong>解析SQL语句的语法树</strong>，还要进行连接，选<strong>择驱动表</strong>等等的优化，这些都比较费时。</li>
-</ol>
-
-
-<p>PreparedStatement只有在第一次执行这些，以后只要在传参变量中传值给preparedStatement就就可以了。如果数据量过大，就用ps。</p>
-
-<p>2.，对数据库执行一次性存取的时候，用Statement对象进行处理。</p>
-
-<ol>
-<li>线上业务推荐使用ps</li>
-</ol>
-
-
-<h4>MySQL Prepare过程</h4>
-
-<p>Prepare Execute DEALLOCATE PREPARE</p>
-
-<p>PREPARE stmt1 FROM &lsquo;SELECT * from test WHERE a = ?&rsquo;;
-SET @pc = &lsquo;1&rsquo;;
-EXECUTE stmt1 USING @pc;</p>
-
-<p>DEALLOCATE PREPARE stmt1;</p>
-
-<p>只有数据库支持ps才可以</p>
-
-<h4>SQL注入实例：</h4>
-
-<p>$sql = &lsquo;select * from username where name = &rsquo;&ldquo; + $name + &rdquo;&lsquo;and password = &rsquo;&ldquo; + $pw + &rdquo;&lsquo;;</p>
-
-<p>$name = &ldquo;&lsquo; or 1=1&rsquo;&rdquo;;
-$pw = &ldquo;&lsquo; or 1=1&rsquo;&rdquo;;</p>
-
-<p>preparedStatement会去查询username 是or 1=1 的数据，</p>
-
-<h4>connection, Statement与ResultSet关闭</h4>
-
-<ul>
-<li><p>MySQL服务端为connection, ResultSet维护内存状态，一直不关闭会占用服务端资源</p></li>
-<li><p>MySQL最大连接数受max_connections限制，不能无限创建连接，所以用完要及时关闭。</p></li>
-<li><p>JDBC关闭后，Result, Statement会自动关闭。但是如果使用连接池将不会关闭，因此推荐主动关闭。</p></li>
-</ul>
-
-
-<p>如果不用JDBC,用连接池的时候；当colose connection的时候，连接池不会close connection， 而是会回收connection，可以复用资源，减少连写的消耗。所以Result, Statement也要手动关闭</p>
-
-<h4>jdbc连接参数的使用</h4>
-
-<p>字符集：
-url = &ldquo;jdbc:mysql://localhost:3306/blog_dbo?useUnicode=true&amp;characterENcoding=utf8&rdquo;</p>
-
-<p>超时设置
-url = &ldquo;jdbc:mysql://localhost:3306/blog_dbo?connectTimeout=1000$socketTimeout=30000&rdquo;</p>
-
-<ul>
-<li>建立连接的超时时间</li>
-<li>发一个SQL语句，30秒内不反回就不等待了。</li>
-</ul>
-
-
-<h4>ResultSet游标的使用</h4>
-
-<p>流式读取（流式向前）
-setFetchSize()
-是设置ResultSet每次向数据库读取的行数，为防止数据返回量过大，将内存爆掉。</p>
-
-<h4>Python</h4>
-
-<p>Python MySQL 驱动：python-mysqldb</p>
-
-<p>apt-get install python-mysqldb</p>
-
-<h1>DAO框架的使用</h1>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MySQL事务与存储引擎]]></title>
-    <link href="http://fenghan.github.io/blog/2015/10/19/mysql-transaction-and-storange-engine/"/>
-    <updated>2015-10-19T21:15:51+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/10/19/mysql-transaction-and-storange-engine</id>
-    <content type="html"><![CDATA[<h1>前言</h1>
-
-<p><strong>事务</strong>特性是关系型数据库在各个行业领域中成为关键数据存储最主要工具的一大法宝，可以说是数据库安身立命之本，当然也包括MySQL。无论是应用开发人员还是DBA，学习掌握事务的使用和基本原理，是更好地使用和管理数据库的必由之径。</p>
-
-<p>掌握事物的特性要达到什么样的标准呢？如下标准：</p>
-
-<ol>
-<li>事务的主要用处和基本特征</li>
-<li>事务隔离级别的含义及影响</li>
-<li>什么是MySQL的存储引擎，以及主要存储引擎有哪些</li>
-<li>MySQL主要存储引擎的特点和适用范围</li>
-<li>InnoDB存储引擎特点和优势</li>
-</ol>
-
-
-<h1>数据库事务</h1>
-
-<h3>什么是事务？</h3>
-
-<p>老张给老王转账100元。要分为两个update语句，一个语句给老张减去100元，另外一个语句给老王加上一百元。而计算系统总是不能持续稳定的运行，线上会有各种各样的故障，而这个故障恰好发生在两个SQL之间，那么这100元就废了。事务就是为了避免这样的事情发生。</p>
-
-<ul>
-<li>一系列有序的数据库操作
-
-<ul>
-<li>要么全部成功</li>
-<li>要么全部回退到操作状态</li>
-<li>中间状态对其它连接不可见</li>
-</ul>
-</li>
-<li>事务的基本操作
-
-<ul>
-<li>start transaction; 开始事务  （begin）</li>
-<li>commit; 提交（全部完成）</li>
-<li>rollback; 回滚（回到初始状态）</li>
-</ul>
-</li>
-</ul>
-
-
-<p>宕机后，没有成功的数据都会回滚。</p>
-
-<p>事务的中继点 savepoint</p>
-
-<p>允许事务开启后，在事务的中段进行多次保存点的保存，在回滚的时候可以回滚到任意一个保存点，而不是选择将整个事务全部回滚。而我们提交的时候，只能将我们事务中的所有操作提交，而不能提交到任意一个保存点。</p>
-
-<p>savepoint a1;
-rollback to a1;</p>
-
-<p>线上不经常使用savepoint</p>
-
-<h3>自动提交</h3>
-
-<ul>
-<li>autocommit 可以在session级别设置</li>
-<li>每个DML操作都自动提交(就是update, delete,insert 操作)</li>
-<li>DDL永远都是自动提交，无法通过rollback回滚。(就是修改表结构的那些语句，DDL之前的DML语句， 也都会随着DDL的提交而永久持续化到数据库上。)  简单来说DDL没有后悔药吃。</li>
-</ul>
-
-
-<p>因为在每个insert语句后，自动加了一个commit;</p>
-
-<pre><code>mysql&gt; show global variables like '%autocommit%';
-+---------------+-------+
-| Variable_name | Value |
-+---------------+-------+
-| autocommit    | ON    |
-+---------------+-------+
-</code></pre>
-
-<p>mysql> set session autocommit = 0;</p>
-
-<h3>事务的四个基本属性（ACID）</h3>
-
-<ul>
-<li>原子性（Atomicity）</li>
-<li>一致性 (Consistency)</li>
-<li>隔离性(Isolation)</li>
-<li><p>持久性(Durability)</p>
-
-<h4>事务的原子性</h4></li>
-<li><p>包含在事务中的操作要么全部执行，要么都不执行</p></li>
-<li>中途数据库或应用发生异常，未提交的事务都应该被回滚</li>
-</ul>
-
-
-<h4>事务的一致性</h4>
-
-<ul>
-<li>数据的正确性，合理性，完整性</li>
-<li>数据一致性应该符合应用需要规则
-
-<ul>
-<li>余额不能是负数？ （int no zero）</li>
-<li>交易对象必须先有账号？ (主外键约束)</li>
-<li>用户账号不能重复？ （添加唯一索引）</li>
-</ul>
-</li>
-<li>事务的结果需要满足数据的一致性约束</li>
-</ul>
-
-
-<h4>事务的持久性</h4>
-
-<ul>
-<li>提交完成的事务对数据库的影响必须是永久性的
-
-<ul>
-<li>数据库异常不会丢失事务更新</li>
-<li>通常认为成功写入磁盘的数据即为持久化成功</li>
-</ul>
-</li>
-</ul>
-
-
-<h4>事务的持久化的实现</h4>
-
-<p>挑战： 数据库的高性能。并不是修改一个数据，就在磁盘上马上改掉。因为数据库里的数据散步在各地。而机械磁盘的随机写是相当缓慢的过程。为保证较高效率。修改数据，不会马上记录在磁盘上，先被保存在事务日志中（顺序同步刷新，磁盘对顺序写是相当优秀的，然后异步的慢慢的刷新到磁盘上。宕机时，通过事务日志回放来保证数据持久化。</p>
-
-<h4>事务的隔离性</h4>
-
-<ul>
-<li>数据库事务在提交完成前，中间的任何数据变化对其他的事务都是不可见的</li>
-</ul>
-
-
-<h4>数据库隔离现象</h4>
-
-<ul>
-<li>脏读 Dirty Read 事务B读到事务A尚未提交的数据变更</li>
-<li>不可重复读 NonRepeatable Read  B事务由于A事务的提交，查询数据时，看到2种不同的结果</li>
-<li>幻读 Phantom Read 幻读 （不可重复读和幻读都针对事务B能否读到事务A已经提交的变更）</li>
-</ul>
-
-
-<h4>数据库隔离等级</h4>
-
-<ul>
-<li>Read uncommitted 未提交读</li>
-<li>Read committed   已提交读</li>
-<li>Repeatable read 可重复读</li>
-<li>Serializable   可串行化
-
-<h4>MySQL的事务隔离级别</h4></li>
-<li>InnoDB默认标记为可重复读（Repeatabe read）</li>
-<li>InnoDB并不是标准定义上的可重复读</li>
-<li><p>InnoDB默认在可重复读的基础上避免幻读
-show global variables like &lsquo;%iso%&rsquo;;</p>
-
-<h4>MySQL的事务隔离级别</h4></li>
-<li><p>InnoDB默认标记为可重复读（Repeatable read）</p></li>
-<li>InnoDB并不是标准意义上的可重复读</li>
-<li>InnoDB默认在可重复读的基础上避免幻读</li>
-</ul>
-
-
-<p>set global tx_isolation = &lsquo;REPEATABLE-READ&rsquo;;</p>
-
-<p>set global tx_isolation = &lsquo;SERIALIZABLE&rsquo;;
-实验：</p>
-
-<ul>
-<li>未提交读: 有脏读
-  set global tx_isolation = &lsquo;READ-UNCOMMITTED&rsquo;;</li>
-<li>已提交读：没有脏读， 存在幻读和不可重复读
-  set global tx_isolation = &lsquo;READ-COMMITTED&rsquo;;</li>
-<li>可重复读
-  set global tx_isolation = &lsquo;REPEATABLE-READ&rsquo;;</li>
-</ul>
-
-
-<p>不可重复读: B事务由于A事务update的提交，B事务看到两种不同的数据。
-幻读: 事务B由于事务A insert 的提交，B   事务看到了之前不存在的数据。</p>
-
-<ol>
-<li>不可重复读针对（delete，update操作）</li>
-<li>幻读针对insert操作</li>
-</ol>
-
-
-<h4>MySQL的事务隔离级别的设置</h4>
-
-<ul>
-<li>可在global/session 下分别设置事务的隔离级别</li>
-<li>建议使用Read committed(同Oracle)</li>
-<li>或者建议使用默认的MySQL设置Repeatable read
-  -隔离级别Serializable   可串行化对线上的并发性能有影响，不会在线上设置</li>
-</ul>
-
-
-<h3>事务与并发写</h3>
-
-<ul>
-<li>某个正在更新的记录在提交或回滚前不能被其他事务同时更新(? update 前加排它锁X?)</li>
-<li>事务修改某个记录时，会先获得这条记录的锁，其它事务会进行等待。A修改完成，会将锁释放。然后B和C会获得这把锁</li>
-<li>btw,所有对数据库记录的修改都是串行的，不存在并发的概念</li>
-</ul>
-
-
-<h3>事务回滚的实现</h3>
-
-<ul>
-<li>回滚段（rollback segment）与数据前像</li>
-</ul>
-
-
-<h1>存储引擎概述</h1>
-
-<h2>MySQL 程序层次架构</h2>
-
-<ul>
-<li>内存实例
-
-<ul>
-<li>服务层（上层）</li>
-<li>存储引擎层（上层数据和上层SQL语句经过处理之后，交给存储引擎层，由存储引擎层决定如何将它记录在磁盘上）</li>
-</ul>
-</li>
-<li>存储引擎</li>
-</ul>
-
-
-<h2>什么是存储引擎</h2>
-
-<p>举例：书记员记录
-书记员就是<strong>服务层</strong>，
-而书记员的笔就是<strong>存储引擎</strong>（文字，图标，流程图。决定以何种格式记录。）</p>
-
-<h2>MySQL 存储引擎</h2>
-
-<ul>
-<li>有多种方案，可拔插，可修改存储引擎。</li>
-<li><strong>基于表</strong>选择使用何种存储引擎</li>
-</ul>
-
-
-<p>show engines;</p>
-
-<h1>InnoDB存储引擎</h1>
-
-<ul>
-<li>索引组织表</li>
-<li>支持事务</li>
-<li>锁的粒度比较小，支持行级锁</li>
-<li>有自己的数据块缓存</li>
-<li>日志持久化</li>
-<li><strong>稳定可靠，性能好，线上尽量使用InnoDB</strong>
-MySQL5.5之后的默认存储引擎，我们线上绝大部分的数据都会放到InnoDB存储引擎中。
-
-<h2>InnoDB 存储引擎架构</h2></li>
-<li>InnoDB缓存池：内存空间包括： 数据块缓存 Buffer pool(更高效的操作数据文件)，日志缓存，double write缓存</li>
-<li>后台线程：将内存中的数据块刷新到磁盘上，将日志写到磁盘上，监控</li>
-<li>磁盘上的文件： 数据文件， redo log
-
-<h2>MyISAM 存储引擎</h2></li>
-<li>堆表</li>
-<li>不支持事务</li>
-<li>只维护索引缓存池， 表数据缓存交给操作系统</li>
-<li>锁的力度比较大，导致并发性能非常查</li>
-<li>数据文件可以直接拷贝，偶尔可能用上</li>
-<li>不建议线上业务数据使用
-Mysql直到5.1开始，都是MySQL的默认存储引擎
-MyISAM 只能有一个连接修改数据，对数据的并发性造成很大的影响，这是被淘汰的主要原因。
-系统初始化的表是MyISAM,因为不需要经常的修改和并发性操作，所以没有问题。</li>
-</ul>
-
-
-<h2>Memory存储引擎</h2>
-
-<ul>
-<li>数据全内存存放，无法持久化</li>
-<li>性能较高</li>
-<li>不支持事务</li>
-<li>适合偶尔作为临时表使用</li>
-<li>create temporary table tmp(id int) engine = memory;</li>
-<li>temporary临时表只针对当前这个连接生效，不是全局的。</li>
-</ul>
-
-
-<h2>BlackHole存储引擎</h2>
-
-<ul>
-<li>数据不做任何存储-</li>
-<li>利用MySQL Replicate，充当日志服务器</li>
-<li>在MySQL Replicate 环境中充当代理主
-
-<h2>TokuDB</h2></li>
-<li>分形数存储结构</li>
-<li>支持事务</li>
-<li>行锁</li>
-<li>压缩效率较高</li>
-<li>适合大批量insert的场景
-
-<h2>MySQL Cluster</h2></li>
-<li>多主分布式集群</li>
-<li>数据节点间冗余，高可用</li>
-<li>支持事务</li>
-<li>设计易于扩展</li>
-<li>面向未来，线上慎用</li>
-</ul>
-
-
-<p>alter table m ENGINE = innodb;</p>
-
-<h2>InnoDB物理文件</h2>
-
-<ol>
-<li>系统表空间：ibdata1  一个实例一个　（innodb_data_home_dir）</li>
-<li>日志文件：ib_logfile0/1 一个实例两个（可以配置） (innodb_log_group_home_dir)</li>
-<li>表定义文件：　表名.frm 每个表一个 (Schema目录下)</li>
-<li>表数据文件：　表名.ibd 如果innodb_file_per_table = 1，则每个表一个(Schema目录下)
-ibdata1存放了：</li>
-<li>回滚段</li>
-<li>所有InnoDB表元数据信息（不能想MyISAM通过拷贝数据来做表迁移。如果发生移动，ibdata1中存储信息和数据文件实际存在位置不一致，就无法打开这张表）</li>
-<li>Double write, insert buffer dump等等</li>
-</ol>
-
-
-<p>自动扩展机制
-show global variables like &lsquo;%innodb%&rsquo;;</p>
-
-<p>参数innodb_autoextend_increment 100M 或者稍微大一点是比较合适的大小。太小的话，会造成系统表空间频繁的扩展，因为每次扩展的量不够。如果设置太大的话，会造成每次扩展的效率非常慢，在扩展期间。很多因为回滚段不够的事务将被hand住。因此建议100M或者稍微大些比较合适。
-innodb_file_per_table 设为1， 表定义和表数据文件会单独存放。否者会和ibdata1放在一起。
-innodb_log_file_size 100M
-innodb_log_file_in_group 2  和性能相关，如果写操作过多（insert,delete,update），可以将这两个参数调大。</p>
-
-<ul>
-<li>索引组织表（聚簇表）</li>
-<li>根据表逻辑主键排序</li>
-<li><p>数据节点每页16k （根节点，枝节点，叶节点）</p></li>
-<li><p>根据主键寻址速度很快</p></li>
-<li>主键值递增的insert插入效率较好</li>
-<li>主键随机insert插入效率较差</li>
-</ul>
-
-
-<p>因此， InnoDB表必须指定主键，建议使用自增</p>
-
-<h2>InnoDB内存缓存</h2>
-
-<ul>
-<li>数据的读写需要经过缓存</li>
-<li>数据以整页（16k）为单位读到缓存中</li>
-<li>缓存中的数据以LRU策略换出（最少使用策略）</li>
-<li>IO效率高，性能好。（利用缓存池减少了物理IO）
-innodb_buffer_pool_size 根据总物理内存设置。 在启动实例的时候设置</li>
-</ul>
-
-
-<h2>InnoDB数据持久化</h2>
-
-<ul>
-<li>事务日志实时持久化</li>
-<li>内存变化数据（脏数据）增量异步刷出到磁盘</li>
-<li>实例故障靠重放日志恢复</li>
-<li>性能好，可靠，恢复快
-
-<h2>InnoDB行级锁</h2></li>
-<li>写不阻塞读</li>
-<li>不同行之间的写互相不阻塞</li>
-<li>并发性能好
-
-<h2>InnoDB事务支持</h2>
-
-<p>事务ACID特性的完整支持
-A 回滚段失败回滚
-C 支持主外键约束
-I 事务版本 + 回滚端 = MVCC
-D 事务日志持久化</p></li>
-</ul>
-
-
-<p>默认可重复读隔离级别，可调整</p>
-
-<h1>InnoDB事务锁</h1>
-
-<h2>什么是计算机程序锁</h2>
-
-<ul>
-<li>控制对共享资源进行并发访问</li>
-<li>保护数据的完整性和一致性</li>
-</ul>
-
-
-<h2>什么是数据库锁</h2>
-
-<ul>
-<li>事务锁 保护数据库逻辑内容， 持续时间较长</li>
-<li><p>latch/mutex 保护内存数据结构， 用于临界资源的争抢，时间短
-数据库事务并发：（一个串行化的过程）
-更新丢失</p>
-
-<h3>事务锁的力度</h3></li>
-<li><p>行锁 InnoDB, Oracle</p></li>
-<li>页锁 SQL Server； 存在锁升级的情况</li>
-<li>表锁 MyISAM, Memory; 影响并发性
-
-<h3>数据库加锁操作</h3>
-
-<p>select 语句不加任何锁，也不会被任何事务阻塞锁。
-读的隔离性由MVCC确保</p></li>
-</ul>
-
-
-<h3>InnoDB锁模式互斥</h3>
-
-<ul>
-<li>shared lock 读锁是共享的
-
-<ul>
-<li>手动： select * from test lock in share mode ;</li>
-<li>自动： insert 前</li>
-</ul>
-</li>
-<li>exclusive lock 写锁是排他的
-
-<ul>
-<li>自动： select * from test lock for update;</li>
-<li>手动: update 和delete前</li>
-</ul>
-</li>
-<li>一般select语句不加任何锁，也不会被任何事务阻塞</li>
-</ul>
-
-
-<p>等待时间，由系统参数决定
-show global variables like &lsquo;%lock_wait%&rsquo;;</p>
-
-<h4>锁粒度</h4>
-
-<ul>
-<li>table lock</li>
-<li>row lock</li>
-</ul>
-
-
-<p>lock for update  (exclusive lock)</p>
-
-<h2>InnoDB锁机制</h2>
-
-<h2>InnoDB锁实现与注意事项</h2>
-
-<h2>死锁</h2>
-
-<h2>业务加锁</h2>
-
-<h1>参考链接</h1>
-
-<p><a href="http://blog.csdn.net/hguisu/article/details/7106342">MySQL架构</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Drupal101]]></title>
-    <link href="http://fenghan.github.io/blog/2015/10/12/drupal101/"/>
-    <updated>2015-10-12T22:39:48+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/10/12/drupal101</id>
-    <content type="html"><![CDATA[<h1>前言</h1>
-
-<p>入职新公司，开始学习Drupal。立志成为Drupal专家</p>
-
-<h1>Drupal101</h1>
-
-<ul>
-<li>创始人 Dries Buytaert博客 <a href="http://buytaert.net/">http://buytaert.net/</a></li>
-<li>学习资源 <a href="https://drupalize.me">drupalize.me</a></li>
-</ul>
-
-
-<h4>What is Drupal</h4>
-
-<ul>
-<li>CMS
-
-<ul>
-<li>CMF</li>
-</ul>
-</li>
-<li></li>
-</ul>
-
-
-<h4>Who uses Drupal</h4>
-
-<ul>
-<li><a href="http://drupalshowcase.com/">Drupal Showcase</a></li>
-<li><a href="https://www.drupal.org/case-studies">drupal.org</a></li>
-</ul>
-
-
-<h4>Major features with site building</h4>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MySQL存储引擎]]></title>
-    <link href="http://fenghan.github.io/blog/2015/09/16/mysql-storage-engine/"/>
-    <updated>2015-09-16T20:01:29+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/09/16/mysql-storage-engine</id>
-    <content type="html"><![CDATA[<h3>什么是MySQL存储引擎</h3>
-
-<p>服务层 - 存储引擎 - 文件系统层</p>
-
-<p>MySQL5.5 以后默认为InnoDB,推荐。</p>
-
-<p>Memory存储引擎，临时表</p>
-
-<h4>MyISAM</h4>
-
-<ul>
-<li>堆表（插入性能好）</li>
-<li>不支持事务</li>
-<li>只维护索引缓存池，表数据缓存交给操作系统（表若很大，浪费内存）</li>
-<li>锁粒度较大（表级锁，读写锁，读的时候不允许写，写的时候不允许读）</li>
-<li>数据文件可以直接拷贝，备份数据用得上</li>
-</ul>
-
-
-<p>不推荐的原因：1. 不支持事务 2. 锁的颗粒度比较大 3. 表数据缓存交给操作系统，表若很大，浪费内存</p>
-
-<h4>TokuDB</h4>
-
-<p>社区版备份比较麻烦</p>
-
-<h4>MySQL Cluster</h4>
-
-<ul>
-<li>多主分布式集群</li>
-<li>数据节点间冗余，高可用</li>
-<li>支持事务</li>
-<li>设计上易于扩展</li>
-<li>面向未来，线上慎用</li>
-</ul>
-
-
-<h4>InnoDB</h4>
-
-<ul>
-<li>缓存池 +　各种后台线程　＋ 数据文件</li>
-</ul>
-
-
-<p>事务ACID:</p>
-
-<ul>
-<li>回滚段失败回滚（A）</li>
-<li>支持主外键（C）</li>
-<li>事务版本 + 回滚段 = MVCC(I)</li>
-<li>事务日志持久化（D）</li>
-</ul>
-
-
-<p>行级别锁：</p>
-
-<ul>
-<li>写不阻塞读</li>
-<li>不同行间的写相互不阻塞</li>
-<li>并发性能好</li>
-<li>锁是加在索引上的</li>
-</ul>
-
-
-<p>InnoDB数据块缓存池</p>
-
-<ul>
-<li>数据的读写经过缓存</li>
-<li>IO效率高，性能好。</li>
-</ul>
-
-
-<p>InnoDB数据文件存储结构：</p>
-
-<ul>
-<li>根据主键寻址速度很快</li>
-<li>主键值递增的insert插入效率较好</li>
-<li>主键随机insert插入效率较好</li>
-<li><strong>因此，InnoDB表必须指定主键，建议使用自增数字</strong></li>
-</ul>
-
-
-<p>数据持久化与事务日志</p>
-
-<ul>
-<li>事务日志实时持久化</li>
-</ul>
-
-
-<h3>介绍MySQL主要存储引擎的特点及试用场景</h3>
-
-<h3>Innodb存储引擎</h3>
-
-<pre><code>show global variables like "%increment%";
-
-+-----------------------------+-------+
-| Variable_name               | Value |
-+-----------------------------+-------+
-| auto_increment_increment    | 1     |
-| auto_increment_offset       | 1     |
-| div_precision_increment     | 4     |
-| innodb_autoextend_increment | 64    |
-+-----------------------------+-------+
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MySQL数据库对象与应用]]></title>
-    <link href="http://fenghan.github.io/blog/2015/09/14/mysql-db-object/"/>
-    <updated>2015-09-14T11:16:22+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/09/14/mysql-db-object</id>
-    <content type="html"><![CDATA[<h1>MySQL数据类型</h1>
-
-<h4>经验之谈</h4>
-
-<ul>
-<li>存储性别、省份、类型等分类信息时，选择TINYINT或者ENUM</li>
-<li>BIGINT存储空间更大，INT和BIGINT之间通常选择BIGINT</li>
-<li>交易等高精度数据时选择使用DECIMAL</li>
-</ul>
-
-
-<h1>MySQL数据对象</h1>
-
-<p>help create index</p>
-
-<h1>MySQL权限管理</h1>
-
-<ul>
-<li><p>Data Privileges</p>
-
-<pre><code>  DATA: SELECT, INSERT, UPDATE, DELETE
-</code></pre></li>
-<li>Define</li>
-<li>Administrator Privileges
-
-<ul>
-<li>Shutdown Database</li>
-<li>Replication</li>
-</ul>
-</li>
-</ul>
-
-
-<p>创建一个用户并赋权：</p>
-
-<ul>
-<li>使用原生的SQL</li>
-<li>更改数据库记录</li>
-<li>更简单的方法
-
-<h4>查看用户权限</h4>
-
-show grants;
-
-<h4>如何更改用户的权限</h4></li>
-</ul>
-
-
-<h4>如何更改用户的密码</h4>
-
-<h4>删除用户</h4>
-
-<h4>With Grant Option</h4>
-
-<h4>与权限相关的表</h4>
-
-<ul>
-<li>user</li>
-<li>db</li>
-<li>tables_priv</li>
-<li>clomuns_priv
-
-<h5>Mysql 权限验证的过程</h5></li>
-</ul>
-
-
-<h4>MySQL权限上有哪些问题</h4>
-
-<ul>
-<li>默认的test库不受权限控制，存在安全风险</li>
-<li>mysql_secure_installation</li>
-</ul>
-
-
-<h4>小结</h4>
-
-<ul>
-<li>权限相关的操作不要直接操作表，统一使用MySQL命令</li>
-<li>使用二进制安装MySQL后，需要重置管理用户（root）的密码</li>
-<li>线上数据库不要留test库</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[高性能产品的必由之路—性能测试工具]]></title>
-    <link href="http://fenghan.github.io/blog/2015/09/12/performance-test/"/>
-    <updated>2015-09-12T10:32:58+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/09/12/performance-test</id>
-    <content type="html"><![CDATA[<h1>前言</h1>
-
-<p>课程笔记：<a href="http://www.imooc.com/learn/278">IMOOC:高性能产品的必由之路—性能测试工具</a>。
-昨天面试，问我LNAMP能够承载多少用户，答不知道，所以学习。</p>
-
-<h1>引言</h1>
-
-<ul>
-<li>搭建一个网站容易</li>
-<li>搭建一个千万用户级的网站没有那么容易
-
-<ul>
-<li>横向扩展的能力</li>
-<li>数据库的优化</li>
-<li>尽量让一台机器能够承载更多的用户请求
-
-<h1>性能测试的指标</h1>
-
-<h4>什么是系统测试</h4></li>
-</ul>
-</li>
-</ul>
-
-
-<p>性能测试就是通过<strong>技术的手段</strong>模拟大量用户<strong>同时</strong>访问被测应用，观察、记录和分析系统的<strong>各项性能指标</strong>的过程。</p>
-
-<p>性能测试的目标是评估系统的性能瓶颈，预测系统的最大用户负载能力。</p>
-
-<h3>两个关键点</h3>
-
-<ul>
-<li>模拟大量并发用户</li>
-<li>监控系统负载参数分析系统瓶颈
-
-<h4>性能指标</h4></li>
-<li>平均响应时间（TTLB, Time to laster byte）
-
-<ul>
-<li>平均每个请求从发送到接收响应的时间</li>
-<li>合理的平均响应时间
-
-<ul>
-<li>2/5/10原则</li>
-<li>非常有吸引力/比较不错/糟糕失败的</li>
-</ul>
-</li>
-<li>平均响应时间的业务影响
-
-<ul>
-<li>1秒延迟减少了11%的PV，降低了16%的客户满意度</li>
-<li>2秒增加到10秒，会导致38%的页面浏览放弃率</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>CPU
-
-<ul>
-<li> CPU的占用率</li>
-</ul>
-</li>
-<li>内存
-
-<ul>
-<li>内存的占用率， 换页数</li>
-</ul>
-</li>
-<li>I/O
-
-<ul>
-<li>读写请求数，读写量</li>
-</ul>
-</li>
-<li>带宽
-
-<ul>
-<li> 进站出站带宽占用率
-
-<h4>为什么要进行性能测试</h4></li>
-</ul>
-</li>
-<li>能够有效评估系统的性能指标，用于系统的系能评估</li>
-<li>能够识别系统的性能瓶颈，协助性能调优</li>
-<li>能够指导突发流量承载方案的制定</li>
-<li>能够用于系统运维成本的预算
-
-<h4>性能的事的一般分类</h4></li>
-<li>负载测试(Load Test)
-
-<ul>
-<li>为了验证系统设计符合正常业务负载情况下系统性能表现的测试</li>
-<li>开发人员找到内存泄露、连接泄露和系统瓶颈</li>
-</ul>
-</li>
-<li>压力测试（Stress Test）
-
-<ul>
-<li>为了验证系统在极端负载情况下的性能表现的测试</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>性能测试工具</h3>
-
-<ul>
-<li>top
-
-<ul>
-<li>F 显示字段与排序</li>
-<li>h 帮助</li>
-<li>VIRT 虚拟内存大小</li>
-<li>RES   真实内存大小</li>
-<li>SHA 共享内存大小</li>
-<li>TIME+ 运行这个进程的时间</li>
-<li>查看cpu排序也可以用  SHIFT键+p 或者  大写状态下 P</li>
-<li>查看内存排序也可以用  SHIFT键+m 或者  大写状态下 M</li>
-</ul>
-</li>
-<li>top -b -n 1
-
-<ul>
-<li>b 所有的都列出来</li>
-<li>n 1  ， 只执行一次</li>
-</ul>
-</li>
-<li>sysstat
-
-<ul>
-<li>统计系统的各种占用资源</li>
-<li>cd /etc/cron.d; cat sysstat</li>
-<li>CPU监控</li>
-<li>查看是否是内存瓶颈</li>
-<li>swap的监控</li>
-<li>IO的监控</li>
-<li>网络监控
-
-<h3>评估磁盘读写性能极限</h3></li>
-</ul>
-
-
-<p>  fio -filename=/tmp/test -direct=1 -iodepth 1 -thread -rw=randrw -ioengine=psync -bs=16k -size 2G -numjobs=10 -runtime=30 -group_reporting -name=mytest13
-查看IOPS,我的ssd硬盘，在虚拟机中的ubuntu， read：1348 write：1345</p></li>
-</ul>
-
-
-<h1>Jmeter</h1>
-
-<p>Apache组织开发的开源性能测试工具</p>
-
-<h4>ECSHOP</h4>
-
-<ul>
-<li>开源，但商业应用需要付费，功能齐全。</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MySQL主从复制]]></title>
-    <link href="http://fenghan.github.io/blog/2015/09/10/mysql-master-slave/"/>
-    <updated>2015-09-10T10:44:16+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/09/10/mysql-master-slave</id>
-    <content type="html"><![CDATA[<h1>前言</h1>
-
-<p>之前写过一篇MySQL的主从配置，今天这篇文章涉主要涉及理论。</p>
-
-<h1>什么是主从复制</h1>
-
-<ul>
-<li>数据拷贝</li>
-<li>准实时</li>
-<li>源主节点； 目的-从节点</li>
-</ul>
-
-
-<h1>主从复制的原理</h1>
-
-<h4>复制格式</h4>
-
-<ul>
-<li>SRB: Statement Based Replication (原生的语句)</li>
-<li>PBR: Row （5.7.7变为默认格式）</li>
-<li>MBR: Mixed</li>
-</ul>
-
-
-<p>查看复制格式
-        show global variables like &lsquo;binlog_format&rsquo;;</p>
-
-<p>配置文件
-    [mysqld]
-    binlog_format = ROW</p>
-
-<h1>主从复制的用途</h1>
-
-<ul>
-<li>试试灾备，用于故障切换（高可用的切换）</li>
-<li>读写分离，提供查询服务</li>
-<li>备份，避免影响业务</li>
-</ul>
-
-
-<h2>MySQL主从复制的一些模式</h2>
-
-<ol>
-<li>一主一从</li>
-<li>主主复制</li>
-<li>一主多从</li>
-<li>多主依从 （mysql5.7开始支持）</li>
-<li>联级复制</li>
-</ol>
-
-
-<h1>主从复制的搭建</h1>
-
-<h3>主从部署的必要条件：</h3>
-
-<ul>
-<li>主从开启binlog日志（设置log-bin参数）</li>
-<li>主从server-id不同</li>
-<li>从库服务器能连通主库</li>
-</ul>
-
-
-<h3>主从部署步骤</h3>
-
-<ul>
-<li>备份还原(mysqldump )</li>
-<li>授权 （grant replicaton slave on <em>.</em>）</li>
-<li>配置复制，并启动 (change master to)</li>
-<li><p>查看主从复制信息 (show slave status\G)</p>
-
-<h1>主从复制的问题</h1></li>
-<li><p>主库宕机，数据可能丢失</p></li>
-<li>从库只有一个sql thread, 主库写压力大，复制很可能延时。</li>
-</ul>
-
-
-<h3>MySQL半同步复制</h3>
-
-<h3>MySQL并行复制</h3>
-
-<ul>
-<li>社区版5.6新增</li>
-<li>并行是指从库多线程，</li>
-<li><p>库级别并应用binlog，同一个数据库更新还是串行的（5.7版并行复制基于事务组）</p>
-
-<p>  set global slave_parallel_workers = 10</p></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MySQL索引]]></title>
-    <link href="http://fenghan.github.io/blog/2015/09/10/mysql-index/"/>
-    <updated>2015-09-10T10:07:51+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/09/10/mysql-index</id>
-    <content type="html"><![CDATA[<h4>什么是索引</h4>
-
-<p>索引是值到行位置的映射。索引就是一个目录。</p>
-
-<h4>索引的作用：</h4>
-
-<ul>
-<li>提高访问的速度。硬盘IO每秒100到150次的响应。每次10毫秒</li>
-<li>实现主键、唯一键逻辑</li>
-</ul>
-
-
-<p>IO是个宝贵的资源，</p>
-
-<h4>索引的使用场景：</h4>
-
-<p>FTS 全表索引</p>
-
-<h4>Mysql中我们可以使用的索引类型：</h4>
-
-<ul>
-<li>Btree索引：</li>
-<li>B+tree： 平衡二叉树的一种改良</li>
-<li>Hash索引 InnoDB</li>
-<li>Innodb ： 聚簇索引，</li>
-<li>二级索引： 除了主键，用户创建的索引。</li>
-</ul>
-
-
-<h4>索引的代价：</h4>
-
-<p>插入修改删除每个索引都编程一个内部事务，索引越多，事务越长。(增删改)</p>
-
-<h4>索引的优势:</h4>
-
-<ol>
-<li>减少查询IO</li>
-<li>优化等值查询、范围查询</li>
-<li><p>利用有序特性</p>
-
-<p> order by , group byh , distinct, max ,min</p></li>
-</ol>
-
-
-<h4>如何用好索引：</h4>
-
-<ul>
-<li><p>依据where查询条件来建立索引：</p>
-
-<pre><code>  select a,b from tab_a where c = ?;  #c上建立索引
-</code></pre></li>
-<li><p>使用联合索引，而不是多个单列索引。</p>
-
-<pre><code>  select * from tab_a where a = ? AND b = ? 
-  #建立a和b的索引， 把一组值作为b+tree 的索引， 在同一个树里，查询速度更高。
-</code></pre></li>
-<li><p>联合索引， 区分度大的放在前面。</p>
-
-<pre><code>  name,gender 对， 因为name的区分度很大。能够更好地使用b+ TREE来定位节点
-
-  gender,name 错
-</code></pre></li>
-<li><p>联合索引能为前缀单列，复列查询提供帮助。</p>
-
-<pre><code>  where a = ? 
-  wherer a = ? AND b =? 
-</code></pre></li>
-<li><p>合理创建联合索引，避免冗余。
-      abc 包含 a ,ab</p></li>
-<li><p>ORDER BY, GROUP BY, DISTINCT 字段添加索引</p></li>
-<li><p>用 EXPLAIN 查看语句</p>
-
-<pre><code>  possible_key 可以使用的索引
-  key 实际的索引名字  重要
-  rows  读的记录行数，才返回的结果 重要。
-  typpe   index  扫描完整的索引树， 重要   
-  key_len 如果只使用了一部分，为长度。  
-  force index  强制使用索引 
-  ignore index 
-</code></pre>
-
-<h4>其他技巧</h4></li>
-<li><p>一个表，控制百万级别。如何达到了一两百G，就可以考虑分库分表了。千万级别，取决于访问方式，left join</p></li>
-<li><p>WHERE查询时，  函数不要加在字段上。timestamp > func(1234)。</p></li>
-<li><p>外键一般用程序使用。</p></li>
-<li><p>什么事优化器： 哪个索引会更快，IO更小。生发语法数，生成一个计划。</p></li>
-<li><p>纵向分表，根据业务来拆分。</p></li>
-<li><p>等值查询 ，2个范围查询， 不能都覆盖到。联合查询。等值能用一个，范围查询也只能用一个。</p></li>
-<li><p>通过表结构设计来避免连表。</p></li>
-<li><p>触发器和存储过程不好维护，做运维手段还可以。</p></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MySQL Foundation]]></title>
-    <link href="http://fenghan.github.io/blog/2015/09/09/mysql-foundation/"/>
-    <updated>2015-09-09T15:25:59+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/09/09/mysql-foundation</id>
-    <content type="html"><![CDATA[<h1>认识MySQL</h1>
-
-<h4>关系与非关系型数据库</h4>
-
-<p>关系型数据库</p>
-
-<ul>
-<li>mysql</li>
-<li>oracle</li>
-<li>sql server</li>
-<li>postgresql</li>
-</ul>
-
-
-<p>非关系型数据库</p>
-
-<ul>
-<li>hadoop</li>
-<li>mongoDB</li>
-<li>redis</li>
-<li>Cassandra</li>
-</ul>
-
-
-<p>区别：</p>
-
-<p>是否使用SQL语句作为数据操作的方法和方式。</p>
-
-<p>所以关系型数据库又叫做SQL数据库。</p>
-
-<h4>为什么学习MySQL</h4>
-
-<ul>
-<li>基于GPL协议</li>
-<li>Mysql 最流行 ，开源，但不是最先进的。</li>
-<li>互联网企业中占绝对主流地位</li>
-</ul>
-
-
-<p>开发者学习MySQL：</p>
-
-<ul>
-<li>学习数据类型的正确使用</li>
-<li>学习如何利用索引优化查询效率</li>
-<li>了解分区，读写分离特性</li>
-<li>了解数据库事务相关特性</li>
-</ul>
-
-
-<p>DBA学习MySQL：</p>
-
-<ul>
-<li>学习MySQL体系结构知识</li>
-<li>学习日常运维，性能调优，故障排查</li>
-<li>虚席数据层架构设计，schema优化知识</li>
-</ul>
-
-
-<h1>轻松安装MySQL</h1>
-
-<p>5.6 <a href="http://www.mysql.com/downloads/">http://www.mysql.com/downloads/</a></p>
-
-<ul>
-<li>企业版</li>
-<li>集群版</li>
-<li>社区版 （免费）
-
-<h4>Windows上安装</h4>
-
-<p>安装包：300M+</p></li>
-</ul>
-
-
-<h4>Linux上安装</h4>
-
-<h4>Ubuntu上安装MySQL</h4>
-
-<pre><code>apt-cache search mysql-server
-apt-get install mysql-server-5.6
-#查看mysql进程
-ps -ef|grep mysqld
-#查看mysql状态：版本、运行时间、连接方式、查询统计
-sudo /etc/init.d/mysql status
-#msyql启动、停止、重启
-sudo /etc/init.d/mysql start|stop|restart
-</code></pre>
-
-<h1>连接使用MySQL</h1>
-
-<ul>
-<li>应用程序驱动</li>
-<li>MySQL命令行</li>
-<li><p>GUI工具</p>
-
-<p>  #查看mysql-client版本
-  mysql -V</p></li>
-</ul>
-
-
-<p>命令行连接MySQL</p>
-
-<ul>
-<li><p>Socket连接(本地连接)</p>
-
-<pre><code>  mysql -S/var/run/mysqld/mysqld.sock -uhomestead -p
-</code></pre></li>
-<li><p>TCP/IP连接（远程连接）</p>
-
-<pre><code>   mysql -h127.0.0.1 -P3306 -uhomestead -p
-</code></pre></li>
-</ul>
-
-
-<p>本地连接只能在MySQL服务器上创建，常作为MySQL状态检查，或程序和MySQL部署在一台机器上。</p>
-
-<pre><code>#小技巧
-Ctrl + r : 搜索之前敲过的命令
-</code></pre>
-
-<h3>两个重要的命令： status, show processlist</h3>
-
-<h4>status</h4>
-
-<p>关注的信息：</p>
-
-<ul>
-<li>Server version</li>
-<li>characterset: utf8 (Server, Db, Client, Conn)</li>
-<li>Uptime
-
-<h4>show processlist</h4></li>
-</ul>
-
-
-<p>help select;</p>
-
-<pre><code>#查看socket文件位置
-show global variables like 'socket'
-</code></pre>
-
-<ul>
-<li>socket权限为777</li>
-<li>不要把密码直接输入在命令行里面，存在安全风险。</li>
-</ul>
-
-
-<p>history -c 清楚命令行历史</p>
-
-<h4>常用的图形客户端工具</h4>
-
-<ul>
-<li>Navicat</li>
-<li><p>MySQLWenkBench</p></li>
-<li><p>操作简单，易于上手</p></li>
-<li>支出图形化的导入导出</li>
-<li>可视化的界面输出</li>
-</ul>
-
-
-<p>总结：</p>
-
-<ol>
-<li>应用程序使用API接口连接MySQL</li>
-<li>开发工程师可以使用图形工具连接MySQL</li>
-<li><strong>命令行工具才是DBA的最爱</strong></li>
-</ol>
-
-
-<h1>SQL语言入门</h1>
-
-<p>DDL :
-- CREATE TABLE
-- DROP TABLE
-- ALTER TABLE</p>
-
-<p>DML:</p>
-
-<ul>
-<li>SELECT FROM TABLE</li>
-<li>INSERT INTO TABLE</li>
-<li>UPDATE TABLE SET</li>
-<li>DELETE FROM TABLE</li>
-</ul>
-
-
-<p>DCL:</p>
-
-<ul>
-<li>GRANT</li>
-<li>REVOKE</li>
-</ul>
-
-
-<p>TCL:</p>
-
-<ul>
-<li>COMMIT</li>
-<li>ROLLBACK</li>
-</ul>
-
-
-<p><a href="http://www.w3school.com.cn/sql/">SQL教程</a></p>
-
-<h1>认识DBA</h1>
-
-<p>DBA是最后一道屏障，守门员，是业务稳定的基石。</p>
-
-<p>监控线上，保障业务的正常运行。</p>
-
-<p>做好实时性能监控,一旦有长的SQL语句，就会立刻接到报警，然后进行调优。</p>
-
-<h4>小公司</h4>
-
-<ul>
-<li>没有专职DBA</li>
-<li>但肯定有懂数据库的人</li>
-</ul>
-
-
-<p>大公司：</p>
-
-<ul>
-<li>专职DBA</li>
-<li>数据存储技术专家</li>
-</ul>
-
-
-<p>互联网业务： 高性能、高可用、可扩展、安全性。</p>
-
-<p>没有DBA就没有稳定的数据库，请求变慢，数据丢失，安全问题，用户投诉，无穷无尽。</p>
-
-<h3>DBA要做哪些工作？</h3>
-
-<ol>
-<li>基础运维
-
-<ul>
-<li>安全部署</li>
-<li>监控</li>
-<li>故障处理</li>
-</ul>
-</li>
-<li>安全运维工作
-
-<ul>
-<li>数据备份与恢复</li>
-<li>安全访问，安全漏洞</li>
-<li>审计</li>
-</ul>
-</li>
-<li>性能调优工作
-
-<ul>
-<li>数据库优化</li>
-<li>容量评估、软硬件升级</li>
-</ul>
-</li>
-<li>开发支持工作
-
-<ul>
-<li>存储方案制定(哪些数据放在memcache，减少对数据库的访问)</li>
-<li>数据库设计</li>
-<li>数据库变更 SQL Review （审核业务SQL，全表扫描的SQL会把数据库跑死）</li>
-</ul>
-</li>
-<li>流程与培训
-
-<ul>
-<li>数据库开发规范</li>
-<li>运维流程与标准化</li>
-<li>业务培训</li>
-</ul>
-</li>
-</ol>
-
-
-<p>练习：
-mysql要做的：</p>
-
-<p>分析MySQL慢日志请求，优化表索引</p>
-
-<h4>DBA需要的技能</h4>
-
-<p>专业技能：
-    - 数据库原理
-    - Linux与Shell
-    - 计算机体系结构
-    - 网络原理
-    - 数据库系统与操作
-    - 服务器硬件
-    - 业务架构设计
-软技能：</p>
-
-<pre><code>- 责任心、执行力
-- 坚韧，抗压（半夜、凌晨工作）
-- 学习与沟通能力
-- 正直，诚信
-- 耐心，注重细节
-- 分析能力
-- 团队协作
-- 
-</code></pre>
-
-<p>DBA如何发展？</p>
-
-<ul>
-<li>业务架构师（数据存储有深入研究，处理不同业务场景与需求的数据存储）</li>
-<li>运维专家（解决mysql的任何问题，帮助数据库更稳定更高效的运行）</li>
-<li>数据库研发（改进数据库系统或开发自己的数据库）</li>
+    <title type="html"><![CDATA[Docker Drupal8]]></title>
+    <link href="http://hanfeng.name/blog/2015/12/17/docker-drupal8/"/>
+    <updated>2015-12-17T08:45:49+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/12/17/docker-drupal8</id>
+    <content type="html"><![CDATA[<h1>Docker Drupal8</h1>
+
+<ul>
+<li><p>好久没有写Blog了，继续开始写。多总结，要有所积累。</p></li>
+<li><p>最近学习了Docker和Drupal8， 所以写了一个Drupal8 的Docker。</p></li>
+<li><p><a href="https://github.com/FengHan/docker-drupal8">Github地址</a></p></li>
 </ul>
 
 ]]></content>
@@ -1914,9 +31,9 @@ mysql要做的：</p>
   
   <entry>
     <title type="html"><![CDATA[Laravel5 基础]]></title>
-    <link href="http://fenghan.github.io/blog/2015/09/09/learn-laravel-from-scratch/"/>
-    <updated>2015-09-09T11:09:29+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/09/09/learn-laravel-from-scratch</id>
+    <link href="http://hanfeng.name/blog/2015/09/09/learn-laravel-from-scratch/"/>
+    <updated>2015-09-09T03:09:29+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/09/09/learn-laravel-from-scratch</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>Laravel 5 的很多新功能是来自 Jeffrey Way的 idea,</p>
@@ -2008,9 +125,9 @@ php artisan dump-autoload
   
   <entry>
     <title type="html"><![CDATA[Cross Site Request Forgery]]></title>
-    <link href="http://fenghan.github.io/blog/2015/09/05/csrf/"/>
-    <updated>2015-09-05T17:00:56+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/09/05/csrf</id>
+    <link href="http://hanfeng.name/blog/2015/09/05/csrf/"/>
+    <updated>2015-09-05T09:00:56+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/09/05/csrf</id>
     <content type="html"><![CDATA[<p>CSRF（Cross-site request forgery跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。</p>
 
 <h3>CSRF 攻击的防范；</h3>
@@ -2044,10 +161,45 @@ php artisan dump-autoload
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[行为驱动开发]]></title>
+    <link href="http://hanfeng.name/blog/2015/09/04/bdd/"/>
+    <updated>2015-09-04T02:53:53+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/09/04/bdd</id>
+    <content type="html"><![CDATA[<p>prophecy</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[驱动式开发]]></title>
+    <link href="http://hanfeng.name/blog/2015/09/03/test-driver/"/>
+    <updated>2015-09-03T09:11:29+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/09/03/test-driver</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>中国外包软件的成功率只有5%。</p>
+
+<p>成功的定义是以下3点。</p>
+
+<ol>
+<li>按期交付 （在客户规定的工期内）</li>
+<li>正常运营</li>
+<li>不超预算</li>
+</ol>
+
+
+<h1>PHPUnit</h1>
+
+<p>安装：</p>
+
+<p>按照官网步骤进行安装</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Xdebug]]></title>
-    <link href="http://fenghan.github.io/blog/2015/09/02/xdebug/"/>
-    <updated>2015-09-02T22:57:38+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/09/02/xdebug</id>
+    <link href="http://hanfeng.name/blog/2015/09/02/xdebug/"/>
+    <updated>2015-09-02T14:57:38+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/09/02/xdebug</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>掌握Xdebug是每一个PHP程序员必备的技能。</p>
@@ -2093,9 +245,9 @@ with Xdebug v2.3.3, Copyright (c) 2002-2015, by Derick Rethans
   
   <entry>
     <title type="html"><![CDATA[Hadoop介绍]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/30/hadoop-intro/"/>
-    <updated>2015-08-30T16:22:21+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/30/hadoop-intro</id>
+    <link href="http://hanfeng.name/blog/2015/08/30/hadoop-intro/"/>
+    <updated>2015-08-30T08:22:21+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/30/hadoop-intro</id>
     <content type="html"><![CDATA[<p>慕课网<a href="http://www.imooc.com/learn/391">Hadoop大数据平台架构与实践&ndash;基础篇</a> 的文字记录</p>
 
 <h1>初识Hadoop</h1>
@@ -2308,9 +460,9 @@ with Xdebug v2.3.3, Copyright (c) 2002-2015, by Derick Rethans
   
   <entry>
     <title type="html"><![CDATA[性能瓶颈]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/30/performance-bottleneck/"/>
-    <updated>2015-08-30T00:10:51+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/30/performance-bottleneck</id>
+    <link href="http://hanfeng.name/blog/2015/08/29/performance-bottleneck/"/>
+    <updated>2015-08-29T16:10:51+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/29/performance-bottleneck</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>今天和一位搞运维研发的同学聊天，问如何解决300万条订单数据的分析。</p>
@@ -2323,9 +475,9 @@ with Xdebug v2.3.3, Copyright (c) 2002-2015, by Derick Rethans
   
   <entry>
     <title type="html"><![CDATA[大数据简介]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/29/big-data-intro/"/>
-    <updated>2015-08-29T23:47:10+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/29/big-data-intro</id>
+    <link href="http://hanfeng.name/blog/2015/08/29/big-data-intro/"/>
+    <updated>2015-08-29T15:47:10+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/29/big-data-intro</id>
     <content type="html"><![CDATA[<p><a href="http://mooc.study.163.com/course/Wiley-1000077001#/info">网易云课堂-大数据简介</a></p>
 
 <h1>大数据的定义</h1>
@@ -2364,9 +516,9 @@ with Xdebug v2.3.3, Copyright (c) 2002-2015, by Derick Rethans
   
   <entry>
     <title type="html"><![CDATA[SCRUM敏捷式开发（Agile）思维整理]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/29/agile/"/>
-    <updated>2015-08-29T12:33:45+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/29/agile</id>
+    <link href="http://hanfeng.name/blog/2015/08/29/agile/"/>
+    <updated>2015-08-29T04:33:45+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/29/agile</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>今天看到朋友圈里关于<a href="www.teambition.com">teambition</a>团队协作工具的介绍。</p>
@@ -2443,9 +595,9 @@ with Xdebug v2.3.3, Copyright (c) 2002-2015, by Derick Rethans
   
   <entry>
     <title type="html"><![CDATA[如何成为高级程序员]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/28/senior-programmer/"/>
-    <updated>2015-08-28T08:00:02+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/28/senior-programmer</id>
+    <link href="http://hanfeng.name/blog/2015/08/28/senior-programmer/"/>
+    <updated>2015-08-28T00:00:02+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/28/senior-programmer</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>高级程序员都干些什么呢？怎样才能成为高级程序员呢？其实初级或刚入行的朋友喜欢问这样的问题。可能想把作为下一个奋斗的目标吧。下面是微信账号“威哥干Java”的看法。</p>
@@ -2474,9 +626,9 @@ with Xdebug v2.3.3, Copyright (c) 2002-2015, by Derick Rethans
   
   <entry>
     <title type="html"><![CDATA[缓存]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/26/cache/"/>
-    <updated>2015-08-26T16:26:59+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/26/cache</id>
+    <link href="http://hanfeng.name/blog/2015/08/26/cache/"/>
+    <updated>2015-08-26T08:26:59+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/26/cache</id>
     <content type="html"><![CDATA[<h3>缓存的类型</h3>
 
 <ul>
@@ -2519,9 +671,9 @@ with Xdebug v2.3.3, Copyright (c) 2002-2015, by Derick Rethans
   
   <entry>
     <title type="html"><![CDATA[水平分表]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/26/fen-biao/"/>
-    <updated>2015-08-26T16:21:34+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/26/fen-biao</id>
+    <link href="http://hanfeng.name/blog/2015/08/26/fen-biao/"/>
+    <updated>2015-08-26T08:21:34+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/26/fen-biao</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>学习分库、分表的一记录，后期整理，添加示例。</p>
@@ -2600,6 +752,679 @@ tb_product_store_hubei</p>
 个人考勤记录 签单记录  按月分表比较适合</p>
 
 <p>季度、半年度、部门业绩 工资资产 等</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL主从配置及读写分离]]></title>
+    <link href="http://hanfeng.name/blog/2015/08/23/mysql-master-slave/"/>
+    <updated>2015-08-23T13:53:41+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/23/mysql-master-slave</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>以前在公司的时候，公司配了MySQL主从，在线上用PHPMyAdmin查看从库信息，但只给了读权限，用于查看线上信息。今天记录一下MySQL主从的搭建过程。（我使用的是MariaDb5.5）</p>
+
+<h2>Notice</h2>
+
+<p>在用户不多、并发不大、mysql服务器在同一个局域网内，MySQL主从是没有问题的。</p>
+
+<p>主从数据库缺点：</p>
+
+<ol>
+<li>因为开启了bin log日志，所以会有性能开销。</li>
+<li>在实时性非常高的情况下，做了读写分离就不行。因为单线程同步需要花时间，时间上不允许。</li>
+</ol>
+
+
+<h1>MySQL主从配置</h1>
+
+<ol>
+<li>mysql的版本相同， mysql主从同源，即具有相同的库、表及记录。</li>
+<li>数据迁移的时候，从库的版本高于主库。</li>
+<li><p>把主库从库都停掉。因为打包主库的时候会花很长时间，这时如果主库还有文件写入，很容易出错。</p>
+
+<p> cd /var/lib/
+ tar zcvf mysql.tar.gz ./mysql</p>
+
+<p> scp mysql.tar.gz vagrant@192.168.33.10:/tmp</p></li>
+<li><p>配置/etc/mysql/my.cnf</p>
+
+<p> server-id               = 1
+ log_bin                 = /var/log/mysql/mysql-bin.log
+ expire_logs_days        = 10
+ max_binlog_size         = 100M      每个bin log文件最大的大小</p></li>
+</ol>
+
+
+<p>开启log_bin日志，性能就会降低。没修改一条数据，就会写入文件。硬盘不大的情况下，会写满数据库</p>
+
+<p>要放到msyql有权限的目录里。</p>
+
+<p>我们的目的是用从库修复主库。
+靠从库的bin_log来恢复主机。</p>
+
+<p>写bin_log性能降低，但因为我们做了主从，我们靠读多个从库来提高并发量。</p>
+
+<p>让从库能够通过tcp 来连接主库，
+5. 为从库专门准备一个用户。</p>
+
+<pre><code>create user 'slave_1'@'%' IDENTIFIED BY 'abcd' ;
+grant replication slave  on *.* to 'slave_1'@'%';
+或者一条命令
+GRANT REPLICATION SLAVE ON *.* to 'mysync'@'%' identified by 'q123456'; 
+</code></pre>
+
+<ol>
+<li><p>通过  SHOW MASTER STATUS; 显示当前主库的binlog文件与文件位置，我们需要将这个位置记录下来</p>
+
+<p>   SHOW MASTER STATUS;</p></li>
+</ol>
+
+
+<p>连接到从库   开启主从同步</p>
+
+<pre><code>CHANGE MASTER TO MASTER_HOST = '192.168.33.12' ,MASTER_USER='slave_2' ,MASTER_PASSWORD = '1234' ,MASTER_LOG_FILE ='mysql-bin.000002', MASTER_LOG_POS=973
+</code></pre>
+
+<p> 不想同步系统库可以选择忽略系统库</p>
+
+<pre><code>binlog_ignore_db        = mysql
+</code></pre>
+
+<p>SALVE命令</p>
+
+<pre><code>START SLAVE
+STOP  SLAVE
+SHOW SLAVE STATUS\G
+</code></pre>
+
+<p>我在安装的时候遇到的错误：
+<a href="http://serverfault.com/questions/586651/mysql-refuses-to-accept-remote-connections">MySQL refuses to accept remote connections</a></p>
+
+<p>解决方法：</p>
+
+<pre><code>sudo netstat -ntlup | grep mysql
+tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      127018/mysqld
+</code></pre>
+
+<p>修改/etc/mysql/my.cnf</p>
+
+<pre><code>bind-address = 0.0.0.0
+</code></pre>
+
+<h1>读写分离</h1>
+
+<p>主库创建新用户</p>
+
+<pre><code>GRANT all privileges  ON tiny.* to 'michael'@'%' identified by '1234'; 
+flush privileges;
+</code></pre>
+
+<p>从库创建新用户，只给读的权限。</p>
+
+<pre><code>GRANT SELECT  ON tiny.* to 'michael2'@'%' identified by '1234'; 
+
+flush privileges;
+</code></pre>
+
+<h3>代码</h3>
+
+<p>代码我放到了我的GitHub上，我自己写了一个MVC的简易框架。这样，框架的任何一个部分我都了解，大大节约了我写代码示例的时间。然后学习优秀框架的思想，继续维护我的框架。</p>
+
+<p><a href="https://github.com/hildalove/tiny/blob/master/Tiny/Proxy/Proxy.php">代理模式</a></p>
+
+<p><a href="https://github.com/hildalove/tiny/blob/master/Tiny/Service/Factory.php">获取数据库实例</a></p>
+
+<p><a href="https://github.com/hildalove/tiny/blob/master/App/Controller/Mysql.php">控制器</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[转]PHP程序员的技术成长规划]]></title>
+    <link href="http://hanfeng.name/blog/2015/08/23/php-develop/"/>
+    <updated>2015-08-23T13:32:55+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/23/php-develop</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>按照了解的很多PHP/LNMP程序员的发展轨迹，结合个人经验体会，抽象出很多程序员对未来的迷漫，特别对技术学习的盲目和慌乱，简单梳理了这个每个阶段PHP程序员的技术要求，来帮助很多PHP程序做对照设定学习成长目标。</p>
+
+<p>本文按照目前主流技术做了一个基本的梳理，整个是假设PHP程序员不是基础非常扎实的情况进行的设定，并且所有设定都非常具体明确清晰，可能会让人觉得不适，请理解仅代表一家之言。（未来技术变化不在讨论范围）</p>
+
+<h1>第一阶段：基础阶段（基础PHP程序员）</h1>
+
+<p><strong>重点</strong>：把LNMP搞熟练（核心是安装配置基本操作）</p>
+
+<p><strong>目标</strong>：能够完成基本的LNMP系统安装，简单配置维护；能够做基本的简单系统的PHP开发；能够在PHP中型系统中支持某个PHP功能模块的开发。
+时间：完成本阶段的时间因人而异，有的成长快半年一年就过了，成长慢的两三年也有。</p>
+
+<h4>1.Linux：</h4>
+
+<p>基本命令、操作、启动、基本服务配置（包括rpm安装文件，各种服务配置等）；会写简单的shell脚本和awk/sed 脚本命令等。</p>
+
+<h4>2.Nginx：</h4>
+
+<p>做到能够安装配置nginx+php，知道基本的nginx核心配置选项，知道 server/fastcgi_pass/access_log 等基础配置，目标是能够让nginx+php_fpm顺利工作。</p>
+
+<h4>3.MySQL：</h4>
+
+<p>会自己搭建mysql，知道基本的mysql配置选项；知道innodb和myisam的区别，知道针对InnoDB和MyISAM两个引擎的不同配置选项；知道基本的两个引擎的差异和选择上面的区别；能够纯手工编译搭建一个MySQL数据库并且配置好编码等正常稳定运行；核心主旨是能够搭建一个可运行的MySQL数据库。</p>
+
+<h4>4.PHP：</h4>
+
+<p>基本语法数组、字符串、数据库、XML、Socket、GD/ImageMgk图片处理等等；熟悉各种跟MySQL操作链接的api（mysql/mysqli/PDO)，知道各种编码问题的解决；知道常规熟练使用的PHP框架（ThinkPHP、Zendframework、Yii、Yaf等）；了解基本MVC的运行机制和为什么这么做，稍微知道不同的PHP框架之间的区别；能够快速学习一个MVC框架。能够知道开发工程中的文件目录组织，有基本的良好的代码结构和风格，能够完成小系统的开发和中型系统中某个模块的开发工作。</p>
+
+<h4>5.前端：</h4>
+
+<p>如果条件时间允许，可以适当学习下 HTML/CSS/JS 等相关知识，知道什么web标准，div+css的web/wap页面模式，知道HTML5和HTML4的区别；了解一些基本的前端只是和JS框架（jQuery之类的）；了解一些基本的JavaScript编程知识；（本项不是必须项，如果有时间，稍微了解一下是可以的，不过不建议作为重点，除非个人有强烈兴趣）</p>
+
+<h4>6.系统设计：</h4>
+
+<p>能够完成小型系统的基本设计，包括简单的数据库设计，能够完成基本的：浏览器 -> Nginx+PHP -> 数据库 架构的设计开发工作；能够支撑每天几十万到数百万流量网站的开发维护工作；</p>
+
+<h1>第二阶段：提高阶段 （中级PHP程序员）</h1>
+
+<p><strong>重点</strong>：提高针对LNMP的技能，能够更全面的对LNMP有熟练的应用。</p>
+
+<p><strong>目标</strong>：能够随时随地搭建好LNMP环境，快速完成常规配置；能够追查解决大部分遇到的开发和线上环境的问题；能够独立承担中型系统的构架和开发工作；能够在大型系统中承担某个中型模块的开发工作；</p>
+
+<h4>1. Linux:</h4>
+
+<p>在第一阶段的基础上面，能够流畅的使用Shell脚本来完成很多自动化的工作；awk/sed/perl 也操作的不错，能够完成很多文本处理和数据统计等工作；基本能够安装大部分非特殊的Linux程序（包括各种库、包、第三方依赖等等，比如MongoDB/Redis/Sphinx/Luncene/SVN之类的）；了解基本的Linux服务，知道如何查看Linux的性能指标数据，知道基本的Linux下面的问题跟踪等。</p>
+
+<h4>2. Nginx:</h4>
+
+<p>在第一阶段的基础上面，了解复杂一些的Nginx配置；包括 多核配置、events、proxy_pass，sendfile/tcp_*配置，知道超时等相关配置和性能影响；知道nginx除了web server，还能够承担代理服务器、反向静态服务器等配置；知道基本的nginx配置调优；知道如何配置权限、编译一个nginx扩展到nginx；知道基本的nginx运行原理（master/worker机制，epoll），知道为什么nginx性能比apache性能好等知识；</p>
+
+<h4>3. MySQL/MongoDB：</h4>
+
+<p>在第一阶段的基础上面，在MySQL开发方面，掌握很多小技巧，包括常规SQL优化（group by/order by/rand优化等）；除了能够搭建MySQL，还能够冷热备份MySQL数据，还知道影响innodb/myisam性能的配置选项（比如key_buffer/query_cache/sort_buffer/innodb_buffer_pool_size/innodb_flush_log_at_trx_commit等），也知道这些选项配置成为多少值合适；另外也了解一些特殊的配置选项，比如  知道如何搭建mysql主从同步的环境，知道各个binlog_format的区别；知道MySQL的性能追查，包括slow_log/explain等，还能够知道基本的索引建立处理等知识；原理方面了解基本的MySQL的架构（Server+存储引擎），知道基本的InnoDB/MyISAM索引存储结构和不同（聚簇索引，B树）；知道基本的InnoDB事务处理机制；了解大部分MySQL异常情况的处理方案（或者知道哪儿找到处理方案）。条件允许的情况，建议了解一下NoSQL的代表MongoDB数据库，顺便对比跟MySQL的差别，同事能够在合适的应用场景安全谨慎的使用MongoDB，知道基本的PHP与MongoDB的结合开发。</p>
+
+<h4>4. Redis/Memcached：</h4>
+
+<p>在大部分中型系统里面一定会涉及到缓存处理，所以一定要了解基本的缓存；知道Memcached和Redis的异同和应用场景，能够独立安装 Redis/Memcached，了解Memcahed的一些基本特性和限制，比如最大的value值，知道PHP跟他们的使用结合；Redis了解基本工作原理和使用，了解常规的数据类型，知道什么场景应用什么类型，了解Redis的事务等等。原理部分，能够大概了解Memcached的内存结构（slab机制），redis就了解常用数据类型底层实现存储结构（SDS/链表/SkipList/HashTable）等等，顺便了解一下Redis的事务、RDB、AOF等机制更好</p>
+
+<h4>5. PHP：</h4>
+
+<p>除了第一阶段的能力，安装配置方面能够随意安装PHP和各种第三方扩展的编译安装配置；了解php-fpm的大部分配置选项和含义（如max_requests/max_children/request_terminate_timeout之类的影响性能的配置），知道mod_php/fastcgi的区别；在PHP方面已经能够熟练各种基础技术，还包括各种深入些的PHP，包括对PHP面向对象的深入理解/SPL/语法层面的特殊特性比如反射之类的；在框架方面已经阅读过最少一个以上常规PHP MVC框架的代码了，知道基本PHP框架内部实现机制和设计思想；在PHP开发中已经能够熟练使用常规的设计模式来应用开发（抽象工厂/单例/观察者/命令链/策略/适配器 等模式）；建议开发自己的PHP MVC框架来充分让开发自由化，让自己深入理解MVC模式，也让自己能够在业务项目开发里快速升级；熟悉PHP的各种代码优化方法，熟悉大部分PHP安全方面问题的解决处理；熟悉基本的PHP执行的机制原理（Zend引擎/扩展基本工作机制）；</p>
+
+<h4>6. C/C++：</h4>
+
+<p>开始涉猎一定的C/C++语言，能够写基本的C/C++代码，对基本的C/C++语法熟悉（指针、数组操作、字符串、常规标准API）和数据结构（链表、树、哈希、队列）有一定的熟悉下；对Linux下面的C语言开发有基本的了解概念，会简单的makefile文件编写，能够使用简单的GCC/GDB的程序编译简单调试工作；对基本的网络编程有大概了解。（本项是为了向更高层次打下基础）</p>
+
+<h4>7. 前端：</h4>
+
+<p>在第一阶段的基础上面，熟悉基本的HTTP协议（协议代码200/300/400/500，基本的HTTP交互头）；条件允许，可以在深入写出稍微优雅的HTML+CSS+JavaScript，或者能够大致简单使用某些前端框架（jQuery/YUI/ExtJS/RequireJS/BootStrap之类）；如果条件允许，可以深入学习JavaScript编程，比如闭包机制、DOM处理；再深入些可以读读jQuery源码做深入学习。（本项不做重点学习，除非对前端有兴趣）</p>
+
+<h4>8. 系统设计：</h4>
+
+<p>能够设计大部分中型系统的网站架构、数据库、基本PHP框架选型；性能测试排查处理等；能够完成类似：浏览器 -> CDN(Squid) -> Nginx+PHP -> 缓存 -> 数据库 结构网站的基本设计开发维护；能够支撑每天数百万到千万流量基本网站的开发维护工作；</p>
+
+<h1>第三阶段：高级阶段 （高级PHP程序员）</h1>
+
+<p><strong>重点</strong> ：除了基本的LNMP程序，还能够在某个方向或领域有深入学习。（纵深维度发展）</p>
+
+<p><strong>目标</strong>：除了能够完成基本的PHP业务开发，还能够解决大部分深入复杂的技术问题，并且可以独立设计完成中大型的系统设计和开发工作；自己能够独立hold深入某个技术方向，在这块比较专业。（比如在MySQL、Nginx、PHP、Redis等等任一方向深入研究）</p>
+
+<h4>1. Linux：</h4>
+
+<p>除了第二阶段的能力，在Linux下面除了常规的操作和性能监控跟踪，还能够使用很多高级复杂的命令完成工作（watch/tcpdump/starce/ldd/ar等)；在shell脚本方面，已经能够编写比较复杂的shell脚本（超过500行）来协助完成很多包括备份、自动化处理、监控等工作的shell；对awk/sed/perl 等应用已经如火纯青，能够随意操作控制处理文本统计分析各种复杂格式的数据；对Linux内部机制有一些了解，对内核模块加载，启动错误处理等等有个基本的处理；同时对一些其他相关的东西也了解，比如NFS、磁盘管理等等；</p>
+
+<h4>2. Nginx:</h4>
+
+<p>在第二阶段的基础上面，已经能够把Nginx操作的很熟练，能够对Nginx进行更深入的运维工作，比如监控、性能优化，复杂问题处理等等；看个人兴趣，更多方面可以考虑侧重在关于Nginx工作原理部分的深入学习，主要表现在阅读源码开始，比如具体的master/worker工作机制，Nginx内部的事件处理，内存管理等等；同时可以学习Nginx扩展的开发，可以定制一些自己私有的扩展；同时可以对Nginx+Lua有一定程度的了解，看看是否可以结合应用出更好模式；这个阶段的要求是对Nginx原理的深入理解，可以考虑成为Nginx方向的深入专业者。</p>
+
+<h4>3. MySQL/MongoDB：</h4>
+
+<p>在第二阶段的基础上面，在MySQL应用方面，除了之前的基本SQL优化，还能够在完成一些复杂操作，比如大批量数据的导入导出，线上大批量数据的更改表结构或者增删索引字段等等高危操作；除了安装配置，已经能够处理更多复杂的MySQL的问题，比如各种问题的追查，主从同步延迟问题的解决、跨机房同步数据方案、MySQL高可用架构等都有涉及了解；对MySQL应用层面，对MySQL的核心关键技术比较熟悉，比如事务机制（隔离级别、锁等）、对触发器、分区等技术有一定了解和应用；对MySQL性能方面，有包括磁盘优化（SAS迁移到SSD）、服务器优化（内存、服务器本身配置）、除了二阶段的其他核心性能优化选项（innodb_log_buffer_size/back_log/table_open_cache/thread_cache_size/innodb_lock_wait_timeout等）、连接池软件选择应用，对show *（show status/show profile）类的操作语句有深入了解，能够完成大部分的性能问题追查；MySQL备份技术的深入熟悉，包括灾备还原、对Binlog的深入理解，冷热备份，多IDC备份等；在MySQL原理方面，有更多了解，比如对MySQL的工作机制开始阅读部分源码，比如对主从同步（复制）技术的源码学习，或者对某个存储引擎（MyISAM/Innodb/TokuDB）等等的源码学习理解，如果条件允许，可以参考CSV引擎开发自己简单的存储引擎来保存一些数据，增强对MySQL的理解；在这个过程，如果自己有兴趣，也可以考虑往DBA方向发展。MongoDB层面，可以考虑比如说在写少读多的情况开始在线上应用MongoDB，或者是做一些线上的数据分析处理的操作，具体场景可以按照工作来，不过核心是要更好的深入理解RMDBS和NoSQL的不同场景下面的应用，如果条件或者兴趣允许，可以开始深入学习一下MongoDB的工作机制。</p>
+
+<h4>4. Redis/Memcached：</h4>
+
+<p>在第二阶段的基础上面，能够更深入的应用和学习。因为Memcached不是特别复杂，建议可以把源码进行阅读，特别是内存管理部分，方便深入理解；Redis部分，可以多做一些复杂的数据结构的应用（zset来做排行榜排序操作/事务处理用来保证原子性在秒杀类场景应用之类的使用操作）；多涉及aof等同步机制的学习应用，设计一个高可用的Redis应用架构和集群；建议可以深入的学习一下Redis的源码，把在第二阶段积累的知识都可以应用上，特别可以阅读一下包括核心事件管理、内存管理、内部核心数据结构等充分学习了解一下。如果兴趣允许，可以成为一个Redis方面非常专业的使用者。</p>
+
+<h4>5. PHP：</h4>
+
+<p>作为基础核心技能，我们在第二阶段的基础上面，需要有更深入的学习和应用。从基本代码应用上面来说，能够解决在PHP开发中遇到95%的问题，了解大部分PHP的技巧；对大部分的PHP框架能够迅速在一天内上手使用，并且了解各个主流PHP框架的优缺点，能够迅速方便项目开发中做技术选型；在配置方面，除了常规第二阶段会的知识，会了解一些比较偏门的配置选项（php auto_prepend_file/auto_append_file），包括扩展中的一些复杂高级配置和原理（比如memcached扩展配置中的memcache.hash_strategy、apc扩展配置中的apc.mmap_file_mask/apc.slam_defense/apc.file_update_protection之类的）；对php的工作机制比较了解，包括php-fpm工作机制（比如php-fpm在不同配置机器下面开启进程数量计算以及原理），对zend引擎有基本熟悉（vm/gc/stream处理），阅读过基本的PHP内核源码（或者阅读过相关文章），对PHP内部机制的大部分核心数据结构（基础类型/Array/Object）实现有了解，对于核心基础结构（zval/hashtable/gc）有深入学习了解；能够进行基本的PHP扩展开发，了解一些扩展开发的中高级知识（minit/rinit等），熟悉php跟apache/nginx不同的通信交互方式细节（mod_php/fastcgi）；除了开发PHP扩展，可以考虑学习开发Zend扩展，从更底层去了解PHP。</p>
+
+<h4>6. C/C++：</h4>
+
+<p>在第二阶段基础上面，能够在C/C++语言方面有更深入的学习了解，能够完成中小型C/C++系统的开发工作；除了基本第二阶段的基础C/C++语法和数据结构，也能够学习一些特殊数据结构（b-tree/rb-tree/skiplist/lsm-tree/trie-tree等）方便在特殊工作中需求；在系统编程方面，熟悉多进程、多线程编程；多进程情况下面了解大部分多进程之间的通信方式，能够灵活选择通信方式（共享内存/信号量/管道等）；多线程编程能够良好的解决锁冲突问题，并且能够进行多线程程序的开发调试工作；同时对网络编程比较熟悉，了解多进程模型/多线程模型/异步网络IO模型的差别和选型，熟悉不同异步网络IO模型的原理和差异（select/poll/epoll/iocp等），并且熟悉常见的异步框架（ACE/ICE/libev/libevent/libuv/Boost.ASIO等）和使用，如果闲暇也可以看看一些国产自己开发的库（比如muduo）；同时能够设计好的高并发程序架构（leader-follow/master-worker等）；了解大部分C/C++后端Server开发中的问题（内存管理、日志打印、高并发、前后端通信协议、服务监控），知道各个后端服务RPC通信问题（struct/http/thirft/protobuf等）；能够更熟络的使用GCC和GDB来开发编译调试程序，在线上程序core掉后能够迅速追查跟踪解决问题；通用模块开发方面，可以积累或者开发一些通用的工具或库（比如异步网络框架、日志库、内存池、线程池等），不过开发后是否应用要谨慎，省的埋坑去追bug；</p>
+
+<h4>7. 前端：</h4>
+
+<p>深入了解HTTP协议（包括各个细致协议特殊协议代码和背后原因，比如302静态文件缓存了，502是nginx后面php挂了之类的）；除了之前的前端方面的各种框架应用整合能力，前端方面的学习如果有兴趣可以更深入，表现形式是，可以自己开发一些类似jQuery的前端框架，或者开发一个富文本编辑器之类的比较琐碎考验JavaScript功力；</p>
+
+<h4>8. 其他领域语言学习：</h4>
+
+<p>在基础的PHP/C/C++语言方面有基本积累，建议在当前阶段可以尝试学习不同的编程语言，看个人兴趣爱好，脚本类语言可以学学 Python/Ruby 之类的，函数式编程语言可以试试 Lisp/Haskell/Scala/Erlang 之类的，静态语言可以试试 Java/Golang，数据统计分析可以了解了解R语言，如果想换个视角做后端业务，可以试试 Node.js还有前面提到的跟Nginx结合的Nginx_Lua等。学习不同的语言主要是提升自己的视野和解决问题手段的差异，比如会了解除了进程/线程，还有轻量级协程；比如在跨机器通信场景下面，Erlang的解决方案简单的惊人；比如在不想选择C/C++的情况下，还有类似高效的Erlang/Golang可用等等；主要是提升视野。</p>
+
+<h4>9. 其他专业方向学习：</h4>
+
+<p>在本阶段里面，会除了基本的LNMP技能之外，会考虑一些其他领域知识的学习，这些都是可以的，看个人兴趣和长期的目标方向。目前情况能够选择的领域比较多，比如、云计算（分布式存储、分布式计算、虚拟机等），机器学习（数据挖掘、模式识别等，应用到统计、个性化推荐），自然语言处理（中文分词等），搜索引擎技术、图形图像、语音识别等等。除了这些高大上的，也有很多偏工程方面可以学习的地方，比如高性能系统、移动开发（Android/IOS）、计算机安全、嵌入式系统、硬件等方向。</p>
+
+<ol>
+<li>系统设计：
+系统设计在第二阶段的基础之上，能够应用掌握的经验技能，设计出比较复杂的中大型系统，能够解决大部分线上的各种复杂系统的问题，完成类似 浏览器 -> CDN -> 负载均衡 ->接入层 -> Nginx+PHP -> 业务缓存 -> 数据库 -> 各路复杂后端RPC交互（存储后端、逻辑后端、反作弊后端、外部服务） -> 更多后端 酱紫的复杂业务；能够支撑每天数千万到数亿流量网站的正常开发维护工作。</li>
+</ol>
+
+
+<h1>第四阶段：架构阶段 （架构师）</h1>
+
+<p>ps: 暂时不展开讨论，等下次专门撰文来描述补充本部分内容</p>
+
+<p>第五阶段：专家阶段（方向领域专家）
+ps：高大上，这块不展开讨论 ^_^</p>
+
+<p>第六阶段：科学家阶段
+ps：高大上，这块不展开讨论 ^_^</p>
+
+<p>转载：<a href="http://blog.csdn.net/heiyeshuwu">黑夜路人</a>的博客</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vagrant的网络设置]]></title>
+    <link href="http://hanfeng.name/blog/2015/08/22/vagrant-network/"/>
+    <updated>2015-08-22T06:34:46+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/22/vagrant-network</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>今天要做Mysql主从配置，就需要两台Ubuntu的服务器，所以先要研究下Vagrant的网络配置。</p>
+
+<p>Vagrant有三种网络配置</p>
+
+<ol>
+<li>Forwarded port</li>
+<li>Private network</li>
+<li>Public network</li>
+</ol>
+
+
+<h1>Private Network</h1>
+
+<p>我的需求是两台Ubutu在同一网段，并且都访问主机和外部网络。所以我选择private network。 它的缺点是外部网络无法访问。</p>
+
+<p>设定语法为：</p>
+
+<pre><code>config.vm.network "private_network", ip: "192.168.50.4"
+</code></pre>
+
+<p>配置hostname</p>
+
+<pre><code>config.vm.hostname = "master"
+</code></pre>
+
+<h1>参考链接</h1>
+
+<p><a href="http://www.williamsang.com/archives/2401.html?utm_source=tuicool#private">Vagrant网络配置</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[负载计算方法及不同语言开发解决性能问题的思想等]]></title>
+    <link href="http://hanfeng.name/blog/2015/08/21/performance/"/>
+    <updated>2015-08-21T06:52:36+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/21/performance</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>当项目复杂度和用户数提高的时候，我们常常会遇到以下问题：卡、 挂、 数据备份、 数据分析、 安全、 24小时在线、 多平台、 多端、 跨地域、 实时性强。</p>
+
+<p>总结起来就是以下4个方面：</p>
+
+<ol>
+<li>性能问题</li>
+<li>交互问题</li>
+<li>安全问题</li>
+<li>可持续发展与维护</li>
+</ol>
+
+
+<h1>性能计算</h1>
+
+<h3>不同语言开发解决性能问题的思想</h3>
+
+<ol>
+<li><strong>PHP -> 多进程</strong></li>
+</ol>
+
+
+<p>PHP通常是和Apache一起来工作，将PHP作为Apache的一个模块来使用，或者采用FastCGI方式通过FPM与web容器通信。我们的每一个用户的请求都将使用一个进程来处理用户请求。</p>
+
+<ol>
+<li><strong>JAVA -> 多线程</strong></li>
+</ol>
+
+
+<p>单个进程中同时有多个函数在运行，我们就认为这个应用时多线程的。</p>
+
+<ol>
+<li><strong>NodeJs -> 单进程单线程</strong></li>
+</ol>
+
+
+<p>Nignx 与 nodejs jetty 提升效率的方法相同。</p>
+
+<p>都是 异步&amp;非阻塞。</p>
+
+<h4>阻塞</h4>
+
+<p>Apache接收到用户的请求 -> 创建php进程处理请求 -> php通过Http协议解析获取用户提交数据 -> 进行数据过滤与加工 -> (接收用户上传的文件) ->
+(对图片缩放/给图片加水印) -> 将数据插入到数据库  -> 等待数据处理完成  -> 加载模板 -> 输出页面 -> 结束进程 -> 回收资源</p>
+
+<p>PHP是单线程的，所以要等待用户上传文件、等待对图片处理、等待插入数据库的结果。一直在等待，所以耗时间。而nodejs是基于事件的编程、非阻塞，效率高。</p>
+
+<h1>高负载项目优化</h1>
+
+<h4>IO  Input/Output</h4>
+
+<ul>
+<li>磁盘IO</li>
+<li>网络IO</li>
+<li>数据库IO</li>
+</ul>
+
+
+<h4>性能测试</h4>
+
+<ul>
+<li>php 系能测试</li>
+<li>mysql读写性能测试</li>
+<li>文件 读写性能测试</li>
+</ul>
+
+
+<h4>测试工具</h4>
+
+<ul>
+<li>Apache ab</li>
+<li>Apache JMeter</li>
+</ul>
+
+
+<h2>负载的计算方法</h2>
+
+<ul>
+<li>网络连接最大并发数 B</li>
+<li>单次请求的处理时间  dt</li>
+<li>用户n秒请求一次</li>
+<li>发摩擦系数s ： 一般 0.65</li>
+<li>负载 = B/dt * n</li>
+</ul>
+
+
+<p>例子：</p>
+
+<ul>
+<li>网络连接最大并发数 B = 1000 次</li>
+<li>单次请求的处理时间  dt = 3秒</li>
+<li>用户30秒请求一次 n = 30秒</li>
+<li>发摩擦系数s ： 一般 0.65</li>
+<li>每秒能处理的请求数 = 1000次 /3秒</li>
+<li>负载 = 每秒能处理的请求数 * 30秒 * 0.65 = 6500</li>
+</ul>
+
+
+<p>总结：</p>
+
+<ol>
+<li>负载 就是ＷEB服务能够支持的最大访问人数，不卡，不Down机。它取决于3点（最重要的）：网络最大连接数、单次请求处理时间 和 用户多少秒请求一次。</li>
+<li>对网络连接最大并发数 B 起决定性作用的依次是带宽、内存、CPU、操作系统。</li>
+<li>减少单次处理请求时间，对程序员说很困难。</li>
+<li>提高用户请求一次的时间是一个有效的办法，所以一个好的网页交互师很重要。比说增加验证码、提示框等。</li>
+</ol>
+
+
+<h4>集群：</h4>
+
+<p>在同一个项目，多台服务器一起工作</p>
+
+<h1>数据库优化原理</h1>
+
+<ol>
+<li>优化第一条：针对查询建索引。where条件要匹配索引，叫做命中索引。</li>
+</ol>
+
+
+<p>问： 索引为什么会加速查询？</p>
+
+<p>答：因为添加索引，会优化搜索算法，使用了二叉树、平衡二叉树、红黑树升级的算法。建立索引，查询速度会集合倍提高。 牺牲了写入数据的效率，换来了查询的速度。但因为我们大部分都是查询，写入的少。性能不会凭空产生</p>
+
+<p>容器：内存中可以用来保存其他对象的对象，比如链表、数组、hashmap</p>
+
+<p>资源：应用程序从内存意外的地方读取或写入数据的对象成为资源，比如网络，比如磁盘文件。涉及资源IO的程序通常速度都会比较慢。</p>
+
+<p>结果集： 自己是个容器，从结果集获取数据的本质是一种资源，也是一个集合，不能有重复。（<strong>结果集是一个保存指向数据库资源指针的集合</strong>）</p>
+
+<p>当多个条件查询的时候，and条件表示左右两个条件搜索到的结果集做交集。
+如果使用or连接两个条件，左右两个条件搜索的结果做并集。</p>
+
+<p>selec &hellip; limit 0, 20;</p>
+
+<p>遍历结果集，从数据库文件里面取。</p>
+
+<p>select &hellip; where id = 1;</p>
+
+<p>   &hellip;.</p>
+
+<p>select &hellip;. where id = 20;</p>
+
+<p>分页的作用：让每一次数据查询返回的结果集可控。</p>
+
+<p>数据的查询一定要分页。</p>
+
+<p>当写入大于查询的时候，要去索引，去掉只剩下一个id。</p>
+
+<h3>读写差异定制</h3>
+
+<p>数据库主从，主库没有索引，从库加索引。数据库的主从原理是根据主库的日志，把主库的bin log日志再从新执行一遍，这叫读写差异定制。</p>
+
+<h3>自建索引</h3>
+
+<p>如果是单个数据库。</p>
+
+<p>建立索引越多-> 插入一条数据时间长->锁表时间长 -> 其他记录等待时间长
+并发的时候， 堵车撞车几率就大。就容易让数据库挂掉。</p>
+
+<p>不锁表，MySQL的连接数也会增加，满了。PHP连不上mYSQL, Nginx连不上mysql，会报502。索引越多越糟糕</p>
+
+<p>user  基本表
+user_index   保存搜索条件。</p>
+
+<p>一台机器，专门用来保存数据。另一台数据用来保存索引。
+或者一个库用来保存数据，另一个库来保存索引。</p>
+
+<p>每天固定时间建立索引。</p>
+
+<p>这叫做<strong>异步建索引</strong></p>
+
+<h4>sphinx</h4>
+
+<p>爬数据库的爬虫，为我们的数据库建立索引。</p>
+
+<p>能够大幅提升性能，对小说站，资讯站很有用。但是优缺点：不是实时索引。</p>
+
+<h4>redis索引</h4>
+
+<p>微博 把索引放到了redis里面，建立实时索引。</p>
+
+<p>插入数据的时候，把索引写到redis里面。 查询数据，从redis里把满足用户的id查询出来。再查mysql数据库。 每一条索引都命中id，效率会特别高。</p>
+
+<p>list可以保存索引，hash缓存对象，set用来交并集处理。所以，redis有建立索引和保存数据的作用。</p>
+
+<p>redis：1.数据结构支持（消息队列） 2. 缓存 3. 索引（要存储到数据库）</p>
+
+<h4>　笛卡尔集</h4>
+
+<p>Ａ　Ｂ　Ｃ　三个表</p>
+
+<p>Ａ表搜索１０条记录找到１条，Ｂ表搜索到５条记录找到１条，Ｃ表搜索５条记录。</p>
+
+<p>连表的话，会搜索１００条记录。</p>
+
+<p>根据业务逻辑做优化。</p>
+
+<h3>分表分库</h3>
+
+<ul>
+<li>横向： 横切一刀， 表的数据被分成两部分。</li>
+<li>纵向： 刷刷两刀，一个表的字段减少。</li>
+</ul>
+
+
+<p>优化最求：所有的事情可控。</p>
+
+<p>小规模分表、大规模分库。</p>
+
+<p><strong>横向切表</strong>
+tb_user</p>
+
+<p>tb_usser0</p>
+
+<p>tb_usser1</p>
+
+<p>tb_usser2</p>
+
+<p>tb_usser3</p>
+
+<p><strong>纵向且表，表重构</strong></p>
+
+<p>tb_user_login</p>
+
+<p>tb_user_info</p>
+
+<p>tb_user_account</p>
+
+<p>多主多从。
+多主一从。
+互为主从。</p>
+
+<h3>MongDb</h3>
+
+<p>支持平行扩容和分片</p>
+
+<p>高性能、高并发、海量扩容</p>
+
+<p>js + mongodb: 效率高、速度快、并发高、数据扩容方便</p>
+
+<h1>Mysql主从配置</h1>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Docker灵雀云]]></title>
+    <link href="http://hanfeng.name/blog/2015/08/20/alauda/"/>
+    <updated>2015-08-20T18:24:30+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/20/alauda</id>
+    <content type="html"><![CDATA[<p>今晚把博客迁移到了<a href="http://alauda.cn">灵雀云</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[用Redis实现消息队列]]></title>
+    <link href="http://hanfeng.name/blog/2015/08/20/redis-message-queue/"/>
+    <updated>2015-08-20T14:40:48+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/20/redis-message-queue</id>
+    <content type="html"><![CDATA[<h1>目标</h1>
+
+<ol>
+<li>用户注册时，将注册信息（例如用户名、密码、邮箱等）Push到Redis的List里。</li>
+<li>用PHP-CLI脚本，读取队列的消息，存取到数据库。</li>
+</ol>
+
+
+<p>代码如下：</p>
+
+<ul>
+<li><a href="https://github.com/hildalove/tiny/blob/master/Tiny/MessageQueue/PHPMQ.php">PHPMQ CLASS</a></li>
+<li><a href="https://github.com/hildalove/tiny/blob/master/Tiny/MessageQueue/UserMQ.php">UserMQ CLASS</a></li>
+<li><a href="https://github.com/hildalove/tiny/blob/master/App/Controller/MQ.php">user reg Controller</a></li>
+<li><a href="https://github.com/hildalove/tiny/blob/master/cron/user_mq.php">PHP-CLI CRON</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Phpredis小结]]></title>
+    <link href="http://hanfeng.name/blog/2015/08/19/phpredis/"/>
+    <updated>2015-08-19T07:28:13+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/19/phpredis</id>
+    <content type="html"><![CDATA[<h1>前言</h1>
+
+<p>PHP 安装redis有两种方法，这篇文章所阐述的内容是以扩展的方式安装phpredis</p>
+
+<h1>Redis</h1>
+
+<pre><code>apt-get install redis-server
+apt-get install php5-redis
+</code></pre>
+
+<p>我们通过 apt-get安装的扩展配置将出现在  /etc/php5/mods-available</p>
+
+<p>把将要启用的模块的配置文件做一个软连接到
+/etc/php5/apache2/conf.d  (LAMP/LNAMP) <br/>
+/etc/php5/fpm/conf.d (LNMP )</p>
+
+<p>通常情况系统会帮我们做好软连接.</p>
+
+<p>redis的应用场景：
+1. 用户访问量
+2. 用户活跃度，每日的访问量 setbit
+3. 存储Session</p>
+
+<p>提供内存缓存
+数据结构</p>
+
+<p>postgress 做集群和横向扩容的时候比较麻烦</p>
+
+<p>用redis的hash和list做索引，用mysql做数据存储
+自建索引（hash list）</p>
+
+<p>用list记录用户访问页面，堆栈</p>
+
+<p>首页做缓存，放到redis里面</p>
+
+<h2>redis高级数据结构 bitmaps 和 HyperLogLogs</h2>
+
+<p>php单进程的
+请求结束后，进程回收。
+只能够保证每次请求连接一次redis</p>
+
+<h2>新的数据结构</h2>
+
+<p>bitmaps,
+HyperLogLogs: 占用少量内容，</p>
+
+<p>计算内存消耗，计算CPU消耗</p>
+
+<p><strong>性能和开销</strong></p>
+
+<p>一天人均15次，每天100万用户访问。
+每次用户访问都写入日志。
+用户的每一次会话都产生一次id</p>
+
+<p>目标：搭建每日访问100万用户的网站架构。</p>
+
+<p>Redis的Pub/Sub</p>
+
+<h3>redis3.0</h3>
+
+<p>系统必须装有gcc</p>
+
+<p>redis 3.0安装
+wget <a href="http://download.redis.io/releases/redis-3.0.0.tar.gz">http://download.redis.io/releases/redis-3.0.0.tar.gz</a></p>
+
+<p>tar -zxvf redis-3.0.0.tar.gz
+cd redis-3.0.0
+make
+make install</p>
+
+<p>编译好的文件默认在src目录中</p>
+
+<h1>Todo</h1>
+
+<p>写一个phpredis的类，有以下要求：
+1. 单例模式，只实例化一次Redis
+2. 封装connect, auth, 选择哪个库</p>
 ]]></content>
   </entry>
   

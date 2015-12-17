@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Redis | hanfeng.name]]></title>
-  <link href="http://fenghan.github.io/blog/categories/redis/atom.xml" rel="self"/>
-  <link href="http://fenghan.github.io/"/>
-  <updated>2015-10-27T22:06:34+08:00</updated>
-  <id>http://fenghan.github.io/</id>
+  <link href="http://hanfeng.name/blog/categories/redis/atom.xml" rel="self"/>
+  <link href="http://hanfeng.name/"/>
+  <updated>2015-12-17T09:49:52+00:00</updated>
+  <id>http://hanfeng.name/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Redis的数据类型(一)]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/24/redis-data-type/"/>
-    <updated>2015-07-24T14:54:30+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/24/redis-data-type</id>
+    <link href="http://hanfeng.name/blog/2015/07/24/redis-data-type/"/>
+    <updated>2015-07-24T06:54:30+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/07/24/redis-data-type</id>
     <content type="html"><![CDATA[<h4>Redis 的数据库内部结构</h4>
 
 <pre><code>Redis中每个数据库，都是由一个redis.h/redisDb结构表示：
@@ -420,9 +420,9 @@ LPUSH  post:42:comments，$serializedComment
   
   <entry>
     <title type="html"><![CDATA[Redis的安装与配置]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/24/redis_setup_config/"/>
-    <updated>2015-07-24T10:36:56+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/24/redis_setup_config</id>
+    <link href="http://hanfeng.name/blog/2015/07/24/redis_setup_config/"/>
+    <updated>2015-07-24T02:36:56+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/07/24/redis_setup_config</id>
     <content type="html"><![CDATA[<h1>Redis 的历史与特性</h1>
 
 <p>Redis 是Remote Dictionary Server的缩写，Redis是一个<strong>开源、基于C语言、基于内存可持久化</strong>的高性能NoSQL的<strong>键值对</strong>数据库。在众多场合中均可使用Redis代替传统的数据库或缓存系统。</p>

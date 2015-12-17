@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Hadoop | hanfeng.name]]></title>
-  <link href="http://fenghan.github.io/blog/categories/hadoop/atom.xml" rel="self"/>
-  <link href="http://fenghan.github.io/"/>
-  <updated>2015-10-27T22:06:34+08:00</updated>
-  <id>http://fenghan.github.io/</id>
+  <link href="http://hanfeng.name/blog/categories/hadoop/atom.xml" rel="self"/>
+  <link href="http://hanfeng.name/"/>
+  <updated>2015-12-17T09:49:52+00:00</updated>
+  <id>http://hanfeng.name/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Hadoop介绍]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/30/hadoop-intro/"/>
-    <updated>2015-08-30T16:22:21+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/30/hadoop-intro</id>
+    <link href="http://hanfeng.name/blog/2015/08/30/hadoop-intro/"/>
+    <updated>2015-08-30T08:22:21+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/30/hadoop-intro</id>
     <content type="html"><![CDATA[<p>慕课网<a href="http://www.imooc.com/learn/391">Hadoop大数据平台架构与实践&ndash;基础篇</a> 的文字记录</p>
 
 <h1>初识Hadoop</h1>

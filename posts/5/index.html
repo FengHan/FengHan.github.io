@@ -9,9 +9,10 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="什么是索引 索引是值到行位置的映射。索引就是一个目录。 索引的作用： 提高访问的速度。硬盘IO每秒100到150次的响应。每次10毫秒
-实现主键、唯一键逻辑 IO是个宝贵的资源， 索引的使用场景： FTS 全表索引 Mysql中我们可以使用的索引类型： Btree索引：
-B+tree： &hellip;">
+  <meta name="description" content="网易云课堂-大数据简介 大数据的定义 大数据可以定义为一个巨大的数据集，
+在可接受的时间范围内，它可以用来获取、存储、搜索、转换、分析以及可视化相关的信息或数据。 大数据的三个特性 Volume 容量巨大
+Velocity 产生速度快 处理速度快
+Variety 种类繁多 例子： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +21,7 @@ B+tree： &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://fenghan.github.io/posts/5/">
+  <link rel="canonical" href="http://hanfeng.name/posts/5/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="hanfeng.name" type="application/atom+xml">
@@ -62,7 +63,7 @@ var _hmt = _hmt || [];
   
 <form action="https://www.google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="sitesearch" value="fenghan.github.io">
+    <input type="hidden" name="sitesearch" value="hanfeng.name">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -84,7 +85,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/09/10/mysql-index/">MySQL索引</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/29/big-data-intro/">大数据简介</a></h1>
     
     
       <p class="meta">
@@ -93,104 +94,45 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-09-10T10:07:51+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 am</span></time>
+<time class='entry-date' datetime='2015-08-29T15:47:10+00:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:47 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h4>什么是索引</h4>
+  <div class="entry-content"><p><a href="http://mooc.study.163.com/course/Wiley-1000077001#/info">网易云课堂-大数据简介</a></p>
 
-<p>索引是值到行位置的映射。索引就是一个目录。</p>
+<h1>大数据的定义</h1>
 
-<h4>索引的作用：</h4>
+<p>大数据可以定义为一个巨大的数据集，
+在可接受的时间范围内，它可以用来获取、存储、搜索、转换、分析以及可视化相关的信息或数据。</p>
 
-<ul>
-<li>提高访问的速度。硬盘IO每秒100到150次的响应。每次10毫秒</li>
-<li>实现主键、唯一键逻辑</li>
-</ul>
-
-
-<p>IO是个宝贵的资源，</p>
-
-<h4>索引的使用场景：</h4>
-
-<p>FTS 全表索引</p>
-
-<h4>Mysql中我们可以使用的索引类型：</h4>
-
-<ul>
-<li>Btree索引：</li>
-<li>B+tree： 平衡二叉树的一种改良</li>
-<li>Hash索引 InnoDB</li>
-<li>Innodb ： 聚簇索引，</li>
-<li>二级索引： 除了主键，用户创建的索引。</li>
-</ul>
-
-
-<h4>索引的代价：</h4>
-
-<p>插入修改删除每个索引都编程一个内部事务，索引越多，事务越长。(增删改)</p>
-
-<h4>索引的优势:</h4>
+<h1>大数据的三个特性</h1>
 
 <ol>
-<li>减少查询IO</li>
-<li>优化等值查询、范围查询</li>
-<li><p>利用有序特性</p>
-
-<p> order by , group byh , distinct, max ,min</p></li>
+<li>Volume 容量巨大</li>
+<li>Velocity 产生速度快 处理速度快</li>
+<li>Variety 种类繁多</li>
 </ol>
 
 
-<h4>如何用好索引：</h4>
+<p>例子：</p>
 
 <ul>
-<li><p>依据where查询条件来建立索引：</p>
-
-<pre><code>  select a,b from tab_a where c = ?;  #c上建立索引
-</code></pre></li>
-<li><p>使用联合索引，而不是多个单列索引。</p>
-
-<pre><code>  select * from tab_a where a = ? AND b = ? 
-  #建立a和b的索引， 把一组值作为b+tree 的索引， 在同一个树里，查询速度更高。
-</code></pre></li>
-<li><p>联合索引， 区分度大的放在前面。</p>
-
-<pre><code>  name,gender 对， 因为name的区分度很大。能够更好地使用b+ TREE来定位节点
-
-  gender,name 错
-</code></pre></li>
-<li><p>联合索引能为前缀单列，复列查询提供帮助。</p>
-
-<pre><code>  where a = ? 
-  wherer a = ? AND b =? 
-</code></pre></li>
-<li><p>合理创建联合索引，避免冗余。
-      abc 包含 a ,ab</p></li>
-<li><p>ORDER BY, GROUP BY, DISTINCT 字段添加索引</p></li>
-<li><p>用 EXPLAIN 查看语句</p>
-
-<pre><code>  possible_key 可以使用的索引
-  key 实际的索引名字  重要
-  rows  读的记录行数，才返回的结果 重要。
-  typpe   index  扫描完整的索引树， 重要   
-  key_len 如果只使用了一部分，为长度。  
-  force index  强制使用索引 
-  ignore index 
-</code></pre>
-
-<h4>其他技巧</h4></li>
-<li><p>一个表，控制百万级别。如何达到了一两百G，就可以考虑分库分表了。千万级别，取决于访问方式，left join</p></li>
-<li><p>WHERE查询时，  函数不要加在字段上。timestamp > func(1234)。</p></li>
-<li><p>外键一般用程序使用。</p></li>
-<li><p>什么事优化器： 哪个索引会更快，IO更小。生发语法数，生成一个计划。</p></li>
-<li><p>纵向分表，根据业务来拆分。</p></li>
-<li><p>等值查询 ，2个范围查询， 不能都覆盖到。联合查询。等值能用一个，范围查询也只能用一个。</p></li>
-<li><p>通过表结构设计来避免连表。</p></li>
-<li><p>触发器和存储过程不好维护，做运维手段还可以。</p></li>
+<li>Twitter每秒产生80M的数量</li>
+<li>eBay每天可以实施分析500万交易</li>
+<li>产生的数据又各种类型，因为数据的来源不同。数据有结构化数据（database,excel）、半结构化数据(word)和非结构化数据（图片、文件）。</li>
 </ul>
+
+
+<h1>大数据的三个来源</h1>
+
+<ol>
+<li>社交</li>
+<li>机器   : 例如RFID射频识别信息</li>
+<li>交易数据</li>
+</ol>
 
 </div>
   
@@ -204,7 +146,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a></h1>
     
     
       <p class="meta">
@@ -213,324 +155,84 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-09-09T15:25:59+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:25 pm</span></time>
+<time class='entry-date' datetime='2015-08-29T04:33:45+00:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:33 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>认识MySQL</h1>
+  <div class="entry-content"><h1>前言</h1>
 
-<h4>关系与非关系型数据库</h4>
+<p>今天看到朋友圈里关于<a href="www.teambition.com">teambition</a>团队协作工具的介绍。</p>
 
-<p>关系型数据库</p>
+<p>由此联想到了以前公司的SCRUM敏捷式开发。这里整理一下敏捷式团队开发的一些思绪。</p>
 
-<ul>
-<li>mysql</li>
-<li>oracle</li>
-<li>sql server</li>
-<li>postgresql</li>
-</ul>
+<h1>SCRUM</h1>
 
+<p><img src="http://images.cnblogs.com/cnblogs_com/taven/201010/2010-10-17_202832.png" alt="" /></p>
 
-<p>非关系型数据库</p>
+<p>就如上图(图片为网络搜寻)所看到的，一个超大的白板上规矩的排满了各种纸条。每个纸条上写着各种任务。如果谁对这个任务感兴趣，就在这个纸条上写上自己的名字。为了便于说明，我假设了一个场景进行阐述。</p>
 
-<ul>
-<li>hadoop</li>
-<li>mongoDB</li>
-<li>redis</li>
-<li>Cassandra</li>
-</ul>
+<h4>周一上午</h4>
 
-
-<p>区别：</p>
-
-<p>是否使用SQL语句作为数据操作的方法和方式。</p>
-
-<p>所以关系型数据库又叫做SQL数据库。</p>
-
-<h4>为什么学习MySQL</h4>
-
-<ul>
-<li>基于GPL协议</li>
-<li>Mysql 最流行 ，开源，但不是最先进的。</li>
-<li>互联网企业中占绝对主流地位</li>
-</ul>
-
-
-<p>开发者学习MySQL：</p>
-
-<ul>
-<li>学习数据类型的正确使用</li>
-<li>学习如何利用索引优化查询效率</li>
-<li>了解分区，读写分离特性</li>
-<li>了解数据库事务相关特性</li>
-</ul>
-
-
-<p>DBA学习MySQL：</p>
-
-<ul>
-<li>学习MySQL体系结构知识</li>
-<li>学习日常运维，性能调优，故障排查</li>
-<li>虚席数据层架构设计，schema优化知识</li>
-</ul>
-
-
-<h1>轻松安装MySQL</h1>
-
-<p>5.6 <a href="http://www.mysql.com/downloads/">http://www.mysql.com/downloads/</a></p>
-
-<ul>
-<li>企业版</li>
-<li>集群版</li>
-<li>社区版 （免费）
-
-<h4>Windows上安装</h4>
-
-<p>安装包：300M+</p></li>
-</ul>
-
-
-<h4>Linux上安装</h4>
-
-<h4>Ubuntu上安装MySQL</h4>
-
-<pre><code>apt-cache search mysql-server
-apt-get install mysql-server-5.6
-#查看mysql进程
-ps -ef|grep mysqld
-#查看mysql状态：版本、运行时间、连接方式、查询统计
-sudo /etc/init.d/mysql status
-#msyql启动、停止、重启
-sudo /etc/init.d/mysql start|stop|restart
-</code></pre>
-
-<h1>连接使用MySQL</h1>
-
-<ul>
-<li>应用程序驱动</li>
-<li>MySQL命令行</li>
-<li><p>GUI工具</p>
-
-<p>  #查看mysql-client版本
-  mysql -V</p></li>
-</ul>
-
-
-<p>命令行连接MySQL</p>
-
-<ul>
-<li><p>Socket连接(本地连接)</p>
-
-<pre><code>  mysql -S/var/run/mysqld/mysqld.sock -uhomestead -p
-</code></pre></li>
-<li><p>TCP/IP连接（远程连接）</p>
-
-<pre><code>   mysql -h127.0.0.1 -P3306 -uhomestead -p
-</code></pre></li>
-</ul>
-
-
-<p>本地连接只能在MySQL服务器上创建，常作为MySQL状态检查，或程序和MySQL部署在一台机器上。</p>
-
-<pre><code>#小技巧
-Ctrl + r : 搜索之前敲过的命令
-</code></pre>
-
-<h3>两个重要的命令： status, show processlist</h3>
-
-<h4>status</h4>
-
-<p>关注的信息：</p>
-
-<ul>
-<li>Server version</li>
-<li>characterset: utf8 (Server, Db, Client, Conn)</li>
-<li>Uptime
-
-<h4>show processlist</h4></li>
-</ul>
-
-
-<p>help select;</p>
-
-<pre><code>#查看socket文件位置
-show global variables like 'socket'
-</code></pre>
-
-<ul>
-<li>socket权限为777</li>
-<li>不要把密码直接输入在命令行里面，存在安全风险。</li>
-</ul>
-
-
-<p>history -c 清楚命令行历史</p>
-
-<h4>常用的图形客户端工具</h4>
-
-<ul>
-<li>Navicat</li>
-<li><p>MySQLWenkBench</p></li>
-<li><p>操作简单，易于上手</p></li>
-<li>支出图形化的导入导出</li>
-<li>可视化的界面输出</li>
-</ul>
-
-
-<p>总结：</p>
+<p>IT经理已经和总经理进行了讨论。IT 经理说：</p>
 
 <ol>
-<li>应用程序使用API接口连接MySQL</li>
-<li>开发工程师可以使用图形工具连接MySQL</li>
-<li><strong>命令行工具才是DBA的最爱</strong></li>
+<li><p>上周，市场部门已经提前跟我说过，国庆节来了，我们是一个电商网站，要做出一些活动，所以们这周会给3个月内未购买过产品的用户发电子邮件。这个任务包含了前端HTML和后端PHP的一些逻辑。</p></li>
+<li><p>我们的网站要有一个法语的版本，所以我们在接下来的这两个星期会考虑我们的数据库设计。</p></li>
 </ol>
 
 
-<h1>SQL语言入门</h1>
+<p>&hellip;（省略若干任务）</p>
 
-<p>DDL :
-- CREATE TABLE
-- DROP TABLE
-- ALTER TABLE</p>
+<h4>周一下午</h4>
 
-<p>DML:</p>
-
-<ul>
-<li>SELECT FROM TABLE</li>
-<li>INSERT INTO TABLE</li>
-<li>UPDATE TABLE SET</li>
-<li>DELETE FROM TABLE</li>
-</ul>
-
-
-<p>DCL:</p>
-
-<ul>
-<li>GRANT</li>
-<li>REVOKE</li>
-</ul>
-
-
-<p>TCL:</p>
-
-<ul>
-<li>COMMIT</li>
-<li>ROLLBACK</li>
-</ul>
-
-
-<p><a href="http://www.w3school.com.cn/sql/">SQL教程</a></p>
-
-<h1>认识DBA</h1>
-
-<p>DBA是最后一道屏障，守门员，是业务稳定的基石。</p>
-
-<p>监控线上，保障业务的正常运行。</p>
-
-<p>做好实时性能监控,一旦有长的SQL语句，就会立刻接到报警，然后进行调优。</p>
-
-<h4>小公司</h4>
-
-<ul>
-<li>没有专职DBA</li>
-<li>但肯定有懂数据库的人</li>
-</ul>
-
-
-<p>大公司：</p>
-
-<ul>
-<li>专职DBA</li>
-<li>数据存储技术专家</li>
-</ul>
-
-
-<p>互联网业务： 高性能、高可用、可扩展、安全性。</p>
-
-<p>没有DBA就没有稳定的数据库，请求变慢，数据丢失，安全问题，用户投诉，无穷无尽。</p>
-
-<h3>DBA要做哪些工作？</h3>
+<p>IT部门的10个人聚集在会议室。打算做两件事情：</p>
 
 <ol>
-<li>基础运维
-
-<ul>
-<li>安全部署</li>
-<li>监控</li>
-<li>故障处理</li>
-</ul>
-</li>
-<li>安全运维工作
-
-<ul>
-<li>数据备份与恢复</li>
-<li>安全访问，安全漏洞</li>
-<li>审计</li>
-</ul>
-</li>
-<li>性能调优工作
-
-<ul>
-<li>数据库优化</li>
-<li>容量评估、软硬件升级</li>
-</ul>
-</li>
-<li>开发支持工作
-
-<ul>
-<li>存储方案制定(哪些数据放在memcache，减少对数据库的访问)</li>
-<li>数据库设计</li>
-<li>数据库变更 SQL Review （审核业务SQL，全表扫描的SQL会把数据库跑死）</li>
-</ul>
-</li>
-<li>流程与培训
-
-<ul>
-<li>数据库开发规范</li>
-<li>运维流程与标准化</li>
-<li>业务培训</li>
-</ul>
-</li>
+<li><p>讨论上周的任务完成情况，当然在一般的情况下，这些任务是都完成了的。Review一下成果。</p></li>
+<li><p>讨论IT经理上午和总经理谈得任务，把每条任务进行逐行分解。并把任务平均分配到2个team上。接下来把任务打印出来。贴到白板上。正如上图所见，左面第一列的每一个方格子内是一系列相关的任务，这是打算是打算要这两个星期要做的事情。</p></li>
 </ol>
 
 
-<p>练习：
-mysql要做的：</p>
+<h3>周二上午10点</h3>
 
-<p>分析MySQL慢日志请求，优化表索引</p>
+<p>每天上午，IT部门的10个人站在这块白班前面，把自己今天打算要做的任务纸条上写下自己的名字，然后挪动到中间的格子里。叙说一下我对这个任务的看法，打算怎么做，预估多长时间能够昨晚。</p>
 
-<h4>DBA需要的技能</h4>
+<h3>周三上午</h3>
 
-<p>专业技能：
-    - 数据库原理
-    - Linux与Shell
-    - 计算机体系结构
-    - 网络原理
-    - 数据库系统与操作
-    - 服务器硬件
-    - 业务架构设计
-软技能：</p>
+<p>每天早上10点，IT部的人都会站在这块白板前面，对写下名字的任务叙说3件事情：</p>
 
-<pre><code>- 责任心、执行力
-- 坚韧，抗压（半夜、凌晨工作）
-- 学习与沟通能力
-- 正直，诚信
-- 耐心，注重细节
-- 分析能力
-- 团队协作
-- 
-</code></pre>
+<ol>
+<li>我昨天做了什么</li>
+<li>我遇到了哪些困难</li>
+<li>我今天打算做些什么</li>
+</ol>
 
-<p>DBA如何发展？</p>
 
-<ul>
-<li>业务架构师（数据存储有深入研究，处理不同业务场景与需求的数据存储）</li>
-<li>运维专家（解决mysql的任何问题，帮助数据库更稳定更高效的运行）</li>
-<li>数据库研发（改进数据库系统或开发自己的数据库）</li>
-</ul>
+<h3>周四上午</h3>
 
+<p>这里叙说一下为什么站在白板前面，而不是坐在会议室里，因为这样站着效率跟高效，10分钟就能够讨论结束。其实每天早上的这个会议叫做Sprint会议。</p>
+
+<p>今天有人已经完成了任务，他会把任务纸条放在最右边的那栏里，表示任务已经完成。</p>
+
+<h2>总结：</h2>
+
+<p>OK, 这就是我执行了2年的SCRUM敏捷式开发的流程。我是一个执行者的流程来看待这件事件。它的优点：</p>
+
+<ol>
+<li>任务清楚，明确，一切围绕着目标。</li>
+<li>中途加入的临时任务如果不是特别紧急、重要会安排到下周。</li>
+</ol>
+
+
+<p>缺点：
+1. 每天时间满满的一个任务接着一个任务，时间久了会有些疲惫。</p>
+
+<p>每一段工作任务都会会学到很多东西，把它记录下来，总结下来，为下一家公司发光发热。</p>
+
+<p>这有一个网上的SCRUM可以看看<a href="http://home.leangoo.com/">leangoo</a></p>
 </div>
   
   
@@ -555,43 +257,43 @@ mysql要做的：</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/10/26/mysql-optimization-and-design/">MySQL业务优化与设计</a>
+        <a href="/blog/2015/12/17/docker-drupal8/">Docker Drupal8</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/21/mysql-programe-development/">MySQL程序开发</a>
+        <a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
+        <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
+        <a href="/blog/2015/09/04/bdd/">行为驱动开发</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/16/mysql-storage-engine/">MySQL存储引擎</a>
+        <a href="/blog/2015/09/03/test-driver/">驱动式开发</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/14/mysql-db-object/">MySQL数据库对象与应用</a>
+        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/12/performance-test/">高性能产品的必由之路—性能测试工具</a>
+        <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/10/mysql-master-slave/">MySQL主从复制</a>
+        <a href="/blog/2015/08/29/performance-bottleneck/">性能瓶颈</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/10/mysql-index/">MySQL索引</a>
+        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
+        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
       </li>
     
   </ul>

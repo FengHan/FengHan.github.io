@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Perfomance | hanfeng.name]]></title>
-  <link href="http://fenghan.github.io/blog/categories/perfomance/atom.xml" rel="self"/>
-  <link href="http://fenghan.github.io/"/>
-  <updated>2015-10-27T22:06:34+08:00</updated>
-  <id>http://fenghan.github.io/</id>
+  <link href="http://hanfeng.name/blog/categories/perfomance/atom.xml" rel="self"/>
+  <link href="http://hanfeng.name/"/>
+  <updated>2015-12-17T09:49:52+00:00</updated>
+  <id>http://hanfeng.name/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[负载计算方法及不同语言开发解决性能问题的思想等]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/21/performance/"/>
-    <updated>2015-08-21T14:52:36+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/21/performance</id>
+    <link href="http://hanfeng.name/blog/2015/08/21/performance/"/>
+    <updated>2015-08-21T06:52:36+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/21/performance</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>当项目复杂度和用户数提高的时候，我们常常会遇到以下问题：卡、 挂、 数据备份、 数据分析、 安全、 24小时在线、 多平台、 多端、 跨地域、 实时性强。</p>

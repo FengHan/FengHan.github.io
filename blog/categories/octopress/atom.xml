@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Octopress | hanfeng.name]]></title>
-  <link href="http://fenghan.github.io/blog/categories/octopress/atom.xml" rel="self"/>
-  <link href="http://fenghan.github.io/"/>
-  <updated>2015-10-27T22:06:34+08:00</updated>
-  <id>http://fenghan.github.io/</id>
+  <link href="http://hanfeng.name/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://hanfeng.name/"/>
+  <updated>2015-12-17T09:49:52+00:00</updated>
+  <id>http://hanfeng.name/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[使用Octopress在GitHub上搭建静态博客]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/17/octopress-blog/"/>
-    <updated>2015-07-17T12:52:50+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/17/octopress-blog</id>
+    <link href="http://hanfeng.name/blog/2015/07/17/octopress-blog/"/>
+    <updated>2015-07-17T04:52:50+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/07/17/octopress-blog</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>本博客基于Octopress+Github Pages搭建，可以搭建全免费、稳定运行的个人博客。 本文将简述在Windows平台（Win7 64bit）上搭建这套系统的全流程及博客的迁移。 在继续看本文之前，请先确定你具有折腾的精神。</p>

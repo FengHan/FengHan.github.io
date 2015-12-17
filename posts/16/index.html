@@ -9,8 +9,11 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 本文记录是极客学院 Redis系列课程的文字记录 文档
-Redis Desktop Manager 集合类型与有序集合类型 集合类型概述 Set， string类型的无序集合，不允许有重复元素。通过hash table实现，可以取并集、交集、差集， &hellip;">
+  <meta name="description" content="环境说明 64bit Win7系统
+Git Bash
+Vagrant
+Virtual Box 约定 我们要创建一个项目blog，放在/d/sites/blog/目录下面 安装 创建项目目录 cd /d/sites
+mkdir blog 下载laravel的box和homestead vagrant &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +22,7 @@ Redis Desktop Manager 集合类型与有序集合类型 集合类型概述 Set�
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://fenghan.github.io/posts/16/">
+  <link rel="canonical" href="http://hanfeng.name/posts/16/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="hanfeng.name" type="application/atom+xml">
@@ -61,7 +64,7 @@ var _hmt = _hmt || [];
   
 <form action="https://www.google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="sitesearch" value="fenghan.github.io">
+    <input type="hidden" name="sitesearch" value="hanfeng.name">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -83,7 +86,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/14/redis-datastructure2/">Redis数据结构类型2</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/09/laravel-homestead/">使用Homestead搭建本地Laravel开发环境</a></h1>
     
     
       <p class="meta">
@@ -92,83 +95,139 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-14T14:02:41+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:02 pm</span></time>
+<time class='entry-date' datetime='2015-08-09T07:06:33+00:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:06 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h1>前言</h1>
-
-<p>本文记录是极客学院 <a href="http://www.jikexueyuan.com/course/1693_1.html?ss=2">Redis系列课程</a>的文字记录</p>
-
-<p><a href="http://redisdoc.com/">文档</a>
-<a href="http://redisdesktop.com/download">Redis Desktop Manager</a></p>
-
-<h1>集合类型与有序集合类型</h1>
-
-<h3>集合类型概述</h3>
-
-<p>Set， string类型的无序集合，不允许有重复元素。通过hash table实现，可以取并集、交集、差集，可以实现sns中好友推荐和blog的tag功能。</p>
-
-<p>底层实现： 整数集合（都是整数值，数量不超过512），字典。</p>
-
-<p>存储一个列表数据，又不希望出现重复数据时，set是一个很好的选择。</p>
-
-<p>集合还提供了判断某个成员是否在一个set集合内的接口。</p>
-
-<p>sadd srem spop
-- sadd key member 返回值，成功的数量
-- srem key member 返回值，删除的的数量， 可删除多个
-- spop key 随机弹出一个元素，返回弹出的元素</p>
-
-<h2>获取</h2>
+  <div class="entry-content"><h3>环境说明</h3>
 
 <ul>
-<li>smembers key  查看元素</li>
-<li>srandmember key count  count>0 返回不重复， count &lt; 0,可能重复</li>
-<li>SISMEMBER key member  集合中是否存在key</li>
-<li>SCARD member  统计集合个数</li>
+<li>64bit Win7系统</li>
+<li>Git Bash</li>
+<li>Vagrant</li>
+<li>Virtual Box</li>
 </ul>
 
 
-<p>运算命令
-- SDIFF A B 差集， 所有属于A，不属于B; 1 2 3， 2 3 4 => 1
-- SINTER A B  交集  所有属于A, 且属于B
-- SUNION A B  并集
-- SDIFFSTORE  不会返回结果，而是会存储在dest结果中</p>
+<h3>约定</h3>
 
-<h2>Redis 有序集合类型概述</h2>
+<p>我们要创建一个项目blog，放在/d/sites/blog/目录下面</p>
 
-<p>Sorted Sort
-底层实现：</p>
+<h3>安装</h3>
 
-<ul>
-<li>压缩列表（数量不超过128，且小于64字节）、</li>
-<li>跳跃表（skiplist）</li>
-</ul>
+<p>创建项目目录</p>
 
+<pre><code>cd /d/sites
+mkdir blog
+</code></pre>
 
-<p>需要有序的，不重复的，可以选择它。 可以构建优先级的队列。</p>
+<p>下载laravel的box和homestead</p>
 
-<p>有序集合类型与列表的比较，相同点：</p>
+<pre><code>vagrant box add laravel/homestead
+git clone https://github.com/laravel/homestead.git Homestead
+</code></pre>
 
-<ul>
-<li>二者都是有序的。</li>
-<li>二者都可以获得某一范围的元素。</li>
-</ul>
+<p>生成Homestead.yaml 到~/.homestead目录下</p>
 
+<pre><code>cd /d/sites/blog/Homestead/
+init.sh
+</code></pre>
 
-<p>不同点：</p>
+<p>生成秘钥</p>
 
-<ul>
-<li>列表通过链表实现，获取靠近两端的数据速度快，适合“新鲜事”和“日志”。</li>
-<li>有序集合使用散列表和跳跃表实现，读取中间数据速度也快。</li>
-<li>列表不能简单的调整元素的位置，而有序集可以。</li>
-<li>有序集合比列表类型更耗内存。</li>
-</ul>
+<pre><code>ssh-keygen -t rsa -C "you@homestead"
+</code></pre>
 
+<p>配置文件 ~/.homestead/Homestead.yaml</p>
+
+<pre><code>---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 1
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: d:\sites\blog
+      to: /home/vagrant/blog
+
+sites:
+    - map: blog.app
+      to: /home/vagrant/blog/public
+
+databases:
+    - homestead
+
+variables:
+    - key: APP_ENV
+      value: local
+
+# blackfire:
+#     - id: foo
+#       token: bar
+#       client-id: foo
+#       client-token: bar
+
+# ports:
+#     - send: 93000
+#       to: 9300
+#     - send: 7777
+#       to: 777
+#       protocol: udp
+</code></pre>
+
+<h3>Win下添加快捷键</h3>
+
+<pre><code>cd ~
+vi .bashrc
+alias vm="ssh vagrant@127.0.0.1 -p 2222"
+
+source .bashrc
+</code></pre>
+
+<h3>启动虚拟机</h3>
+
+<pre><code>cd /d/sites/blog/Homestead/
+vagrant up
+</code></pre>
+
+<h3>修改hosts文件</h3>
+
+<h3>虚拟机的mysql</h3>
+
+<pre><code>host: 127.0.0.1
+port: 33060
+user: homestead
+pass: secret
+</code></pre>
+
+<h3>虚拟机里的端口转发</h3>
+
+<pre><code>SSH: 2222 -&gt; Forwards To 22
+HTTP: 8000 -&gt; Forwards To 80
+MySQL: 33060 -&gt; Forwards To 3306
+Postgres: 54320 -&gt; Forwards To 5432
+</code></pre>
+
+<h3>配置</h3>
+
+<pre><code>php artisan key:generate
+</code></pre>
+
+<p>将生成的key复制到config/app.php替换82行的APP_KEY键值。</p>
+
+<h3>参考链接</h3>
+
+<p> <a href="http://www.golaravel.com/laravel/docs/5.1/homestead/">golaravel</a></p>
+
+<p><a href="https://phphub.org/topics/2">phphub.org</a></p>
 </div>
   
   
@@ -181,7 +240,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/14/nginx-error-msg/">Nginx错误信息汇总</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/29/c-difficult/">C语言学习中的难重点</a></h1>
     
     
       <p class="meta">
@@ -190,16 +249,25 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-08-14T12:18:19+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:18 pm</span></time>
+<time class='entry-date' datetime='2015-07-29T15:18:44+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:18 pm</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h3>Nginx服务器返回403</h3>
+  <div class="entry-content"><ol>
+<li>运算符: 自增、自减运算符</li>
+<li>进制： 各种进制转换、原码、反码、补码</li>
+<li>数组： 一维数组、二维数组、多维数组</li>
+<li>循环： 多重循环的嵌套、排序、查找</li>
+<li>函数：递归函数、递归调用</li>
+<li>指针：一级指针、多级指针、指针和数组、函数、结构体之间的关系</li>
+<li>内存管理： C语言内存管理问题、内存泄露、野指针</li>
+<li>有参宏及条件编译</li>
+<li>多文件开发： 多文件编译、多文件开发</li>
+</ol>
 
-<p>开了Astrill VPN, 关闭Astrill，即可</p>
 </div>
   
   
@@ -224,43 +292,43 @@ var _hmt = _hmt || [];
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/10/26/mysql-optimization-and-design/">MySQL业务优化与设计</a>
+        <a href="/blog/2015/12/17/docker-drupal8/">Docker Drupal8</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/21/mysql-programe-development/">MySQL程序开发</a>
+        <a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
+        <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
+        <a href="/blog/2015/09/04/bdd/">行为驱动开发</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/16/mysql-storage-engine/">MySQL存储引擎</a>
+        <a href="/blog/2015/09/03/test-driver/">驱动式开发</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/14/mysql-db-object/">MySQL数据库对象与应用</a>
+        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/12/performance-test/">高性能产品的必由之路—性能测试工具</a>
+        <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/10/mysql-master-slave/">MySQL主从复制</a>
+        <a href="/blog/2015/08/29/performance-bottleneck/">性能瓶颈</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/10/mysql-index/">MySQL索引</a>
+        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
+        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
       </li>
     
   </ul>

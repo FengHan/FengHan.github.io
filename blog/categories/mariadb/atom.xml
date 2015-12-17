@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Mariadb | hanfeng.name]]></title>
-  <link href="http://fenghan.github.io/blog/categories/mariadb/atom.xml" rel="self"/>
-  <link href="http://fenghan.github.io/"/>
-  <updated>2015-10-27T22:06:34+08:00</updated>
-  <id>http://fenghan.github.io/</id>
+  <link href="http://hanfeng.name/blog/categories/mariadb/atom.xml" rel="self"/>
+  <link href="http://hanfeng.name/"/>
+  <updated>2015-12-17T09:49:52+00:00</updated>
+  <id>http://hanfeng.name/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[在ubuntu上安装mariadb]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/23/mariadb-setup/"/>
-    <updated>2015-07-23T10:50:50+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/23/mariadb-setup</id>
+    <link href="http://hanfeng.name/blog/2015/07/23/mariadb-setup/"/>
+    <updated>2015-07-23T02:50:50+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/07/23/mariadb-setup</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>MySQL被SUN收购后，又被Oracle收购。它的作者从新开发了一个完全兼容MySQL的数据库，并且以他的女儿命名，叫做<a href="https://mariadb.org/">MariDB</a></p>

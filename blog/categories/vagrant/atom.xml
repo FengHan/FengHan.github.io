@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Vagrant | hanfeng.name]]></title>
-  <link href="http://fenghan.github.io/blog/categories/vagrant/atom.xml" rel="self"/>
-  <link href="http://fenghan.github.io/"/>
-  <updated>2015-10-27T22:06:34+08:00</updated>
-  <id>http://fenghan.github.io/</id>
+  <link href="http://hanfeng.name/blog/categories/vagrant/atom.xml" rel="self"/>
+  <link href="http://hanfeng.name/"/>
+  <updated>2015-12-17T09:49:52+00:00</updated>
+  <id>http://hanfeng.name/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Vagrant的网络设置]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/22/vagrant-network/"/>
-    <updated>2015-08-22T14:34:46+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/22/vagrant-network</id>
+    <link href="http://hanfeng.name/blog/2015/08/22/vagrant-network/"/>
+    <updated>2015-08-22T06:34:46+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/22/vagrant-network</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>今天要做Mysql主从配置，就需要两台Ubuntu的服务器，所以先要研究下Vagrant的网络配置。</p>
@@ -53,9 +53,9 @@
   
   <entry>
     <title type="html"><![CDATA[使用Vagrant搭建本地Ubuntu开发环境]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/22/vagrant-lnmp/"/>
-    <updated>2015-07-22T14:13:27+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/22/vagrant-lnmp</id>
+    <link href="http://hanfeng.name/blog/2015/07/22/vagrant-lnmp/"/>
+    <updated>2015-07-22T06:13:27+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/07/22/vagrant-lnmp</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>使用PHP做Web开发已有4年，4年间只有第二年是在Ubuntu下开发，其它都是在Windows下开发，但Win下开发有如下缺点：</p>

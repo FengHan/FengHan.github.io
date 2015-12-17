@@ -9,14 +9,7 @@
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="运算符: 自增、自减运算符
-进制： 各种进制转换、原码、反码、补码
-数组： 一维数组、二维数组、多维数组
-循环： 多重循环的嵌套、排序、查找
-函数：递归函数、递归调用
-指针：一级指针、多级指针、指针和数组、函数、结构体之间的关系
-内存管理： C语言内存管理问题、内存泄露、野指针
-有参宏及条件编译 &hellip;">
+  <meta name="description" content="Redis 的历史与特性 Redis 是Remote Dictionary Server的缩写，Redis是一个开源、基于C语言、基于内存可持久化的高性能NoSQL的键值对数据库。在众多场合中均可使用Redis代替传统的数据库或缓存系统。 与Memcache类似的NoSQL型数据库， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -25,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://fenghan.github.io/posts/20/">
+  <link rel="canonical" href="http://hanfeng.name/posts/20/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="hanfeng.name" type="application/atom+xml">
@@ -67,7 +60,7 @@ var _hmt = _hmt || [];
   
 <form action="https://www.google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="sitesearch" value="fenghan.github.io">
+    <input type="hidden" name="sitesearch" value="hanfeng.name">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -89,7 +82,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/29/c-difficult/">C语言学习中的难重点</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/24/redis_setup_config/">Redis的安装与配置</a></h1>
     
     
       <p class="meta">
@@ -98,24 +91,151 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-29T23:18:44+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:18 pm</span></time>
+<time class='entry-date' datetime='2015-07-24T02:36:56+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:36 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><ol>
-<li>运算符: 自增、自减运算符</li>
-<li>进制： 各种进制转换、原码、反码、补码</li>
-<li>数组： 一维数组、二维数组、多维数组</li>
-<li>循环： 多重循环的嵌套、排序、查找</li>
-<li>函数：递归函数、递归调用</li>
-<li>指针：一级指针、多级指针、指针和数组、函数、结构体之间的关系</li>
-<li>内存管理： C语言内存管理问题、内存泄露、野指针</li>
-<li>有参宏及条件编译</li>
-<li>多文件开发： 多文件编译、多文件开发</li>
+  <div class="entry-content"><h1>Redis 的历史与特性</h1>
+
+<p>Redis 是Remote Dictionary Server的缩写，Redis是一个<strong>开源、基于C语言、基于内存可持久化</strong>的高性能NoSQL的<strong>键值对</strong>数据库。在众多场合中均可使用Redis代替传统的数据库或缓存系统。</p>
+
+<p>与Memcache类似的NoSQL型数据库，但它的数据可以持久化的保存在磁盘上，解决了服务重启后数据不丢失的问题。</p>
+
+<p><img src="http://7xkc1x.com1.z0.glb.clouddn.com/show_redis.jpg" alt="" /></p>
+
+<p>2015年Redis3.0.1 发布
+    Redis 3.0 最重要的特征是对Redis集群的支持
+Redis约定<strong>次版本号</strong>为偶数的版本是稳定版</p>
+
+<p>主要特性：</p>
+
+<ul>
+<li>存储结构丰富</li>
+<li>内存存储与持久化： 1s内读写10万个键值，异步写入硬盘；</li>
+<li>功能丰富：可用于数据库，缓存系统，队列</li>
+<li>简单稳定</li>
+</ul>
+
+
+<h1>安装</h1>
+
+<p>安装最新版本的3.0， <a href="http://redis.io/download">http://redis.io/download</a></p>
+
+<pre><code>apt-get install make gcc
+wget http://download.redis.io/releases/redis-3.0.3.tar.gz
+tar xzf redis-3.0.3.tar.gz
+cd redis-3.0.3/src
+make install
+</code></pre>
+
+<h3>Redis可执行文件</h3>
+
+<p>redis-cli  #客户端
+redis-server #服务器</p>
+
+<pre><code>ls /usr/local/bin/redis*
+
+cd ..
+mkdir /etc/redis
+cp redis.conf /etc/redis/6379.conf
+
+cd utils/
+cp redis_init_script /etc/init.d/redisd
+
+sudo update-rc.d redisd defaults
+service redisd start
+</code></pre>
+
+<h3>启动方法</h3>
+
+<ol>
+<li>redis-server&amp;
+
+<ul>
+<li>ps -ef |grep redis 检测后台进程是否存在</li>
+<li>netstat -tunpl |grep 6379  检测6379端口是否在监听</li>
+<li>redis-cli检测， shutdown退出</li>
+</ul>
+</li>
+<li><p>指定配置文件启动</p>
+
+<p> redis-server /usr/local/redis/etc/redis.conf</p>
+
+<p> 修改配置文件 daemonize yes</p></li>
+<li><p>使用Redis启动脚本设置开机启动</p></li>
 </ol>
+
+
+<p>启动脚本位于redis_init_script位于安装目录的/utils目录下，</p>
+
+<pre><code>-   新建目录/etc/redis
+-   复制redis.conf到/etc/redis/重命名为6379.conf
+-   修改6379.conf配置
+-   复制redis_init_script脚本文件复制到/etc/init.d目录中，并重命名redisd
+-   执行随系统自动启动命令 
+    -   sudo update-rc.d redisd defaults
+    -   service redisd start
+</code></pre>
+
+<h3>停止方法</h3>
+
+<ol>
+<li>退出客户端用CTRL + C</li>
+<li>在客户端下，执行SHUTDOWN，停止服务</li>
+<li>kill -9 PID</li>
+</ol>
+
+
+<h3>redis 的配置</h3>
+
+<p>redis.conf #redis server的配置文件</p>
+
+<p>sentinel.conf #redis sentine配置文件，用于监控</p>
+
+<ul>
+<li>基本项配置</li>
+<li><strong>持久化（Persistence）</strong>相关配置</li>
+<li><strong>Replication配置</strong></li>
+<li>Security配置</li>
+<li>Limit配置</li>
+<li>SlowLog配置</li>
+<li>Advanced配置</li>
+<li>INCLUEDS配置
+
+<h5>基本配置</h5></li>
+<li>daemonize 如果需要在后台运行，把该项改为yes</li>
+<li>pidfile 配置多个pid地址， 默认在/var/run/redis.pid</li>
+<li>bind  绑定ip， 设置后只接受来自该ip的请求</li>
+<li>port 监听端口，默认6379</li>
+<li>timeout 设置客户端连接的超时时间，单位为秒</li>
+<li>loglevel分为4级， debug， verbose, notice, warning</li>
+<li>logfile 配置log文件地址</li>
+</ul>
+
+
+<p>总结: 上述配置基本项中，port为必配项，其余项一般情况下保持默认即可。</p>
+
+<h5>持久化配置项目</h5>
+
+<ul>
+<li>databases 设置数据库的个数， 默认使用的数据库为0</li>
+<li>save 设置redis进行数据库镜像的频率</li>
+<li>rdbcompression 在进行镜像备份时，是否进行压缩</li>
+<li>Dbfilename 镜像备份文件的文件名</li>
+<li>Dir 数据库镜像备份的文件放置路径
+
+<h5>Limit配置项目</h5>
+
+maxclients 客户端的并发连接数，默认10000
+maxmemory配置Redis Server可占用的最大内存
+
+<h5>Security配置项</h5>
+
+<p>Requirepass 设置登录时需要使用的密码</p></li>
+</ul>
 
 </div>
   
@@ -129,7 +249,7 @@ var _hmt = _hmt || [];
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/27/qcloud/">腾讯云主机免费试用</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/07/23/mysql-study/">MySQL数据库管理</a></h1>
     
     
       <p class="meta">
@@ -138,33 +258,55 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-07-27T16:19:32+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:19 pm</span></time>
+<time class='entry-date' datetime='2015-07-23T09:26:01+00:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:26 am</span></time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>今天免费申请了<a href="http://qcloud.com">腾讯云</a>主机的免费试用15天。
-50元的代金券买了两台数据库，并使用了负载均衡。</p>
+  <div class="entry-content"><h3>MySQL权限</h3>
 
-<p>记录主要操作如下：</p>
+<pre><code>mysql&gt; grant all privileges on laravel5.* to laravel@localhost identified by 'secret' with grant option;
+flush privileges;
+</code></pre>
 
-<p>修改 /etc/hostname 和 /etc/hosts</p>
+<ul>
+<li>用户名：laravel</li>
+<li>密码： secret</li>
+<li>授权：数据库laravel5的所有表的所有权限</li>
+</ul>
 
-<p>配置openssh-server</p>
 
-<p>安装nginx php5-fpm php5-mysql php5-cli</p>
+<p>创建用户</p>
 
-<p>域名A记录和CNAME指向</p>
+<pre><code>grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
+grant select on jikedb.* to webuser@localhost identified by '123';
+</code></pre>
 
-<p>配置nginx虚拟主机</p>
+<p>刷新权限</p>
 
-<p>安装mariadb</p>
+<pre><code>flush privileges;
+</code></pre>
 
-<p>安装redis</p>
+<p>回收权限</p>
 
-<p>购买了两台mysql服务器</p>
+<pre><code>revoke select on jikedb.* from webuser@localhost;
+</code></pre>
+
+<p>删除用户</p>
+
+<pre><code>drop user webuser@localhost;
+</code></pre>
+
+<p>查看用户权限</p>
+
+<pre><code>show grants for root@localhost;
+</code></pre>
+
+<h3>参考链接</h3>
+
+<p><a href="http://blog.csdn.net/wengyupeng/article/details/3290415">分配权限</a></p>
 </div>
   
   
@@ -189,43 +331,43 @@ var _hmt = _hmt || [];
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/10/26/mysql-optimization-and-design/">MySQL业务优化与设计</a>
+        <a href="/blog/2015/12/17/docker-drupal8/">Docker Drupal8</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/21/mysql-programe-development/">MySQL程序开发</a>
+        <a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
+        <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
+        <a href="/blog/2015/09/04/bdd/">行为驱动开发</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/16/mysql-storage-engine/">MySQL存储引擎</a>
+        <a href="/blog/2015/09/03/test-driver/">驱动式开发</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/14/mysql-db-object/">MySQL数据库对象与应用</a>
+        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/12/performance-test/">高性能产品的必由之路—性能测试工具</a>
+        <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/10/mysql-master-slave/">MySQL主从复制</a>
+        <a href="/blog/2015/08/29/performance-bottleneck/">性能瓶颈</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/10/mysql-index/">MySQL索引</a>
+        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
+        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
       </li>
     
   </ul>

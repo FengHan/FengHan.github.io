@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Big_data | hanfeng.name]]></title>
-  <link href="http://fenghan.github.io/blog/categories/big-data/atom.xml" rel="self"/>
-  <link href="http://fenghan.github.io/"/>
-  <updated>2015-10-27T22:06:34+08:00</updated>
-  <id>http://fenghan.github.io/</id>
+  <link href="http://hanfeng.name/blog/categories/big-data/atom.xml" rel="self"/>
+  <link href="http://hanfeng.name/"/>
+  <updated>2015-12-17T09:49:52+00:00</updated>
+  <id>http://hanfeng.name/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[大数据简介]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/29/big-data-intro/"/>
-    <updated>2015-08-29T23:47:10+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/29/big-data-intro</id>
+    <link href="http://hanfeng.name/blog/2015/08/29/big-data-intro/"/>
+    <updated>2015-08-29T15:47:10+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/29/big-data-intro</id>
     <content type="html"><![CDATA[<p><a href="http://mooc.study.163.com/course/Wiley-1000077001#/info">网易云课堂-大数据简介</a></p>
 
 <h1>大数据的定义</h1>

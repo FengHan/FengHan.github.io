@@ -5,15 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>MySQL主从复制 - hanfeng.name</title>
+  <title>性能瓶颈 - hanfeng.name</title>
   <meta name="author" content="HanFeng">
 
   
-  <meta name="description" content="前言 之前写过一篇MySQL的主从配置，今天这篇文章涉主要涉及理论。 什么是主从复制 数据拷贝
-准实时
-源主节点； 目的-从节点 主从复制的原理 复制格式 SRB: Statement Based Replication (原生的语句)
-PBR: Row （5.7.7变为默认格式）
-MBR: &hellip;">
+  <meta name="description" content="前言 今天和一位搞运维研发的同学聊天，问如何解决300万条订单数据的分析。 答：看性能瓶颈在哪里，读慢加缓存，写慢加队列 可以研究一下内容：hadoop、spark、分布式数据库hbase，其中Spark利用内存计算会快些。
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,7 +19,7 @@ MBR: &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://fenghan.github.io/blog/2015/09/10/mysql-master-slave/">
+  <link rel="canonical" href="http://hanfeng.name/blog/2015/08/29/performance-bottleneck/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="hanfeng.name" type="application/atom+xml">
@@ -64,7 +61,7 @@ var _hmt = _hmt || [];
   
 <form action="https://www.google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="sitesearch" value="fenghan.github.io">
+    <input type="hidden" name="sitesearch" value="hanfeng.name">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -83,7 +80,7 @@ var _hmt = _hmt || [];
   
   <header>
     
-      <h1 class="entry-title">MySQL主从复制</h1>
+      <h1 class="entry-title">性能瓶颈</h1>
     
     
       <p class="meta">
@@ -92,7 +89,7 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-09-10T10:44:16+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:44 am</span></time>
+<time class='entry-date' datetime='2015-08-29T16:10:51+00:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:10 pm</span></time>
         
       </p>
     
@@ -101,92 +98,11 @@ var _hmt = _hmt || [];
 
 <div class="entry-content"><h1>前言</h1>
 
-<p>之前写过一篇MySQL的主从配置，今天这篇文章涉主要涉及理论。</p>
+<p>今天和一位搞运维研发的同学聊天，问如何解决300万条订单数据的分析。</p>
 
-<h1>什么是主从复制</h1>
+<p>答：看性能瓶颈在哪里，<strong>读慢加缓存，写慢加队列</strong></p>
 
-<ul>
-<li>数据拷贝</li>
-<li>准实时</li>
-<li>源主节点； 目的-从节点</li>
-</ul>
-
-
-<h1>主从复制的原理</h1>
-
-<h4>复制格式</h4>
-
-<ul>
-<li>SRB: Statement Based Replication (原生的语句)</li>
-<li>PBR: Row （5.7.7变为默认格式）</li>
-<li>MBR: Mixed</li>
-</ul>
-
-
-<p>查看复制格式
-        show global variables like &lsquo;binlog_format&rsquo;;</p>
-
-<p>配置文件
-    [mysqld]
-    binlog_format = ROW</p>
-
-<h1>主从复制的用途</h1>
-
-<ul>
-<li>试试灾备，用于故障切换（高可用的切换）</li>
-<li>读写分离，提供查询服务</li>
-<li>备份，避免影响业务</li>
-</ul>
-
-
-<h2>MySQL主从复制的一些模式</h2>
-
-<ol>
-<li>一主一从</li>
-<li>主主复制</li>
-<li>一主多从</li>
-<li>多主依从 （mysql5.7开始支持）</li>
-<li>联级复制</li>
-</ol>
-
-
-<h1>主从复制的搭建</h1>
-
-<h3>主从部署的必要条件：</h3>
-
-<ul>
-<li>主从开启binlog日志（设置log-bin参数）</li>
-<li>主从server-id不同</li>
-<li>从库服务器能连通主库</li>
-</ul>
-
-
-<h3>主从部署步骤</h3>
-
-<ul>
-<li>备份还原(mysqldump )</li>
-<li>授权 （grant replicaton slave on <em>.</em>）</li>
-<li>配置复制，并启动 (change master to)</li>
-<li><p>查看主从复制信息 (show slave status\G)</p>
-
-<h1>主从复制的问题</h1></li>
-<li><p>主库宕机，数据可能丢失</p></li>
-<li>从库只有一个sql thread, 主库写压力大，复制很可能延时。</li>
-</ul>
-
-
-<h3>MySQL半同步复制</h3>
-
-<h3>MySQL并行复制</h3>
-
-<ul>
-<li>社区版5.6新增</li>
-<li>并行是指从库多线程，</li>
-<li><p>库级别并应用binlog，同一个数据库更新还是串行的（5.7版并行复制基于事务组）</p>
-
-<p>  set global slave_parallel_workers = 10</p></li>
-</ul>
-
+<p>可以研究一下内容：hadoop、spark、分布式数据库hbase，其中Spark利用内存计算会快些。</p>
 </div>
 
 
@@ -202,14 +118,8 @@ var _hmt = _hmt || [];
 
 
 
-<time class='entry-date' datetime='2015-09-10T10:44:16+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:44 am</span></time>
+<time class='entry-date' datetime='2015-08-29T16:10:51+00:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:10 pm</span></time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/msyql/'>msyql</a>
-  
-</span>
 
 
     </p>
@@ -237,10 +147,10 @@ var _hmt = _hmt || [];
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/09/10/mysql-index/" title="Previous Post: MySQL索引">&laquo; MySQL索引</a>
+        <a class="basic-alignment left" href="/blog/2015/08/29/big-data-intro/" title="Previous Post: 大数据简介">&laquo; 大数据简介</a>
       
       
-        <a class="basic-alignment right" href="/blog/2015/09/12/performance-test/" title="Next Post: 高性能产品的必由之路—性能测试工具">高性能产品的必由之路—性能测试工具 &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2015/08/30/hadoop-intro/" title="Next Post: Hadoop介绍">Hadoop介绍 &raquo;</a>
       
     </p>
   </footer>
@@ -249,7 +159,7 @@ var _hmt = _hmt || [];
   <section>
     <h1>Comments</h1>
     <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="/blog/2015/09/10/mysql-master-slave" data-title="MySQL主从复制" data-url="http://fenghan.github.io/blog/2015/09/10/mysql-master-slave/"></div>
+	<div class="ds-thread" data-thread-key="/blog/2015/08/29/performance-bottleneck" data-title="性能瓶颈" data-url="http://hanfeng.name/blog/2015/08/29/performance-bottleneck/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -276,43 +186,43 @@ var duoshuoQuery = {short_name:"fenghan"};
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/10/26/mysql-optimization-and-design/">MySQL业务优化与设计</a>
+        <a href="/blog/2015/12/17/docker-drupal8/">Docker Drupal8</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/21/mysql-programe-development/">MySQL程序开发</a>
+        <a href="/blog/2015/09/09/learn-laravel-from-scratch/">Laravel5 基础</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/19/mysql-transaction-and-storange-engine/">MySQL事务与存储引擎</a>
+        <a href="/blog/2015/09/05/csrf/">Cross Site Request Forgery</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/12/drupal101/">Drupal101</a>
+        <a href="/blog/2015/09/04/bdd/">行为驱动开发</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/16/mysql-storage-engine/">MySQL存储引擎</a>
+        <a href="/blog/2015/09/03/test-driver/">驱动式开发</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/14/mysql-db-object/">MySQL数据库对象与应用</a>
+        <a href="/blog/2015/09/02/xdebug/">Xdebug</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/12/performance-test/">高性能产品的必由之路—性能测试工具</a>
+        <a href="/blog/2015/08/30/hadoop-intro/">Hadoop介绍</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/10/mysql-master-slave/">MySQL主从复制</a>
+        <a href="/blog/2015/08/29/performance-bottleneck/">性能瓶颈</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/10/mysql-index/">MySQL索引</a>
+        <a href="/blog/2015/08/29/big-data-intro/">大数据简介</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/09/09/mysql-foundation/">MySQL Foundation</a>
+        <a href="/blog/2015/08/29/agile/">SCRUM敏捷式开发（Agile）思维整理</a>
       </li>
     
   </ul>

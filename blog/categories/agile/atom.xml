@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Agile | hanfeng.name]]></title>
-  <link href="http://fenghan.github.io/blog/categories/agile/atom.xml" rel="self"/>
-  <link href="http://fenghan.github.io/"/>
-  <updated>2015-10-27T22:06:34+08:00</updated>
-  <id>http://fenghan.github.io/</id>
+  <link href="http://hanfeng.name/blog/categories/agile/atom.xml" rel="self"/>
+  <link href="http://hanfeng.name/"/>
+  <updated>2015-12-17T09:49:52+00:00</updated>
+  <id>http://hanfeng.name/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[SCRUM敏捷式开发（Agile）思维整理]]></title>
-    <link href="http://fenghan.github.io/blog/2015/08/29/agile/"/>
-    <updated>2015-08-29T12:33:45+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/08/29/agile</id>
+    <link href="http://hanfeng.name/blog/2015/08/29/agile/"/>
+    <updated>2015-08-29T04:33:45+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/29/agile</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>今天看到朋友圈里关于<a href="www.teambition.com">teambition</a>团队协作工具的介绍。</p>

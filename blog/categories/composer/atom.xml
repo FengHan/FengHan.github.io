@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Composer | hanfeng.name]]></title>
-  <link href="http://fenghan.github.io/blog/categories/composer/atom.xml" rel="self"/>
-  <link href="http://fenghan.github.io/"/>
-  <updated>2015-10-27T22:06:34+08:00</updated>
-  <id>http://fenghan.github.io/</id>
+  <link href="http://hanfeng.name/blog/categories/composer/atom.xml" rel="self"/>
+  <link href="http://hanfeng.name/"/>
+  <updated>2015-12-17T09:49:52+00:00</updated>
+  <id>http://hanfeng.name/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Composer]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/26/composer/"/>
-    <updated>2015-07-26T19:45:50+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/26/composer</id>
+    <link href="http://hanfeng.name/blog/2015/07/26/composer/"/>
+    <updated>2015-07-26T11:45:50+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/07/26/composer</id>
     <content type="html"><![CDATA[<p><a href="http://www.phpcomposer.com/composer-the-new-age-of-dependency-manager-for-php/">参考链接</a></p>
 
 <p>全局安装：</p>

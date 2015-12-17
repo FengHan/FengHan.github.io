@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Docker | hanfeng.name]]></title>
-  <link href="http://fenghan.github.io/blog/categories/docker/atom.xml" rel="self"/>
-  <link href="http://fenghan.github.io/"/>
-  <updated>2015-10-27T22:06:34+08:00</updated>
-  <id>http://fenghan.github.io/</id>
+  <link href="http://hanfeng.name/blog/categories/docker/atom.xml" rel="self"/>
+  <link href="http://hanfeng.name/"/>
+  <updated>2015-12-17T09:49:52+00:00</updated>
+  <id>http://hanfeng.name/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Docker小结]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/21/docker-summary/"/>
-    <updated>2015-07-21T21:07:41+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/21/docker-summary</id>
+    <link href="http://hanfeng.name/blog/2015/07/21/docker-summary/"/>
+    <updated>2015-07-21T13:07:41+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/07/21/docker-summary</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>这2天里，我了解Docker的初步使用, 并对本博客在<a href="http://www.daocloud.io">Daocloud</a>上的自动同步做了设置，<a href="http://hanfeng.daoapp.io">http://hanfeng.daoapp.io</a>, Daocloud正在搞活动，<a href="https://github.com/FengHan/fenghan.github.io/blob/master/Dockerfile">写Dockerfile</a>，生成镜像，部署Github代码，<a href="http://blog.daocloud.io/build-dockerfile-campaign/">免费送T-shirt！</a>。 本文主要记录两天所学，记录Docker的学习过程。</p>
@@ -277,9 +277,9 @@ docker rmi $(docker images ubuntu -q)
   
   <entry>
     <title type="html"><![CDATA[认识Docker]]></title>
-    <link href="http://fenghan.github.io/blog/2015/07/19/docker/"/>
-    <updated>2015-07-19T22:09:25+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/07/19/docker</id>
+    <link href="http://hanfeng.name/blog/2015/07/19/docker/"/>
+    <updated>2015-07-19T14:09:25+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/07/19/docker</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>有了Docker以后，那些需要多台机器才能完成的实验就变得非常简单了。</p>

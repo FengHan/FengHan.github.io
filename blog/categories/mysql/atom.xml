@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Mysql | hanfeng.name]]></title>
-  <link href="http://fenghan.github.io/blog/categories/mysql/atom.xml" rel="self"/>
-  <link href="http://fenghan.github.io/"/>
-  <updated>2015-10-27T22:06:34+08:00</updated>
-  <id>http://fenghan.github.io/</id>
+  <link href="http://hanfeng.name/blog/categories/mysql/atom.xml" rel="self"/>
+  <link href="http://hanfeng.name/"/>
+  <updated>2015-12-17T09:49:52+00:00</updated>
+  <id>http://hanfeng.name/</id>
   <author>
     <name><![CDATA[HanFeng]]></name>
     
@@ -14,1180 +14,176 @@
 
   
   <entry>
-    <title type="html"><![CDATA[MySQL业务优化与设计]]></title>
-    <link href="http://fenghan.github.io/blog/2015/10/26/mysql-optimization-and-design/"/>
-    <updated>2015-10-26T21:04:13+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/10/26/mysql-optimization-and-design</id>
-    <content type="html"><![CDATA[<h1>MySQL索引查询优化</h1>
-
-<h4>什么是索引</h4>
-
-<p>快速定位要查早的数据 （意义）</p>
-
-<h4>数据库索引查找</h4>
-
-<ul>
-<li>全表扫描 vs 索引查找</li>
-</ul>
-
-
-<h4>如何根据首字母找到所在行</h4>
-
-<ul>
-<li>二分查找</li>
-<li>B+ tree</li>
-</ul>
-
-
-<p>B+tree:  拥有自己的根节点，枝节点和存放数据的页节点，并且整棵树分层存储，上一层数据会存放下一层数据的管理范围，直到最后一层页节点。</p>
-
-<h4>InnoDB表聚簇索引</h4>
-
-<ul>
-<li>Clustered Index</li>
-<li>Secondary Index</li>
-</ul>
-
-
-<h4>创建索引</h4>
-
-<ul>
-<li>单列索引</li>
-<li><p>联合索引</p>
-
-<p>  create index idx_test1 on tb_student(name);
-  create index idx_test2 on tb_student(name,age);
-  （索引中先根据name排序，name相同的情况下，根据age排序）</p>
-
-<h4>索引维护</h4></li>
-</ul>
-
-
-<h4>字段选择性</h4>
-
-<p>某个字段其值得重复程度</p>
-
-<h4>联合索引与前缀查询</h4>
-
-<p>联合索引能为前缀单列，复列查询提供帮助</p>
-
-<h4>长字段上的索引</h4>
-
-<p>InnoDB索引字段UTF8只能渠道767bytes</p>
-
-<ul>
-<li>Email类 (idx_mailadd(Mail_addr(30))</li>
-<li>住宅类，分拆字段（省，城，区，街道分别存储）
-
-<h4>索引覆盖扫描</h4></li>
-<li>最核心SQL考虑索引覆盖</li>
-<li>SELECT name FROM tb_user WHERE user_id = ?</li>
-<li>KEY idx_uid_name(user_id, name);</li>
-<li>不需要回表获取name字段，IO最小，效率最高</li>
-<li>线上usernmae, password
-
-<h4>无法使用索引的情况</h4></li>
-<li>索引列进行数学运算和函数运算</li>
-<li>未含符合索引的前缀字段</li>
-<li>前缀通配% 通配符 不能使用索引</li>
-<li>where跳进使用not ！=</li>
-<li>字段类型匹配</li>
-</ul>
-
-
-<h4>利用索引排序</h4>
-
-<h4>如何确定一个查询走没走索引，走了哪个索引</h4>
-
-<h1>MySQL Schema设计</h1>
-
-<ul>
-<li><p>设计数据库的表，索引，以及表和表的关系</p>
-
-<ul>
-<li>在数据建模的基础上将关系模型转化为数据库表</li>
-<li>满足业务模型需要基础上根据数据库和应用特点优化表结构
-（合适的数据类型，约束，索引，增加减少字段，改变关系）</li>
-</ul>
-</li>
-<li><p>满足业务功能需要</p></li>
-<li>同性能密切相关</li>
-<li>数据库扩展性</li>
-<li><p>满足周边需求（统计，迁移等）</p></li>
-<li><p>前瞻性</p>
-
-<h4>基于性能的表设计</h4></li>
-<li><p>根据查询需要设计好索引</p></li>
-<li>根据核心查询需求，适当跳帧光标结构</li>
-<li>基于一些特殊业务需求，调整实现方式
-
-<h4>索引</h4></li>
-<li>正确使用索引</li>
-<li>更新尽可能使用主键或唯一索引</li>
-<li>主键尽可能使用自增id字段</li>
-<li>核心查询<strong>覆盖扫描</strong>
-
-<h4>反范式，冗余必要字段</h4></li>
-</ul>
-
-
-<h4>拆分大字段</h4>
-
-<h4>分页查询</h4>
-
-<h4>准实时统计</h4>
-
-<h4>分区表与数据淘汰</h4>
-
-<ul>
-<li>range分区</li>
-<li>适合数据需要定期过期的大表</li>
-<li>单个分区扫描迁移数据到历史库避免全表扫描IO开销</li>
-<li><p>删除单个分区非常高效</p>
-
-<p>  CREATE TABLE tb_order(
-      order_id INT NOT NULL,
-      order_date DATE NOT NULL,
-  )</p>
-
-<p>  PARTITION BY RANGE (YEAR（order_date)) {
-      PARTITION p0 VALUES LESS THAN(2014),
-      PARTITION p1 VALUES LESS THAN(2015),
-      PARTITION p2 VALUES LESS THAN(2016),
-      PARTITION p3 VALUES LESS THAN MAXVALUE,
-  }</p></li>
-<li><p>list 分区</p>
-
-<ul>
-<li>适合将来可能要基于地区，类目等方式垂直拆分数据的方式</li>
-<li>清理节点上不要的数据非常高效</li>
-</ul>
-
-
-<p>  CREATE TABLE tb_store(
-      id INT NOT NULL,
-      store_id varchar(120)
-  )
-  PARTITION BY LIST(store_id)
-  PARTION p_north VALUES IN(3,5,6,9,17)
-  PARTION p_east VALUES IN(1,2,10,11,19,20)
-  PARTION p_west VALUES IN(4,12,13,14,18)
-  PARTION p_central VALUES IN(7,8,15,16)</p></li>
-<li>hash 分区
-
-<ul>
-<li>适合将来需要做水平拆分的表</li>
-<li>清理节点上不要的数据非常高效</li>
-</ul>
-
-
-<p>  CREATE TABLE tb_user_account(
-      id INT NOT NULL,
-      account_id varchar(120)
-  )
-  PARTITION BY HASH(id)
-  PARTITIONS 24;</p></li>
-</ul>
-
-
-<h4>MySQL分区表的局限</h4>
-
-<ul>
-<li>主键和唯一键必须包含在分区字段内</li>
-<li>分区字段必须是整数类型，或者加上返回整数的函数</li>
-</ul>
-
-
-<h4>为周边需求额外增加表设计</h4>
-
-<ul>
-<li>为后台统计任务增加特殊索引</li>
-<li>为数据迁移或统计需求增加时间戳</li>
-</ul>
-
-
-<h4>统计和后台需求</h4>
-
-<ul>
-<li>统计运行SQL往往和线上有很大不同
-
-<ul>
-<li>利用MySQL一主多从，主从可以建不同的索引的特性将统计分流到特定从库</li>
-<li>包括一些特殊用户批量查询等，所有对线上有IO的查询都要读写分离</li>
-</ul>
-</li>
-</ul>
-
-
-<h4>自动更新时间戳</h4>
-
-<ul>
-<li>统计需求经常要求从线上读走增量数据</li>
-<li>表的第一个timestamp类型字段在写入时，如果不填值，会自动写入系统时间戳</li>
-<li>标的第一个timestamp类型字段每次记录发生更新后都会自动更新</li>
-<li>在update_time字段上建索引用于定时导出增量数据</li>
-</ul>
-
-
-<h4>Schema设计与前瞻性</h4>
-
-<ul>
-<li>基于历史经验教训，预防和解决同类问题</li>
-<li>把折腾DBA够呛的所有Schema改造的原因记录并分析总结</li>
-</ul>
-
-
-<p>例：
-- 业务为了用户信息加密做了大改造</p>
-
-<ul>
-<li><p>不再删除数据,加入is_deleted标记位，经常给各种表加</p>
-
-<ul>
-<li>哪个表具有删除的逻辑</li>
-</ul>
-</li>
-<li><h2>支付类应用后期做了风控改造</h2></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MySQL程序开发]]></title>
-    <link href="http://fenghan.github.io/blog/2015/10/21/mysql-programe-development/"/>
-    <updated>2015-10-21T20:30:56+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/10/21/mysql-programe-development</id>
-    <content type="html"><![CDATA[<h1>目标</h1>
-
-<p>理解掌握字符集的基础知识和使用方法，具备处理常见字符集合的能力</p>
-
-<h1>MySQL字符集</h1>
-
-<h3>字符集基础</h3>
-
-<p>字符集： 数据库中的字符集包含两层含义</p>
-
-<ol>
-<li>各种文字和符合的集合，包括各国家文字、标点符号、图形符号、数字等。</li>
-<li>字符的编码方式，即二进制数据与字符的映射规则。</li>
-</ol>
-
-
-<h3>字符集 - 分类</h3>
-
-<p>UTF -8 ： 包含世界上数十种的文字系统，使用一至四个字节为每个字符编码。</p>
-
-<p>latin1 ： 不支持汉字。</p>
-
-<p>show character set;</p>
-
-<p>新增字符集
-&ndash;with-charset (编译时)</p>
-
-<h3>字符集与字符序</h3>
-
-<p>charset 和collation</p>
-
-<p>collation： 字符序，字符的排序与比较规则，每个字符集都对应的多套字符序。</p>
-
-<p>不同的字符序决定了字符串在比较排序中的精度和性能不同。</p>
-
-<p>show collation;</p>
-
-<ul>
-<li>utf8_general_ci 能够排序普通的英文字符，但是德语就不能够排序</li>
-<li>utf8_unicode_ci 能够对德语排序，精度更高了，但是性能下降了。</li>
-<li>mysql默认 utf8_general_ci</li>
-</ul>
-
-
-<p>mysql的字符序遵从命名惯例：</p>
-
-<ul>
-<li>以_ci表示大小写不敏感</li>
-<li>以_cs表示大小写敏感</li>
-<li>以_bin表示用编码值进行比较
-
-<h3>字符集设置级别</h3></li>
-<li>charset 和collation的设置级别
-  服务器级别 >> 数据库级 >> 表级 >> 列级</li>
-<li><p>服务器
- 系统变量(可动态设置)</p>
-
-<pre><code> - character_set_server  :默认的内部操作字符集
- - character_set_system: 系统元数据（字段名）字符集， 就是字段名，表明也可以用中文
-</code></pre>
-
-<p> [mysqld]
- character_set_server=utf8
- character_set_system=utf8_general_ci</p></li>
-<li><p>数据库级
-  CREATE DATABASE db_name CHARACTER_SET latin1 COLLATE latin1_swedish_ci;</p></li>
-<li><p>character_set_database: 当前选中数据库的默认集合</p></li>
-<li><p>主要影响load data等语句的默认字符集， CREATE DATABASE 的字符集如果不设置，默认使用character_set_server的字符集。</p></li>
-<li><p>表级</p></li>
-<li><p>CREATE TABLE TB11() DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_bin;</p></li>
-<li><p>列级
-  能设置，不推荐</p>
-
-<h3>数据存储字符集使用规则：</h3></li>
-<li>使用列级的CHARACTER SET 设定值；</li>
-<li>若列级字符集不存在，则使用对应表级的DEFAULT CHARACTER SET 设定值；</li>
-<li>若表级字符集不存在，则使用数据库级的DEFAULT CHARACTER SET 设定值；</li>
-<li>若数据库级字符集不存在，则使用服务器级character_set_server设定值。</li>
-</ul>
-
-
-<h4>查看字符集</h4>
-
-<pre><code> show global variables like 'character%';
- show global variables like 'collation%';
-</code></pre>
-
-<p>修改字符集</p>
-
-<pre><code>set global character_set_server=utf8; (全局)
-alter table xxx convert to character set xxx;(表)
-</code></pre>
-
-<p>show  variables like &lsquo;character%&rsquo;; （当前session的）</p>
-
-<h4>客户端连接与字符集</h4>
-
-<ul>
-<li>character_set_client:客户端来源数据使用的字符集(这是通知mysql要连接的字符集)</li>
-<li>character_set_connection: 连接层字符集（是一个中间层）</li>
-<li>character_set_results: 查询结果字符集（返回的数据）</li>
-</ul>
-
-
-<p>set names utf8;
-    [mysql]
-    default-character-set = utf8</p>
-
-<h4>客户端连接与字符集</h4>
-
-<p>字符集的转换？</p>
-
-<p>问gbk怎么转utf8；</p>
-
-<p>常见乱码原因：
-1. 数据存储字符集不能正确编码（不支持）client发来的数据
-    client (utf8) -> storage(latin1)
-    例如表的字符集为latin1, 你直接插入中文为报错。
-2.程序连接使用的字符集与通知mysql的character_set_client等不一致或兼容。
-例子：
- alter table stu convert to character set utf8;
- set names utf8;
- 使用navicat 设置连接字符为65001 (UTF-8)</p>
-
-<p>要理解乱码的真正原因</p>
-
-<p>即使传过来的是gbk，存储是utf8，也不会乱码；因为msyql内部会做一个转换。但是连接的字符集合和告诉mysql要连接的字符集要一致。</p>
-
-<p>select length(course) from stu;</p>
-
-<p>你好utf8的lengh为6</p>
-
-<ol>
-<li>表存储支持中文</li>
-<li>连接客户端的字符集合告知mysql要连接的字符集一致。</li>
-</ol>
-
-
-<p>DBA遇到的字符集</p>
-
-<p>load data 用的是character_set_database</p>
-
-<p>文件utf8,character_set_database 是gbk，就会乱码（即文件编码和告诉mysql要连接的编码不一致，就会乱码）</p>
-
-<h4>客户端连接与字符集</h4>
-
-<p>使用建议：</p>
-
-<ol>
-<li>创建数据库/表时显示的指定字符集，不使用默认。</li>
-<li>连接字符集与数据存储字符集设置一致，推荐使用utf8。(1.减少了一次转换过程 2.便于管理 )</li>
-<li>驱动程序连接时，显示指定字符集（set names xxx）</li>
-</ol>
-
-
-<h4>客户端连接与字符集</h4>
-
-<p>mysql PHP API: 连接到数据库以后显示用SET NAMES 语句设置一次连接字符集.</p>
-
-<h4>小结</h4>
-
-<ul>
-<li>字符集：表示字符集合字符编码方式</li>
-<li>字符的设置级别： server，database，table，coloumn</li>
-<li>客户端字符集：乱码产生的原因与解决方式
-（字符集设置有三个要素：1.程序连接驱动或客户端的字符集 2，告知mysql连接的字符集 3.数据存储的字符集。 前两个必须设置一致。）</li>
-</ul>
-
-
-<h1>程序连接MySQL</h1>
-
-<h4>程序连接ＭySQL的基本原理</h4>
-
-<pre><code>JDBC 客户端应用
-java.sql.* javax.sql.*
-驱动程序1 驱动程序2
-
-Oracle MySQL SqlServer 
-</code></pre>
-
-<p>首先应用程序调用 标准的JDBC接口，将SQL语句发送给驱动程序，也就是说应用程序是和JDBC的标准接口打交道的。JDBC是由驱动程序提供的类库，用户可以直接引用调用。驱动程序接到SQL语句后，会将之转换成符合数据库通信协议的TCP协议发送给数据库。还能接受数据库的返回结果，然后封装成TCP对象，返回上层程序。</p>
-
-<h3>Java代码示例</h3>
-
-<p>Driver Manager</p>
-
-<p>Driver = DriverManager.getDriver(String URL)</p>
-
-<p>Connection=(Drivermanager.getConnection(String Url))</p>
-
-<p>Statement(执行静态SQL语句接口 = Connection.CreateStatement())</p>
-
-<p>ResultSet(是指向结果集对象的接口= Statement.executeXXX())</p>
-
-<h4>JDBC的使用技巧</h4>
-
-<ol>
-<li>Statement 与PreparedStatement的区别
-在数据库端<strong>预编译</strong>，效率高，可以防止SQL注入。
-效率高：在DB端<strong>生成一个SQL的执行计划</strong>，生成的计划要<strong>解析SQL语句的语法树</strong>，还要进行连接，选<strong>择驱动表</strong>等等的优化，这些都比较费时。</li>
-</ol>
-
-
-<p>PreparedStatement只有在第一次执行这些，以后只要在传参变量中传值给preparedStatement就就可以了。如果数据量过大，就用ps。</p>
-
-<p>2.，对数据库执行一次性存取的时候，用Statement对象进行处理。</p>
-
-<ol>
-<li>线上业务推荐使用ps</li>
-</ol>
-
-
-<h4>MySQL Prepare过程</h4>
-
-<p>Prepare Execute DEALLOCATE PREPARE</p>
-
-<p>PREPARE stmt1 FROM &lsquo;SELECT * from test WHERE a = ?&rsquo;;
-SET @pc = &lsquo;1&rsquo;;
-EXECUTE stmt1 USING @pc;</p>
-
-<p>DEALLOCATE PREPARE stmt1;</p>
-
-<p>只有数据库支持ps才可以</p>
-
-<h4>SQL注入实例：</h4>
-
-<p>$sql = &lsquo;select * from username where name = &rsquo;&ldquo; + $name + &rdquo;&lsquo;and password = &rsquo;&ldquo; + $pw + &rdquo;&lsquo;;</p>
-
-<p>$name = &ldquo;&lsquo; or 1=1&rsquo;&rdquo;;
-$pw = &ldquo;&lsquo; or 1=1&rsquo;&rdquo;;</p>
-
-<p>preparedStatement会去查询username 是or 1=1 的数据，</p>
-
-<h4>connection, Statement与ResultSet关闭</h4>
-
-<ul>
-<li><p>MySQL服务端为connection, ResultSet维护内存状态，一直不关闭会占用服务端资源</p></li>
-<li><p>MySQL最大连接数受max_connections限制，不能无限创建连接，所以用完要及时关闭。</p></li>
-<li><p>JDBC关闭后，Result, Statement会自动关闭。但是如果使用连接池将不会关闭，因此推荐主动关闭。</p></li>
-</ul>
-
-
-<p>如果不用JDBC,用连接池的时候；当colose connection的时候，连接池不会close connection， 而是会回收connection，可以复用资源，减少连写的消耗。所以Result, Statement也要手动关闭</p>
-
-<h4>jdbc连接参数的使用</h4>
-
-<p>字符集：
-url = &ldquo;jdbc:mysql://localhost:3306/blog_dbo?useUnicode=true&amp;characterENcoding=utf8&rdquo;</p>
-
-<p>超时设置
-url = &ldquo;jdbc:mysql://localhost:3306/blog_dbo?connectTimeout=1000$socketTimeout=30000&rdquo;</p>
-
-<ul>
-<li>建立连接的超时时间</li>
-<li>发一个SQL语句，30秒内不反回就不等待了。</li>
-</ul>
-
-
-<h4>ResultSet游标的使用</h4>
-
-<p>流式读取（流式向前）
-setFetchSize()
-是设置ResultSet每次向数据库读取的行数，为防止数据返回量过大，将内存爆掉。</p>
-
-<h4>Python</h4>
-
-<p>Python MySQL 驱动：python-mysqldb</p>
-
-<p>apt-get install python-mysqldb</p>
-
-<h1>DAO框架的使用</h1>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MySQL事务与存储引擎]]></title>
-    <link href="http://fenghan.github.io/blog/2015/10/19/mysql-transaction-and-storange-engine/"/>
-    <updated>2015-10-19T21:15:51+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/10/19/mysql-transaction-and-storange-engine</id>
+    <title type="html"><![CDATA[MySQL主从配置及读写分离]]></title>
+    <link href="http://hanfeng.name/blog/2015/08/23/mysql-master-slave/"/>
+    <updated>2015-08-23T13:53:41+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/08/23/mysql-master-slave</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
-<p><strong>事务</strong>特性是关系型数据库在各个行业领域中成为关键数据存储最主要工具的一大法宝，可以说是数据库安身立命之本，当然也包括MySQL。无论是应用开发人员还是DBA，学习掌握事务的使用和基本原理，是更好地使用和管理数据库的必由之径。</p>
+<p>以前在公司的时候，公司配了MySQL主从，在线上用PHPMyAdmin查看从库信息，但只给了读权限，用于查看线上信息。今天记录一下MySQL主从的搭建过程。（我使用的是MariaDb5.5）</p>
 
-<p>掌握事物的特性要达到什么样的标准呢？如下标准：</p>
+<h2>Notice</h2>
+
+<p>在用户不多、并发不大、mysql服务器在同一个局域网内，MySQL主从是没有问题的。</p>
+
+<p>主从数据库缺点：</p>
 
 <ol>
-<li>事务的主要用处和基本特征</li>
-<li>事务隔离级别的含义及影响</li>
-<li>什么是MySQL的存储引擎，以及主要存储引擎有哪些</li>
-<li>MySQL主要存储引擎的特点和适用范围</li>
-<li>InnoDB存储引擎特点和优势</li>
+<li>因为开启了bin log日志，所以会有性能开销。</li>
+<li>在实时性非常高的情况下，做了读写分离就不行。因为单线程同步需要花时间，时间上不允许。</li>
 </ol>
 
 
-<h1>数据库事务</h1>
+<h1>MySQL主从配置</h1>
 
-<h3>什么是事务？</h3>
+<ol>
+<li>mysql的版本相同， mysql主从同源，即具有相同的库、表及记录。</li>
+<li>数据迁移的时候，从库的版本高于主库。</li>
+<li><p>把主库从库都停掉。因为打包主库的时候会花很长时间，这时如果主库还有文件写入，很容易出错。</p>
 
-<p>老张给老王转账100元。要分为两个update语句，一个语句给老张减去100元，另外一个语句给老王加上一百元。而计算系统总是不能持续稳定的运行，线上会有各种各样的故障，而这个故障恰好发生在两个SQL之间，那么这100元就废了。事务就是为了避免这样的事情发生。</p>
+<p> cd /var/lib/
+ tar zcvf mysql.tar.gz ./mysql</p>
 
-<ul>
-<li>一系列有序的数据库操作
+<p> scp mysql.tar.gz vagrant@192.168.33.10:/tmp</p></li>
+<li><p>配置/etc/mysql/my.cnf</p>
 
-<ul>
-<li>要么全部成功</li>
-<li>要么全部回退到操作状态</li>
-<li>中间状态对其它连接不可见</li>
-</ul>
-</li>
-<li>事务的基本操作
-
-<ul>
-<li>start transaction; 开始事务  （begin）</li>
-<li>commit; 提交（全部完成）</li>
-<li>rollback; 回滚（回到初始状态）</li>
-</ul>
-</li>
-</ul>
+<p> server-id               = 1
+ log_bin                 = /var/log/mysql/mysql-bin.log
+ expire_logs_days        = 10
+ max_binlog_size         = 100M      每个bin log文件最大的大小</p></li>
+</ol>
 
 
-<p>宕机后，没有成功的数据都会回滚。</p>
+<p>开启log_bin日志，性能就会降低。没修改一条数据，就会写入文件。硬盘不大的情况下，会写满数据库</p>
 
-<p>事务的中继点 savepoint</p>
+<p>要放到msyql有权限的目录里。</p>
 
-<p>允许事务开启后，在事务的中段进行多次保存点的保存，在回滚的时候可以回滚到任意一个保存点，而不是选择将整个事务全部回滚。而我们提交的时候，只能将我们事务中的所有操作提交，而不能提交到任意一个保存点。</p>
+<p>我们的目的是用从库修复主库。
+靠从库的bin_log来恢复主机。</p>
 
-<p>savepoint a1;
-rollback to a1;</p>
+<p>写bin_log性能降低，但因为我们做了主从，我们靠读多个从库来提高并发量。</p>
 
-<p>线上不经常使用savepoint</p>
+<p>让从库能够通过tcp 来连接主库，
+5. 为从库专门准备一个用户。</p>
 
-<h3>自动提交</h3>
-
-<ul>
-<li>autocommit 可以在session级别设置</li>
-<li>每个DML操作都自动提交(就是update, delete,insert 操作)</li>
-<li>DDL永远都是自动提交，无法通过rollback回滚。(就是修改表结构的那些语句，DDL之前的DML语句， 也都会随着DDL的提交而永久持续化到数据库上。)  简单来说DDL没有后悔药吃。</li>
-</ul>
-
-
-<p>因为在每个insert语句后，自动加了一个commit;</p>
-
-<pre><code>mysql&gt; show global variables like '%autocommit%';
-+---------------+-------+
-| Variable_name | Value |
-+---------------+-------+
-| autocommit    | ON    |
-+---------------+-------+
+<pre><code>create user 'slave_1'@'%' IDENTIFIED BY 'abcd' ;
+grant replication slave  on *.* to 'slave_1'@'%';
+或者一条命令
+GRANT REPLICATION SLAVE ON *.* to 'mysync'@'%' identified by 'q123456'; 
 </code></pre>
 
-<p>mysql> set session autocommit = 0;</p>
-
-<h3>事务的四个基本属性（ACID）</h3>
-
-<ul>
-<li>原子性（Atomicity）</li>
-<li>一致性 (Consistency)</li>
-<li>隔离性(Isolation)</li>
-<li><p>持久性(Durability)</p>
-
-<h4>事务的原子性</h4></li>
-<li><p>包含在事务中的操作要么全部执行，要么都不执行</p></li>
-<li>中途数据库或应用发生异常，未提交的事务都应该被回滚</li>
-</ul>
-
-
-<h4>事务的一致性</h4>
-
-<ul>
-<li>数据的正确性，合理性，完整性</li>
-<li>数据一致性应该符合应用需要规则
-
-<ul>
-<li>余额不能是负数？ （int no zero）</li>
-<li>交易对象必须先有账号？ (主外键约束)</li>
-<li>用户账号不能重复？ （添加唯一索引）</li>
-</ul>
-</li>
-<li>事务的结果需要满足数据的一致性约束</li>
-</ul>
-
-
-<h4>事务的持久性</h4>
-
-<ul>
-<li>提交完成的事务对数据库的影响必须是永久性的
-
-<ul>
-<li>数据库异常不会丢失事务更新</li>
-<li>通常认为成功写入磁盘的数据即为持久化成功</li>
-</ul>
-</li>
-</ul>
-
-
-<h4>事务的持久化的实现</h4>
-
-<p>挑战： 数据库的高性能。并不是修改一个数据，就在磁盘上马上改掉。因为数据库里的数据散步在各地。而机械磁盘的随机写是相当缓慢的过程。为保证较高效率。修改数据，不会马上记录在磁盘上，先被保存在事务日志中（顺序同步刷新，磁盘对顺序写是相当优秀的，然后异步的慢慢的刷新到磁盘上。宕机时，通过事务日志回放来保证数据持久化。</p>
-
-<h4>事务的隔离性</h4>
-
-<ul>
-<li>数据库事务在提交完成前，中间的任何数据变化对其他的事务都是不可见的</li>
-</ul>
-
-
-<h4>数据库隔离现象</h4>
-
-<ul>
-<li>脏读 Dirty Read 事务B读到事务A尚未提交的数据变更</li>
-<li>不可重复读 NonRepeatable Read  B事务由于A事务的提交，查询数据时，看到2种不同的结果</li>
-<li>幻读 Phantom Read 幻读 （不可重复读和幻读都针对事务B能否读到事务A已经提交的变更）</li>
-</ul>
-
-
-<h4>数据库隔离等级</h4>
-
-<ul>
-<li>Read uncommitted 未提交读</li>
-<li>Read committed   已提交读</li>
-<li>Repeatable read 可重复读</li>
-<li>Serializable   可串行化
-
-<h4>MySQL的事务隔离级别</h4></li>
-<li>InnoDB默认标记为可重复读（Repeatabe read）</li>
-<li>InnoDB并不是标准定义上的可重复读</li>
-<li><p>InnoDB默认在可重复读的基础上避免幻读
-show global variables like &lsquo;%iso%&rsquo;;</p>
-
-<h4>MySQL的事务隔离级别</h4></li>
-<li><p>InnoDB默认标记为可重复读（Repeatable read）</p></li>
-<li>InnoDB并不是标准意义上的可重复读</li>
-<li>InnoDB默认在可重复读的基础上避免幻读</li>
-</ul>
-
-
-<p>set global tx_isolation = &lsquo;REPEATABLE-READ&rsquo;;</p>
-
-<p>set global tx_isolation = &lsquo;SERIALIZABLE&rsquo;;
-实验：</p>
-
-<ul>
-<li>未提交读: 有脏读
-  set global tx_isolation = &lsquo;READ-UNCOMMITTED&rsquo;;</li>
-<li>已提交读：没有脏读， 存在幻读和不可重复读
-  set global tx_isolation = &lsquo;READ-COMMITTED&rsquo;;</li>
-<li>可重复读
-  set global tx_isolation = &lsquo;REPEATABLE-READ&rsquo;;</li>
-</ul>
-
-
-<p>不可重复读: B事务由于A事务update的提交，B事务看到两种不同的数据。
-幻读: 事务B由于事务A insert 的提交，B   事务看到了之前不存在的数据。</p>
-
 <ol>
-<li>不可重复读针对（delete，update操作）</li>
-<li>幻读针对insert操作</li>
+<li><p>通过  SHOW MASTER STATUS; 显示当前主库的binlog文件与文件位置，我们需要将这个位置记录下来</p>
+
+<p>   SHOW MASTER STATUS;</p></li>
 </ol>
 
 
-<h4>MySQL的事务隔离级别的设置</h4>
+<p>连接到从库   开启主从同步</p>
 
-<ul>
-<li>可在global/session 下分别设置事务的隔离级别</li>
-<li>建议使用Read committed(同Oracle)</li>
-<li>或者建议使用默认的MySQL设置Repeatable read
-  -隔离级别Serializable   可串行化对线上的并发性能有影响，不会在线上设置</li>
-</ul>
+<pre><code>CHANGE MASTER TO MASTER_HOST = '192.168.33.12' ,MASTER_USER='slave_2' ,MASTER_PASSWORD = '1234' ,MASTER_LOG_FILE ='mysql-bin.000002', MASTER_LOG_POS=973
+</code></pre>
 
+<p> 不想同步系统库可以选择忽略系统库</p>
 
-<h3>事务与并发写</h3>
+<pre><code>binlog_ignore_db        = mysql
+</code></pre>
 
-<ul>
-<li>某个正在更新的记录在提交或回滚前不能被其他事务同时更新(? update 前加排它锁X?)</li>
-<li>事务修改某个记录时，会先获得这条记录的锁，其它事务会进行等待。A修改完成，会将锁释放。然后B和C会获得这把锁</li>
-<li>btw,所有对数据库记录的修改都是串行的，不存在并发的概念</li>
-</ul>
+<p>SALVE命令</p>
 
+<pre><code>START SLAVE
+STOP  SLAVE
+SHOW SLAVE STATUS\G
+</code></pre>
 
-<h3>事务回滚的实现</h3>
+<p>我在安装的时候遇到的错误：
+<a href="http://serverfault.com/questions/586651/mysql-refuses-to-accept-remote-connections">MySQL refuses to accept remote connections</a></p>
 
-<ul>
-<li>回滚段（rollback segment）与数据前像</li>
-</ul>
+<p>解决方法：</p>
 
+<pre><code>sudo netstat -ntlup | grep mysql
+tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      127018/mysqld
+</code></pre>
 
-<h1>存储引擎概述</h1>
+<p>修改/etc/mysql/my.cnf</p>
 
-<h2>MySQL 程序层次架构</h2>
+<pre><code>bind-address = 0.0.0.0
+</code></pre>
 
-<ul>
-<li>内存实例
+<h1>读写分离</h1>
 
-<ul>
-<li>服务层（上层）</li>
-<li>存储引擎层（上层数据和上层SQL语句经过处理之后，交给存储引擎层，由存储引擎层决定如何将它记录在磁盘上）</li>
-</ul>
-</li>
-<li>存储引擎</li>
-</ul>
+<p>主库创建新用户</p>
 
+<pre><code>GRANT all privileges  ON tiny.* to 'michael'@'%' identified by '1234'; 
+flush privileges;
+</code></pre>
 
-<h2>什么是存储引擎</h2>
+<p>从库创建新用户，只给读的权限。</p>
 
-<p>举例：书记员记录
-书记员就是<strong>服务层</strong>，
-而书记员的笔就是<strong>存储引擎</strong>（文字，图标，流程图。决定以何种格式记录。）</p>
+<pre><code>GRANT SELECT  ON tiny.* to 'michael2'@'%' identified by '1234'; 
 
-<h2>MySQL 存储引擎</h2>
+flush privileges;
+</code></pre>
 
-<ul>
-<li>有多种方案，可拔插，可修改存储引擎。</li>
-<li><strong>基于表</strong>选择使用何种存储引擎</li>
-</ul>
+<h3>代码</h3>
 
+<p>代码我放到了我的GitHub上，我自己写了一个MVC的简易框架。这样，框架的任何一个部分我都了解，大大节约了我写代码示例的时间。然后学习优秀框架的思想，继续维护我的框架。</p>
 
-<p>show engines;</p>
+<p><a href="https://github.com/hildalove/tiny/blob/master/Tiny/Proxy/Proxy.php">代理模式</a></p>
 
-<h1>InnoDB存储引擎</h1>
+<p><a href="https://github.com/hildalove/tiny/blob/master/Tiny/Service/Factory.php">获取数据库实例</a></p>
 
-<ul>
-<li>索引组织表</li>
-<li>支持事务</li>
-<li>锁的粒度比较小，支持行级锁</li>
-<li>有自己的数据块缓存</li>
-<li>日志持久化</li>
-<li><strong>稳定可靠，性能好，线上尽量使用InnoDB</strong>
-MySQL5.5之后的默认存储引擎，我们线上绝大部分的数据都会放到InnoDB存储引擎中。
-
-<h2>InnoDB 存储引擎架构</h2></li>
-<li>InnoDB缓存池：内存空间包括： 数据块缓存 Buffer pool(更高效的操作数据文件)，日志缓存，double write缓存</li>
-<li>后台线程：将内存中的数据块刷新到磁盘上，将日志写到磁盘上，监控</li>
-<li>磁盘上的文件： 数据文件， redo log
-
-<h2>MyISAM 存储引擎</h2></li>
-<li>堆表</li>
-<li>不支持事务</li>
-<li>只维护索引缓存池， 表数据缓存交给操作系统</li>
-<li>锁的力度比较大，导致并发性能非常查</li>
-<li>数据文件可以直接拷贝，偶尔可能用上</li>
-<li>不建议线上业务数据使用
-Mysql直到5.1开始，都是MySQL的默认存储引擎
-MyISAM 只能有一个连接修改数据，对数据的并发性造成很大的影响，这是被淘汰的主要原因。
-系统初始化的表是MyISAM,因为不需要经常的修改和并发性操作，所以没有问题。</li>
-</ul>
-
-
-<h2>Memory存储引擎</h2>
-
-<ul>
-<li>数据全内存存放，无法持久化</li>
-<li>性能较高</li>
-<li>不支持事务</li>
-<li>适合偶尔作为临时表使用</li>
-<li>create temporary table tmp(id int) engine = memory;</li>
-<li>temporary临时表只针对当前这个连接生效，不是全局的。</li>
-</ul>
-
-
-<h2>BlackHole存储引擎</h2>
-
-<ul>
-<li>数据不做任何存储-</li>
-<li>利用MySQL Replicate，充当日志服务器</li>
-<li>在MySQL Replicate 环境中充当代理主
-
-<h2>TokuDB</h2></li>
-<li>分形数存储结构</li>
-<li>支持事务</li>
-<li>行锁</li>
-<li>压缩效率较高</li>
-<li>适合大批量insert的场景
-
-<h2>MySQL Cluster</h2></li>
-<li>多主分布式集群</li>
-<li>数据节点间冗余，高可用</li>
-<li>支持事务</li>
-<li>设计易于扩展</li>
-<li>面向未来，线上慎用</li>
-</ul>
-
-
-<p>alter table m ENGINE = innodb;</p>
-
-<h2>InnoDB物理文件</h2>
-
-<ol>
-<li>系统表空间：ibdata1  一个实例一个　（innodb_data_home_dir）</li>
-<li>日志文件：ib_logfile0/1 一个实例两个（可以配置） (innodb_log_group_home_dir)</li>
-<li>表定义文件：　表名.frm 每个表一个 (Schema目录下)</li>
-<li>表数据文件：　表名.ibd 如果innodb_file_per_table = 1，则每个表一个(Schema目录下)
-ibdata1存放了：</li>
-<li>回滚段</li>
-<li>所有InnoDB表元数据信息（不能想MyISAM通过拷贝数据来做表迁移。如果发生移动，ibdata1中存储信息和数据文件实际存在位置不一致，就无法打开这张表）</li>
-<li>Double write, insert buffer dump等等</li>
-</ol>
-
-
-<p>自动扩展机制
-show global variables like &lsquo;%innodb%&rsquo;;</p>
-
-<p>参数innodb_autoextend_increment 100M 或者稍微大一点是比较合适的大小。太小的话，会造成系统表空间频繁的扩展，因为每次扩展的量不够。如果设置太大的话，会造成每次扩展的效率非常慢，在扩展期间。很多因为回滚段不够的事务将被hand住。因此建议100M或者稍微大些比较合适。
-innodb_file_per_table 设为1， 表定义和表数据文件会单独存放。否者会和ibdata1放在一起。
-innodb_log_file_size 100M
-innodb_log_file_in_group 2  和性能相关，如果写操作过多（insert,delete,update），可以将这两个参数调大。</p>
-
-<ul>
-<li>索引组织表（聚簇表）</li>
-<li>根据表逻辑主键排序</li>
-<li><p>数据节点每页16k （根节点，枝节点，叶节点）</p></li>
-<li><p>根据主键寻址速度很快</p></li>
-<li>主键值递增的insert插入效率较好</li>
-<li>主键随机insert插入效率较差</li>
-</ul>
-
-
-<p>因此， InnoDB表必须指定主键，建议使用自增</p>
-
-<h2>InnoDB内存缓存</h2>
-
-<ul>
-<li>数据的读写需要经过缓存</li>
-<li>数据以整页（16k）为单位读到缓存中</li>
-<li>缓存中的数据以LRU策略换出（最少使用策略）</li>
-<li>IO效率高，性能好。（利用缓存池减少了物理IO）
-innodb_buffer_pool_size 根据总物理内存设置。 在启动实例的时候设置</li>
-</ul>
-
-
-<h2>InnoDB数据持久化</h2>
-
-<ul>
-<li>事务日志实时持久化</li>
-<li>内存变化数据（脏数据）增量异步刷出到磁盘</li>
-<li>实例故障靠重放日志恢复</li>
-<li>性能好，可靠，恢复快
-
-<h2>InnoDB行级锁</h2></li>
-<li>写不阻塞读</li>
-<li>不同行之间的写互相不阻塞</li>
-<li>并发性能好
-
-<h2>InnoDB事务支持</h2>
-
-<p>事务ACID特性的完整支持
-A 回滚段失败回滚
-C 支持主外键约束
-I 事务版本 + 回滚端 = MVCC
-D 事务日志持久化</p></li>
-</ul>
-
-
-<p>默认可重复读隔离级别，可调整</p>
-
-<h1>InnoDB事务锁</h1>
-
-<h2>什么是计算机程序锁</h2>
-
-<ul>
-<li>控制对共享资源进行并发访问</li>
-<li>保护数据的完整性和一致性</li>
-</ul>
-
-
-<h2>什么是数据库锁</h2>
-
-<ul>
-<li>事务锁 保护数据库逻辑内容， 持续时间较长</li>
-<li><p>latch/mutex 保护内存数据结构， 用于临界资源的争抢，时间短
-数据库事务并发：（一个串行化的过程）
-更新丢失</p>
-
-<h3>事务锁的力度</h3></li>
-<li><p>行锁 InnoDB, Oracle</p></li>
-<li>页锁 SQL Server； 存在锁升级的情况</li>
-<li>表锁 MyISAM, Memory; 影响并发性
-
-<h3>数据库加锁操作</h3>
-
-<p>select 语句不加任何锁，也不会被任何事务阻塞锁。
-读的隔离性由MVCC确保</p></li>
-</ul>
-
-
-<h3>InnoDB锁模式互斥</h3>
-
-<ul>
-<li>shared lock 读锁是共享的
-
-<ul>
-<li>手动： select * from test lock in share mode ;</li>
-<li>自动： insert 前</li>
-</ul>
-</li>
-<li>exclusive lock 写锁是排他的
-
-<ul>
-<li>自动： select * from test lock for update;</li>
-<li>手动: update 和delete前</li>
-</ul>
-</li>
-<li>一般select语句不加任何锁，也不会被任何事务阻塞</li>
-</ul>
-
-
-<p>等待时间，由系统参数决定
-show global variables like &lsquo;%lock_wait%&rsquo;;</p>
-
-<h4>锁粒度</h4>
-
-<ul>
-<li>table lock</li>
-<li>row lock</li>
-</ul>
-
-
-<p>lock for update  (exclusive lock)</p>
-
-<h2>InnoDB锁机制</h2>
-
-<h2>InnoDB锁实现与注意事项</h2>
-
-<h2>死锁</h2>
-
-<h2>业务加锁</h2>
-
-<h1>参考链接</h1>
-
-<p><a href="http://blog.csdn.net/hguisu/article/details/7106342">MySQL架构</a></p>
+<p><a href="https://github.com/hildalove/tiny/blob/master/App/Controller/Mysql.php">控制器</a></p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[MySQL存储引擎]]></title>
-    <link href="http://fenghan.github.io/blog/2015/09/16/mysql-storage-engine/"/>
-    <updated>2015-09-16T20:01:29+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/09/16/mysql-storage-engine</id>
-    <content type="html"><![CDATA[<h3>什么是MySQL存储引擎</h3>
+    <title type="html"><![CDATA[MySQL数据库管理]]></title>
+    <link href="http://hanfeng.name/blog/2015/07/23/mysql-study/"/>
+    <updated>2015-07-23T09:26:01+00:00</updated>
+    <id>http://hanfeng.name/blog/2015/07/23/mysql-study</id>
+    <content type="html"><![CDATA[<h3>MySQL权限</h3>
 
-<p>服务层 - 存储引擎 - 文件系统层</p>
-
-<p>MySQL5.5 以后默认为InnoDB,推荐。</p>
-
-<p>Memory存储引擎，临时表</p>
-
-<h4>MyISAM</h4>
-
-<ul>
-<li>堆表（插入性能好）</li>
-<li>不支持事务</li>
-<li>只维护索引缓存池，表数据缓存交给操作系统（表若很大，浪费内存）</li>
-<li>锁粒度较大（表级锁，读写锁，读的时候不允许写，写的时候不允许读）</li>
-<li>数据文件可以直接拷贝，备份数据用得上</li>
-</ul>
-
-
-<p>不推荐的原因：1. 不支持事务 2. 锁的颗粒度比较大 3. 表数据缓存交给操作系统，表若很大，浪费内存</p>
-
-<h4>TokuDB</h4>
-
-<p>社区版备份比较麻烦</p>
-
-<h4>MySQL Cluster</h4>
-
-<ul>
-<li>多主分布式集群</li>
-<li>数据节点间冗余，高可用</li>
-<li>支持事务</li>
-<li>设计上易于扩展</li>
-<li>面向未来，线上慎用</li>
-</ul>
-
-
-<h4>InnoDB</h4>
-
-<ul>
-<li>缓存池 +　各种后台线程　＋ 数据文件</li>
-</ul>
-
-
-<p>事务ACID:</p>
-
-<ul>
-<li>回滚段失败回滚（A）</li>
-<li>支持主外键（C）</li>
-<li>事务版本 + 回滚段 = MVCC(I)</li>
-<li>事务日志持久化（D）</li>
-</ul>
-
-
-<p>行级别锁：</p>
-
-<ul>
-<li>写不阻塞读</li>
-<li>不同行间的写相互不阻塞</li>
-<li>并发性能好</li>
-<li>锁是加在索引上的</li>
-</ul>
-
-
-<p>InnoDB数据块缓存池</p>
-
-<ul>
-<li>数据的读写经过缓存</li>
-<li>IO效率高，性能好。</li>
-</ul>
-
-
-<p>InnoDB数据文件存储结构：</p>
-
-<ul>
-<li>根据主键寻址速度很快</li>
-<li>主键值递增的insert插入效率较好</li>
-<li>主键随机insert插入效率较好</li>
-<li><strong>因此，InnoDB表必须指定主键，建议使用自增数字</strong></li>
-</ul>
-
-
-<p>数据持久化与事务日志</p>
-
-<ul>
-<li>事务日志实时持久化</li>
-</ul>
-
-
-<h3>介绍MySQL主要存储引擎的特点及试用场景</h3>
-
-<h3>Innodb存储引擎</h3>
-
-<pre><code>show global variables like "%increment%";
-
-+-----------------------------+-------+
-| Variable_name               | Value |
-+-----------------------------+-------+
-| auto_increment_increment    | 1     |
-| auto_increment_offset       | 1     |
-| div_precision_increment     | 4     |
-| innodb_autoextend_increment | 64    |
-+-----------------------------+-------+
+<pre><code>mysql&gt; grant all privileges on laravel5.* to laravel@localhost identified by 'secret' with grant option;
+flush privileges;
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MySQL数据库对象与应用]]></title>
-    <link href="http://fenghan.github.io/blog/2015/09/14/mysql-db-object/"/>
-    <updated>2015-09-14T11:16:22+08:00</updated>
-    <id>http://fenghan.github.io/blog/2015/09/14/mysql-db-object</id>
-    <content type="html"><![CDATA[<h1>MySQL数据类型</h1>
-
-<h4>经验之谈</h4>
 
 <ul>
-<li>存储性别、省份、类型等分类信息时，选择TINYINT或者ENUM</li>
-<li>BIGINT存储空间更大，INT和BIGINT之间通常选择BIGINT</li>
-<li>交易等高精度数据时选择使用DECIMAL</li>
+<li>用户名：laravel</li>
+<li>密码： secret</li>
+<li>授权：数据库laravel5的所有表的所有权限</li>
 </ul>
 
 
-<h1>MySQL数据对象</h1>
+<p>创建用户</p>
 
-<p>help create index</p>
+<pre><code>grant all privileges on *.* to dev@localhost identified by 'dev' with grant option;
+grant select on jikedb.* to webuser@localhost identified by '123';
+</code></pre>
 
-<h1>MySQL权限管理</h1>
+<p>刷新权限</p>
 
-<ul>
-<li><p>Data Privileges</p>
+<pre><code>flush privileges;
+</code></pre>
 
-<pre><code>  DATA: SELECT, INSERT, UPDATE, DELETE
-</code></pre></li>
-<li>Define</li>
-<li>Administrator Privileges
+<p>回收权限</p>
 
-<ul>
-<li>Shutdown Database</li>
-<li>Replication</li>
-</ul>
-</li>
-</ul>
+<pre><code>revoke select on jikedb.* from webuser@localhost;
+</code></pre>
 
+<p>删除用户</p>
 
-<p>创建一个用户并赋权：</p>
+<pre><code>drop user webuser@localhost;
+</code></pre>
 
-<ul>
-<li>使用原生的SQL</li>
-<li>更改数据库记录</li>
-<li>更简单的方法
+<p>查看用户权限</p>
 
-<h4>查看用户权限</h4>
+<pre><code>show grants for root@localhost;
+</code></pre>
 
-show grants;
+<h3>参考链接</h3>
 
-<h4>如何更改用户的权限</h4></li>
-</ul>
-
-
-<h4>如何更改用户的密码</h4>
-
-<h4>删除用户</h4>
-
-<h4>With Grant Option</h4>
-
-<h4>与权限相关的表</h4>
-
-<ul>
-<li>user</li>
-<li>db</li>
-<li>tables_priv</li>
-<li>clomuns_priv
-
-<h5>Mysql 权限验证的过程</h5></li>
-</ul>
-
-
-<h4>MySQL权限上有哪些问题</h4>
-
-<ul>
-<li>默认的test库不受权限控制，存在安全风险</li>
-<li>mysql_secure_installation</li>
-</ul>
-
-
-<h4>小结</h4>
-
-<ul>
-<li>权限相关的操作不要直接操作表，统一使用MySQL命令</li>
-<li>使用二进制安装MySQL后，需要重置管理用户（root）的密码</li>
-<li>线上数据库不要留test库</li>
-</ul>
-
+<p><a href="http://blog.csdn.net/wengyupeng/article/details/3290415">分配权限</a></p>
 ]]></content>
   </entry>
   
