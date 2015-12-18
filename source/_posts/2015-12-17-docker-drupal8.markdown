@@ -6,9 +6,6 @@ comments: true
 categories: docker,drupal
 ---
 
-# Docker Drupal8 
-
-
 - 好久没有写Blog了，继续开始写。多总结，要有所积累。
 
 - 最近学习了Docker和Drupal8， 所以写了一个Drupal8 的Docker。

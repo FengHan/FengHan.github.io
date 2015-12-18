@@ -5,6 +5,10 @@ date: 2015-12-17 09:55:39 +0000
 comments: true
 categories:  octopress
 ---
+# 前言
+
+因为以后要在Ubuntu下开发，要在Ubuntu下写博客了，所以要配置Ubuntu下Octopress的配置
+
 root 用户权限
 - 添加ssh-key到github上
 
